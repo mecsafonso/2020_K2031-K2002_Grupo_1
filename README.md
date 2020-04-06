@@ -6,10 +6,10 @@ Este repositorio corresponde al Grupo 1 (Mixto entre los cursos K2031 y K2002) a
 **Integrantes del grupo, detallando usuario de github, mail y curso correspondiente :**
 
 * Afonso, Maximiliano Ezquiel (mecsafonso) (mecsafonso@gmail.com) (K2031)
-* Petronacci, Lautaro ()(lautipetronacci14@gmail.com) (K2002)
-* Range Ortega, Eliana (erangelortega)(elianarangelortega@gmail.com) (K2031)
-* Montesano, Daniel ()(daniel.mon1234@gmail.com) (K2031)
-* Varisco, Sol (SolVarisco)(sol.pocket.varisco@gmail.com) (K2002)
+* Petronacci, Lautaro (lautaropetronacci) (lautipetronacci14@gmail.com) (K2002)
+* Range Ortega, Eliana (erangelortega) (elianarangelortega@gmail.com) (K2031)
+* Montesano, Daniel (danimontesano) (daniel.mon1234@gmail.com) (K2031)
+* Varisco, Sol (SolVarisco) (sol.pocket.varisco@gmail.com) (K2002)
 
 **Profesor:** 
 Santiago Ferreiros Cabrera 
