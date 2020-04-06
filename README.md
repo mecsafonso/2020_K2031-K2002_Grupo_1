@@ -11,6 +11,6 @@ Este repositorio corresponde al Grupo 1 (Mixto entre los cursos K2031 y K2002) a
 * Montesano, Daniel (daniel.mon1234@gmail.com) (K2031)
 * Varisco, Sol (sol.pocket.varisco@gmail.com) (K2002)
 
-**Profesor** 
+**Profesor:** 
 Santiago Ferreiros Cabrera 
 
