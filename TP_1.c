@@ -21,7 +21,7 @@ void main()
     list[0] = strtok(buffer, s);
 
     for (int i = 1;; i++){
-        list[i] = strtok(NULL, s);
+        list[i] = strtok(NULL, s); // Pag 274 Libro C
         if (list[i] == NULL) {
         break;
         }
