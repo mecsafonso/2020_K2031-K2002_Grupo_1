@@ -16,7 +16,8 @@ void main()
     int MAX_FILE_SIZE = 1000;
     
     char * buffer = (char*)malloc(sizeof(char)*MAX_FILE_SIZE);
-    
+
+
     fread(buffer, sizeof(char), MAX_FILE_SIZE, lista);
 
     list[0] = strtok(buffer, s);
@@ -31,10 +32,12 @@ void main()
 fclose(lista);
 
 // list contiene las palabras ingresadas mediante el archivo.txt
+
 printf(list[1]); 
 printf(list[0]);
 
-//
+// Falta hacer: Función "Automata" que reciba como parametro un string, haga que el automata (matriz) lo clasifique, y devuelva el string con su correspondiente clasificación. 
+// Ej: Toma "1234" Devuelve "1234 Decimal"
 
 
 
