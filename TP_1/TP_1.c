@@ -6,9 +6,8 @@ void main()
 {
     //  Lee el archivo .txt y almacena en una lista cada una de las palabras separadas por ','.
 
-    char string[5000], *list[200], *token;
+    char *list[200];
     char * s = ",";
-    int i;
     
     FILE *lista;
     lista = fopen("entrada.txt", "r");
@@ -17,9 +16,8 @@ void main()
     
     char * buffer = (char*)malloc(sizeof(char)*MAX_FILE_SIZE);
 
-
     fread(buffer, sizeof(char), MAX_FILE_SIZE, lista);
-
+    
     list[0] = strtok(buffer, s);
 
     for (int i = 1;; i++){
