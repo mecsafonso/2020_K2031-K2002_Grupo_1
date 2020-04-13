@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 void main()
 {
@@ -29,7 +30,20 @@ void main()
 
 fclose(lista);
 
+// list contiene las palabras ingresadas mediante el archivo.txt
 printf(list[1]); 
 printf(list[0]);
+
+//
+
+
+
+
+
+
+
+
+
+
 
 }   

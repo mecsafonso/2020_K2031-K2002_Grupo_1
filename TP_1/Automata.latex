@@ -1,0 +1,32 @@
+		
+\documentclass[12pt]{article}
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\begin{document}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3.5cm,
+        scale = 1,transform shape]
+
+  \node[state,initial] (q0) {$q0$};
+  \node[state,accepting] (q1) [above right of=q0] {$q1$};
+  \node[state,accepting] (q2) [right of=q0] {$q2$};
+  \node[state] (q3) [below right of=q0] {$q3$};
+  \node[state,accepting] (q4) [right of=q3] {$q4$};
+  \node[state,accepting] (q5) [right of=q2] {$q5$};
+
+  \path (q0) edge              node {$[1-9]$} (q1)
+        (q1) edge              node {$[0-9]$} (q1)
+        (q0) edge              node {$0$} (q2)
+        (q2) edge              node {$[0-9]$} (q3)
+        (q2) edge              node {$[a-f]$} (q3)
+        (q2) edge              node {$[A-F]$} (q3)
+        (q2) edge              node {$[0-7]$} (q5)
+        (q5) edge              node {$[0-7]$} (q5)
+        (q4) edge              node {$[a-f]$} (q4)
+        (q4) edge              node {$[0-9]$} (q4)
+        (q4) edge              node {$[A-F]$} (q4);
+
+\end{tikzpicture}
+\end{document}
