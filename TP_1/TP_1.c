@@ -25,7 +25,7 @@ int main (){
 
     //Matriz del Automata
 
-    int automata [7] [8];
+    int automata [6] [8];
     automata [INICIO] [0] = Q2;
     automata [INICIO] [1] = Q1;
     automata [INICIO] [2] = Q1;
@@ -79,15 +79,7 @@ int main (){
     automata [Q5] [5] = RECHAZO;
     automata [Q5] [6] = RECHAZO;
     automata [Q5] [7] = RECHAZO;
-
-    automata [RECHAZO] [0] = RECHAZO;
-    automata [RECHAZO] [1] = RECHAZO;
-    automata [RECHAZO] [2] = RECHAZO;
-    automata [RECHAZO] [3] = RECHAZO;
-    automata [RECHAZO] [4] = RECHAZO;
-    automata [RECHAZO] [5] = RECHAZO;
-    automata [RECHAZO] [6] = RECHAZO;
-    automata [RECHAZO] [7] = RECHAZO;
+   
 
     while ((simbolo = fgetc(original)) != EOF){
 
@@ -96,8 +88,10 @@ int main (){
             estadoActual = INICIO;
         }
 
-        else {                
+        else {
+            if(estadoActual != RECHAZO) {                
             estadoActual = automata [estadoActual] [columnaSgt (simbolo)];
+            }
             fprintf (arcFinal, "%c", simbolo);
         }
     }
