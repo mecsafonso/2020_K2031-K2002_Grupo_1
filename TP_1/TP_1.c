@@ -117,9 +117,7 @@ int main (){
                 }
                 j++;
             }
-            if (j==7){
-                j=6;
-            }
+           
             estadoActual = automata [estadoActual] [j];
             fprintf (arcFinal, "%c", simbolo);
         }
