@@ -11,17 +11,19 @@
 #define Q5 5
 #define RECHAZO 6
 
+void estadoFinal (int, FILE*); //Detecta en que estado se escuentra el automata y graba un mensaje en el archivo de salida dependiendo del mismo
+
+int columnaSgt (char); //Analiza a que columna de la matriz automata debe acceder
+
 int main (){
 
 
     FILE * original = fopen ("entrada.txt", "r");
     FILE * arcFinal = fopen ("salida.txt", "w");
     int estadoActual = INICIO;
-    char simbolo;
-    int j;
+    char simbolo;    
 
-    char limiteInf [] = "018xXaA";
-    char limiteSup [] = "079xXfF";
+    //Matriz del Automata
 
     int automata [7] [8];
     automata [INICIO] [0] = Q2;
@@ -90,40 +92,30 @@ int main (){
     while ((simbolo = fgetc(original)) != EOF){
 
         if (simbolo == ','){
-            switch (estadoActual){
-                case Q1:
-                    fprintf (arcFinal, "\t es un decimal.\n");
-                    break;
-                case Q4:
-                    fprintf (arcFinal, "\t es un hexadecimal.\n");
-                    break;
-                 case Q5:
-                     fprintf (arcFinal, "\t es un octal.\n");
-                    break;
-                 default:
-                     fprintf (arcFinal, "\t no reconocido.\n");
-                     break;
-            }
-
+            estadoFinal (estadoActual, arcFinal);
             estadoActual = INICIO;
         }
 
-
-        else {
-            j=0;
-            while (limiteInf [j] != NULL){
-                if (limiteInf [j] <= simbolo && simbolo <= limiteSup [j]){
-                    break;
-                }
-                j++;
-            }
-           
-            estadoActual = automata [estadoActual] [j];
+        else {                
+            estadoActual = automata [estadoActual] [columnaSgt (simbolo)];
             fprintf (arcFinal, "%c", simbolo);
         }
     }
 
+    estadoFinal (estadoActual, arcFinal);
+
+    fclose (arcFinal);
+    fclose (original);
+
+
+    return 0;
+}
+
+void estadoFinal (int estadoActual, FILE* arcFinal){
     switch (estadoActual){
+        case INICIO:
+            fprintf (arcFinal, "\t Espacio en blanco.\n");
+            break;
         case Q1:
             fprintf (arcFinal, "\t es un decimal.\n");
             break;
@@ -137,11 +129,17 @@ int main (){
             fprintf (arcFinal, "\t no reconocido.\n");
             break;
     }
+}
 
-
-    fclose (arcFinal);
-    fclose (original);
-
-
-    return 0;
+int columnaSgt (char simbolo){
+    int j = 0;
+    char limiteInf [] = "018xXaA";
+    char limiteSup [] = "079xXfF";
+    while (limiteInf [j] != NULL){
+        if (limiteInf [j] <= simbolo && simbolo <= limiteSup [j]){
+            return j;
+        }
+        j++;
+    }
+    return j;
 }
