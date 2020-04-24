@@ -1,12 +1,12 @@
-	 NO reconocido.
- 	 NO reconocido.
+	 no reconocido.
+ 	 no reconocido.
 23	 es un decimal.
-1234t	 NO reconocido.
-0	 NO reconocido.
-0X	 NO reconocido.
+1234t	 no reconocido.
+0	 no reconocido.
+0X	 no reconocido.
 074	 es un octal.
-092	 NO reconocido.
-092t	 NO reconocido.
+092	 no reconocido.
+092t	 no reconocido.
 0x59Fd	 es un hexadecimal.
-0xD4t57	 NO reconocido.
-hoLA	 NO reconocido.
+0xD4t57	 no reconocido.
+hoLA	 no reconocido.

@@ -90,7 +90,7 @@ void ejecutarAutomata (FILE* original, FILE* arcFinal){
     automata [RECHAZO] [4] = RECHAZO;
     automata [RECHAZO] [5] = RECHAZO;  
 
-    //Se evalúa cada palabra caracter a carater para definir un estadoFinal -> decimal, octal, hexadecimal o NO reconocido
+    //Se evalúa cada número caracter a carater para definir un estadoFinal -> decimal, octal, hexadecimal o NO reconocido
     while ((caracter = fgetc(original)) != EOF){
 
         if (caracter == CENTINELA){
@@ -117,31 +117,36 @@ void estadoFinal (int estadoActual, FILE* arcFinal){
             fprintf (arcFinal, "\t es un octal.\n");
             break;
         default:
-            fprintf (arcFinal, "\t NO reconocido.\n");
+            fprintf (arcFinal, "\t no reconocido.\n");
             break;
     }
 }
 
-int columnaSgt (char caracter){   
-    if (caracter == '0') {
-        return INICIO;
-    }
-        else if  (caracter >= '1' && caracter <= '7'){
+int columnaSgt (char caracter){ 
+    switch (caracter) {
+        case '0':
+            return INICIO;
+            break;
+        case '1' ... '7':
             return Q1;
-        }
-        else if  (caracter == '8' || caracter == '9'){
+            break;
+        case '8' ... '9':
             return Q2;
-        }    
-        else if  (caracter == 'x' || caracter == 'X'){
+            break;
+        case 'x':
             return Q3;
-        }   
-        else if  (caracter >= 'a' && caracter <= 'f'){
+            break;
+        case 'X':
+            return Q3;
+            break;
+        case 'a' ... 'f':
             return Q4;
-        }   
-        else if  (caracter >= 'A' && caracter <= 'F'){
+            break;
+        case 'A' ... 'F':
             return Q4;
-        }    
-        else {
+            break;
+        default:
             return Q5;
-        }
+            break;    
+    }  
 }
