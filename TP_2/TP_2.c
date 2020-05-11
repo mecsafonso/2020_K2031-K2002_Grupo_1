@@ -7,6 +7,8 @@
 #define Q2 2
 #define $ 0
 #define R 1
+#define RECHAZADO 3
+
 typedef struct nodo{
         char info;
         struct nodo * sgte;
@@ -16,36 +18,40 @@ void push (elemento * , char);
 char pop (elemento *);
 
 int main (){
-    elemento * pila = NULL;
-    push (pila, '$');
+
+    elemento * pila = (elemento*) malloc (sizeof (elemento));
+    pila -> info = '$';
+    pila -> sgte = NULL;
+
+    //Declaracion de la tabla de transicion:
 
     typedef struct proxEstado {
         int estado;
         char cimaPila;
+        int parentesis;
     } proximoEstado;
 
-    proximoEstado * inicialVacio, *inicialLleno, *parentecisVacio, *parentecisLleno, *q1Vacio, *q1Lleno, *q2Vacio, *q2Lleno, *cierroParentesis, *rechazado;
-    inicialVacio -> estado = inicialLleno -> estado = parentecisVacio -> estado = parentecisLleno -> estado = INICIAL;
-    q1Vacio -> estado = q1Lleno -> estado = Q1;
-    q2Vacio -> estado = q2Lleno -> estado = cierroParentesis -> estado = Q2;
-    inicialVacio -> cimaPila = q1Vacio -> cimaPila = q2Vacio -> cimaPila = '$';
-    inicialLleno -> cimaPila = q1Lleno -> cimaPila = q2Lleno -> cimaPila ='R';
-    parentecisVacio -> cimaPila = 'R$';
-    parentecisLleno -> cimaPila = 'RR';
-    cierroParentesis -> cimaPila = NULL;
+    proximoEstado inicialVacio = { INICIAL, '$'};
+    proximoEstado inicialLleno = { INICIAL, 'R'};
+    proximoEstado parentesisVacio = { INICIAL, '$', 1};
+    proximoEstado parentesisLleno = { INICIAL, 'R', 1};
+    proximoEstado q1Vacio = { Q1, '$'};
+    proximoEstado q1Lleno = { Q1, 'R'};
+    proximoEstado cierroParentesis = {Q2};
+    proximoEstado rechazado = {RECHAZADO} ;
 
 
-    proximoEstado * tablaDeTransicion [3] [2] [5];
-    
+    proximoEstado tablaDeTransicion [3] [2] [5];
+
     tablaDeTransicion [INICIAL] [$] [0] = rechazado;
     tablaDeTransicion [INICIAL] [$] [1] = q1Vacio;
     tablaDeTransicion [INICIAL] [$] [2] = rechazado;
-    tablaDeTransicion [INICIAL] [$] [3] = parentecisVacio;
+    tablaDeTransicion [INICIAL] [$] [3] = parentesisVacio;
     tablaDeTransicion [INICIAL] [$] [4] = rechazado;
     tablaDeTransicion [INICIAL] [R] [0] = rechazado;
     tablaDeTransicion [INICIAL] [R] [1] = q1Lleno;
     tablaDeTransicion [INICIAL] [R] [2] = rechazado;
-    tablaDeTransicion [INICIAL] [R] [3] = parentecisLleno;
+    tablaDeTransicion [INICIAL] [R] [3] = parentesisLleno;
     tablaDeTransicion [INICIAL] [R] [4] = rechazado;
 
     tablaDeTransicion [Q1] [$] [0] = q1Vacio;
@@ -70,22 +76,22 @@ int main (){
     tablaDeTransicion [Q2] [R] [3] = rechazado;
     tablaDeTransicion [Q2] [R] [4] = cierroParentesis;
 
-    
+//Ingreso de datos:
     printf ("Introdusca una expresión aritmetica:");
     char expresion [50];
-    scanf ("%s\n", expresion);
+    scanf ("%s", expresion);
+    printf ("\n");
 
     int i = 0;
     int caracter, cimaP;
     int estadoActual = INICIAL;
     char evaluado, proxCima;
-    proximoEstado * bloqueActual;
-    
-    while (expresion [i] != "\0")
-    {
-         evaluado = expresion [i];   
-        
-        if (evaluado != ' '){
+    proximoEstado bloqueActual;
+
+// Analisis de cada caracter recibido
+    while (expresion [i]) {
+        evaluado = expresion [i];
+        if (evaluado != ' '){                                   //analiza el caracter recibido
             if (evaluado == '0'){
                 caracter = 0;
             } else if (evaluado >= '1' && evaluado <= '9'){
@@ -98,47 +104,56 @@ int main (){
                 caracter = 4;
             }
 
-            if (pop (pila) == "$"){
+            if (pop (pila) == '$'){                             //analiza el estado de la pila
                 cimaP = $;
             } else {
                 cimaP = R;
             }
 
-            bloqueActual = tablaDeTransicion [estadoActual] [cimaP] [caracter];
-        
-            if (bloqueActual == rechazado){
-                break;
+            bloqueActual = tablaDeTransicion [estadoActual] [cimaP] [caracter];  //opera a partir de los resultados
+
+            estadoActual = bloqueActual.estado;
+
+            if (estadoActual == RECHAZADO){
+            	break;
             }
 
-            estadoActual = bloqueActual -> estado;
-      
-            proxCima = bloqueActual -> cimaPila,
+            proxCima = bloqueActual.cimaPila,
+
             push (pila, proxCima );
-            }
-        
-        i++;        
-        
-    }
 
-    switch (pop (pila))
+
+            if (bloqueActual.parentesis == 1){
+                push (pila, 'R');
+            }
+        }
+
+        i++;
+
+    }
+//comunica el resultado
+    switch (estadoActual)
     {
-    case $:
-        if (estadoActual == Q2 || estadoActual == Q1){
-            scanf ("La expresión %s es sintacticamente correcta \n", expresion);
-            break;
-        }  
-    
+    case Q1 || Q2:
+    	if (pop (pila) != 'R'){
+    		printf ("La expresión %s es sintacticamente correcta \n", expresion);
+    	} else {
+    		printf ("La expresión %s no es sintacticamente correcta \n", expresion);
+    	}
+
+        break;
+
     default:
-        scanf ("La expresión %s no es sintacticamente correcta \n", expresion);
+        printf ("La expresión %s no es sintacticamente correcta \n", expresion);
         break;
     }
-    
-  
+
+
     return 0;
 }
 
 void push (elemento* pila, char x){
-    elemento * nuevo;
+    elemento * nuevo = (elemento*) malloc (sizeof (elemento));
     nuevo -> info = x;
     nuevo -> sgte = pila;
     pila = nuevo;
@@ -148,7 +163,7 @@ char pop (elemento * pila){
     elemento * p = pila;
     char x = p -> info;
     pila = p -> sgte;
-    free (p -> info);
     free (p);
-    return x; 
+    return x;
 }
+
