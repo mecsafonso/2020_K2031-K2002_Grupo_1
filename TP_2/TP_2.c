@@ -14,14 +14,20 @@ typedef struct nodo{
         struct nodo * sgte;
     } elemento;
 
-void push (elemento * , char);
-char pop (elemento *);
+typedef struct pila{
+	elemento* inicio;
+} Pila;
+
+elemento* crearNodo (char);
+void destruirNodo (elemento*);
+void push (Pila * , char);
+char pop (Pila *);
+void imprimirMensaje (char, char [50], char, char, int, int);
 
 int main (){
 
-    elemento * pila = (elemento*) malloc (sizeof (elemento));
-    pila -> info = '$';
-    pila -> sgte = NULL;
+    Pila* pila = (Pila*)malloc (sizeof (Pila*));
+    push (pila, '$');
 
     //Declaracion de la tabla de transicion:
 
@@ -37,7 +43,7 @@ int main (){
     proximoEstado parentesisLleno = { INICIAL, 'R', 1};
     proximoEstado q1Vacio = { Q1, '$'};
     proximoEstado q1Lleno = { Q1, 'R'};
-    proximoEstado cierroParentesis = {Q2};
+    proximoEstado cierroParentesis = {Q2,'$',2};
     proximoEstado rechazado = {RECHAZADO} ;
 
 
@@ -76,22 +82,21 @@ int main (){
     tablaDeTransicion [Q2] [R] [3] = rechazado;
     tablaDeTransicion [Q2] [R] [4] = cierroParentesis;
 
-//Ingreso de datos:
-    printf ("Introdusca una expresión aritmetica:");
+
+    printf ("Introdusca una expresión aritmetica (maximo de 50 caracteres): \n");
     char expresion [50];
-    scanf ("%s", expresion);
-    printf ("\n");
+    gets (expresion);
 
     int i = 0;
     int caracter, cimaP;
     int estadoActual = INICIAL;
-    char evaluado, proxCima;
+    char evaluado, proxCima, error;
     proximoEstado bloqueActual;
 
-// Analisis de cada caracter recibido
     while (expresion [i]) {
         evaluado = expresion [i];
-        if (evaluado != ' '){                                   //analiza el caracter recibido
+
+        if (evaluado != ' '){
             if (evaluado == '0'){
                 caracter = 0;
             } else if (evaluado >= '1' && evaluado <= '9'){
@@ -104,66 +109,83 @@ int main (){
                 caracter = 4;
             }
 
-            if (pop (pila) == '$'){                             //analiza el estado de la pila
+            proxCima = pop (pila);
+
+            if (proxCima == '$'){
                 cimaP = $;
             } else {
                 cimaP = R;
             }
 
-            bloqueActual = tablaDeTransicion [estadoActual] [cimaP] [caracter];  //opera a partir de los resultados
+            bloqueActual = tablaDeTransicion [estadoActual] [cimaP] [caracter];
 
             estadoActual = bloqueActual.estado;
 
             if (estadoActual == RECHAZADO){
+
+            	error = evaluado;
             	break;
             }
 
-            proxCima = bloqueActual.cimaPila,
+            proxCima = bloqueActual.cimaPila;
 
-            push (pila, proxCima );
-
-
-            if (bloqueActual.parentesis == 1){
-                push (pila, 'R');
+            if (bloqueActual.parentesis !=2){
+            	push (pila, proxCima );
+            	if (bloqueActual.parentesis == 1){
+            		push (pila, 'R');
+            	}
             }
+
         }
 
         i++;
 
     }
-//comunica el resultado
-    switch (estadoActual)
-    {
-    case Q1 || Q2:
-    	if (pop (pila) != 'R'){
-    		printf ("La expresión %s es sintacticamente correcta \n", expresion);
-    	} else {
-    		printf ("La expresión %s no es sintacticamente correcta \n", expresion);
-    	}
 
-        break;
-
-    default:
-        printf ("La expresión %s no es sintacticamente correcta \n", expresion);
-        break;
-    }
+    proxCima = pop (pila);
+    imprimirMensaje (proxCima, expresion, evaluado, error, i, estadoActual);
 
 
     return 0;
 }
 
-void push (elemento* pila, char x){
-    elemento * nuevo = (elemento*) malloc (sizeof (elemento));
-    nuevo -> info = x;
-    nuevo -> sgte = pila;
-    pila = nuevo;
+void imprimirMensaje (char proxCima, char expresion [50], char evaluado, char error, int posicion, int estadoActual){
+	if ((estadoActual == Q1 || estadoActual == Q2) && proxCima == '$'){
+	    printf ("La expresión %s es sintacticamente correcta \n", expresion);
+    } else {
+    	printf ("La expresión %s no es sintacticamente correcta \n", expresion);
+    	if (error == evaluado){
+    		printf ("Es posible que falte un caracter previo al que se encuentra en la posición %d: %c",(posicion+1), error);
+    	} else if (proxCima == 'R'){
+    		printf ("Se encontraron parentesis abiertos que no fueron cerrados");
+    	} else {
+    		printf ("El error se encuentra en que %c no puede ser el ultimo elemento de la expresion", evaluado);
+    	}
+    }
 }
 
-char pop (elemento * pila){
-    elemento * p = pila;
+void push (Pila* pila, char x){
+    elemento * nuevo = crearNodo (x);
+    nuevo -> sgte = pila ->inicio;
+    pila ->inicio = nuevo;
+}
+
+char pop (Pila * pila){
+    elemento * p = pila->inicio;
+    pila -> inicio = p -> sgte;
     char x = p -> info;
-    pila = p -> sgte;
-    free (p);
+    destruirNodo (p);
     return x;
 }
 
+elemento* crearNodo (char x){
+	elemento* nodo = (elemento*)malloc (sizeof (elemento));
+	nodo ->info = x;
+	nodo ->sgte = NULL;
+	return nodo;
+}
+
+void destruirNodo (elemento* nodo){
+	nodo->sgte = NULL;
+	free (nodo);
+}
