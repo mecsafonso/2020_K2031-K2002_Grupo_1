@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <ctype.h>      // para usar la funcion isspace
 
+// PREPROCESADO -----------------------
 #define Q0 0
 #define Q1 1
 #define Q2 2
@@ -22,50 +23,39 @@ struct proxEST {
 typedef struct elemento Nodo;
 typedef struct proxEST proximoEstado;
 
-//Definicion de CONSTANTES
+//Definicion de CONSTANTES -------------
 const int $ = 0, R = 1;
 
-//Definicion de VAR GLOBALES
-Nodo* pila = NULL;						// Inicializacion de PILA
+//Definicion de VAR GLOBALES ------------
+Nodo* pila = NULL;						
 char cimaPila, charEvaluado, expresion[50];
 int columnaCaracter, estadoActual, posicion;
 
 
 // PROTOTIPO de Funciones -------------
-
-//char* getExpresion();
-void suprimirEspacios(char*);
-void clearBuffer();
-void push (char);
-char pop ();
-void imprimirLista (void);
 void ejecutarAutomata ();
-int determinarColumna (char);
-void popPila ();
+void suprimirEspacios(char*);
+void push (char);
+void imprimirPila (void);
 void mensaje (int);
 void submensaje (int);
 void reset ();
+void clearBuffer();
 int menu ();
-//proximoEstado* consultaTablaTransicion (int, int, int, char*);
+int determinarColumna (char);
+char pop ();
 
+
+// MAIN ---------------------------------
 int main(){
     
     return menu ();
 }
 
-void suprimirEspacios(char* cadena){
-    int i, j;
-   
-    for (i = j = 0; cadena[i] != '\0'; i++)
-        if (!isspace(cadena[i]))
-            cadena[j++] = cadena[i];
-    cadena[j] = '\0';
-}
 
+//DESARROLLO de funciones ----------------
 int menu() {
-  	char c;
-	//expresion = (char*) malloc(sizeof(char)*50);
-	
+  	char c;	
 
   	do {
 		printf("\n~~ MENU: Expresion ~~");
@@ -75,23 +65,14 @@ int menu() {
 		
 		if (c == '1') {
 			clearBuffer();
-
 			ejecutarAutomata();
-
-            reset ();
-
-			imprimirLista();
+			imprimirPila();
 		}
 		else {
 			clearBuffer();
 			printf ("\n Opcion ingresada no es valida \n");
 		}
   	} while(c != 'q' && c != EOF);
-}
-
-void clearBuffer() {
-  while(getchar() != '\n')
-    ;
 }
 
 
@@ -102,13 +83,12 @@ void ejecutarAutomata (){
 	proximoEstado estadoSgte;
 
     printf("\n Introduzca una expresion aritmetica (maximo de 50 caracteres): \n");
-
     gets (expresion);
-    puts (expresion);
-
     suprimirEspacios (expresion);
+    printf ("La expresion es: %s \n", expresion);
 
     push ('$');			// Pongo primer valor en PILA PESO  
+    imprimirPila ();   // Muestra la Pila incialmente
 
     //Declaracion de la tabla de transicion:
     proximoEstado Q0Vacio = { Q0, '$'};
@@ -159,18 +139,14 @@ void ejecutarAutomata (){
     tablaDeTransicion [Q2] [R] [4] = Q2Parentesis;
 	tablaDeTransicion [Q2] [R] [5] = rechazado;
 
- 
-    imprimirLista ();
-    
-  
-    printf ("La expresion es: %s \n", expresion);
 
+    // Proceso de consulta al automata caracter a caracter
 	do {
 		charEvaluado = expresion [posicion];				//caracter a evaluar
-        printf ("\n caracter evaluado %c, posicion: %d\n", charEvaluado, posicion);
+        printf ("\n caracter evaluado %c, posicion: %d", charEvaluado, posicion);
 
 		columnaCaracter = determinarColumna (charEvaluado); //columna a consultar en el automata
-		cimaPila = pop ();                  			//Se saca la cima de la PILA
+		cimaPila = pop ();                  			    //Se saca la cima de la PILA
 
 		if (cimaPila == '$')
 			cimaEnTabla = $;
@@ -182,62 +158,63 @@ void ejecutarAutomata (){
         estadoSgte = tablaDeTransicion [estadoActual] [cimaEnTabla] [columnaCaracter];    //se busca el estado sgte en la tabla de transicion 
 		   
 		if (estadoSgte.estado == RECHAZO) 
-			//printf ("\n La expresion %s no es sintacticamente correcta \n", expresion);
-			//mensaje (columnaCaracter);
 			break;
-		 
-		
+
 		else {           		
 			if (estadoSgte.estado == Q2){
-				if (cimaPila == '$'){		//se mira el SGTE de la cima de PILA
+				if (cimaPila == '$')		                //se mira el SGTE de la cima de PILA
 				    estadoSgte.caracter_Push = cimaPila;
-                    printf ("SALIDA 1 de la pila %c \n", estadoSgte.caracter_Push);
-                }
-				else {
+				else 
 				    estadoSgte.caracter_Push = pop (); 
-                    printf ("SALIDA 2 de la pila %c\n", estadoSgte.caracter_Push);
-                }
 			} 
 
 			estadoActual = estadoSgte.estado;
 
-            switch (estadoActual) {		//hago PUSH a la PILA
-            case Q0: {
-                if (columnaCaracter == 3){
-                    push (cimaPila);
+            switch (estadoActual) {		                    //Se hace PUSH a la PILA
+                case Q0: {
+                    if (columnaCaracter == 3){
+                        push (cimaPila);
+                        push (estadoSgte.caracter_Push);
+                    }
+                    else
+                        push (estadoSgte.caracter_Push);
+                    }
+                    break;                   
+                default:
                     push (estadoSgte.caracter_Push);
-                }
-                else
-                    push (estadoSgte.caracter_Push);
-                }
-                break;                   
-            default:
-                push (estadoSgte.caracter_Push);
-                break;
+                    break;
             }
 		}
-		
-		printf (" estado siguiente (%d , %c)\n", estadoSgte.estado, estadoSgte.caracter_Push);	//se va
+		printf (" estado siguiente (%d , %c)\n", estadoSgte.estado, estadoSgte.caracter_Push);	
 		posicion++;
-        imprimirLista(); // se va
-        
+        imprimirPila(); 
+
 	} 	while (expresion [posicion] != '\0') ;
 
+    //Imprimir MENSAJE de salida
 
 	if ((estadoActual == Q1 || estadoActual == Q2) && estadoSgte.caracter_Push == '$'){
-	    printf ("\n La expresion %s es sintacticamente correcta \n", expresion);
+	    printf ("\n Es sintacticamente correcta \n");
     }
-        else {
-            printf ("\n La expresion %s no es sintacticamente correcta \n", expresion);
+    else {
+        printf ("\n No es sintacticamente correcta");
 
-            if (expresion [posicion] != '\0')   {
-                //printf ("\n La expresion %s no es sintacticamente correcta \n", expresion);
-                mensaje (columnaCaracter);
-            }
-            else 
-                submensaje (4);
-        }
+        if (expresion [posicion] != '\0')   
+            mensaje (columnaCaracter);
+        else 
+            submensaje (4);
+    }
    reset();
+}
+
+
+void suprimirEspacios(char* cadena){
+    int i, j;
+   
+    for (i = j = 0; cadena[i] != '\0'; i++)
+        if (!isspace(cadena[i]))
+            cadena[j++] = cadena[i];
+    cadena[j] = '\0';
 }
 
 
@@ -247,11 +224,11 @@ void push (char x){
     if (NULL == nuevoNodo){
         printf("\n Error en creacion de nodo \n");
     }
-
     nuevoNodo -> info = x;
     nuevoNodo -> sgte = pila;
     pila = nuevoNodo;
 }
+
 
 char pop () {
 	Nodo *aux = pila;
@@ -263,23 +240,6 @@ char pop () {
     return x; 
 }
 
-void imprimirLista (void){
-	if(NULL == pila){
-	printf("\n La pila esta vacia \n");
-	}else{
-	Nodo *nodo = pila;
-	printf("\n -------Inicio de la Pila------- \n");
-
-	while(nodo != NULL)
-	{
-		printf("\n char: %c ",nodo->info);
-		nodo = nodo->sgte;
-	}
-
-	printf("\n -------Final de la Pila------- \n");
-
-	}
-}
 
 int determinarColumna (char charEvaluado){
 	int columna ;
@@ -305,6 +265,7 @@ int determinarColumna (char charEvaluado){
             break;
 	} return columna;
 }
+
 
 void mensaje (int columnaCaracter){
 	switch (columnaCaracter) {
@@ -333,42 +294,65 @@ void mensaje (int columnaCaracter){
 	}
 }
 
+
 void submensaje (int mensaje){
     switch (mensaje) {
         case 1:
             if (estadoActual == Q0)
-                    printf ("ERROR: se espera un caracter [1-9,(]. Caracter recibido: %c, posicion :%d", charEvaluado, posicion); 
+                printf ("\n ERROR: en la posicion %d, se espera uno de [1-9,(] pero se recibio el caracter: %c \n", posicion, charEvaluado); 
             break;
         case 2:
             if (estadoActual == Q2 && cimaPila == 'R')
-                printf ("ERROR: se espera un caracter [+,-,*,/,)]. Caracter recibido: %c, posicion :%d", charEvaluado, posicion); 
+                printf ("\n ERROR: en la posicion %d, se espera uno de [+,-,*,/,)] pero se recibio el caracter: %c \n", posicion, charEvaluado); 
                 else if (estadoActual == Q2 && cimaPila == '$')
-                    printf ("ERROR: se espera un caracter [+,-,*,/]. Caracter recibido: %c, posicion :%d", charEvaluado, posicion); 
+                    printf ("\n ERROR: en la posicion %d, se espera uno de [+,-,*,/] pero se recibio el caracter: %c \n", posicion, charEvaluado); 
             break;
         case 3:
             if (estadoActual == Q1 && cimaPila == 'R')
-                printf ("ERROR: se espera un caracter [0-9,+,-,*,/,)]. Caracter recibido: %c, posicion :%d", charEvaluado, posicion); 
+                printf ("\n ERROR: en la posicion %d, se espera uno de [0-9,+,-,*,/,)] pero se recibio el caracter: %c \n", posicion, charEvaluado); 
                 else if (estadoActual == Q1 && cimaPila == '$')
-                    printf ("ERROR: se espera un caracter [0-9,+,-,*,/]. Caracter recibido: %c, posicion :%d", charEvaluado, posicion); 
+                    printf ("\n ERROR: en la posicion %d, se espera uno de [0-9,+,-,*,/] pero se recibio el caracter: %c \n", posicion, charEvaluado); 
             break;
         default :
-            printf ("ERROR: La expresion esta incompleta. Se espera [0-9,(,)]. Caracter final: %c", charEvaluado);
+            printf ("\n ERROR: La expresion esta incompleta. Se espera [0-9,(,)]. Caracter final: %c \n", charEvaluado);  
         break;
     }
 }
 
-void reset (){
 
-    while (pila != NULL)
-    {
+void imprimirPila (void){
+	if(NULL == pila){
+	printf("\n La pila esta vacia \n");
+	}
+    else{
+	Nodo *nodo = pila;
+        printf("\n -------Inicio de la Pila------- \n");
+
+        while(nodo != NULL) {
+            printf("\n char: %c ",nodo->info);
+            nodo = nodo->sgte;
+        }
+        printf("\n -------Final de la Pila------- \n");
+
+	}
+}
+
+
+void reset (){
+    while (pila != NULL) {
         Nodo *nodo = pila;
         pila = nodo -> sgte;
         free(nodo);
     }						
     cimaPila = charEvaluado = '\0';
     columnaCaracter = estadoActual = posicion = '\0';
-    
     expresion [0] = '\0';
+}
+
+
+void clearBuffer() {
+  while(getchar() != '\n')
+    ;
 }
 
 

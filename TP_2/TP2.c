@@ -37,7 +37,6 @@ int columnaCaracter, estadoActual, posicion;
 void ejecutarAutomata ();
 void suprimirEspacios(char*);
 void push (char);
-void imprimirPila (void);
 void mensaje (int);
 void submensaje (int);
 void reset ();
@@ -67,7 +66,7 @@ int menu() {
 		if (c == '1') {
 			clearBuffer();
 			ejecutarAutomata();
-            reset ();			
+            //reset ();			
 		}
 		else {
 			clearBuffer();
@@ -170,7 +169,7 @@ void ejecutarAutomata (){
 
 			estadoActual = estadoSgte.estado;
 
-            switch (estadoActual) {		                    //Evalúo PUSH a la PILA
+            switch (estadoActual) {		                    //Se hace PUSH a la PILA
                 case Q0: {
                     if (columnaCaracter == 3){
                         push (cimaPila);
@@ -183,7 +182,7 @@ void ejecutarAutomata (){
                 default:
                     push (estadoSgte.caracter_Push);
                     break;
-                }
+            }
 		}
 		posicion++;
         
@@ -238,20 +237,6 @@ char pop () {
     return x; 
 }
 
-
-void imprimirPila (void){
-	if(NULL == pila){
-	printf("\n La pila esta vacia \n");
-	}
-    else{
-        Nodo *nodo = pila;
-
-        while (nodo != NULL) {
-            nodo = nodo->sgte;
-	    }
-	}
-}
-
 int determinarColumna (char charEvaluado){
 	int columna ;
     switch (charEvaluado) {
@@ -275,6 +260,7 @@ int determinarColumna (char charEvaluado){
             break;
 	} return columna;
 }
+
 
 void mensaje (int columnaCaracter){
 	switch (columnaCaracter) {
@@ -328,6 +314,7 @@ void submensaje (int mensaje){
     }
 }
 
+
 void reset (){
 
     while (pila != NULL) {
@@ -339,6 +326,7 @@ void reset (){
     columnaCaracter = estadoActual = posicion = '\0';
     expresion [0] = '\0';
 }
+
 
 void clearBuffer() {
   while(getchar() != '\n')
