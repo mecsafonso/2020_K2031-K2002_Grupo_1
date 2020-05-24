@@ -52,24 +52,7 @@ int main(){
     
     return menu ();
 }
-/*
-char* getExpresion() {
-	char d,*newAr;
-	int i = 0;
 
-	newAr = (char*) malloc(sizeof(char)*50);		// Asignacion de memoria dinamica -> en tiempo de ejecucion
-
-	printf("\n Introduzca una expresion aritmetica (maximo de 50 caracteres): \n");
-	while((d = getchar()) != EOF && d != '\n') {	// Lee caracter a caracter de la expresion tomada por consola hasta llegar a '\0'
-		newAr[i++] = d;								//i++ = agrega el caracter al vector auxiliar e incrementa contador en 1
-	}
-
-	puts (newAr);
-	suprimirEspacios (newAr);
-
-	return newAr;
-}
-*/
 void suprimirEspacios(char* cadena){
     int i, j;
    
