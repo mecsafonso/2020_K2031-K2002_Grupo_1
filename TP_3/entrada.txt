@@ -1,1 +1,9 @@
-hola 123 067 0xFF $12&077,.,
+123 067 0xFF $12&077 
+. 078 0. 0.52 .52 1E1 1e1 1E+5 0E-5 0e+5 0e-5 
+'\' '.' 'a' 'A' '1' '-' ''' '+' ''
+"ho la" "a" "asd\"123" "\z\x\p\r" "" "hola
+12  3" "hola
+char break auto otracosa
+__identif01 _identificad0r prueba_01 052prueba Prueba
+... , ; : . # {
+- + * / % ~ & ! ^ = < > |
