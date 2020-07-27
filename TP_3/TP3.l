@@ -34,6 +34,11 @@ auto|const|default|extern|register|sizeof|static|typedef|volatile {printf("Encon
 ,|;|:|\.|#|\{|\}|\(|\)|\[|\]|... {printf("Encontre caracter de puntuacion: %c \n",yytext);}
 
 
+"/*"[a-zA-Z0-9_\n\t]*"*/"  {printf("Encontre un comentario de multiples lineas: %s \n",yytext);}
+"//"[a-zA-Z0-9_\n\t]*  {printf("Encontre un comentario de una linea: %s \n",yytext);}
+
+
+
 %% 
 
 int main() {
