@@ -5,5 +5,8 @@
 12  3" "hola
 char break auto otracosa
 __identif01 _identificad0r prueba_01 052prueba Prueba
-... , ; : . # {
+... , ; : . # { [] )
 - + * / % ~ & ! ^ = < > |
+++ -- -> <= == != !! && || += -= *= /= %= >>= <<= &= |= ^= ?: << >>
+/*hola mundo*/
+//hola mundo
