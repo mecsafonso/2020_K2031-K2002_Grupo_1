@@ -16,6 +16,8 @@ LETRA [a-zA-Z]
 
 
 %% 
+
+
 [1-9]{DIGITO_DECIMAL}* {printf("Encontre la constante entera decimal: %s \n",yytext);}
 0{DIGITO_OCTAL}* {printf("Encontre la constante entera octal: %s \n",yytext);}
 0[xX]{DIGITO_HEXADECIMAL}+ {printf("Encontre la constante entera hexadecimal: %s \n",yytext);}
@@ -30,15 +32,13 @@ auto|const|default|extern|register|sizeof|static|typedef|volatile {printf("Encon
 
 ({LETRA}|"_")({LETRA}|{DIGITO_DECIMAL}|"_")* {printf("Encontre el identificador: %s \n",yytext);} 
 
-"\/\*"[{LETRA}{DIGITO_DECIMAL}_\n\t]*"\*\/"  {printf("Encontre un comentario de multiples lineas: %s \n",yytext);}
-\/\/[{LETRA}{DIGITO_DECIMAL}_\t]*/['\0'|\n]  {printf("Encontre un comentario de una linea: %s \n",yytext);}
-
-\+\+|\-\-|\->|<=|==|!=|!!|&&|\|\||\+=|\-=|\*=|\/=|%=|>>=|<<=|&=|\|=|\^=|\?:|<<|>>|[\+\-\*/%~&!\^=<>\|] {printf("Encontre el operador: %s \n",yytext);}
+"++"|"--"|"->"|<=|==|!=|!!|&&|"||"|"+="|"-="|"*="|"/="|%=|>>=|<<=|&=|"|="|"^="|"?:"|<<|>>|[\+\-\*/%~&!\^=<>\|] {printf("Encontre el operador: %s \n",yytext);}
 \.\.\.|[.|,|;|:|#|\[|\]|\{|\}|\(|\)] {printf("Encontre el caracter de puntuacion: %s \n",yytext);}
 
+\/\*(\\.|[^\\*\/])*\*\/  {printf("Encontre un comentario de multiples lineas: %s \n",yytext);}
+\/\/(\\.|[^\n])*  {printf("Encontre un comentario de una linea linea: %s \n",yytext);}
 
-
-
+(#include" ")(\"(\\.|[^\\"])*\") {printf("Encontre una directiva - INCLUDE: %s \n",yytext);}
 
 %% 
 

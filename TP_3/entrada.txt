@@ -1,12 +1,26 @@
 123 067 0xFF $12&077 
-. 078 0. 0.52 .52 1E1 1e1 1E+5 0E-5 0e+5 0e-5 
+078 0. 0.52 .52 1E1 1e1 1E+5 0E-5 0e+5 0e-5 
 '\' '.' 'a' 'A' '1' '-' ''' '+' ''
-"ho la" "a" "asd\"123" "\z\x\p\r" "" "hola
+"ho la""a" "asd\"123" "\z\x\p\r" "" "hola
 12  3" "hola
 char break auto otracosa
 __identif01 _identificad0r prueba_01 052prueba Prueba
 ... , ; : . # { [] )
 - + * / % ~ & ! ^ = < > |
 ++ -- -> <= == != !! && || += -= *= /= %= >>= <<= &= |= ^= ?: << >>
-/*hola mundo*/
-//hola mundo
+/*Comentario 1*/
+/* Comentario 2 */
+/* Comentario
+3 */
+/* Comentario_5*/
+/* Comentario_6
+//Comentario 7
+// Comentario_8
+// Comentario 9
+// Comentario 10 //
+// Comentario 
+11
+
+#include "funcionalidad_gratis.h"
+#include"fichero_incluido"
+# include "fichero_incluido"
