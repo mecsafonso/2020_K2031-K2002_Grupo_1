@@ -2,7 +2,8 @@
 078 0. 0.52 .52 1E1 1e1 1E+5 0E-5 0e+5 0e-5 
 '\' '.' 'a' 'A' '1' '-' ''' '+' ''
 "ho la""a" "asd\"123" "\z\x\p\r" "" "hola
-12  3" "hola
+12  3" 
+"prueba102\n" " hola
 char break auto otracosa
 __identif01 _identificad0r prueba_01 052prueba Prueba
 ... , ; : . # { [] )
@@ -28,3 +29,10 @@ __identif01 _identificad0r prueba_01 052prueba Prueba
 # define FICHERO_YA_INCLUIDO
 #define 7ab
 #define ab 7
+
+#include <ab>
+#include "AB"
+
+"prueba100
+
+#include "prueba101"
