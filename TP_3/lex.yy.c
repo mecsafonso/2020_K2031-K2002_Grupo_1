@@ -519,10 +519,14 @@ char *yytext;
 #line 4 "TP3.l"
 // Definimos las librerías que incluímos
 #include <stdio.h>
+#include <string.h>
 
-// definicion de variables globales para nuestro analizador léxico
+
 int acum = 0;
-#line 526 "lex.yy.c"
+
+
+
+#line 530 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -676,9 +680,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 18 "TP3.l"
+#line 22 "TP3.l"
 
-#line 682 "lex.yy.c"
+#line 686 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -764,72 +768,72 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 19 "TP3.l"
+#line 23 "TP3.l"
 {printf("Encontre la constante entera decimal: %s \n",yytext);}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 20 "TP3.l"
+#line 24 "TP3.l"
 {printf("Encontre la constante entera octal: %s \n",yytext);}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 21 "TP3.l"
+#line 25 "TP3.l"
 {printf("Encontre la constante entera hexadecimal: %s \n",yytext);}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 22 "TP3.l"
+#line 26 "TP3.l"
 {printf("Encontre la constante real: %s \n",yytext);}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 23 "TP3.l"
+#line 27 "TP3.l"
 {printf("Encontre la constante Caracter: %s \n",yytext);}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 25 "TP3.l"
+#line 29 "TP3.l"
 {printf("Encontre Literal Cadena: %s \n",yytext);} 
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 27 "TP3.l"
+#line 31 "TP3.l"
 {printf("Encontre Palabre Reservada - TIPO DE DATO: %s \n",yytext);}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 28 "TP3.l"
+#line 32 "TP3.l"
 {printf("Encontre Palabra Reservada - ESTRUCTURA DE CONTROL: %s \n",yytext);}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 29 "TP3.l"
+#line 33 "TP3.l"
 {printf("Encontre Palabra Reservada - OTROS: %s \n",yytext);}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 31 "TP3.l"
-{printf("Encontre el identificador: %s \n",yytext);} 
+#line 35 "TP3.l"
+{cargarSinRepetir(listaIdentificadores, yytext);} 
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 33 "TP3.l"
+#line 37 "TP3.l"
 {printf("Encontre el operador: %s \n",yytext);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 34 "TP3.l"
+#line 38 "TP3.l"
 {printf("Encontre el caracter de puntuacion: %s \n",yytext);}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 36 "TP3.l"
+#line 40 "TP3.l"
 {printf("Encontre un comentario de multiples lineas: %s \n",yytext);}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 37 "TP3.l"
+#line 41 "TP3.l"
 {printf("Encontre un comentario de una linea linea: %s \n",yytext);}
 	YY_BREAK
 case 15:
@@ -837,7 +841,7 @@ case 15:
 yy_c_buf_p = yy_cp = yy_bp + 8;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 39 "TP3.l"
+#line 43 "TP3.l"
 {printf("Encontre una direccion de PREPROCESAMIENTO - DEFINE: %s \n",yytext);}
 	YY_BREAK
 case 16:
@@ -845,15 +849,15 @@ case 16:
 yy_c_buf_p = yy_cp = yy_bp + 9;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 40 "TP3.l"
+#line 44 "TP3.l"
 {printf("Encontre una direccion de PREPROCESAMIENTO - INCLUDE: %s \n",yytext);}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 43 "TP3.l"
+#line 47 "TP3.l"
 ECHO;
 	YY_BREAK
-#line 857 "lex.yy.c"
+#line 861 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1741,24 +1745,106 @@ int main()
 	return 0;
 	}
 #endif
-#line 43 "TP3.l"
+#line 47 "TP3.l"
 
+
+struct identificador{
+    char nombre[32];
+    int cantidad;
+    struct identificador* sgte;
+};
+
+typedef struct identificador Nodo;
+
+/* Prototipo de FUNCIONES*/
+Nodo* crearNodo();
+Nodo* buscar(Nodo*, char* );
+Nodo* insertarOrdenadoIdentificador (char*, Nodo*);
+Nodo* cargarSinRepetir(Nodo*, char*);
+void imprimirLista(Nodo*, FILE*);
+
+// definicion de variables globales para nuestro analizador léxico
+Nodo* listaIdentificadores = NULL;
+
+FILE* arcFinal;
 
 int main() {
    
     /* Acciones previas a la invocación den analizador léxico */
 
     yyin = fopen("entrada.txt", "r");
-    yyout = fopen("salida.txt", "w");	
+    yyout = fopen("salida.txt", "w");
+
+    arcFinal = fopen ("salida.txt", "w");
+
+    fprintf (arcFinal, "\t %s.\n", yyout);	
 
     /* Invocación del analizador léxico */
 
     yylex();
+
+    imprimirLista(listaIdentificadores, arcFinal);
 	
-    /* Acciónes posteriores a la ejecución del analizador léxico, 
-    sirven por ejemplo, para hacer un informen de resumen.1 */
+    /* Acciónes posteriores a la ejecución del analizador léxico */
 
     printf("La suma de las longitudes de todas las cadenas reconocidas es %d",acum);
 
     return 0;
 }
+
+Nodo* crearNodo(void) {
+  return (struct identificador*) malloc(sizeof(struct identificador));     //Asignacion de memoria dinamica -> en tiempo de ejecución
+}
+
+Nodo* buscar(Nodo* listaIdentificadores, char* identificador){
+    Nodo* aux = listaIdentificadores;
+
+    while(aux != NULL && (strcmp(identificador, aux->nombre)>0))
+        aux = aux->sgte;
+
+    if(aux != NULL && (strcmp(identificador, aux->nombre)==0))
+        return aux;
+    
+    return NULL;
+}
+
+Nodo* insertarOrdenadoIdentificador(char* identificador, Nodo* listaIdentificadores){
+    Nodo *nuevoNodo = crearNodo();	
+    strcpy (nuevoNodo->nombre, identificador);
+    nuevoNodo->cantidad = 0;
+    
+    if (listaIdentificadores == NULL || strcmp(listaIdentificadores->sgte->nombre, identificador) > 0) {
+        nuevoNodo->sgte = listaIdentificadores;
+        listaIdentificadores = nuevoNodo;
+    }
+    else {
+        Nodo* aux = listaIdentificadores;
+        while(strcmp(identificador, aux->sgte->nombre)>0 && aux->sgte != NULL)
+            aux = aux->sgte;
+        
+        nuevoNodo->cantidad += 1;
+        nuevoNodo->sgte = aux->sgte;
+        aux->sgte = nuevoNodo;
+    }
+    return nuevoNodo;
+}
+
+Nodo* cargarSinRepetir(Nodo* listaIdentificadores, char* identificador){
+    Nodo* aux = buscar(listaIdentificadores, identificador);
+
+    if(aux == NULL)
+        aux = insertarOrdenadoIdentificador(identificador, listaIdentificadores);
+    
+    return aux;
+}
+
+void imprimirLista(Nodo* listaIdentificadores, FILE* arcFinal){
+    Nodo* aux;
+    while( aux!=NULL ) { 
+        fprintf (arcFinal, "\t %s.\n", aux->nombre);
+        fprintf (arcFinal, "\t %d.\n", aux->cantidad);
+        aux = aux->sgte; 
+    }   
+}
+
+
