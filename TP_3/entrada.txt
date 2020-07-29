@@ -21,6 +21,4 @@ __identif01 _identificad0r prueba_01 052prueba Prueba
 // Comentario 
 11
 
-#include "funcionalidad_gratis.h"
-#include"fichero_incluido"
-# include "fichero_incluido"
+

@@ -11,12 +11,10 @@ int acum = 0;
 DIGITO_DECIMAL [0-9] 
 DIGITO_OCTAL [0-7] 
 DIGITO_HEXADECIMAL [a-fA-F0-9] 
-LETRA [a-zA-Z] 
-  
-
+LETRA [a-zA-Z]
+IDENTIFICADOR ({LETRA}|"_")({LETRA}|{DIGITO_DECIMAL}|"_")*
 
 %% 
-
 
 [1-9]{DIGITO_DECIMAL}* {printf("Encontre la constante entera decimal: %s \n",yytext);}
 0{DIGITO_OCTAL}* {printf("Encontre la constante entera octal: %s \n",yytext);}
@@ -30,7 +28,7 @@ char|double|enum|float|int|long|short|signed|struct|union|unsigned|void {printf(
 break|case|continue|do|else|for|goto|if|return|switch|while {printf("Encontre Palabra Reservada - ESTRUCTURA DE CONTROL: %s \n",yytext);}
 auto|const|default|extern|register|sizeof|static|typedef|volatile {printf("Encontre Palabra Reservada - OTROS: %s \n",yytext);}
 
-({LETRA}|"_")({LETRA}|{DIGITO_DECIMAL}|"_")* {printf("Encontre el identificador: %s \n",yytext);} 
+{IDENTIFICADOR} {printf("Encontre el identificador: %s \n",yytext);} 
 
 "++"|"--"|"->"|<=|==|!=|!!|&&|"||"|"+="|"-="|"*="|"/="|%=|>>=|<<=|&=|"|="|"^="|"?:"|<<|>>|[\+\-\*/%~&!\^=<>\|] {printf("Encontre el operador: %s \n",yytext);}
 \.\.\.|[.|,|;|:|#|\[|\]|\{|\}|\(|\)] {printf("Encontre el caracter de puntuacion: %s \n",yytext);}
@@ -38,7 +36,6 @@ auto|const|default|extern|register|sizeof|static|typedef|volatile {printf("Encon
 \/\*(\\.|[^\\*\/])*\*\/  {printf("Encontre un comentario de multiples lineas: %s \n",yytext);}
 \/\/(\\.|[^\n])*  {printf("Encontre un comentario de una linea linea: %s \n",yytext);}
 
-(#include" ")(\"(\\.|[^\\"])*\") {printf("Encontre una directiva - INCLUDE: %s \n",yytext);}
 
 %% 
 
