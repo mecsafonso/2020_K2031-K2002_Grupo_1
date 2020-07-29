@@ -13,16 +13,16 @@ DIGITO_OCTAL [0-7]
 DIGITO_HEXADECIMAL [a-fA-F0-9] 
 LETRA [a-zA-Z]
 IDENTIFICADOR ({LETRA}|"_")({LETRA}|{DIGITO_DECIMAL}|"_")*
+LITERAL_CADENA \"(\\.|[^\\"])*\"
 
 %% 
-
 [1-9]{DIGITO_DECIMAL}* {printf("Encontre la constante entera decimal: %s \n",yytext);}
 0{DIGITO_OCTAL}* {printf("Encontre la constante entera octal: %s \n",yytext);}
 0[xX]{DIGITO_HEXADECIMAL}+ {printf("Encontre la constante entera hexadecimal: %s \n",yytext);}
 ({DIGITO_DECIMAL}*\.{DIGITO_DECIMAL}+|{DIGITO_DECIMAL}+\.|{DIGITO_DECIMAL}+)([eE][\+\-]?{DIGITO_DECIMAL}+)? {printf("Encontre la constante real: %s \n",yytext);}
 \'.?\' {printf("Encontre la constante Caracter: %s \n",yytext);}
 
-\"(\\.|[^\\"])*\" {printf("Encontre Literal Cadena: %s \n",yytext);}
+{LITERAL_CADENA} {printf("Encontre Literal Cadena: %s \n",yytext);}
 
 char|double|enum|float|int|long|short|signed|struct|union|unsigned|void {printf("Encontre Palabre Reservada - TIPO DE DATO: %s \n",yytext);}
 break|case|continue|do|else|for|goto|if|return|switch|while {printf("Encontre Palabra Reservada - ESTRUCTURA DE CONTROL: %s \n",yytext);}
@@ -36,8 +36,10 @@ auto|const|default|extern|register|sizeof|static|typedef|volatile {printf("Encon
 \/\*(\\.|[^\\*\/])*\*\/  {printf("Encontre un comentario de multiples lineas: %s \n",yytext);}
 \/\/(\\.|[^\n])*  {printf("Encontre un comentario de una linea linea: %s \n",yytext);}
 
+"#define "/{IDENTIFICADOR} {printf("Encontre una direccion de PREPROCESAMIENTO - DEFINE: %s \n",yytext);}
 
-%% 
+
+%%
 
 int main() {
    

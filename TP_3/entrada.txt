@@ -21,4 +21,10 @@ __identif01 _identificad0r prueba_01 052prueba Prueba
 // Comentario 
 11
 
-
+#define ab
+#define FICHERO_YA_INCLUIDO
+#define fichero_incluido
+#definefichero_incluido
+# define FICHERO_YA_INCLUIDO
+#define 7ab
+#define ab 7
