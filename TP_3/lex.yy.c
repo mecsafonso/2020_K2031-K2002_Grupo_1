@@ -525,10 +525,10 @@ char *yytext;
 #include <stdio.h>
 #include <string.h>
 
-typedef struct identificador{
-    char nombre[32];
+typedef struct nodo{
+    char nombre[32];    /* asumimos un tamaño para el identificador y el literal cadena de 31 caracteres + '\0' */
     int cantidad;
-    struct identificador* sgte;
+    struct nodo* sgte;
 } Nodo;
 
 //typedef struct identificador Nodo;
@@ -536,19 +536,23 @@ typedef struct identificador{
 
 // Definicion de Variables Globales
 Nodo* listaIdentificadores = NULL;
-Nodo* ultimo = NULL;
+Nodo* listaLiteralCadena = NULL;
 FILE* arcFinal;
 
 /* Prototipo de FUNCIONES*/
-int buscarIdentificador(char*);
+int buscarCadena(Nodo*, char*);
 void insertarPrimeroIdentificador(char*);
 void insertarEnMedioIdentificador(char*);
 void modificarIdentificador(char*);
-void cargarSinRepetirIdentificador(char*);
+void cargarSinRepetir(Nodo*, char*, int, int);
+void insertarLiteralCadena(char*, int);
 void imprimirListaIdentificadores(FILE*);
+void imprimirListaLiteralCdena(FILE*);
+void imprimirLista(Nodo*, FILE*);
 
 
-#line 552 "lex.yy.c"
+
+#line 556 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -702,9 +706,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 41 "TP3.l."
+#line 45 "TP3.l."
 
-#line 708 "lex.yy.c"
+#line 712 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -790,72 +794,72 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 42 "TP3.l."
+#line 46 "TP3.l."
 {printf("Encontre la constante entera decimal: %s \n",yytext);}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 43 "TP3.l."
+#line 47 "TP3.l."
 {printf("Encontre la constante entera octal: %s \n",yytext);}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 44 "TP3.l."
+#line 48 "TP3.l."
 {printf("Encontre la constante entera hexadecimal: %s \n",yytext);}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 45 "TP3.l."
+#line 49 "TP3.l."
 {printf("Encontre la constante real: %s \n",yytext);}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 46 "TP3.l."
+#line 50 "TP3.l."
 {printf("Encontre la constante Caracter: %s \n",yytext);}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 48 "TP3.l."
-{printf("Encontre Literal Cadena: %s \n",yytext);} 
+#line 52 "TP3.l."
+{cargarSinRepetir(listaLiteralCadena, yytext, yyleng, 2);} 
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 50 "TP3.l."
+#line 54 "TP3.l."
 {printf("Encontre Palabre Reservada - TIPO DE DATO: %s \n",yytext);}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 51 "TP3.l."
+#line 55 "TP3.l."
 {printf("Encontre Palabra Reservada - ESTRUCTURA DE CONTROL: %s \n",yytext);}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 52 "TP3.l."
+#line 56 "TP3.l."
 {printf("Encontre Palabra Reservada - OTROS: %s \n",yytext);}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 54 "TP3.l."
-{cargarSinRepetirIdentificador(yytext);} 
+#line 58 "TP3.l."
+{cargarSinRepetir(listaIdentificadores, yytext, 0, 1);} 
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 56 "TP3.l."
+#line 60 "TP3.l."
 {printf("Encontre el operador: %s \n",yytext);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 57 "TP3.l."
+#line 61 "TP3.l."
 {printf("Encontre el caracter de puntuacion: %s \n",yytext);}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 59 "TP3.l."
+#line 63 "TP3.l."
 {printf("Encontre un comentario de multiples lineas: %s \n",yytext);}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 60 "TP3.l."
+#line 64 "TP3.l."
 {printf("Encontre un comentario de una linea linea: %s \n",yytext);}
 	YY_BREAK
 case 15:
@@ -863,7 +867,7 @@ case 15:
 yy_c_buf_p = yy_cp = yy_bp + 8;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 62 "TP3.l."
+#line 66 "TP3.l."
 {printf("Encontre una direccion de PREPROCESAMIENTO - DEFINE: %s \n",yytext);}
 	YY_BREAK
 case 16:
@@ -871,20 +875,20 @@ case 16:
 yy_c_buf_p = yy_cp = yy_bp + 9;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 63 "TP3.l."
+#line 67 "TP3.l."
 {printf("Encontre una direccion de PREPROCESAMIENTO - INCLUDE: %s \n",yytext);}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 65 "TP3.l."
+#line 69 "TP3.l."
 {printf( "Caracter no reconocido: %s\n", yytext );}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 68 "TP3.l."
+#line 72 "TP3.l."
 ECHO;
 	YY_BREAK
-#line 888 "lex.yy.c"
+#line 892 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1772,7 +1776,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 68 "TP3.l."
+#line 72 "TP3.l."
 
 int main() {
    
@@ -1786,13 +1790,14 @@ int main() {
 
     /* Acciónes posteriores a la ejecución del analizador léxico */
     imprimirListaIdentificadores(arcFinal);
+    imprimirListaLiteralCdena(arcFinal);
 	fclose(arcFinal);
 
     return 0;
 }
 
-int buscarIdentificador(char* identificador){
-    Nodo* actual = listaIdentificadores;
+int buscarCadena(Nodo* lista, char* identificador){
+    Nodo* actual = lista;
 
     while(actual != NULL && (strcmp(identificador, actual->nombre) != 0))
         actual = actual->sgte;
@@ -1804,7 +1809,7 @@ int buscarIdentificador(char* identificador){
 }
 
 void insertarPrimeroIdentificador(char* identificador){
-    Nodo* nuevoNodo = (struct identificador*) malloc(sizeof(struct identificador));
+    Nodo* nuevoNodo = (Nodo*) malloc(sizeof(Nodo));
     strcpy (nuevoNodo->nombre, identificador);
     nuevoNodo->cantidad = 1; 
     nuevoNodo->sgte = listaIdentificadores; 
@@ -1812,7 +1817,7 @@ void insertarPrimeroIdentificador(char* identificador){
 }
 
 void insertarEnMedioIdentificador(char* identificador){
-    Nodo* nuevoNodo = (struct identificador*) malloc(sizeof(struct identificador)); 
+    Nodo* nuevoNodo = (Nodo*) malloc(sizeof(Nodo)); 
     Nodo*aux = listaIdentificadores; 
     strcpy (nuevoNodo->nombre, identificador);
     nuevoNodo->cantidad = 1; 
@@ -1825,14 +1830,12 @@ void insertarEnMedioIdentificador(char* identificador){
     aux->sgte = nuevoNodo; 
 }
 
-
 void insertarOrdenadoIdentificador(char* identificador){
     if (listaIdentificadores == NULL || (strcmp(listaIdentificadores->nombre, identificador) > 0)) 
         insertarPrimeroIdentificador(identificador);
     else 
         insertarEnMedioIdentificador(identificador);
 }
-
 
 void modificarIdentificador(char* identificador){
 	Nodo* actual = listaIdentificadores;
@@ -1850,23 +1853,48 @@ void modificarIdentificador(char* identificador){
 	}
 }
 
+void cargarSinRepetir(Nodo* lista, char* cadena, int longitudCadena, int identificador){
+    int aux = buscarCadena(lista, cadena);
 
-void cargarSinRepetirIdentificador(char* identificador){
-    int aux = buscarIdentificador(identificador);
-
-    if(aux)
-        modificarIdentificador(identificador);
-    else
-        insertarOrdenadoIdentificador(identificador);
+    switch (identificador){     /* identificador es un numero que fija que lexema se evaluara*/
+        case 1:                 /* 1: IDENTIFICADOR */
+            if(aux)
+                modificarIdentificador(cadena);
+            else
+                insertarOrdenadoIdentificador(cadena);
+            break;
+        case 2:                 /* 2: LITERAL CADENA */
+            if (aux == 0)
+                insertarLiteralCadena(cadena, longitudCadena);
+            break;
+    }
 }
 
-void imprimirListaIdentificadores(FILE* arcFinal){
-    Nodo* actual = listaIdentificadores;
-    fprintf(arcFinal, "-----------------------------------------------------\n");
-    fprintf(arcFinal, "|              Lista de Identificadores             |\n");
-    fprintf(arcFinal, "-----------------------------------------------------\n");
+void insertarLiteralCadena(char* cadena, int longitudCadena){
+	Nodo* nuevoNodo = (Nodo*) malloc(sizeof(Nodo));
 
-    if(listaIdentificadores != NULL){
+    strcpy (nuevoNodo->nombre, cadena);
+    nuevoNodo->cantidad = longitudCadena;
+
+	if(listaLiteralCadena == NULL){
+        nuevoNodo->sgte = listaLiteralCadena; 
+        listaLiteralCadena = nuevoNodo;
+	}
+    else{
+        Nodo* aux = listaLiteralCadena;
+
+        while(aux->sgte != NULL)
+            aux = aux->sgte; 
+        
+        nuevoNodo->sgte = NULL;
+        aux->sgte = nuevoNodo;
+	}
+}
+
+void imprimirLista(Nodo* lista, FILE* arcFinal){
+    Nodo* actual = lista;
+
+    if(lista != NULL){
         while(actual != NULL){
             fprintf (arcFinal, "%32s\t %d\n", actual->nombre, actual->cantidad);
             actual = actual->sgte;
@@ -1874,6 +1902,29 @@ void imprimirListaIdentificadores(FILE* arcFinal){
 	}
     else
 		fprintf(arcFinal,"\n La lista se encuentra vacia\n\n"); 
-
-    fprintf(arcFinal, "-----------------------------------------------------\n");
 }
+
+void imprimirListaIdentificadores(FILE* arcFinal){
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|                      Lista de Identificadores                       |\n");
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|                  Identificador  |  Cantidad de repeticiones         |\n");
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    imprimirLista(listaIdentificadores, arcFinal);
+    
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+}
+
+void imprimirListaLiteralCdena(FILE* arcFinal){
+    fprintf(arcFinal, "\n\nNOTA: el listado de literales cadenas no contine repeticiones");
+    fprintf(arcFinal, "\n-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|                       Lista de literales Cadena                     |\n");
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|                 Literal Cadena  |  Longitud de la Cadena            |\n");
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+
+    imprimirLista(listaLiteralCadena, arcFinal);
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+}
+
+
