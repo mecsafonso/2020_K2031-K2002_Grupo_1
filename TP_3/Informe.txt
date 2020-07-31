@@ -1,10 +1,21 @@
 -----------------------------------------------------
 |              Lista de Identificadores             |
 -----------------------------------------------------
-                              ab	 2
+                    Comentario_6	 1
+             FICHERO_YA_INCLUIDO	 2
+                          Prueba	 1
+               __identificador01	 1
+                   _identificadr	 1
+                              ab	 6
+                          define	 2
+          definefichero_incluido	 1
  ej_DE_IDENTIFICADOR_32_espacios	 1
                              elo	 2
-                            hola	 3
+                fichero_incluido	 1
+                            hola	 5
                           ortega	 1
+                        otracosa	 1
+                          prueba	 1
+                       prueba_01	 1
                           rangel	 1
 -----------------------------------------------------
