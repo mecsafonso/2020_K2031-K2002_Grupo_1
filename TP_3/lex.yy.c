@@ -518,40 +518,37 @@ static char *yy_last_accepting_cpos;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "TP3.l"
+#line 1 "TP3.l."
 #define INITIAL 0
-#line 4 "TP3.l"
+#line 4 "TP3.l."
 // Definimos las librerías que incluímos
 #include <stdio.h>
 #include <string.h>
 
-struct identificador{
+typedef struct identificador{
     char nombre[32];
     int cantidad;
     struct identificador* sgte;
-};
+} Nodo;
 
-typedef struct identificador Nodo;
+//typedef struct identificador Nodo;
 
 
-// definicion de variables globales para nuestro analizador léxico
+// Definicion de Variables Globales
 Nodo* listaIdentificadores = NULL;
-Nodo* inicio = NULL;
-Nodo* fin = NULL;
-
-
-
+Nodo* ultimo = NULL;
 FILE* arcFinal;
 
 /* Prototipo de FUNCIONES*/
-Nodo* buscar(Nodo*, char*);
-Nodo* insertarOrdenadoIdentificador(Nodo*, char*);
-Nodo* modificarListaIdentificador(Nodo*, char*);
-Nodo* cargarSinRepetir(Nodo*, char*);
-void imprimirLista(Nodo*, FILE*);
+int buscarIdentificador(char*);
+void insertarPrimeroIdentificador(char*);
+void insertarEnMedioIdentificador(char*);
+void modificarIdentificador(char*);
+void cargarSinRepetirIdentificador(char*);
+void imprimirListaIdentificadores(FILE*);
 
 
-#line 555 "lex.yy.c"
+#line 552 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -705,9 +702,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 44 "TP3.l"
+#line 41 "TP3.l."
 
-#line 711 "lex.yy.c"
+#line 708 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -793,72 +790,72 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 45 "TP3.l"
+#line 42 "TP3.l."
 {printf("Encontre la constante entera decimal: %s \n",yytext);}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 46 "TP3.l"
+#line 43 "TP3.l."
 {printf("Encontre la constante entera octal: %s \n",yytext);}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 47 "TP3.l"
+#line 44 "TP3.l."
 {printf("Encontre la constante entera hexadecimal: %s \n",yytext);}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 48 "TP3.l"
+#line 45 "TP3.l."
 {printf("Encontre la constante real: %s \n",yytext);}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 49 "TP3.l"
+#line 46 "TP3.l."
 {printf("Encontre la constante Caracter: %s \n",yytext);}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 51 "TP3.l"
+#line 48 "TP3.l."
 {printf("Encontre Literal Cadena: %s \n",yytext);} 
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 53 "TP3.l"
+#line 50 "TP3.l."
 {printf("Encontre Palabre Reservada - TIPO DE DATO: %s \n",yytext);}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 54 "TP3.l"
+#line 51 "TP3.l."
 {printf("Encontre Palabra Reservada - ESTRUCTURA DE CONTROL: %s \n",yytext);}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 55 "TP3.l"
+#line 52 "TP3.l."
 {printf("Encontre Palabra Reservada - OTROS: %s \n",yytext);}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 57 "TP3.l"
-{fprintf(arcFinal,"identificador: %s \n",yytext); cargarSinRepetir(listaIdentificadores, yytext); imprimirLista(listaIdentificadores, arcFinal);} 
+#line 54 "TP3.l."
+{cargarSinRepetirIdentificador(yytext);} 
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 59 "TP3.l"
+#line 56 "TP3.l."
 {printf("Encontre el operador: %s \n",yytext);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 60 "TP3.l"
+#line 57 "TP3.l."
 {printf("Encontre el caracter de puntuacion: %s \n",yytext);}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 62 "TP3.l"
+#line 59 "TP3.l."
 {printf("Encontre un comentario de multiples lineas: %s \n",yytext);}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 63 "TP3.l"
+#line 60 "TP3.l."
 {printf("Encontre un comentario de una linea linea: %s \n",yytext);}
 	YY_BREAK
 case 15:
@@ -866,7 +863,7 @@ case 15:
 yy_c_buf_p = yy_cp = yy_bp + 8;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 65 "TP3.l"
+#line 62 "TP3.l."
 {printf("Encontre una direccion de PREPROCESAMIENTO - DEFINE: %s \n",yytext);}
 	YY_BREAK
 case 16:
@@ -874,20 +871,20 @@ case 16:
 yy_c_buf_p = yy_cp = yy_bp + 9;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 66 "TP3.l"
+#line 63 "TP3.l."
 {printf("Encontre una direccion de PREPROCESAMIENTO - INCLUDE: %s \n",yytext);}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 68 "TP3.l"
+#line 65 "TP3.l."
 {printf( "Caracter no reconocido: %s\n", yytext );}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 71 "TP3.l"
+#line 68 "TP3.l."
 ECHO;
 	YY_BREAK
-#line 891 "lex.yy.c"
+#line 888 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1775,12 +1772,11 @@ int main()
 	return 0;
 	}
 #endif
-#line 71 "TP3.l"
+#line 68 "TP3.l."
 
 int main() {
    
     /* Acciones previas a la invocación den analizador léxico */
-
     yyin = fopen("entrada.txt", "r");
     yyout = fopen("salida.txt", "w");
     arcFinal = fopen ("Informe.txt", "w");
@@ -1788,77 +1784,96 @@ int main() {
     /* Invocación del analizador léxico */
     yylex();
 
-    imprimirLista(listaIdentificadores, arcFinal);
-	
     /* Acciónes posteriores a la ejecución del analizador léxico */
-   
-    fclose(arcFinal);
-    //system("pause");
+    imprimirListaIdentificadores(arcFinal);
+	fclose(arcFinal);
 
     return 0;
 }
 
+int buscarIdentificador(char* identificador){
+    Nodo* actual = listaIdentificadores;
 
-Nodo* buscar(Nodo* listaIdentificadores, char* identificador){
-    Nodo* aux = listaIdentificadores;
+    while(actual != NULL && (strcmp(identificador, actual->nombre) != 0))
+        actual = actual->sgte;
 
-    while(aux != NULL && (strcmp(identificador, aux->nombre) != 0))
-        aux = aux->sgte;
-
-    if(aux != NULL && (strcmp(identificador, aux->nombre) == 0))
-        return aux;
+    if(actual != NULL && (strcmp(identificador, actual->nombre) == 0))
+        return 1;
 	else
-        return NULL;
+        return 0;
 }
 
-Nodo* insertarOrdenadoIdentificador(Nodo* listaIdentificadores, char* identificador){
-    Nodo *nuevoNodo = (struct identificador*) malloc(sizeof(struct identificador));
-    
+void insertarPrimeroIdentificador(char* identificador){
+    Nodo* nuevoNodo = (struct identificador*) malloc(sizeof(struct identificador));
     strcpy (nuevoNodo->nombre, identificador);
-    nuevoNodo->cantidad = 0;
+    nuevoNodo->cantidad = 1; 
     nuevoNodo->sgte = listaIdentificadores; 
     listaIdentificadores = nuevoNodo; 
-    return nuevoNodo;
 }
 
-Nodo* modificarListaIdentificador(Nodo* listaIdentificadores, char* identificador){
-	Nodo* actual = (struct identificador*) malloc(sizeof(struct identificador));
-	actual = listaIdentificadores;
+void insertarEnMedioIdentificador(char* identificador){
+    Nodo* nuevoNodo = (struct identificador*) malloc(sizeof(struct identificador)); 
+    Nodo*aux = listaIdentificadores; 
+    strcpy (nuevoNodo->nombre, identificador);
+    nuevoNodo->cantidad = 1; 
+
+    while(aux->sgte != NULL && (strcmp(identificador, aux->sgte->nombre) > 0)){ 
+        aux = aux->sgte; 
+    } 
+    
+    nuevoNodo->sgte = aux->sgte; 
+    aux->sgte = nuevoNodo; 
+}
+
+
+void insertarOrdenadoIdentificador(char* identificador){
+    if (listaIdentificadores == NULL || (strcmp(listaIdentificadores->nombre, identificador) > 0)) 
+        insertarPrimeroIdentificador(identificador);
+    else 
+        insertarEnMedioIdentificador(identificador);
+}
+
+
+void modificarIdentificador(char* identificador){
+	Nodo* actual = listaIdentificadores;
 	int encontrado = 0;
 
 	if(listaIdentificadores != NULL){
 		while(actual != NULL && encontrado != 1){
 			if(strcmp(identificador, actual->nombre) == 0){
-				actual->cantidad = actual->cantidad + 1;
+				actual->cantidad += 1;
 				encontrado = 1;
-                return actual;
-			}	
-			actual = actual->sgte;
+			}
+            else	
+			    actual = actual->sgte;
 		}
 	}
 }
 
-Nodo* cargarSinRepetir(Nodo* listaIdentificadores, char* identificador){
-    Nodo* aux = (struct identificador*) malloc(sizeof(struct identificador));
-    aux = buscar(listaIdentificadores, identificador);
 
-    if(aux == NULL)
-        aux = insertarOrdenadoIdentificador(listaIdentificadores, identificador);
+void cargarSinRepetirIdentificador(char* identificador){
+    int aux = buscarIdentificador(identificador);
+
+    if(aux)
+        modificarIdentificador(identificador);
     else
-        aux = modificarListaIdentificador(listaIdentificadores, identificador);
-    
-    return aux;
+        insertarOrdenadoIdentificador(identificador);
 }
 
-void imprimirLista(Nodo* listaIdentificadores, FILE* arcFinal){
-    Nodo* aux = listaIdentificadores;
+void imprimirListaIdentificadores(FILE* arcFinal){
+    Nodo* actual = listaIdentificadores;
     fprintf(arcFinal, "-----------------------------------------------------\n");
     fprintf(arcFinal, "|              Lista de Identificadores             |\n");
     fprintf(arcFinal, "-----------------------------------------------------\n");
-    
-    while( aux != NULL ){ 
-        fprintf (arcFinal, "\t %s", aux->nombre);
-        fprintf (arcFinal, "\t %d \n", aux->cantidad);
-        aux = aux->sgte; 
-    }   
+
+    if(listaIdentificadores != NULL){
+        while(actual != NULL){
+            fprintf (arcFinal, "%32s\t %d\n", actual->nombre, actual->cantidad);
+            actual = actual->sgte;
+        }
+	}
+    else
+		fprintf(arcFinal,"\n La lista se encuentra vacia\n\n"); 
+
+    fprintf(arcFinal, "-----------------------------------------------------\n");
 }

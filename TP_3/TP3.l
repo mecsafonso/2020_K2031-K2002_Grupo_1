@@ -5,30 +5,27 @@
 #include <stdio.h>
 #include <string.h>
 
-struct identificador{
+typedef struct identificador{
     char nombre[32];
     int cantidad;
     struct identificador* sgte;
-};
+} Nodo;
 
-typedef struct identificador Nodo;
+//typedef struct identificador Nodo;
 
 
-// definicion de variables globales para nuestro analizador léxico
+// Definicion de Variables Globales
 Nodo* listaIdentificadores = NULL;
-Nodo* inicio = NULL;
-Nodo* fin = NULL;
-
-
-
+Nodo* ultimo = NULL;
 FILE* arcFinal;
 
 /* Prototipo de FUNCIONES*/
-Nodo* buscar(Nodo*, char*);
-Nodo* insertarOrdenadoIdentificador(Nodo*, char*);
-Nodo* modificarListaIdentificador(Nodo*, char*);
-Nodo* cargarSinRepetir(Nodo*, char*);
-void imprimirLista(Nodo*, FILE*);
+int buscarIdentificador(char*);
+void insertarPrimeroIdentificador(char*);
+void insertarEnMedioIdentificador(char*);
+void modificarIdentificador(char*);
+void cargarSinRepetirIdentificador(char*);
+void imprimirListaIdentificadores(FILE*);
 
 
 %}
@@ -54,7 +51,7 @@ char|double|enum|float|int|long|short|signed|struct|union|unsigned|void {printf(
 break|case|continue|do|else|for|goto|if|return|switch|while {printf("Encontre Palabra Reservada - ESTRUCTURA DE CONTROL: %s \n",yytext);}
 auto|const|default|extern|register|sizeof|static|typedef|volatile {printf("Encontre Palabra Reservada - OTROS: %s \n",yytext);}
 
-{IDENTIFICADOR} {fprintf(arcFinal,"identificador: %s \n",yytext); cargarSinRepetir(listaIdentificadores, yytext); imprimirLista(listaIdentificadores, arcFinal);} 
+{IDENTIFICADOR} {cargarSinRepetirIdentificador(yytext);} 
 
 "++"|"--"|"->"|<=|==|!=|!!|&&|"||"|"+="|"-="|"*="|"/="|%=|>>=|<<=|&=|"|="|"^="|"?:"|<<|>>|[\+\-\*/%~&!\^=<>\|] {printf("Encontre el operador: %s \n",yytext);}
 \.\.\.|[.|,|;|:|#|\[|\]|\{|\}|\(|\)] {printf("Encontre el caracter de puntuacion: %s \n",yytext);}
@@ -72,7 +69,6 @@ auto|const|default|extern|register|sizeof|static|typedef|volatile {printf("Encon
 int main() {
    
     /* Acciones previas a la invocación den analizador léxico */
-
     yyin = fopen("entrada.txt", "r");
     yyout = fopen("salida.txt", "w");
     arcFinal = fopen ("Informe.txt", "w");
@@ -80,77 +76,96 @@ int main() {
     /* Invocación del analizador léxico */
     yylex();
 
-    imprimirLista(listaIdentificadores, arcFinal);
-	
     /* Acciónes posteriores a la ejecución del analizador léxico */
-   
-    fclose(arcFinal);
-    //system("pause");
+    imprimirListaIdentificadores(arcFinal);
+	fclose(arcFinal);
 
     return 0;
 }
 
+int buscarIdentificador(char* identificador){
+    Nodo* actual = listaIdentificadores;
 
-Nodo* buscar(Nodo* listaIdentificadores, char* identificador){
-    Nodo* aux = listaIdentificadores;
+    while(actual != NULL && (strcmp(identificador, actual->nombre) != 0))
+        actual = actual->sgte;
 
-    while(aux != NULL && (strcmp(identificador, aux->nombre) != 0))
-        aux = aux->sgte;
-
-    if(aux != NULL && (strcmp(identificador, aux->nombre) == 0))
-        return aux;
+    if(actual != NULL && (strcmp(identificador, actual->nombre) == 0))
+        return 1;
 	else
-        return NULL;
+        return 0;
 }
 
-Nodo* insertarOrdenadoIdentificador(Nodo* listaIdentificadores, char* identificador){
-    Nodo *nuevoNodo = (struct identificador*) malloc(sizeof(struct identificador));
-    
+void insertarPrimeroIdentificador(char* identificador){
+    Nodo* nuevoNodo = (struct identificador*) malloc(sizeof(struct identificador));
     strcpy (nuevoNodo->nombre, identificador);
-    nuevoNodo->cantidad = 0;
+    nuevoNodo->cantidad = 1; 
     nuevoNodo->sgte = listaIdentificadores; 
     listaIdentificadores = nuevoNodo; 
-    return nuevoNodo;
 }
 
-Nodo* modificarListaIdentificador(Nodo* listaIdentificadores, char* identificador){
-	Nodo* actual = (struct identificador*) malloc(sizeof(struct identificador));
-	actual = listaIdentificadores;
+void insertarEnMedioIdentificador(char* identificador){
+    Nodo* nuevoNodo = (struct identificador*) malloc(sizeof(struct identificador)); 
+    Nodo*aux = listaIdentificadores; 
+    strcpy (nuevoNodo->nombre, identificador);
+    nuevoNodo->cantidad = 1; 
+
+    while(aux->sgte != NULL && (strcmp(identificador, aux->sgte->nombre) > 0)){ 
+        aux = aux->sgte; 
+    } 
+    
+    nuevoNodo->sgte = aux->sgte; 
+    aux->sgte = nuevoNodo; 
+}
+
+
+void insertarOrdenadoIdentificador(char* identificador){
+    if (listaIdentificadores == NULL || (strcmp(listaIdentificadores->nombre, identificador) > 0)) 
+        insertarPrimeroIdentificador(identificador);
+    else 
+        insertarEnMedioIdentificador(identificador);
+}
+
+
+void modificarIdentificador(char* identificador){
+	Nodo* actual = listaIdentificadores;
 	int encontrado = 0;
 
 	if(listaIdentificadores != NULL){
 		while(actual != NULL && encontrado != 1){
 			if(strcmp(identificador, actual->nombre) == 0){
-				actual->cantidad = actual->cantidad + 1;
+				actual->cantidad += 1;
 				encontrado = 1;
-                return actual;
-			}	
-			actual = actual->sgte;
+			}
+            else	
+			    actual = actual->sgte;
 		}
 	}
 }
 
-Nodo* cargarSinRepetir(Nodo* listaIdentificadores, char* identificador){
-    Nodo* aux = (struct identificador*) malloc(sizeof(struct identificador));
-    aux = buscar(listaIdentificadores, identificador);
 
-    if(aux == NULL)
-        aux = insertarOrdenadoIdentificador(listaIdentificadores, identificador);
+void cargarSinRepetirIdentificador(char* identificador){
+    int aux = buscarIdentificador(identificador);
+
+    if(aux)
+        modificarIdentificador(identificador);
     else
-        aux = modificarListaIdentificador(listaIdentificadores, identificador);
-    
-    return aux;
+        insertarOrdenadoIdentificador(identificador);
 }
 
-void imprimirLista(Nodo* listaIdentificadores, FILE* arcFinal){
-    Nodo* aux = listaIdentificadores;
+void imprimirListaIdentificadores(FILE* arcFinal){
+    Nodo* actual = listaIdentificadores;
     fprintf(arcFinal, "-----------------------------------------------------\n");
     fprintf(arcFinal, "|              Lista de Identificadores             |\n");
     fprintf(arcFinal, "-----------------------------------------------------\n");
-    
-    while( aux != NULL ){ 
-        fprintf (arcFinal, "\t %s", aux->nombre);
-        fprintf (arcFinal, "\t %d \n", aux->cantidad);
-        aux = aux->sgte; 
-    }   
+
+    if(listaIdentificadores != NULL){
+        while(actual != NULL){
+            fprintf (arcFinal, "%32s\t %d\n", actual->nombre, actual->cantidad);
+            actual = actual->sgte;
+        }
+	}
+    else
+		fprintf(arcFinal,"\n La lista se encuentra vacia\n\n"); 
+
+    fprintf(arcFinal, "-----------------------------------------------------\n");
 }
