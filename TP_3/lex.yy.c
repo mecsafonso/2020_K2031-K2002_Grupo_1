@@ -285,31 +285,31 @@ static void yy_fatal_error YY_PROTO(( yyconst char msg[] ));
 	*yy_cp = '\0'; \
 	yy_c_buf_p = yy_cp;
 
-#define YY_NUM_RULES 18
-#define YY_END_OF_BUFFER 19
-static yyconst short int yy_accept[193] =
+#define YY_NUM_RULES 19
+#define YY_END_OF_BUFFER 20
+static yyconst short int yy_accept[194] =
     {   0,
-        0,    0,   19,   18,   11,   18,   12,   11,   11,   18,
-       11,   11,   11,   12,   11,    2,    1,   11,   11,   11,
-       18,   10,   18,   11,   10,   10,   10,   10,   10,   10,
-       10,   10,   10,   10,   10,   10,   10,   10,   10,   11,
-       11,   12,   11,    0,    6,    0,    0,    5,    0,    4,
-        0,   14,    4,    2,    4,    0,    0,    1,   11,   11,
-       10,   17,   10,   10,   10,   10,   10,   10,    8,   10,
-       10,   10,   10,   10,   10,    8,   10,   10,   10,   10,
-       10,   10,   10,   10,   10,   10,   10,    0,    0,    5,
-       12,    0,    0,    0,   14,   14,    0,    4,    3,   10,
+        0,    0,   20,   18,   19,   11,   18,   12,   11,   11,
+       18,   11,   11,   11,   12,   11,    2,    1,   11,   11,
+       11,   18,   10,   18,   11,   10,   10,   10,   10,   10,
+       10,   10,   10,   10,   10,   10,   10,   10,   10,   10,
+       11,   11,   12,   11,    0,    6,    0,    0,    5,    0,
+        4,    0,   14,    4,    2,    4,    0,    0,    1,   11,
+       11,   10,   17,   10,   10,   10,   10,   10,   10,    8,
+       10,   10,   10,   10,   10,   10,    8,   10,   10,   10,
+       10,   10,   10,   10,   10,   10,   10,   10,    0,    0,
+        5,   12,    0,    0,    0,   14,   14,    0,    4,    3,
 
        10,   10,   10,   10,   10,   10,   10,   10,   10,   10,
-       10,    7,   10,   10,   10,   10,   10,   10,   10,   10,
-       10,   10,   10,   10,   10,   10,   10,    0,    0,   13,
-       14,   14,    9,   10,   10,   10,   10,   10,   10,   10,
+       10,   10,    7,   10,   10,   10,   10,   10,   10,   10,
+       10,   10,   10,   10,   10,   10,   10,   10,    0,    0,
+       13,   14,   14,    9,   10,   10,   10,   10,   10,   10,
        10,   10,   10,   10,   10,   10,   10,   10,   10,   10,
-       10,   10,   10,    0,    0,   10,   10,   10,   10,   10,
-       10,   10,   10,   10,   10,   10,   10,   10,   10,    0,
-        0,   10,   10,   10,   10,   10,   10,    0,    0,   10,
-       10,   10,   10,    0,    0,    0,    0,   15,    0,   15,
-       16,    0
+       10,   10,   10,   10,    0,    0,   10,   10,   10,   10,
+       10,   10,   10,   10,   10,   10,   10,   10,   10,   10,
+        0,    0,   10,   10,   10,   10,   10,   10,    0,    0,
+       10,   10,   10,   10,    0,    0,    0,    0,   15,    0,
+       15,   16,    0
 
     } ;
 
@@ -357,154 +357,154 @@ static yyconst int yy_meta[58] =
 
 static yyconst short int yy_base[203] =
     {   0,
-        0,  344,  349,  351,   54,   54,  351,  326,   52,  338,
-      324,   49,   50,   48,   59,   67,   72,   47,  323,  321,
-      323,    0,    0,  320,  291,  293,   60,   43,   58,   35,
-      294,   57,  293,  301,   57,  282,  291,  289,  294,   56,
-      351,   75,  351,   99,  351,   97,  323,  322,  315,   99,
-      102,  300,  104,  119,  124,  140,    0,  146,  306,  305,
-        0,  351,  277,  289,  276,  291,  278,  284,  270,  271,
-      268,  268,  271,  268,  265,    0,  264,  268,   95,  266,
-       91,  100,  270,  263,   79,   84,  268,  271,  262,  351,
-      351,  137,  289,  154,  275,  274,  150,  156,    0,  257,
+        0,  339,  344,  346,  346,   54,   54,  346,  321,   52,
+      333,  319,   49,   50,   48,   59,   67,   72,   47,  318,
+      316,  318,    0,  293,  314,  285,  287,   60,   43,   58,
+       35,  288,   57,  287,  295,   57,  276,  285,  283,  288,
+       56,  346,   75,  346,   99,  346,   97,  317,  316,  309,
+       99,  102,  294,  104,  119,  124,  140,    0,  146,  300,
+      299,    0,  346,  271,  283,  270,  285,  272,  278,  264,
+      265,  262,  262,  265,  262,  259,    0,  258,  262,   95,
+      260,   91,  100,  264,  257,   79,   84,  262,  265,  256,
+      346,  346,  137,  283,  154,  269,  268,  150,  156,    0,
 
-      269,  264,  252,  128,  266,  264,  260,  252,  258,  261,
-      247,    0,  253,  250,  239,  241,  243,  250,  236,  234,
-      234,  246,  236,  240,  244,  246,  235,  239,  241,  351,
-      245,  244,    0,  231,  222,  230,  219,  226,  220,  217,
-      217,  217,  214,  226,  216,  220,  225,  224,  222,  212,
-      217,  205,  217,  212,  209,  206,  207,  212,  203,  197,
-      201,  209,  206,  208,  192,  201,  203,  194,  197,  192,
-      185,  174,  166,  174,  164,  155,  143,  148,  146,  144,
-      132,  136,  115,  146,   78,    0,   59,    0,  157,    0,
-      351,  351,  182,  189,  192,  199,  206,  213,  216,  222,
+      251,  263,  258,  246,  128,  260,  258,  254,  246,  252,
+      255,  241,    0,  247,  244,  233,  235,  237,  244,  230,
+      228,  228,  240,  230,  234,  238,  240,  229,  233,  235,
+      346,  239,  238,    0,  225,  216,  224,  213,  220,  214,
+      211,  211,  211,  208,  220,  210,  214,  219,  218,  216,
+      206,  211,  199,  211,  206,  203,  200,  201,  206,  197,
+      191,  195,  203,  200,  202,  186,  195,  197,  188,  191,
+      186,  179,  178,  168,  172,  166,  155,  143,  148,  146,
+      144,  132,  136,  115,  146,   78,    0,   59,    0,  157,
+        0,  346,  346,  182,  189,  192,  199,  206,  209,  215,
 
-      224,  227
+      217,  220
     } ;
 
 static yyconst short int yy_def[203] =
     {   0,
-      192,    1,  192,  192,  192,  193,  192,  192,  192,  194,
-      192,  192,  192,  192,  192,  192,  192,  192,  192,  192,
-      192,  195,  196,  192,  195,  195,  195,  195,  195,  195,
-      195,  195,  195,  195,  195,  195,  195,  195,  195,  192,
-      192,  192,  192,  193,  192,  193,  192,  192,  192,  192,
-      197,  198,  192,  192,  192,  192,  199,  192,  192,  192,
-      195,  192,  195,  195,  195,  195,  195,  195,  195,  195,
-      195,  195,  195,  195,  195,  195,  195,  195,  195,  195,
-      195,  195,  195,  195,  195,  195,  195,  192,  192,  192,
-      192,  197,  192,  197,  198,  200,  192,  192,  199,  195,
+      193,    1,  193,  193,  193,  193,  194,  193,  193,  193,
+      195,  193,  193,  193,  193,  193,  193,  193,  193,  193,
+      193,  193,  196,  193,  193,  196,  196,  196,  196,  196,
+      196,  196,  196,  196,  196,  196,  196,  196,  196,  196,
+      193,  193,  193,  193,  194,  193,  194,  193,  193,  193,
+      193,  197,  198,  193,  193,  193,  193,  199,  193,  193,
+      193,  196,  193,  196,  196,  196,  196,  196,  196,  196,
+      196,  196,  196,  196,  196,  196,  196,  196,  196,  196,
+      196,  196,  196,  196,  196,  196,  196,  196,  193,  193,
+      193,  193,  197,  193,  197,  198,  200,  193,  193,  199,
 
-      195,  195,  195,  195,  195,  195,  195,  195,  195,  195,
-      195,  195,  195,  195,  195,  195,  195,  195,  195,  195,
-      195,  195,  195,  195,  195,  195,  195,  192,  192,  192,
-      198,  200,  195,  195,  195,  195,  195,  195,  195,  195,
-      195,  195,  195,  195,  195,  195,  195,  195,  195,  195,
-      195,  195,  195,  192,  192,  195,  195,  195,  195,  195,
-      195,  195,  195,  195,  195,  195,  195,  195,  195,  192,
-      192,  195,  195,  195,  195,  195,  195,  192,  192,  195,
-      195,  195,  195,  192,  192,  201,  192,  202,  192,  202,
-      192,    0,  192,  192,  192,  192,  192,  192,  192,  192,
+      196,  196,  196,  196,  196,  196,  196,  196,  196,  196,
+      196,  196,  196,  196,  196,  196,  196,  196,  196,  196,
+      196,  196,  196,  196,  196,  196,  196,  196,  193,  193,
+      193,  198,  200,  196,  196,  196,  196,  196,  196,  196,
+      196,  196,  196,  196,  196,  196,  196,  196,  196,  196,
+      196,  196,  196,  196,  193,  193,  196,  196,  196,  196,
+      196,  196,  196,  196,  196,  196,  196,  196,  196,  196,
+      193,  193,  196,  196,  196,  196,  196,  196,  193,  193,
+      196,  196,  196,  196,  193,  193,  201,  193,  202,  193,
+      202,  193,    0,  193,  193,  193,  193,  193,  193,  193,
 
-      192,  192
+      193,  193
     } ;
 
-static yyconst short int yy_nxt[409] =
+static yyconst short int yy_nxt[404] =
     {   0,
-        4,    4,    4,    5,    6,    7,    8,    9,   10,    7,
-       11,   12,    7,   13,   14,   15,   16,   17,   17,    7,
-       18,   19,   20,   21,   22,   22,   22,   22,   23,   24,
-       22,   25,   26,   27,   28,   29,   30,   31,   22,   32,
-       22,   33,   22,   22,   22,   22,   34,   35,   36,   37,
-       38,   39,   22,   22,   22,   40,   41,   43,   45,   43,
-       43,  189,   49,   43,   50,   50,   50,   59,   43,   51,
-       43,   43,   43,   43,   52,   43,   73,   43,   68,   74,
-       43,   53,   46,   54,   54,   55,   53,   69,   58,   58,
-       58,   65,   56,   76,   57,   80,   81,   56,   66,   70,
+        4,    5,    4,    6,    7,    8,    9,   10,   11,    8,
+       12,   13,    8,   14,   15,   16,   17,   18,   18,    8,
+       19,   20,   21,   22,   23,   23,   23,   23,   24,   25,
+       23,   26,   27,   28,   29,   30,   31,   32,   23,   33,
+       23,   34,   23,   23,   23,   23,   35,   36,   37,   38,
+       39,   40,   23,   23,   23,   41,   42,   44,   46,   44,
+       44,  190,   50,   44,   51,   51,   51,   60,   44,   52,
+       44,   44,   44,   44,   53,   44,   74,   44,   69,   75,
+       44,   54,   47,   55,   55,   56,   54,   70,   59,   59,
+       59,   66,   57,   77,   58,   81,   82,   57,   67,   71,
 
-       77,   71,   56,   45,   67,   82,   44,   56,   83,   88,
-       72,   43,   93,  187,   89,   50,   50,   50,  123,   57,
-       50,   50,   50,  125,   56,  126,  124,   46,  117,   56,
-       94,  119,  114,   53,   56,   54,   54,   55,   53,   56,
-       55,   55,   55,  115,   56,  118,  120,   93,  186,   56,
-      133,   97,   44,   97,   56,  192,   98,   98,   98,   56,
-       53,  191,   58,   58,   58,   94,   98,   98,   98,   92,
-      112,   56,   98,   98,   98,  135,  136,  191,  133,   76,
-      185,   56,   44,  184,  183,   44,   44,   44,   44,   47,
-      182,   47,   47,   47,   47,   47,   61,   61,   61,   62,
+       78,   72,   57,   46,   68,   83,   45,   57,   84,   89,
+       73,   44,   94,  188,   90,   51,   51,   51,  124,   58,
+       51,   51,   51,  126,   57,  127,  125,   47,  118,   57,
+       95,  120,  115,   54,   57,   55,   55,   56,   54,   57,
+       56,   56,   56,  116,   57,  119,  121,   94,  187,   57,
+      134,   98,   45,   98,   57,  193,   99,   99,   99,   57,
+       54,  192,   59,   59,   59,   95,   99,   99,   99,   93,
+      113,   57,   99,   99,   99,  136,  137,  192,  134,   77,
+      186,   57,   45,  185,  184,   45,   45,   45,   45,   48,
+      183,   48,   48,   48,   48,   48,   62,   62,   62,   93,
 
-      133,   62,   62,   62,   62,   62,   92,   92,   92,  181,
-       92,   92,   92,   95,  133,   95,   95,   95,   95,   95,
-       99,   99,  131,  180,  131,  131,  131,  131,  131,  188,
-      188,  190,  190,  190,  179,  178,  177,  176,  175,   76,
-      112,  133,  133,  112,   76,  174,  133,  112,  173,  172,
-      171,  170,   76,  169,  168,  112,  167,  166,  165,  164,
-      163,  162,  112,  161,  160,  112,  159,  158,  157,  156,
-      133,   76,  132,   96,  155,  154,  153,  152,  112,  151,
+       93,   93,  134,   93,   93,   93,   96,  182,   96,   96,
+       96,   96,   96,  100,  100,  132,  134,  132,  132,  132,
+      132,  132,  189,  189,  191,  191,  191,  181,  180,  179,
+      178,  177,  176,   77,  113,  134,  134,  113,   77,  175,
+      134,  113,  174,  173,  172,  171,   77,  170,  169,  113,
+      168,  167,  166,  165,  164,  163,  113,  162,  161,  113,
+      160,  159,  158,  157,  134,   77,  133,   97,  156,  155,
+      154,  153,  113,  152,  151,  150,  149,  148,  147,  146,
+      145,  144,  143,  142,  113,   77,  141,  140,  113,   77,
+      139,  138,  113,   77,  135,  134,  133,   97,  131,  130,
+
+      129,  128,  123,  122,  117,  114,  113,  112,   77,  111,
+      110,  109,  108,  107,  106,  105,  104,  103,  102,  101,
+       44,   44,   97,   92,   91,   91,   88,   87,   86,   85,
+       80,   79,   76,   65,   64,   44,   63,   44,   61,   44,
+       44,   49,   44,  193,   43,    3,  193,  193,  193,  193,
+      193,  193,  193,  193,  193,  193,  193,  193,  193,  193,
+      193,  193,  193,  193,  193,  193,  193,  193,  193,  193,
+      193,  193,  193,  193,  193,  193,  193,  193,  193,  193,
+      193,  193,  193,  193,  193,  193,  193,  193,  193,  193,
+      193,  193,  193,  193,  193,  193,  193,  193,  193,  193,
+
+      193,  193,  193
+    } ;
+
+static yyconst short int yy_chk[404] =
+    {   0,
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,    1,    1,    1,    1,    1,    6,    7,   10,
+       13,  188,   15,   14,   15,   15,   15,   19,   19,   16,
+       13,   14,   14,   10,   16,    6,   31,   41,   29,   31,
+       16,   17,    7,   17,   17,   17,   18,   29,   18,   18,
+       18,   28,   17,   33,   17,   36,   36,   18,   28,   30,
+
+       33,   30,   17,   45,   28,   36,   47,   18,   36,   43,
+       30,   41,   52,  186,   43,   51,   51,   51,   86,   17,
+       54,   54,   54,   87,   51,   87,   86,   45,   82,   54,
+       52,   83,   80,   55,   51,   55,   55,   55,   56,   54,
+       56,   56,   56,   80,   55,   82,   83,   93,  185,   56,
+      184,   57,   47,   57,   55,   95,   57,   57,   57,   56,
+       59,  190,   59,   59,   59,   93,   98,   98,   98,   95,
+      183,   59,   99,   99,   99,  105,  105,  190,  182,  181,
+      180,   59,  194,  179,  178,  194,  194,  194,  194,  195,
+      177,  195,  195,  195,  195,  195,  196,  196,  196,  197,
+
+      197,  197,  176,  197,  197,  197,  198,  175,  198,  198,
+      198,  198,  198,  199,  199,  200,  174,  200,  200,  200,
+      200,  200,  201,  201,  202,  202,  202,  173,  172,  171,
+      170,  169,  168,  167,  166,  165,  164,  163,  162,  161,
+      160,  159,  158,  157,  156,  155,  154,  153,  152,  151,
       150,  149,  148,  147,  146,  145,  144,  143,  142,  141,
-      112,   76,  140,  139,  112,   76,  138,  137,  112,   76,
+      140,  139,  138,  137,  136,  135,  133,  132,  130,  129,
+      128,  127,  126,  125,  124,  123,  122,  121,  120,  119,
+      118,  117,  116,  115,  114,  112,  111,  110,  109,  108,
+      107,  106,  104,  103,  102,  101,   97,   96,   94,   90,
 
-      134,  133,  132,   96,  130,  129,  128,  127,  122,  121,
-      116,  113,  112,  111,   76,  110,  109,  108,  107,  106,
-      105,  104,  103,  102,  101,  100,   43,   43,   96,   91,
-       90,   90,   87,   86,   85,   84,   79,   78,   75,   64,
-       63,   43,   43,   60,   43,   43,   48,   43,  192,   42,
-        3,  192,  192,  192,  192,  192,  192,  192,  192,  192,
-      192,  192,  192,  192,  192,  192,  192,  192,  192,  192,
-      192,  192,  192,  192,  192,  192,  192,  192,  192,  192,
-      192,  192,  192,  192,  192,  192,  192,  192,  192,  192,
-      192,  192,  192,  192,  192,  192,  192,  192,  192,  192,
+       89,   88,   85,   84,   81,   79,   78,   76,   75,   74,
+       73,   72,   71,   70,   69,   68,   67,   66,   65,   64,
+       61,   60,   53,   50,   49,   48,   40,   39,   38,   37,
+       35,   34,   32,   27,   26,   25,   24,   22,   21,   20,
+       12,   11,    9,    3,    2,  193,  193,  193,  193,  193,
+      193,  193,  193,  193,  193,  193,  193,  193,  193,  193,
+      193,  193,  193,  193,  193,  193,  193,  193,  193,  193,
+      193,  193,  193,  193,  193,  193,  193,  193,  193,  193,
+      193,  193,  193,  193,  193,  193,  193,  193,  193,  193,
+      193,  193,  193,  193,  193,  193,  193,  193,  193,  193,
 
-      192,  192,  192,  192,  192,  192,  192,  192
-    } ;
-
-static yyconst short int yy_chk[409] =
-    {   0,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    5,    6,    9,
-       12,  187,   14,   13,   14,   14,   14,   18,   18,   15,
-       12,   13,   13,    9,   15,    5,   30,   40,   28,   30,
-       15,   16,    6,   16,   16,   16,   17,   28,   17,   17,
-       17,   27,   16,   32,   16,   35,   35,   17,   27,   29,
-
-       32,   29,   16,   44,   27,   35,   46,   17,   35,   42,
-       29,   40,   51,  185,   42,   50,   50,   50,   85,   16,
-       53,   53,   53,   86,   50,   86,   85,   44,   81,   53,
-       51,   82,   79,   54,   50,   54,   54,   54,   55,   53,
-       55,   55,   55,   79,   54,   81,   82,   92,  184,   55,
-      183,   56,   46,   56,   54,   94,   56,   56,   56,   55,
-       58,  189,   58,   58,   58,   92,   97,   97,   97,   94,
-      182,   58,   98,   98,   98,  104,  104,  189,  181,  180,
-      179,   58,  193,  178,  177,  193,  193,  193,  193,  194,
-      176,  194,  194,  194,  194,  194,  195,  195,  195,  196,
-
-      175,  196,  196,  196,  196,  196,  197,  197,  197,  174,
-      197,  197,  197,  198,  173,  198,  198,  198,  198,  198,
-      199,  199,  200,  172,  200,  200,  200,  200,  200,  201,
-      201,  202,  202,  202,  171,  170,  169,  168,  167,  166,
-      165,  164,  163,  162,  161,  160,  159,  158,  157,  156,
-      155,  154,  153,  152,  151,  150,  149,  148,  147,  146,
-      145,  144,  143,  142,  141,  140,  139,  138,  137,  136,
-      135,  134,  132,  131,  129,  128,  127,  126,  125,  124,
-      123,  122,  121,  120,  119,  118,  117,  116,  115,  114,
-      113,  111,  110,  109,  108,  107,  106,  105,  103,  102,
-
-      101,  100,   96,   95,   93,   89,   88,   87,   84,   83,
-       80,   78,   77,   75,   74,   73,   72,   71,   70,   69,
-       68,   67,   66,   65,   64,   63,   60,   59,   52,   49,
-       48,   47,   39,   38,   37,   36,   34,   33,   31,   26,
-       25,   24,   21,   20,   19,   11,   10,    8,    3,    2,
-      192,  192,  192,  192,  192,  192,  192,  192,  192,  192,
-      192,  192,  192,  192,  192,  192,  192,  192,  192,  192,
-      192,  192,  192,  192,  192,  192,  192,  192,  192,  192,
-      192,  192,  192,  192,  192,  192,  192,  192,  192,  192,
-      192,  192,  192,  192,  192,  192,  192,  192,  192,  192,
-
-      192,  192,  192,  192,  192,  192,  192,  192
+      193,  193,  193
     } ;
 
 static yy_state_type yy_last_accepting_state;
@@ -524,22 +524,24 @@ char *yytext;
 // Definimos las librerías que incluímos
 #include <stdio.h>
 #include <string.h>
-#include <math.h>
+#include <ctype.h>  // toupper y isdigit
+#include <math.h>   // pow
+#include <stdlib.h>
 
 #define DECIMAL 0
 #define OCTAL 1
 #define HEXADECIMAL 2
-#define REAL 3
-#define CARACTER 4
+#define CARACTER 3
+#define REAL 4
 #define LITERAL_CADENA 5
 #define P_RESERVADA 6
 #define IDENTIFICADOR 7
 #define OPERADOR 8
 #define PUNTUACION 9
-#define COMENTARIO1 10
-#define COMENTARIO2 11 
-#define DEFINE 12 
-#define INCLUDE 13
+#define COMENTARIO 10
+#define DEFINE 11 
+#define INCLUDE 12
+#define DEFAULT 13
 
 #define BASE8 8
 #define BASE16 16
@@ -574,7 +576,6 @@ struct cola {
 
 // Definicion de Variables Globales
 Nodo* listaIdentificadores = NULL;
-Nodo* listaLiteralCadena = NULL;
 Nodo* listaOper_CarPunt = NULL;
 
 tipoCola* LiteralCadena;
@@ -582,9 +583,12 @@ tipoCola* PalabrasReservadas;
 tipoCola* decimales;
 tipoCola* octales;
 tipoCola* hexadecimales;
+tipoCola* reales;
 tipoCola* caracteres;
+tipoCola* comentarios;
+tipoCola* NoReconocidos;
 
-int ACUM = 0;
+int ACUMULADOR_DECIMALES = 0, CONTADOR_CARACTERES = 0, CONTADOR_DESCONOCIDOS = 0, CONTADOR_SALTOS_DE_LINEA = 1;
 FILE* arcFinal;
 
 /* Prototipo de FUNCIONES*/
@@ -599,13 +603,16 @@ void cargarSinRepetir(Nodo*, char*, int);
 tipoCola* crearCola();
 void encolar(tipoCola*, char*, int, char*);
 struct infoCola desencolar(tipoCola*);
-int convertirAdecimal(int, int);
+int caracterHexadecimalADecimal(char);
+int convertirAdecimal(char*, int, int);
 
 void imprimirIdentificadores(FILE*);
 void imprimirLiteralesCadena(FILE*);
 void imprimirPalabrasReservadas(FILE*);
 void imprimirConstantes(FILE*);
 void imprimirOper_Y_CarPunt(FILE*);
+void imprimirComentarios(FILE*);
+void imprimirNoReconocidos(FILE*);
 
 
 void imprimirLista(Nodo*, FILE*, int);
@@ -613,7 +620,7 @@ void imprimirCola(tipoCola*, FILE*, int);
 
 
 
-#line 617 "lex.yy.c"
+#line 624 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -767,9 +774,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 106 "TP3.l"
+#line 113 "TP3.l"
 
-#line 773 "lex.yy.c"
+#line 780 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -821,13 +828,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 193 )
+				if ( yy_current_state >= 194 )
 					yy_c = yy_meta[(unsigned int) yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 351 );
+		while ( yy_base[yy_current_state] != 346 );
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
@@ -855,80 +862,80 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 107 "TP3.l"
-{ACUM = ACUM + 1; encolar(decimales, yytext, 0, "Decimal");}
+#line 114 "TP3.l"
+{ACUMULADOR_DECIMALES += atoi(yytext); encolar(decimales, yytext, 0, "Decimal");}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 108 "TP3.l"
-{ encolar(octales, yytext, convertirAdecimal(atoi(yytext), BASE8), "Octal");}
+#line 115 "TP3.l"
+{ encolar(octales, yytext, convertirAdecimal(yytext, BASE8, yyleng), "Octal");}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 109 "TP3.l"
-{ encolar(hexadecimales, yytext, convertirAdecimal(atoi(yytext), BASE16), "Hexa");}
+#line 116 "TP3.l"
+{ encolar(hexadecimales, yytext, convertirAdecimal(yytext, BASE16, yyleng), "Hexa");}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 110 "TP3.l"
-{printf("Encontre la constante real: %s \n",yytext);}
+#line 117 "TP3.l"
+{encolar(reales, yytext, atof(yytext), "Real");}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 111 "TP3.l"
-{printf("Encontre la constante Caracter: %s \n",yytext);}
+#line 118 "TP3.l"
+{encolar(caracteres, yytext, (CONTADOR_CARACTERES += 1), "Caracter");}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 113 "TP3.l"
+#line 120 "TP3.l"
 { encolar(LiteralCadena, yytext, yyleng, "");} 
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 115 "TP3.l"
+#line 122 "TP3.l"
 { encolar(PalabrasReservadas, yytext, 0, "Tipo de Dato");}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 116 "TP3.l"
+#line 123 "TP3.l"
 { encolar(PalabrasReservadas, yytext, 0, "Estructura de Control");}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 117 "TP3.l"
+#line 124 "TP3.l"
 { encolar(PalabrasReservadas, yytext, 0, "Otros");}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 119 "TP3.l"
+#line 126 "TP3.l"
 {cargarSinRepetir(listaIdentificadores, yytext, IDENTIFICADOR);} 
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 121 "TP3.l"
+#line 128 "TP3.l"
 { cargarSinRepetir(listaOper_CarPunt, yytext, OPERADOR);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 122 "TP3.l"
+#line 129 "TP3.l"
 { cargarSinRepetir(listaOper_CarPunt, yytext, PUNTUACION);}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 124 "TP3.l"
-{printf("Encontre un comentario de multiples lineas: %s \n",yytext);}
+#line 131 "TP3.l"
+{encolar(comentarios, yytext, 0, "Comentario de Multiples Lineas");}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 125 "TP3.l"
-{printf("Encontre un comentario de una linea linea: %s \n",yytext);}
+#line 132 "TP3.l"
+{encolar(comentarios, yytext, 0, "Comentario de 1 Linea");}
 	YY_BREAK
 case 15:
 *yy_cp = yy_hold_char; /* undo effects of setting up yytext */
 yy_c_buf_p = yy_cp = yy_bp + 8;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 127 "TP3.l"
+#line 134 "TP3.l"
 {printf("Encontre una direccion de PREPROCESAMIENTO - DEFINE: %s \n",yytext);}
 	YY_BREAK
 case 16:
@@ -936,20 +943,25 @@ case 16:
 yy_c_buf_p = yy_cp = yy_bp + 9;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 128 "TP3.l"
+#line 135 "TP3.l"
 {printf("Encontre una direccion de PREPROCESAMIENTO - INCLUDE: %s \n",yytext);}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 130 "TP3.l"
-{printf( "Caracter no reconocido: %s\n", yytext );}
+#line 137 "TP3.l"
+{encolar(NoReconocidos, "\\n", CONTADOR_SALTOS_DE_LINEA, "" ); (CONTADOR_SALTOS_DE_LINEA += 1);}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 133 "TP3.l"
+#line 138 "TP3.l"
+{encolar(NoReconocidos, yytext, CONTADOR_SALTOS_DE_LINEA, "" );}
+	YY_BREAK
+case 19:
+YY_RULE_SETUP
+#line 142 "TP3.l"
 ECHO;
 	YY_BREAK
-#line 953 "lex.yy.c"
+#line 965 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1242,7 +1254,7 @@ static yy_state_type yy_get_previous_state()
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 193 )
+			if ( yy_current_state >= 194 )
 				yy_c = yy_meta[(unsigned int) yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
@@ -1277,11 +1289,11 @@ yy_state_type yy_current_state;
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 193 )
+		if ( yy_current_state >= 194 )
 			yy_c = yy_meta[(unsigned int) yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
-	yy_is_jam = (yy_current_state == 192);
+	yy_is_jam = (yy_current_state == 193);
 
 	return yy_is_jam ? 0 : yy_current_state;
 	}
@@ -1837,7 +1849,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 133 "TP3.l"
+#line 142 "TP3.l"
 
 int main() {
    
@@ -1852,6 +1864,9 @@ int main() {
     octales = crearCola();
     hexadecimales = crearCola();
     caracteres = crearCola ();
+    reales = crearCola();
+    comentarios = crearCola();
+    NoReconocidos = crearCola();
 
     /* Invocación del analizador léxico */
     yylex();
@@ -1861,10 +1876,12 @@ int main() {
     fprintf(arcFinal, "                     INFORME - FLEX para reconocimiento de categorías léxicas de C                      \n");
     fprintf(arcFinal, "__________________________________________________________________________________________________________\n\n");
     imprimirIdentificadores(arcFinal);
-    imprimirConstantes(arcFinal);
     imprimirLiteralesCadena(arcFinal);
     imprimirPalabrasReservadas(arcFinal);
+    imprimirConstantes(arcFinal);
     imprimirOper_Y_CarPunt(arcFinal);
+    imprimirComentarios(arcFinal);
+    imprimirNoReconocidos(arcFinal);
 	fclose(arcFinal);
 
     return 0;
@@ -2016,23 +2033,39 @@ struct infoCola desencolar(tipoCola *cola){
 }
 
 
-int convertirAdecimal(int numeroAconvertir, int Base) {
-    int numeroDecimal = 0, i = 0;
-
-    if(numeroAconvertir == 0)
-        return numeroDecimal = 0;
-    else {
-        while(numeroAconvertir != 0) {
-            numeroDecimal += (numeroAconvertir % 10) * pow(Base,i);
-            ++i;
-            numeroAconvertir /= 10;
-        }
-        return numeroDecimal;
-    }
-
+int caracterHexadecimalADecimal(char caracter) {
+  if (isdigit(caracter))
+    return caracter - '0';
+  return 10 + (toupper(caracter) - 'A');
 }
 
 
+int convertirAdecimal(char* numeroAconvertir, int Base, int longitud) {
+    int numeroDecimal = 0, potencia = 0;
+    int valorActual;
+
+    if(numeroAconvertir == "0")
+        return numeroDecimal = 0;
+    else {
+        switch(Base){
+            case BASE8:
+                for(int i = longitud - 1; i >= 1; i-- ){
+                    valorActual = numeroAconvertir[i] - '0';
+                    numeroDecimal += valorActual * pow(Base,potencia);
+                    potencia++;
+                }   
+                break;
+            case BASE16:
+                for(int i = longitud - 1; i >= 2; i-- ){
+                    valorActual = caracterHexadecimalADecimal(numeroAconvertir[i]);
+                    numeroDecimal += valorActual * pow(Base,potencia);
+                    potencia++;
+                }
+                break;
+        }
+        return numeroDecimal;
+    }
+}
 
 
 
@@ -2047,7 +2080,7 @@ void imprimirLista(Nodo* lista, FILE* arcFinal, int token){
                 fprintf (arcFinal, "%32s\t %d\n", actual->nombre, actual->cantidad);
                 break;
             case OPERADOR ... PUNTUACION:
-                fprintf (arcFinal, "%20s\t %10d\t\t    %s\n", actual->nombre, actual->cantidad, actual->categoria);
+                fprintf (arcFinal, "%20s  |\t %10d \t|\t\t %s\n", actual->nombre, actual->cantidad, actual->categoria);
                 break;
             }
             actual = actual->sgte;
@@ -2058,25 +2091,41 @@ void imprimirLista(Nodo* lista, FILE* arcFinal, int token){
 }
 
 
+
 void imprimirCola(tipoCola* cola, FILE* arcFinal, int categoria){
     struct infoCola info;
+    
+
     if(cola->primero != NULL){
         while(cola->primero != NULL){
             info = desencolar(cola);
+            float mantisa = atof(info.nombre);
+
             switch (categoria){
                 case DECIMAL:
-                    fprintf (arcFinal, "%30s\t\t    -    \t\t%s\n", info.nombre, info.categoria);
+                    fprintf (arcFinal, "%20s\t\t %8c    \t\t\t%s\n", info.nombre,'-', info.categoria);
                     break;
-                case OCTAL ... HEXADECIMAL:
-                    fprintf (arcFinal, "%30s\t\t %d \t\t%s\n", info.nombre, info.cantidad, info.categoria);
+                case OCTAL ... CARACTER:
+                    fprintf (arcFinal, "%20s\t\t %8d    \t\t\t%s\n", info.nombre, info.cantidad, info.categoria);
                     break;
+                case REAL:
+                    fprintf (arcFinal, "%20s\t\t %8d \t\t\t %f \t\t\t%s\n", info.nombre, info.cantidad, mantisa - info.cantidad, info.categoria);
+                    break;                                                                                 
                 case LITERAL_CADENA:
                     fprintf (arcFinal, "%30s\t\t %5d\n", info.nombre, info.cantidad);  
                     break;
                 case P_RESERVADA:
                     fprintf (arcFinal, "%30s\t\t %s\n", info.nombre, info.categoria);  
                     break;
-
+                case COMENTARIO:
+                    fprintf (arcFinal, "%30s\t\t %s\n", info.nombre, info.categoria);
+                    break;
+                default:
+                    if(info.nombre == " ")
+                        fprintf (arcFinal, "%30s\t\t %s\n", "Espacio", info.cantidad);
+                    else{
+                        fprintf (arcFinal, "%30s\t\t %s\n", info.nombre, info.cantidad);
+                    }
             }       
         }
 	}
@@ -2093,11 +2142,11 @@ void imprimirIdentificadores(FILE* arcFinal){
     fprintf(arcFinal, "-----------------------------------------------------------------------\n");
     imprimirLista(listaIdentificadores, arcFinal, IDENTIFICADOR);
     
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n\n");
 }
 
 void imprimirLiteralesCadena(FILE* arcFinal){
-    fprintf(arcFinal, "\n-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "\n\n-----------------------------------------------------------------------\n");
     fprintf(arcFinal, "|                       Lista de literales Cadena                     |\n");
     fprintf(arcFinal, "-----------------------------------------------------------------------\n");
     fprintf(arcFinal, "|                      Lexema     |     Longitud de la Cadena         |\n");
@@ -2122,34 +2171,66 @@ void imprimirConstantes(FILE* arcFinal){
     fprintf(arcFinal, "\n\n-----------------------------------------------------------------------\n");
     fprintf(arcFinal, "|                            Lista de Constantes                      |\n");
     fprintf(arcFinal, "-----------------------------------------------------------------------\n");
-    fprintf(arcFinal, "|          Lexema     |     Valor en Decimal     |     Token          |\n");
+    fprintf(arcFinal, "|                        Lexema       |     Token                     |\n");
     fprintf(arcFinal, "-----------------------------------------------------------------------\n");
     imprimirCola(decimales, arcFinal, DECIMAL);
+    fprintf(arcFinal, "                                      ---------------------------------\n");
+    fprintf(arcFinal, "                                TOTAL        %d\n\n", ACUMULADOR_DECIMALES);
+
+
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|             Lexema     |   Valor Decimal   |     Token              |\n");
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
     imprimirCola(octales, arcFinal, OCTAL);
     imprimirCola(hexadecimales, arcFinal, HEXADECIMAL);
+
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|             Lexema     |  ord de aparicion  |     Token              |\n");
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    imprimirCola(caracteres, arcFinal, CARACTER);
+
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|             Lexema     |  P Entera | Mantisa  |    Token              |\n");
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    imprimirCola(reales, arcFinal, REAL);
     
     fprintf(arcFinal, "-----------------------------------------------------------------------\n");
 }
+
 
 void imprimirOper_Y_CarPunt(FILE* arcFinal){
     fprintf(arcFinal, "\n\n-----------------------------------------------------------------------\n");
     fprintf(arcFinal, "|            Lista de Operadores y Caracteres de Puntuacion           |\n");
     fprintf(arcFinal, "-----------------------------------------------------------------------\n");
-    fprintf(arcFinal, "|          Lexema     |     Nro repeticiones     |     Token          |\n");
+    fprintf(arcFinal, "|          Lexema     |  Nro repeticiones  |     Token                |\n");
     fprintf(arcFinal, "-----------------------------------------------------------------------\n");
     imprimirLista(listaOper_CarPunt, arcFinal, OPERADOR);
     
     fprintf(arcFinal, "-----------------------------------------------------------------------\n");
 }
 
-void imprimirListaOper_CarPunt(FILE* arcFinal){
+void imprimirComentarios(FILE* arcFinal){
     fprintf(arcFinal, "\n\n-----------------------------------------------------------------------\n");
-    fprintf(arcFinal, "|            Lista de Operadores y Caracteres de Puntuacion           |\n");
+    fprintf(arcFinal, "|                      Lista de Comentarios                           |\n");
     fprintf(arcFinal, "-----------------------------------------------------------------------\n");
-    fprintf(arcFinal, "|          Lexema     |     Nro repeticiones     |     Token          |\n");
+    fprintf(arcFinal, "|                        Lexema       |     Token                     |\n");
     fprintf(arcFinal, "-----------------------------------------------------------------------\n");
-    imprimirLista(listaOper_CarPunt, arcFinal, OPERADOR);
+    imprimirCola(comentarios, arcFinal, COMENTARIO);
     
     fprintf(arcFinal, "-----------------------------------------------------------------------\n");
 }
+
+
+void imprimirNoReconocidos(FILE* arcFinal){
+    fprintf(arcFinal, "NOTA: Asumimos que no habra cadenas no reconocidas, ya que segun las reglas pueden ser catalogadas como identificador, \n\t literal cadena, comentario o palabra reservada, por lo tanto, nos enfocamos en los caracteres que no son reconocidos");
+    fprintf(arcFinal, "\n\n-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|                     Listado de cadenas y/o caracteres NO reconocidos               |\n");
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|                        Lexema       |     Nro de linea                     |\n");
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    imprimirCola(NoReconocidos, arcFinal, DEFAULT);
+    
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+}
+
 

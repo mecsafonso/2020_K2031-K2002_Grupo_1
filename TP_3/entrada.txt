@@ -1,7 +1,11 @@
-123 067 0xFF $12&077 
-078 0. 0.52 .52 1E1 1e1 1E+5 0E-5 0e+5 0e-5 
+123 067 0xFF 0Xff $12&077 
+078 0. 0.52 .52 1E1 1e1 1E+5 10E-5 5e+5 2.2e-5 
 '\' '.' 'a' 'A' '1' '-' ''' '+' ''
 
+1E3 = 1000 
+1E-3 = 0,001 0,001
+2568E-3 = 2,568 0,568
+4.28 % 1 = 0.28
 "ho la""a" "asd\"123" "\z\x\p\r" "" "hola
 12  3" 
 "prueba102\n" " hola
@@ -10,20 +14,19 @@ char break auto otracosa
 
 elo rangel ortega ab hola hola ab hola elo ej_DE_IDENTIFICADOR_32_espacios
 __identificador01 _identificadr prueba_01 052prueba Prueba
-
 ... , ; : . # { [] )
 
 - + * / % ~ & ! ^ = < > |
 ++ -- -> <= == != !! && || += -= *= /= %= >>= <<= &= |= ^= ?: << >>
 
 /*Comentario 1*/
-/* Comentario 2 */
 /* Comentario
-3 */
+                        3 */
 /* Comentario_5*/
 /* Comentario_6
 //Comentario 7
 // Comentario_8
+/* Comentario 2 */
 // Comentario 9
 // Comentario 10 //
 // Comentario 
@@ -41,3 +44,5 @@ __identificador01 _identificadr prueba_01 052prueba Prueba
 #include "AB"
 #include "prueba"
 "prueba"
+
+'0'
