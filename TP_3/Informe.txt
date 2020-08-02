@@ -1,7 +1,10 @@
+                     INFORME - FLEX para reconocimiento de categorías léxicas de C                      
+__________________________________________________________________________________________________________
+
 -----------------------------------------------------------------------
 |                      Lista de Identificadores                       |
 -----------------------------------------------------------------------
-|                  Identificador  |  Cantidad de repeticiones         |
+|                      Lexema     |     Nro repeticiones              |
 -----------------------------------------------------------------------
                     Comentario_6	 1
              FICHERO_YA_INCLUIDO	 2
@@ -23,18 +26,102 @@
 -----------------------------------------------------------------------
 
 
-NOTA: el listado de literales cadenas no contine repeticiones
+-----------------------------------------------------------------------
+|                            Lista de Constantes                      |
+-----------------------------------------------------------------------
+|          Lexema     |     Valor en Decimal     |     Token          |
+-----------------------------------------------------------------------
+                           123		    -    		Decimal
+                            12		    -    		Decimal
+                            12		    -    		Decimal
+                             3		    -    		Decimal
+                            11		    -    		Decimal
+                             7		    -    		Decimal
+                             7		    -    		Decimal
+                           067		 55 		Octal
+                           077		 63 		Octal
+                           052		 42 		Octal
+                          0xFF		 0 		Hexa
+-----------------------------------------------------------------------
+
 -----------------------------------------------------------------------
 |                       Lista de literales Cadena                     |
 -----------------------------------------------------------------------
-|                 Literal Cadena  |  Longitud de la Cadena            |
+|                      Lexema     |     Longitud de la Cadena         |
 -----------------------------------------------------------------------
-                         "ho la"	 7
-                             "a"	 3
-                      "asd\"123"	 10
-                      "\z\x\p\r"	 10
-                              ""	 2
-                   "prueba102\n"	 13
-                            "AB"	 4
-                        "prueba"	 8
+                       "ho la"		     7
+                           "a"		     3
+                    "asd\"123"		    10
+                    "\z\x\p\r"		    10
+                            ""		     2
+                 "prueba102\n"		    13
+                          "AB"		     4
+                      "prueba"		     8
+                      "prueba"		     8
+-----------------------------------------------------------------------
+
+
+
+-----------------------------------------------------------------------
+|                    Lista de Palabras Reservadas                     |
+-----------------------------------------------------------------------
+|                     Lexema     |     Categoria                      |
+-----------------------------------------------------------------------
+                          char		 Tipo de Dato
+                         break		 Estructura de Control
+                          auto		 Otros
+-----------------------------------------------------------------------
+
+
+
+-----------------------------------------------------------------------
+|            Lista de Operadores y Caracteres de Puntuacion           |
+-----------------------------------------------------------------------
+|          Lexema     |     Nro repeticiones     |     Token          |
+-----------------------------------------------------------------------
+                   &	          2		    Operador
+                 ...	          1		    Puntuacion
+                   ,	          1		    Puntuacion
+                   ;	          1		    Puntuacion
+                   :	          1		    Puntuacion
+                   .	          1		    Puntuacion
+                   #	          4		    Puntuacion
+                   {	          1		    Puntuacion
+                   [	          1		    Puntuacion
+                   ]	          1		    Puntuacion
+                   )	          1		    Puntuacion
+                   -	          1		    Operador
+                   +	          1		    Operador
+                   *	          2		    Operador
+                   /	          2		    Operador
+                   %	          1		    Operador
+                   ~	          1		    Operador
+                   !	          1		    Operador
+                   ^	          1		    Operador
+                   =	          1		    Operador
+                   <	          2		    Operador
+                   >	          2		    Operador
+                   |	          1		    Operador
+                  ++	          1		    Operador
+                  --	          1		    Operador
+                  ->	          1		    Operador
+                  <=	          1		    Operador
+                  ==	          1		    Operador
+                  !=	          1		    Operador
+                  !!	          1		    Operador
+                  &&	          1		    Operador
+                  ||	          1		    Operador
+                  +=	          1		    Operador
+                  -=	          1		    Operador
+                  *=	          1		    Operador
+                  /=	          1		    Operador
+                  %=	          1		    Operador
+                 >>=	          1		    Operador
+                 <<=	          1		    Operador
+                  &=	          1		    Operador
+                  |=	          1		    Operador
+                  ^=	          1		    Operador
+                  ?:	          1		    Operador
+                  <<	          1		    Operador
+                  >>	          1		    Operador
 -----------------------------------------------------------------------

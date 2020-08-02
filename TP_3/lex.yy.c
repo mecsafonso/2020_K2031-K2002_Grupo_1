@@ -357,29 +357,29 @@ static yyconst int yy_meta[58] =
 
 static yyconst short int yy_base[203] =
     {   0,
-        0,  345,  350,  352,   54,   54,  352,  327,   52,  339,
-      325,   49,   50,   48,   59,   67,   72,   47,  324,  322,
-      324,    0,    0,   74,  293,  295,   60,   43,   58,   52,
-      296,   69,  295,  303,   70,  284,  293,  291,  296,   56,
-      352,   81,  352,   75,  352,   91,  325,  324,  317,  106,
-      104,  302,  109,  122,  134,  145,    0,  150,  308,  307,
-        0,  352,  279,  291,  278,  293,  280,  286,  272,  273,
-      270,  270,  273,  270,  267,    0,  266,  270,   69,  268,
-       76,   97,  272,  265,   90,   94,  270,  273,  264,  352,
-      352,  132,  291,  164,  277,  276,  137,  154,    0,  259,
+        0,  344,  349,  351,   54,   54,  351,  326,   52,  338,
+      324,   49,   50,   48,   59,   67,   72,   47,  323,  321,
+      323,    0,    0,  320,  291,  293,   60,   43,   58,   35,
+      294,   57,  293,  301,   57,  282,  291,  289,  294,   56,
+      351,   75,  351,   99,  351,   97,  323,  322,  315,   99,
+      102,  300,  104,  119,  124,  140,    0,  146,  306,  305,
+        0,  351,  277,  289,  276,  291,  278,  284,  270,  271,
+      268,  268,  271,  268,  265,    0,  264,  268,   95,  266,
+       91,  100,  270,  263,   79,   84,  268,  271,  262,  351,
+      351,  137,  289,  154,  275,  274,  150,  156,    0,  257,
 
-      271,  266,  254,  126,  268,  266,  262,  254,  260,  263,
-      249,    0,  255,  252,  241,  243,  245,  252,  238,  236,
-      236,  248,  238,  242,  246,  248,  237,  241,  243,  352,
-      247,  246,    0,  233,  224,  232,  221,  228,  222,  219,
-      219,  219,  216,  228,  218,  222,  227,  226,  224,  214,
-      219,  207,  219,  214,  211,  208,  209,  214,  205,  199,
-      203,  211,  198,  192,  172,  173,  166,  152,  155,  148,
-      141,  140,  140,  152,  150,  149,  142,  147,  147,  145,
-      132,  143,  114,  143,   81,    0,   59,    0,  172,    0,
-      352,  352,  193,  200,  203,  210,  217,  224,  227,  233,
+      269,  264,  252,  128,  266,  264,  260,  252,  258,  261,
+      247,    0,  253,  250,  239,  241,  243,  250,  236,  234,
+      234,  246,  236,  240,  244,  246,  235,  239,  241,  351,
+      245,  244,    0,  231,  222,  230,  219,  226,  220,  217,
+      217,  217,  214,  226,  216,  220,  225,  224,  222,  212,
+      217,  205,  217,  212,  209,  206,  207,  212,  203,  197,
+      201,  209,  206,  208,  192,  201,  203,  194,  197,  192,
+      185,  174,  166,  174,  164,  155,  143,  148,  146,  144,
+      132,  136,  115,  146,   78,    0,   59,    0,  157,    0,
+      351,  351,  182,  189,  192,  199,  206,  213,  216,  222,
 
-      235,  238
+      224,  227
     } ;
 
 static yyconst short int yy_def[203] =
@@ -409,7 +409,7 @@ static yyconst short int yy_def[203] =
       192,  192
     } ;
 
-static yyconst short int yy_nxt[410] =
+static yyconst short int yy_nxt[409] =
     {   0,
         4,    4,    4,    5,    6,    7,    8,    9,   10,    7,
        11,   12,    7,   13,   14,   15,   16,   17,   17,    7,
@@ -418,47 +418,47 @@ static yyconst short int yy_nxt[410] =
        22,   33,   22,   22,   22,   22,   34,   35,   36,   37,
        38,   39,   22,   22,   22,   40,   41,   43,   45,   43,
        43,  189,   49,   43,   50,   50,   50,   59,   43,   51,
-       43,   43,   43,   43,   52,   43,   62,   43,   68,   45,
+       43,   43,   43,   43,   52,   43,   73,   43,   68,   74,
        43,   53,   46,   54,   54,   55,   53,   69,   58,   58,
-       58,   65,   56,   73,   57,   43,   74,   56,   66,   70,
+       58,   65,   56,   76,   57,   80,   81,   56,   66,   70,
 
-       44,   71,   56,   46,   67,   76,  114,   56,   80,   81,
-       72,   43,   77,  117,   93,   88,  187,  115,   82,   57,
-       89,   83,   50,   50,   50,   50,   50,   50,  119,  123,
-      118,   56,   94,  125,   56,  126,   53,  124,   54,   54,
-       55,   56,   93,  120,   56,  186,   44,   56,   53,  133,
-       55,   55,   55,   98,   98,   98,   97,   56,   97,   56,
-       94,   98,   98,   98,   53,  192,   58,   58,   58,   56,
-       98,   98,   98,  135,  136,   56,  191,  112,  133,   92,
-       76,  185,  184,  183,  182,   56,  133,  181,  133,  180,
-      179,  178,  191,   44,  177,  176,   44,   44,   44,   44,
+       77,   71,   56,   45,   67,   82,   44,   56,   83,   88,
+       72,   43,   93,  187,   89,   50,   50,   50,  123,   57,
+       50,   50,   50,  125,   56,  126,  124,   46,  117,   56,
+       94,  119,  114,   53,   56,   54,   54,   55,   53,   56,
+       55,   55,   55,  115,   56,  118,  120,   93,  186,   56,
+      133,   97,   44,   97,   56,  192,   98,   98,   98,   56,
+       53,  191,   58,   58,   58,   94,   98,   98,   98,   92,
+      112,   56,   98,   98,   98,  135,  136,  191,  133,   76,
+      185,   56,   44,  184,  183,   44,   44,   44,   44,   47,
+      182,   47,   47,   47,   47,   47,   61,   61,   61,   62,
 
-       47,  175,   47,   47,   47,   47,   47,   61,   61,   61,
-       62,   76,   62,   62,   62,   62,   62,   92,   92,   92,
-      112,   92,   92,   92,   95,  133,   95,   95,   95,   95,
-       95,   99,   99,  131,  133,  131,  131,  131,  131,  131,
-      188,  188,  190,  190,  190,  112,   76,  174,  133,  112,
-      173,  172,  171,  170,   76,  169,  168,  112,  167,  166,
-      165,  164,  163,  162,  112,  161,  160,  112,  159,  158,
-      157,  156,  133,   76,  132,   96,  155,  154,  153,  152,
-      112,  151,  150,  149,  148,  147,  146,  145,  144,  143,
-      142,  141,  112,   76,  140,  139,  112,   76,  138,  137,
+      133,   62,   62,   62,   62,   62,   92,   92,   92,  181,
+       92,   92,   92,   95,  133,   95,   95,   95,   95,   95,
+       99,   99,  131,  180,  131,  131,  131,  131,  131,  188,
+      188,  190,  190,  190,  179,  178,  177,  176,  175,   76,
+      112,  133,  133,  112,   76,  174,  133,  112,  173,  172,
+      171,  170,   76,  169,  168,  112,  167,  166,  165,  164,
+      163,  162,  112,  161,  160,  112,  159,  158,  157,  156,
+      133,   76,  132,   96,  155,  154,  153,  152,  112,  151,
+      150,  149,  148,  147,  146,  145,  144,  143,  142,  141,
+      112,   76,  140,  139,  112,   76,  138,  137,  112,   76,
 
-      112,   76,  134,  133,  132,   96,  130,  129,  128,  127,
-      122,  121,  116,  113,  112,  111,   76,  110,  109,  108,
-      107,  106,  105,  104,  103,  102,  101,  100,   43,   43,
-       96,   91,   90,   90,   87,   86,   85,   84,   79,   78,
-       75,   64,   63,   43,   60,   43,   43,   48,   43,  192,
-       42,    3,  192,  192,  192,  192,  192,  192,  192,  192,
+      134,  133,  132,   96,  130,  129,  128,  127,  122,  121,
+      116,  113,  112,  111,   76,  110,  109,  108,  107,  106,
+      105,  104,  103,  102,  101,  100,   43,   43,   96,   91,
+       90,   90,   87,   86,   85,   84,   79,   78,   75,   64,
+       63,   43,   43,   60,   43,   43,   48,   43,  192,   42,
+        3,  192,  192,  192,  192,  192,  192,  192,  192,  192,
       192,  192,  192,  192,  192,  192,  192,  192,  192,  192,
       192,  192,  192,  192,  192,  192,  192,  192,  192,  192,
       192,  192,  192,  192,  192,  192,  192,  192,  192,  192,
       192,  192,  192,  192,  192,  192,  192,  192,  192,  192,
 
-      192,  192,  192,  192,  192,  192,  192,  192,  192
+      192,  192,  192,  192,  192,  192,  192,  192
     } ;
 
-static yyconst short int yy_chk[410] =
+static yyconst short int yy_chk[409] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -467,44 +467,44 @@ static yyconst short int yy_chk[410] =
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    5,    6,    9,
        12,  187,   14,   13,   14,   14,   14,   18,   18,   15,
-       12,   13,   13,    9,   15,    5,   24,   40,   28,   44,
+       12,   13,   13,    9,   15,    5,   30,   40,   28,   30,
        15,   16,    6,   16,   16,   16,   17,   28,   17,   17,
-       17,   27,   16,   30,   16,   24,   30,   17,   27,   29,
+       17,   27,   16,   32,   16,   35,   35,   17,   27,   29,
 
-       46,   29,   16,   44,   27,   32,   79,   17,   35,   35,
-       29,   40,   32,   81,   51,   42,  185,   79,   35,   16,
-       42,   35,   50,   50,   50,   53,   53,   53,   82,   85,
-       81,   50,   51,   86,   53,   86,   54,   85,   54,   54,
-       54,   50,   92,   82,   53,  184,   46,   54,   55,  183,
-       55,   55,   55,   97,   97,   97,   56,   54,   56,   55,
-       92,   56,   56,   56,   58,   94,   58,   58,   58,   55,
-       98,   98,   98,  104,  104,   58,  189,  182,  181,   94,
-      180,  179,  178,  177,  176,   58,  175,  174,  173,  172,
-      171,  170,  189,  193,  169,  168,  193,  193,  193,  193,
+       32,   29,   16,   44,   27,   35,   46,   17,   35,   42,
+       29,   40,   51,  185,   42,   50,   50,   50,   85,   16,
+       53,   53,   53,   86,   50,   86,   85,   44,   81,   53,
+       51,   82,   79,   54,   50,   54,   54,   54,   55,   53,
+       55,   55,   55,   79,   54,   81,   82,   92,  184,   55,
+      183,   56,   46,   56,   54,   94,   56,   56,   56,   55,
+       58,  189,   58,   58,   58,   92,   97,   97,   97,   94,
+      182,   58,   98,   98,   98,  104,  104,  189,  181,  180,
+      179,   58,  193,  178,  177,  193,  193,  193,  193,  194,
+      176,  194,  194,  194,  194,  194,  195,  195,  195,  196,
 
-      194,  167,  194,  194,  194,  194,  194,  195,  195,  195,
-      196,  166,  196,  196,  196,  196,  196,  197,  197,  197,
-      165,  197,  197,  197,  198,  164,  198,  198,  198,  198,
-      198,  199,  199,  200,  163,  200,  200,  200,  200,  200,
-      201,  201,  202,  202,  202,  162,  161,  160,  159,  158,
-      157,  156,  155,  154,  153,  152,  151,  150,  149,  148,
-      147,  146,  145,  144,  143,  142,  141,  140,  139,  138,
-      137,  136,  135,  134,  132,  131,  129,  128,  127,  126,
-      125,  124,  123,  122,  121,  120,  119,  118,  117,  116,
-      115,  114,  113,  111,  110,  109,  108,  107,  106,  105,
+      175,  196,  196,  196,  196,  196,  197,  197,  197,  174,
+      197,  197,  197,  198,  173,  198,  198,  198,  198,  198,
+      199,  199,  200,  172,  200,  200,  200,  200,  200,  201,
+      201,  202,  202,  202,  171,  170,  169,  168,  167,  166,
+      165,  164,  163,  162,  161,  160,  159,  158,  157,  156,
+      155,  154,  153,  152,  151,  150,  149,  148,  147,  146,
+      145,  144,  143,  142,  141,  140,  139,  138,  137,  136,
+      135,  134,  132,  131,  129,  128,  127,  126,  125,  124,
+      123,  122,  121,  120,  119,  118,  117,  116,  115,  114,
+      113,  111,  110,  109,  108,  107,  106,  105,  103,  102,
 
-      103,  102,  101,  100,   96,   95,   93,   89,   88,   87,
-       84,   83,   80,   78,   77,   75,   74,   73,   72,   71,
-       70,   69,   68,   67,   66,   65,   64,   63,   60,   59,
-       52,   49,   48,   47,   39,   38,   37,   36,   34,   33,
-       31,   26,   25,   21,   20,   19,   11,   10,    8,    3,
-        2,  192,  192,  192,  192,  192,  192,  192,  192,  192,
+      101,  100,   96,   95,   93,   89,   88,   87,   84,   83,
+       80,   78,   77,   75,   74,   73,   72,   71,   70,   69,
+       68,   67,   66,   65,   64,   63,   60,   59,   52,   49,
+       48,   47,   39,   38,   37,   36,   34,   33,   31,   26,
+       25,   24,   21,   20,   19,   11,   10,    8,    3,    2,
       192,  192,  192,  192,  192,  192,  192,  192,  192,  192,
       192,  192,  192,  192,  192,  192,  192,  192,  192,  192,
       192,  192,  192,  192,  192,  192,  192,  192,  192,  192,
       192,  192,  192,  192,  192,  192,  192,  192,  192,  192,
+      192,  192,  192,  192,  192,  192,  192,  192,  192,  192,
 
-      192,  192,  192,  192,  192,  192,  192,  192,  192
+      192,  192,  192,  192,  192,  192,  192,  192
     } ;
 
 static yy_state_type yy_last_accepting_state;
@@ -518,41 +518,102 @@ static char *yy_last_accepting_cpos;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "TP3.l."
+#line 1 "TP3.l"
 #define INITIAL 0
-#line 4 "TP3.l."
+#line 4 "TP3.l"
 // Definimos las librerías que incluímos
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
+
+#define DECIMAL 0
+#define OCTAL 1
+#define HEXADECIMAL 2
+#define REAL 3
+#define CARACTER 4
+#define LITERAL_CADENA 5
+#define P_RESERVADA 6
+#define IDENTIFICADOR 7
+#define OPERADOR 8
+#define PUNTUACION 9
+#define COMENTARIO1 10
+#define COMENTARIO2 11 
+#define DEFINE 12 
+#define INCLUDE 13
+
+#define BASE8 8
+#define BASE16 16
 
 typedef struct nodo{
-    char nombre[32];    /* asumimos un tamaño para el identificador y el literal cadena de 31 caracteres + '\0' */
+    char nombre[32];    /* asumimos un tamaño para el identificador de 31 caracteres + '\0' = 32 */
     int cantidad;
+    char categoria[20];
     struct nodo* sgte;
 } Nodo;
 
+struct infoCola{
+    char nombre[100];    /* asumimos un tamaño para el identificador de 31 caracteres + '\0' = 32 */
+    int cantidad;
+    char categoria[32];
+} ;
+
+typedef struct nodoCola{
+    struct infoCola info;
+    struct nodoCola* sgte;
+} NodoCola;
+
+
+struct cola {
+    NodoCola* primero;
+	NodoCola* ultimo;
+} typedef tipoCola;
+
 //typedef struct identificador Nodo;
+
 
 
 // Definicion de Variables Globales
 Nodo* listaIdentificadores = NULL;
 Nodo* listaLiteralCadena = NULL;
+Nodo* listaOper_CarPunt = NULL;
+
+tipoCola* LiteralCadena;
+tipoCola* PalabrasReservadas;
+tipoCola* decimales;
+tipoCola* octales;
+tipoCola* hexadecimales;
+tipoCola* caracteres;
+
+int ACUM = 0;
 FILE* arcFinal;
 
 /* Prototipo de FUNCIONES*/
 int buscarCadena(Nodo*, char*);
 void insertarPrimeroIdentificador(char*);
 void insertarEnMedioIdentificador(char*);
-void modificarIdentificador(char*);
-void cargarSinRepetir(Nodo*, char*, int, int);
+void insertarOrdenadoIdentificador(char*);
 void insertarLiteralCadena(char*, int);
-void imprimirListaIdentificadores(FILE*);
-void imprimirListaLiteralCdena(FILE*);
-void imprimirLista(Nodo*, FILE*);
+void insertarOperador_Puntuacion(char*, char*);
+void modificarNodo(Nodo*, char*);
+void cargarSinRepetir(Nodo*, char*, int);
+tipoCola* crearCola();
+void encolar(tipoCola*, char*, int, char*);
+struct infoCola desencolar(tipoCola*);
+int convertirAdecimal(int, int);
+
+void imprimirIdentificadores(FILE*);
+void imprimirLiteralesCadena(FILE*);
+void imprimirPalabrasReservadas(FILE*);
+void imprimirConstantes(FILE*);
+void imprimirOper_Y_CarPunt(FILE*);
+
+
+void imprimirLista(Nodo*, FILE*, int);
+void imprimirCola(tipoCola*, FILE*, int);
 
 
 
-#line 556 "lex.yy.c"
+#line 617 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -706,9 +767,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 45 "TP3.l."
+#line 106 "TP3.l"
 
-#line 712 "lex.yy.c"
+#line 773 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -766,7 +827,7 @@ yy_match:
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 352 );
+		while ( yy_base[yy_current_state] != 351 );
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
@@ -794,72 +855,72 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 46 "TP3.l."
-{printf("Encontre la constante entera decimal: %s \n",yytext);}
+#line 107 "TP3.l"
+{ACUM = ACUM + 1; encolar(decimales, yytext, 0, "Decimal");}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 47 "TP3.l."
-{printf("Encontre la constante entera octal: %s \n",yytext);}
+#line 108 "TP3.l"
+{ encolar(octales, yytext, convertirAdecimal(atoi(yytext), BASE8), "Octal");}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 48 "TP3.l."
-{printf("Encontre la constante entera hexadecimal: %s \n",yytext);}
+#line 109 "TP3.l"
+{ encolar(hexadecimales, yytext, convertirAdecimal(atoi(yytext), BASE16), "Hexa");}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 49 "TP3.l."
+#line 110 "TP3.l"
 {printf("Encontre la constante real: %s \n",yytext);}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 50 "TP3.l."
+#line 111 "TP3.l"
 {printf("Encontre la constante Caracter: %s \n",yytext);}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 52 "TP3.l."
-{cargarSinRepetir(listaLiteralCadena, yytext, yyleng, 2);} 
+#line 113 "TP3.l"
+{ encolar(LiteralCadena, yytext, yyleng, "");} 
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 54 "TP3.l."
-{printf("Encontre Palabre Reservada - TIPO DE DATO: %s \n",yytext);}
+#line 115 "TP3.l"
+{ encolar(PalabrasReservadas, yytext, 0, "Tipo de Dato");}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 55 "TP3.l."
-{printf("Encontre Palabra Reservada - ESTRUCTURA DE CONTROL: %s \n",yytext);}
+#line 116 "TP3.l"
+{ encolar(PalabrasReservadas, yytext, 0, "Estructura de Control");}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 56 "TP3.l."
-{printf("Encontre Palabra Reservada - OTROS: %s \n",yytext);}
+#line 117 "TP3.l"
+{ encolar(PalabrasReservadas, yytext, 0, "Otros");}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 58 "TP3.l."
-{cargarSinRepetir(listaIdentificadores, yytext, 0, 1);} 
+#line 119 "TP3.l"
+{cargarSinRepetir(listaIdentificadores, yytext, IDENTIFICADOR);} 
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 60 "TP3.l."
-{printf("Encontre el operador: %s \n",yytext);}
+#line 121 "TP3.l"
+{ cargarSinRepetir(listaOper_CarPunt, yytext, OPERADOR);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 61 "TP3.l."
-{printf("Encontre el caracter de puntuacion: %s \n",yytext);}
+#line 122 "TP3.l"
+{ cargarSinRepetir(listaOper_CarPunt, yytext, PUNTUACION);}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 63 "TP3.l."
+#line 124 "TP3.l"
 {printf("Encontre un comentario de multiples lineas: %s \n",yytext);}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 64 "TP3.l."
+#line 125 "TP3.l"
 {printf("Encontre un comentario de una linea linea: %s \n",yytext);}
 	YY_BREAK
 case 15:
@@ -867,7 +928,7 @@ case 15:
 yy_c_buf_p = yy_cp = yy_bp + 8;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 66 "TP3.l."
+#line 127 "TP3.l"
 {printf("Encontre una direccion de PREPROCESAMIENTO - DEFINE: %s \n",yytext);}
 	YY_BREAK
 case 16:
@@ -875,20 +936,20 @@ case 16:
 yy_c_buf_p = yy_cp = yy_bp + 9;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 67 "TP3.l."
+#line 128 "TP3.l"
 {printf("Encontre una direccion de PREPROCESAMIENTO - INCLUDE: %s \n",yytext);}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 69 "TP3.l."
+#line 130 "TP3.l"
 {printf( "Caracter no reconocido: %s\n", yytext );}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 72 "TP3.l."
+#line 133 "TP3.l"
 ECHO;
 	YY_BREAK
-#line 892 "lex.yy.c"
+#line 953 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1776,33 +1837,46 @@ int main()
 	return 0;
 	}
 #endif
-#line 72 "TP3.l."
+#line 133 "TP3.l"
 
 int main() {
    
-    /* Acciones previas a la invocación den analizador léxico */
+    /* Acciones previas a la invocación del analizador léxico */
     yyin = fopen("entrada.txt", "r");
     yyout = fopen("salida.txt", "w");
     arcFinal = fopen ("Informe.txt", "w");
+
+    LiteralCadena = crearCola();
+    PalabrasReservadas = crearCola();
+    decimales = crearCola();
+    octales = crearCola();
+    hexadecimales = crearCola();
+    caracteres = crearCola ();
 
     /* Invocación del analizador léxico */
     yylex();
 
     /* Acciónes posteriores a la ejecución del analizador léxico */
-    imprimirListaIdentificadores(arcFinal);
-    imprimirListaLiteralCdena(arcFinal);
+
+    fprintf(arcFinal, "                     INFORME - FLEX para reconocimiento de categorías léxicas de C                      \n");
+    fprintf(arcFinal, "__________________________________________________________________________________________________________\n\n");
+    imprimirIdentificadores(arcFinal);
+    imprimirConstantes(arcFinal);
+    imprimirLiteralesCadena(arcFinal);
+    imprimirPalabrasReservadas(arcFinal);
+    imprimirOper_Y_CarPunt(arcFinal);
 	fclose(arcFinal);
 
     return 0;
 }
 
-int buscarCadena(Nodo* lista, char* identificador){
+int buscarCadena(Nodo* lista, char* cadena){
     Nodo* actual = lista;
 
-    while(actual != NULL && (strcmp(identificador, actual->nombre) != 0))
+    while(actual != NULL && (strcmp(cadena, actual->nombre) != 0))
         actual = actual->sgte;
 
-    if(actual != NULL && (strcmp(identificador, actual->nombre) == 0))
+    if(actual != NULL && (strcmp(cadena, actual->nombre) == 0))
         return 1;
 	else
         return 0;
@@ -1837,13 +1911,35 @@ void insertarOrdenadoIdentificador(char* identificador){
         insertarEnMedioIdentificador(identificador);
 }
 
-void modificarIdentificador(char* identificador){
-	Nodo* actual = listaIdentificadores;
+
+void insertarOperador_Puntuacion(char* cadena, char* categoria){
+	Nodo* nuevoNodo = (Nodo*) malloc(sizeof(Nodo));
+    strcpy (nuevoNodo->nombre, cadena);
+    nuevoNodo->cantidad = 1;
+    strcpy (nuevoNodo->categoria, categoria);
+
+	if(listaOper_CarPunt == NULL){
+        nuevoNodo->sgte = listaOper_CarPunt; 
+        listaOper_CarPunt = nuevoNodo;
+	}
+    else{
+        Nodo* aux = listaOper_CarPunt;
+
+        while(aux->sgte != NULL)
+            aux = aux->sgte; 
+        nuevoNodo->sgte = NULL;
+        aux->sgte = nuevoNodo;
+	}
+}
+
+
+void modificarNodo(Nodo* lista, char* cadena){
+	Nodo* actual = lista;
 	int encontrado = 0;
 
-	if(listaIdentificadores != NULL){
+	if(lista != NULL){
 		while(actual != NULL && encontrado != 1){
-			if(strcmp(identificador, actual->nombre) == 0){
+			if(strcmp(cadena, actual->nombre) == 0){
 				actual->cantidad += 1;
 				encontrado = 1;
 			}
@@ -1853,50 +1949,107 @@ void modificarIdentificador(char* identificador){
 	}
 }
 
-void cargarSinRepetir(Nodo* lista, char* cadena, int longitudCadena, int identificador){
-    int aux = buscarCadena(lista, cadena);
 
-    switch (identificador){     /* identificador es un numero que fija que lexema se evaluara*/
-        case 1:                 /* 1: IDENTIFICADOR */
-            if(aux)
-                modificarIdentificador(cadena);
-            else
+void cargarSinRepetir(Nodo* lista, char* cadena, int token){
+    int aux = buscarCadena(lista, cadena);
+               
+    if(aux)
+        modificarNodo(lista, cadena);
+    else{
+        switch (token){
+            case IDENTIFICADOR:
                 insertarOrdenadoIdentificador(cadena);
-            break;
-        case 2:                 /* 2: LITERAL CADENA */
-            if (aux == 0)
-                insertarLiteralCadena(cadena, longitudCadena);
-            break;
+                break;
+            case OPERADOR:
+                insertarOperador_Puntuacion(cadena, "Operador");
+                break;
+            case PUNTUACION:
+                insertarOperador_Puntuacion(cadena, "Puntuacion");
+        }
     }
 }
 
-void insertarLiteralCadena(char* cadena, int longitudCadena){
-	Nodo* nuevoNodo = (Nodo*) malloc(sizeof(Nodo));
-
-    strcpy (nuevoNodo->nombre, cadena);
-    nuevoNodo->cantidad = longitudCadena;
-
-	if(listaLiteralCadena == NULL){
-        nuevoNodo->sgte = listaLiteralCadena; 
-        listaLiteralCadena = nuevoNodo;
-	}
-    else{
-        Nodo* aux = listaLiteralCadena;
-
-        while(aux->sgte != NULL)
-            aux = aux->sgte; 
-        
-        nuevoNodo->sgte = NULL;
-        aux->sgte = nuevoNodo;
-	}
+tipoCola* crearCola(void){
+	tipoCola* cola = malloc(sizeof(tipoCola)); 
+	if(cola == NULL) return NULL;
+	cola->primero  =NULL;
+	cola->ultimo = NULL;
+	return cola;
 }
 
-void imprimirLista(Nodo* lista, FILE* arcFinal){
+
+void encolar(tipoCola* cola, char* cadena, int valor, char* categoria){
+	NodoCola* nuevoNodo = (NodoCola*)malloc(sizeof(NodoCola));
+
+    strcpy(nuevoNodo->info.nombre, cadena);
+    nuevoNodo->info.cantidad = valor;
+    strcpy(nuevoNodo->info.categoria, categoria);
+	nuevoNodo->sgte = NULL;
+
+	if (cola->primero == NULL)
+		cola->primero = nuevoNodo;
+	else
+		cola->ultimo->sgte = nuevoNodo;
+	
+    cola->ultimo = nuevoNodo;	
+}
+
+struct infoCola desencolar(tipoCola *cola){
+    
+
+	if(cola->primero == NULL){
+        fprintf(arcFinal,"\n La cola se encuentra vacia\n\n");
+        cola->ultimo = NULL;
+    }
+    else {
+        struct infoCola info;
+        strcpy(info.nombre, cola->primero->info.nombre);
+        info.cantidad = cola->primero->info.cantidad;
+        strcpy(info.categoria, cola->primero->info.categoria); 
+
+        NodoCola* aux = cola->primero;
+        cola->primero = aux->sgte; 
+        free(aux);
+        return info;
+    }
+	
+}
+
+
+int convertirAdecimal(int numeroAconvertir, int Base) {
+    int numeroDecimal = 0, i = 0;
+
+    if(numeroAconvertir == 0)
+        return numeroDecimal = 0;
+    else {
+        while(numeroAconvertir != 0) {
+            numeroDecimal += (numeroAconvertir % 10) * pow(Base,i);
+            ++i;
+            numeroAconvertir /= 10;
+        }
+        return numeroDecimal;
+    }
+
+}
+
+
+
+
+
+
+void imprimirLista(Nodo* lista, FILE* arcFinal, int token){
     Nodo* actual = lista;
 
     if(lista != NULL){
         while(actual != NULL){
-            fprintf (arcFinal, "%32s\t %d\n", actual->nombre, actual->cantidad);
+            switch (token){
+            case IDENTIFICADOR:
+                fprintf (arcFinal, "%32s\t %d\n", actual->nombre, actual->cantidad);
+                break;
+            case OPERADOR ... PUNTUACION:
+                fprintf (arcFinal, "%20s\t %10d\t\t    %s\n", actual->nombre, actual->cantidad, actual->categoria);
+                break;
+            }
             actual = actual->sgte;
         }
 	}
@@ -1904,27 +2057,99 @@ void imprimirLista(Nodo* lista, FILE* arcFinal){
 		fprintf(arcFinal,"\n La lista se encuentra vacia\n\n"); 
 }
 
-void imprimirListaIdentificadores(FILE* arcFinal){
+
+void imprimirCola(tipoCola* cola, FILE* arcFinal, int categoria){
+    struct infoCola info;
+    if(cola->primero != NULL){
+        while(cola->primero != NULL){
+            info = desencolar(cola);
+            switch (categoria){
+                case DECIMAL:
+                    fprintf (arcFinal, "%30s\t\t    -    \t\t%s\n", info.nombre, info.categoria);
+                    break;
+                case OCTAL ... HEXADECIMAL:
+                    fprintf (arcFinal, "%30s\t\t %d \t\t%s\n", info.nombre, info.cantidad, info.categoria);
+                    break;
+                case LITERAL_CADENA:
+                    fprintf (arcFinal, "%30s\t\t %5d\n", info.nombre, info.cantidad);  
+                    break;
+                case P_RESERVADA:
+                    fprintf (arcFinal, "%30s\t\t %s\n", info.nombre, info.categoria);  
+                    break;
+
+            }       
+        }
+	}
+    else
+		fprintf(arcFinal,"\n La cola se encuentra vacia\n\n");
+}
+
+
+void imprimirIdentificadores(FILE* arcFinal){
     fprintf(arcFinal, "-----------------------------------------------------------------------\n");
     fprintf(arcFinal, "|                      Lista de Identificadores                       |\n");
     fprintf(arcFinal, "-----------------------------------------------------------------------\n");
-    fprintf(arcFinal, "|                  Identificador  |  Cantidad de repeticiones         |\n");
+    fprintf(arcFinal, "|                      Lexema     |     Nro repeticiones              |\n");
     fprintf(arcFinal, "-----------------------------------------------------------------------\n");
-    imprimirLista(listaIdentificadores, arcFinal);
+    imprimirLista(listaIdentificadores, arcFinal, IDENTIFICADOR);
     
     fprintf(arcFinal, "-----------------------------------------------------------------------\n");
 }
 
-void imprimirListaLiteralCdena(FILE* arcFinal){
-    fprintf(arcFinal, "\n\nNOTA: el listado de literales cadenas no contine repeticiones");
+void imprimirLiteralesCadena(FILE* arcFinal){
     fprintf(arcFinal, "\n-----------------------------------------------------------------------\n");
     fprintf(arcFinal, "|                       Lista de literales Cadena                     |\n");
     fprintf(arcFinal, "-----------------------------------------------------------------------\n");
-    fprintf(arcFinal, "|                 Literal Cadena  |  Longitud de la Cadena            |\n");
+    fprintf(arcFinal, "|                      Lexema     |     Longitud de la Cadena         |\n");
     fprintf(arcFinal, "-----------------------------------------------------------------------\n");
 
-    imprimirLista(listaLiteralCadena, arcFinal);
+    imprimirCola(LiteralCadena, arcFinal, LITERAL_CADENA);
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n\n");
+}
+
+void imprimirPalabrasReservadas(FILE* arcFinal){
+    fprintf(arcFinal, "\n\n-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|                    Lista de Palabras Reservadas                     |\n");
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|                     Lexema     |     Categoria                      |\n");
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+
+    imprimirCola(PalabrasReservadas, arcFinal, P_RESERVADA);
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n\n");
+}
+
+void imprimirConstantes(FILE* arcFinal){
+    fprintf(arcFinal, "\n\n-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|                            Lista de Constantes                      |\n");
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|          Lexema     |     Valor en Decimal     |     Token          |\n");
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    imprimirCola(decimales, arcFinal, DECIMAL);
+    imprimirCola(octales, arcFinal, OCTAL);
+    imprimirCola(hexadecimales, arcFinal, HEXADECIMAL);
+    
     fprintf(arcFinal, "-----------------------------------------------------------------------\n");
 }
 
+void imprimirOper_Y_CarPunt(FILE* arcFinal){
+    fprintf(arcFinal, "\n\n-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|            Lista de Operadores y Caracteres de Puntuacion           |\n");
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|          Lexema     |     Nro repeticiones     |     Token          |\n");
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    imprimirLista(listaOper_CarPunt, arcFinal, OPERADOR);
+    
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+}
+
+void imprimirListaOper_CarPunt(FILE* arcFinal){
+    fprintf(arcFinal, "\n\n-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|            Lista de Operadores y Caracteres de Puntuacion           |\n");
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|          Lexema     |     Nro repeticiones     |     Token          |\n");
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    imprimirLista(listaOper_CarPunt, arcFinal, OPERADOR);
+    
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+}
 
