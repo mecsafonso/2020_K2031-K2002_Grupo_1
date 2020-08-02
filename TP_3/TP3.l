@@ -134,7 +134,7 @@ auto|const|default|extern|register|sizeof|static|typedef|volatile { encolar(Pala
 ^"#define "/{IDENTIFICADOR} {printf("Encontre una direccion de PREPROCESAMIENTO - DEFINE: %s \n",yytext);}
 ^"#include "/{CONDICION} {printf("Encontre una direccion de PREPROCESAMIENTO - INCLUDE: %s \n",yytext);}
 
-"\\n" {encolar(NoReconocidos, "\\n", CONTADOR_SALTOS_DE_LINEA, "" ); (CONTADOR_SALTOS_DE_LINEA += 1);}
+"\\n" {encolar(NoReconocidos, yytext, CONTADOR_SALTOS_DE_LINEA, "" ); (CONTADOR_SALTOS_DE_LINEA += 1);}
 . {encolar(NoReconocidos, yytext, CONTADOR_SALTOS_DE_LINEA, "" );}
 
 
@@ -164,14 +164,14 @@ int main() {
 
     fprintf(arcFinal, "                     INFORME - FLEX para reconocimiento de categorías léxicas de C                      \n");
     fprintf(arcFinal, "__________________________________________________________________________________________________________\n\n");
-    imprimirIdentificadores(arcFinal);
+    /*imprimirIdentificadores(arcFinal);
     imprimirLiteralesCadena(arcFinal);
     imprimirPalabrasReservadas(arcFinal);
     imprimirConstantes(arcFinal);
     imprimirOper_Y_CarPunt(arcFinal);
     imprimirComentarios(arcFinal);
     imprimirNoReconocidos(arcFinal);
-	fclose(arcFinal);
+	*/fclose(arcFinal);
 
     return 0;
 }
@@ -412,9 +412,9 @@ void imprimirCola(tipoCola* cola, FILE* arcFinal, int categoria){
                 default:
                     if(info.nombre == " ")
                         fprintf (arcFinal, "%30s\t\t %s\n", "Espacio", info.cantidad);
-                    else{
+                    else
                         fprintf (arcFinal, "%30s\t\t %s\n", info.nombre, info.cantidad);
-                    }
+                    break;
             }       
         }
 	}
@@ -515,7 +515,7 @@ void imprimirNoReconocidos(FILE* arcFinal){
     fprintf(arcFinal, "\n\n-----------------------------------------------------------------------\n");
     fprintf(arcFinal, "|                     Listado de cadenas y/o caracteres NO reconocidos               |\n");
     fprintf(arcFinal, "-----------------------------------------------------------------------\n");
-    fprintf(arcFinal, "|                        Lexema       |     Nro de linea                     |\n");
+    fprintf(arcFinal, "|                     Lexema       |     Nro de linea                 |\n");
     fprintf(arcFinal, "-----------------------------------------------------------------------\n");
     imprimirCola(NoReconocidos, arcFinal, DEFAULT);
     

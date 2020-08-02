@@ -163,4 +163,33 @@ ________________________________________________________________________________
                   ||  |	          1 	|		 Operador
                   +=  |	          1 	|		 Operador
                   -=  |	          1 	|		 Operador
-                  *=  |	  
+                  *=  |	          1 	|		 Operador
+                  /=  |	          1 	|		 Operador
+                  %=  |	          1 	|		 Operador
+                 >>=  |	          1 	|		 Operador
+                 <<=  |	          1 	|		 Operador
+                  &=  |	          1 	|		 Operador
+                  |=  |	          1 	|		 Operador
+                  ^=  |	          1 	|		 Operador
+                  ?:  |	          1 	|		 Operador
+                  <<  |	          1 	|		 Operador
+                  >>  |	          1 	|		 Operador
+-----------------------------------------------------------------------
+
+
+-----------------------------------------------------------------------
+|                      Lista de Comentarios                           |
+-----------------------------------------------------------------------
+|                        Lexema       |     Token                     |
+-----------------------------------------------------------------------
+              /*Comentario 1*/		 Comentario de Multiples Lineas
+/* Comentario
+                        3 */		 Comentario de Multiples Lineas
+             /* Comentario_5*/		 Comentario de Multiples Lineas
+                //Comentario 7		 Comentario de 1 Linea
+               // Comentario_8		 Comentario de 1 Linea
+            /* Comentario 2 */		 Comentario de Multiples Lineas
+               // Comentario 9		 Comentario de 1 Linea
+           // Comentario 10 //		 Comentario de 1 Linea
+                // Comentario 		 Comentario de 1 Linea
+-----------------------------------------------------------------------

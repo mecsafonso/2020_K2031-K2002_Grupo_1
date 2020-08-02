@@ -949,7 +949,7 @@ YY_RULE_SETUP
 case 17:
 YY_RULE_SETUP
 #line 137 "TP3.l"
-{encolar(NoReconocidos, "\\n", CONTADOR_SALTOS_DE_LINEA, "" ); (CONTADOR_SALTOS_DE_LINEA += 1);}
+{encolar(NoReconocidos, yytext, CONTADOR_SALTOS_DE_LINEA, "" ); (CONTADOR_SALTOS_DE_LINEA += 1);}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
@@ -1881,7 +1881,7 @@ int main() {
     imprimirConstantes(arcFinal);
     imprimirOper_Y_CarPunt(arcFinal);
     imprimirComentarios(arcFinal);
-    imprimirNoReconocidos(arcFinal);
+    //imprimirNoReconocidos(arcFinal);
 	fclose(arcFinal);
 
     return 0;
@@ -2123,9 +2123,9 @@ void imprimirCola(tipoCola* cola, FILE* arcFinal, int categoria){
                 default:
                     if(info.nombre == " ")
                         fprintf (arcFinal, "%30s\t\t %s\n", "Espacio", info.cantidad);
-                    else{
+                    else
                         fprintf (arcFinal, "%30s\t\t %s\n", info.nombre, info.cantidad);
-                    }
+                    break;
             }       
         }
 	}
