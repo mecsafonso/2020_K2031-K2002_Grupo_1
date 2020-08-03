@@ -21,7 +21,7 @@
 #define COMENTARIO 10
 #define DEFINE 11 
 #define INCLUDE 12
-#define DEFAULT 13
+#define NO_RECONOCIDOS 13
 
 #define BASE8 8
 #define BASE16 16
@@ -68,7 +68,7 @@ tipoCola* caracteres;
 tipoCola* comentarios;
 tipoCola* NoReconocidos;
 
-int ACUMULADOR_DECIMALES = 0, CONTADOR_CARACTERES = 0, CONTADOR_DESCONOCIDOS = 0, CONTADOR_SALTOS_DE_LINEA = 1;
+int ACUMULADOR_DECIMALES = 0, CONTADOR_CARACTERES = 0, CONTADOR_SALTOS_DE_LINEA = 1;
 FILE* arcFinal;
 
 /* Prototipo de FUNCIONES*/
@@ -134,7 +134,7 @@ auto|const|default|extern|register|sizeof|static|typedef|volatile { encolar(Pala
 ^"#define "/{IDENTIFICADOR} {printf("Encontre una direccion de PREPROCESAMIENTO - DEFINE: %s \n",yytext);}
 ^"#include "/{CONDICION} {printf("Encontre una direccion de PREPROCESAMIENTO - INCLUDE: %s \n",yytext);}
 
-"\\n" {encolar(NoReconocidos, yytext, CONTADOR_SALTOS_DE_LINEA, "" ); (CONTADOR_SALTOS_DE_LINEA += 1);}
+"\n" {encolar(NoReconocidos, "\\n", CONTADOR_SALTOS_DE_LINEA, "" ); CONTADOR_SALTOS_DE_LINEA += 1;}
 . {encolar(NoReconocidos, yytext, CONTADOR_SALTOS_DE_LINEA, "" );}
 
 
@@ -164,14 +164,14 @@ int main() {
 
     fprintf(arcFinal, "                     INFORME - FLEX para reconocimiento de categorías léxicas de C                      \n");
     fprintf(arcFinal, "__________________________________________________________________________________________________________\n\n");
-    /*imprimirIdentificadores(arcFinal);
+    imprimirIdentificadores(arcFinal);
     imprimirLiteralesCadena(arcFinal);
     imprimirPalabrasReservadas(arcFinal);
     imprimirConstantes(arcFinal);
     imprimirOper_Y_CarPunt(arcFinal);
     imprimirComentarios(arcFinal);
     imprimirNoReconocidos(arcFinal);
-	*/fclose(arcFinal);
+	fclose(arcFinal);
 
     return 0;
 }
@@ -409,12 +409,13 @@ void imprimirCola(tipoCola* cola, FILE* arcFinal, int categoria){
                 case COMENTARIO:
                     fprintf (arcFinal, "%30s\t\t %s\n", info.nombre, info.categoria);
                     break;
-                default:
+                case NO_RECONOCIDOS:
                     if(info.nombre == " ")
-                        fprintf (arcFinal, "%30s\t\t %s\n", "Espacio", info.cantidad);
+                        fprintf (arcFinal, "%30s\t\t %d\n", "Espacio", info.cantidad);
                     else
-                        fprintf (arcFinal, "%30s\t\t %s\n", info.nombre, info.cantidad);
+                        fprintf (arcFinal, "%30s\t\t %d\n", info.nombre, info.cantidad);
                     break;
+
             }       
         }
 	}
@@ -517,7 +518,7 @@ void imprimirNoReconocidos(FILE* arcFinal){
     fprintf(arcFinal, "-----------------------------------------------------------------------\n");
     fprintf(arcFinal, "|                     Lexema       |     Nro de linea                 |\n");
     fprintf(arcFinal, "-----------------------------------------------------------------------\n");
-    imprimirCola(NoReconocidos, arcFinal, DEFAULT);
+    imprimirCola(NoReconocidos, arcFinal, NO_RECONOCIDOS);
     
     fprintf(arcFinal, "-----------------------------------------------------------------------\n");
 }
