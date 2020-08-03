@@ -18,4 +18,4 @@ TP1: Implementación de un AFD para GRURL
 
 TP2: Implementación de un AFP para GIC
 
-TP3: Implementación de Analizador Léxico en FLEXURL
+TP3: Implementación de Analizador Léxico en FLEX
