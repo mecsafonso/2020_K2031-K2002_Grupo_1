@@ -608,14 +608,14 @@ int contieneSaltoDeLinea(char*, int);
 void imprimirLista(Nodo*, FILE*, int);
 void imprimirCola(tipoCola*, FILE*, int);
 
-void imprimirIdentificadores(FILE*);
-void imprimirLiteralesCadena(FILE*);
-void imprimirPalabrasReservadas(FILE*);
-void imprimirConstantes(FILE*);
-void imprimirOper_Y_CarPunt(FILE*);
-void imprimirComentarios(FILE*);
-void imprimirNoReconocidos(FILE*);
-void imprimirDirectivasPrecompilador(FILE*);
+void imprimirIdentificadores();
+void imprimirLiteralesCadena();
+void imprimirPalabrasReservadas();
+void imprimirConstantes();
+void imprimirOper_Y_CarPunt();
+void imprimirComentarios();
+void imprimirNoReconocidos();
+void imprimirDirectivasPrecompilador();
 
 
 #line 622 "lex.yy.c"
@@ -769,7 +769,7 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 113 "TP3.l"
+#line 112 "TP3.l"
 
 
 #line 776 "lex.yy.c"
@@ -857,72 +857,72 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 115 "TP3.l"
+#line 114 "TP3.l"
 {ACUMULADOR_DECIMALES += atoi(yytext); encolar(decimales, yytext, 0, "Decimal");}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 116 "TP3.l"
+#line 115 "TP3.l"
 { encolar(octales, yytext, convertirAdecimal(yytext, BASE8, yyleng), "Octal");}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 117 "TP3.l"
+#line 116 "TP3.l"
 { encolar(hexadecimales, yytext, convertirAdecimal(yytext, BASE16, yyleng), "Hexa");}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 118 "TP3.l"
+#line 117 "TP3.l"
 {encolar(reales, yytext, atof(yytext), "Real");}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 119 "TP3.l"
+#line 118 "TP3.l"
 {encolar(caracteres, yytext, (CONTADOR_CARACTERES += 1), "Caracter");}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 121 "TP3.l"
+#line 120 "TP3.l"
 { encolar(LiteralCadena, yytext, yyleng - 2, "");} 
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 123 "TP3.l"
+#line 122 "TP3.l"
 { encolar(PalabrasReservadas, yytext, 0, "Tipo de Dato");}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 124 "TP3.l"
+#line 123 "TP3.l"
 { encolar(PalabrasReservadas, yytext, 0, "Estructura de Control");}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 125 "TP3.l"
+#line 124 "TP3.l"
 { encolar(PalabrasReservadas, yytext, 0, "Otros");}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 127 "TP3.l"
+#line 126 "TP3.l"
 {cargarSinRepetir(listaIdentificadores, yytext, IDENTIFICADOR);} 
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 129 "TP3.l"
+#line 128 "TP3.l"
 { cargarSinRepetir(listaOper_CarPunt, yytext, OPERADOR);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 130 "TP3.l"
+#line 129 "TP3.l"
 { cargarSinRepetir(listaOper_CarPunt, yytext, PUNTUACION);}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 132 "TP3.l"
+#line 131 "TP3.l"
 {encolar(comentarios, yytext, 0, "Multiples Lineas"); contieneSaltoDeLinea(yytext, yyleng);}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 133 "TP3.l"
+#line 132 "TP3.l"
 {encolar(comentarios, yytext, 0, "1 Linea");}
 	YY_BREAK
 case 15:
@@ -930,7 +930,7 @@ case 15:
 yy_c_buf_p = yy_cp = yy_bp + 7;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 135 "TP3.l"
+#line 134 "TP3.l"
 {CONTADOR_DEFINE += 1;}
 	YY_BREAK
 case 16:
@@ -938,22 +938,22 @@ case 16:
 yy_c_buf_p = yy_cp = yy_bp + 8;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 136 "TP3.l"
+#line 135 "TP3.l"
 {CONTADOR_INCLUDE += 1;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 138 "TP3.l"
+#line 137 "TP3.l"
 {encolar(NoReconocidos, "\\n", CONTADOR_SALTOS_DE_LINEA, "" ); CONTADOR_SALTOS_DE_LINEA += 1;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 139 "TP3.l"
+#line 138 "TP3.l"
 {encolar(NoReconocidos, yytext, CONTADOR_SALTOS_DE_LINEA, "" );}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 141 "TP3.l"
+#line 140 "TP3.l"
 ECHO;
 	YY_BREAK
 #line 960 "lex.yy.c"
@@ -1842,7 +1842,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 141 "TP3.l"
+#line 140 "TP3.l"
 
 
 int main() {
@@ -1874,17 +1874,16 @@ int main() {
 
     fprintf(arcFinal, "                             INFORME - FLEX para reconocimiento de categorías léxicas de C                               \n\n");
     fprintf(arcFinal, "-------------------------------------------------------------------------------------------------------------------------\n\n");
-    imprimirIdentificadores(arcFinal);
-    imprimirLiteralesCadena(arcFinal);
-    imprimirPalabrasReservadas(arcFinal);
-    imprimirConstantes(arcFinal);
-    imprimirOper_Y_CarPunt(arcFinal);
-    imprimirComentarios(arcFinal);
-    imprimirNoReconocidos(arcFinal);
-    imprimirDirectivasPrecompilador(arcFinal);
+    imprimirIdentificadores();
+    imprimirLiteralesCadena();
+    imprimirPalabrasReservadas();
+    imprimirConstantes();
+    imprimirOper_Y_CarPunt();
+    imprimirComentarios();
+    imprimirNoReconocidos();
+    imprimirDirectivasPrecompilador();
 
 	fclose(arcFinal);
-
     return 0;
 }
 
@@ -2023,17 +2022,14 @@ struct infoCola desencolar(tipoCola *cola){
         cola->primero = aux->sgte; 
         free(aux);
         return info;
-    }
-	
+    }	
 }
-
 
 int caracterHexadecimalADecimal(char caracter) {
   if (isdigit(caracter))
     return caracter - '0';
   return 10 + (toupper(caracter) - 'A');
 }
-
 
 int convertirAdecimal(char* numeroAconvertir, int Base, int longitud) {
     int numeroDecimal = 0, potencia = 0;
@@ -2069,7 +2065,6 @@ int contieneSaltoDeLinea(char* cadena, int longitud){
     }
 }
 
-
 void imprimirLista(Nodo* lista, FILE* arcFinal, int token){
     Nodo* actual = lista;
 
@@ -2095,7 +2090,6 @@ void imprimirLista(Nodo* lista, FILE* arcFinal, int token){
 void imprimirCola(tipoCola* cola, FILE* arcFinal, int categoria){
     struct infoCola info;
     
-
     if(cola->primero != NULL){
         while(cola->primero != NULL){
             info = desencolar(cola);
@@ -2134,7 +2128,7 @@ void imprimirCola(tipoCola* cola, FILE* arcFinal, int categoria){
 }
 
 
-void imprimirIdentificadores(FILE* arcFinal){
+void imprimirIdentificadores(){
     fprintf(arcFinal, "_______________________________________________________________________\n");
     fprintf(arcFinal, "|                      Lista de Identificadores                       |\n");
     fprintf(arcFinal, "|_____________________________________________________________________|\n");
@@ -2145,7 +2139,7 @@ void imprimirIdentificadores(FILE* arcFinal){
     fprintf(arcFinal, "|_______________________________________|_____________________________|\n\n");
 }
 
-void imprimirLiteralesCadena(FILE* arcFinal){
+void imprimirLiteralesCadena(){
     fprintf(arcFinal, "\n\n__________________________________________________________________________________________________________________________\n");
     fprintf(arcFinal, "|                                                   Lista de literales Cadena                                            |\n");
     fprintf(arcFinal, "|________________________________________________________________________________________________________________________|\n");
@@ -2156,7 +2150,7 @@ void imprimirLiteralesCadena(FILE* arcFinal){
     fprintf(arcFinal, "|_____________________________________________________________________________________________________________|__________|\n\n");
 }
 
-void imprimirPalabrasReservadas(FILE* arcFinal){
+void imprimirPalabrasReservadas(){
     fprintf(arcFinal, "\n\n_______________________________________________________________________\n");
     fprintf(arcFinal, "|                    Lista de Palabras Reservadas                     |\n");
     fprintf(arcFinal, "|_____________________________________________________________________|\n");
@@ -2167,7 +2161,7 @@ void imprimirPalabrasReservadas(FILE* arcFinal){
     fprintf(arcFinal, "|________________________|____________________________________________|\n\n");
 }
 
-void imprimirConstantes(FILE* arcFinal){
+void imprimirConstantes(){
     fprintf(arcFinal, "\n\n_______________________________________________________________________\n");
     fprintf(arcFinal, "|                            Lista de Constantes                      |\n");
     fprintf(arcFinal, "|_____________________________________________________________________|\n");
@@ -2198,8 +2192,7 @@ void imprimirConstantes(FILE* arcFinal){
     fprintf(arcFinal, "|________________________|______________|_____________________________|\n");
 }
 
-
-void imprimirOper_Y_CarPunt(FILE* arcFinal){
+void imprimirOper_Y_CarPunt(){
     fprintf(arcFinal, "\n\n_______________________________________________________________________\n");
     fprintf(arcFinal, "|            Lista de Operadores y Caracteres de Puntuacion           |\n");
     fprintf(arcFinal, "|_____________________________________________________________________|\n");
@@ -2210,7 +2203,7 @@ void imprimirOper_Y_CarPunt(FILE* arcFinal){
     fprintf(arcFinal, "|________________________|______________|_____________________________|\n");
 }
 
-void imprimirComentarios(FILE* arcFinal){
+void imprimirComentarios(){
     fprintf(arcFinal, "\n\n___________________________________________________________________________________________________________________________\n");
     fprintf(arcFinal, "|                                                    Lista de Comentarios                                                 |\n");
     fprintf(arcFinal, "|_________________________________________________________________________________________________________________________|\n");
@@ -2221,8 +2214,7 @@ void imprimirComentarios(FILE* arcFinal){
     fprintf(arcFinal, "|______________________________________________________________________________________________________|__________________|\n\n");
 }
 
-
-void imprimirNoReconocidos(FILE* arcFinal){
+void imprimirNoReconocidos(){
     fprintf(arcFinal, "\n\nNOTA: Asumimos que no habra cadenas no reconocidas, ya que segun las reglas pueden ser catalogadas como identificador, \n\t literal cadena, comentario o palabra reservada, por lo tanto, nos enfocamos en los caracteres que no son reconocidos.");
     fprintf(arcFinal, "\n\n_______________________________________________________________________\n");
     fprintf(arcFinal, "|         Listado de cadenas y/o caracteres NO reconocidos            |\n");
@@ -2234,7 +2226,7 @@ void imprimirNoReconocidos(FILE* arcFinal){
     fprintf(arcFinal, "|__________________________________|__________________________________|\n");
 }
 
-void imprimirDirectivasPrecompilador(FILE* arcFinal){
+void imprimirDirectivasPrecompilador(){
     fprintf(arcFinal, "\n\n_______________________________________________________________________\n");
     fprintf(arcFinal, "|               Listado de directivas del Precompilador               |\n");
     fprintf(arcFinal, "|_____________________________________________________________________|\n");

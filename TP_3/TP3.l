@@ -90,14 +90,14 @@ int contieneSaltoDeLinea(char*, int);
 void imprimirLista(Nodo*, FILE*, int);
 void imprimirCola(tipoCola*, FILE*, int);
 
-void imprimirIdentificadores(FILE*);
-void imprimirLiteralesCadena(FILE*);
-void imprimirPalabrasReservadas(FILE*);
-void imprimirConstantes(FILE*);
-void imprimirOper_Y_CarPunt(FILE*);
-void imprimirComentarios(FILE*);
-void imprimirNoReconocidos(FILE*);
-void imprimirDirectivasPrecompilador(FILE*);
+void imprimirIdentificadores();
+void imprimirLiteralesCadena();
+void imprimirPalabrasReservadas();
+void imprimirConstantes();
+void imprimirOper_Y_CarPunt();
+void imprimirComentarios();
+void imprimirNoReconocidos();
+void imprimirDirectivasPrecompilador();
 
 
 %}
@@ -168,17 +168,16 @@ int main() {
 
     fprintf(arcFinal, "                             INFORME - FLEX para reconocimiento de categorías léxicas de C                               \n\n");
     fprintf(arcFinal, "-------------------------------------------------------------------------------------------------------------------------\n\n");
-    imprimirIdentificadores(arcFinal);
-    imprimirLiteralesCadena(arcFinal);
-    imprimirPalabrasReservadas(arcFinal);
-    imprimirConstantes(arcFinal);
-    imprimirOper_Y_CarPunt(arcFinal);
-    imprimirComentarios(arcFinal);
-    imprimirNoReconocidos(arcFinal);
-    imprimirDirectivasPrecompilador(arcFinal);
+    imprimirIdentificadores();
+    imprimirLiteralesCadena();
+    imprimirPalabrasReservadas();
+    imprimirConstantes();
+    imprimirOper_Y_CarPunt();
+    imprimirComentarios();
+    imprimirNoReconocidos();
+    imprimirDirectivasPrecompilador();
 
 	fclose(arcFinal);
-
     return 0;
 }
 
@@ -317,17 +316,14 @@ struct infoCola desencolar(tipoCola *cola){
         cola->primero = aux->sgte; 
         free(aux);
         return info;
-    }
-	
+    }	
 }
-
 
 int caracterHexadecimalADecimal(char caracter) {
   if (isdigit(caracter))
     return caracter - '0';
   return 10 + (toupper(caracter) - 'A');
 }
-
 
 int convertirAdecimal(char* numeroAconvertir, int Base, int longitud) {
     int numeroDecimal = 0, potencia = 0;
@@ -363,7 +359,6 @@ int contieneSaltoDeLinea(char* cadena, int longitud){
     }
 }
 
-
 void imprimirLista(Nodo* lista, FILE* arcFinal, int token){
     Nodo* actual = lista;
 
@@ -389,7 +384,6 @@ void imprimirLista(Nodo* lista, FILE* arcFinal, int token){
 void imprimirCola(tipoCola* cola, FILE* arcFinal, int categoria){
     struct infoCola info;
     
-
     if(cola->primero != NULL){
         while(cola->primero != NULL){
             info = desencolar(cola);
@@ -428,7 +422,7 @@ void imprimirCola(tipoCola* cola, FILE* arcFinal, int categoria){
 }
 
 
-void imprimirIdentificadores(FILE* arcFinal){
+void imprimirIdentificadores(){
     fprintf(arcFinal, "_______________________________________________________________________\n");
     fprintf(arcFinal, "|                      Lista de Identificadores                       |\n");
     fprintf(arcFinal, "|_____________________________________________________________________|\n");
@@ -439,7 +433,7 @@ void imprimirIdentificadores(FILE* arcFinal){
     fprintf(arcFinal, "|_______________________________________|_____________________________|\n\n");
 }
 
-void imprimirLiteralesCadena(FILE* arcFinal){
+void imprimirLiteralesCadena(){
     fprintf(arcFinal, "\n\n__________________________________________________________________________________________________________________________\n");
     fprintf(arcFinal, "|                                                   Lista de literales Cadena                                            |\n");
     fprintf(arcFinal, "|________________________________________________________________________________________________________________________|\n");
@@ -450,7 +444,7 @@ void imprimirLiteralesCadena(FILE* arcFinal){
     fprintf(arcFinal, "|_____________________________________________________________________________________________________________|__________|\n\n");
 }
 
-void imprimirPalabrasReservadas(FILE* arcFinal){
+void imprimirPalabrasReservadas(){
     fprintf(arcFinal, "\n\n_______________________________________________________________________\n");
     fprintf(arcFinal, "|                    Lista de Palabras Reservadas                     |\n");
     fprintf(arcFinal, "|_____________________________________________________________________|\n");
@@ -461,7 +455,7 @@ void imprimirPalabrasReservadas(FILE* arcFinal){
     fprintf(arcFinal, "|________________________|____________________________________________|\n\n");
 }
 
-void imprimirConstantes(FILE* arcFinal){
+void imprimirConstantes(){
     fprintf(arcFinal, "\n\n_______________________________________________________________________\n");
     fprintf(arcFinal, "|                            Lista de Constantes                      |\n");
     fprintf(arcFinal, "|_____________________________________________________________________|\n");
@@ -492,8 +486,7 @@ void imprimirConstantes(FILE* arcFinal){
     fprintf(arcFinal, "|________________________|______________|_____________________________|\n");
 }
 
-
-void imprimirOper_Y_CarPunt(FILE* arcFinal){
+void imprimirOper_Y_CarPunt(){
     fprintf(arcFinal, "\n\n_______________________________________________________________________\n");
     fprintf(arcFinal, "|            Lista de Operadores y Caracteres de Puntuacion           |\n");
     fprintf(arcFinal, "|_____________________________________________________________________|\n");
@@ -504,7 +497,7 @@ void imprimirOper_Y_CarPunt(FILE* arcFinal){
     fprintf(arcFinal, "|________________________|______________|_____________________________|\n");
 }
 
-void imprimirComentarios(FILE* arcFinal){
+void imprimirComentarios(){
     fprintf(arcFinal, "\n\n___________________________________________________________________________________________________________________________\n");
     fprintf(arcFinal, "|                                                    Lista de Comentarios                                                 |\n");
     fprintf(arcFinal, "|_________________________________________________________________________________________________________________________|\n");
@@ -515,8 +508,7 @@ void imprimirComentarios(FILE* arcFinal){
     fprintf(arcFinal, "|______________________________________________________________________________________________________|__________________|\n\n");
 }
 
-
-void imprimirNoReconocidos(FILE* arcFinal){
+void imprimirNoReconocidos(){
     fprintf(arcFinal, "\n\nNOTA: Asumimos que no habra cadenas no reconocidas, ya que segun las reglas pueden ser catalogadas como identificador, \n\t literal cadena, comentario o palabra reservada, por lo tanto, nos enfocamos en los caracteres que no son reconocidos.");
     fprintf(arcFinal, "\n\n_______________________________________________________________________\n");
     fprintf(arcFinal, "|         Listado de cadenas y/o caracteres NO reconocidos            |\n");
@@ -528,7 +520,7 @@ void imprimirNoReconocidos(FILE* arcFinal){
     fprintf(arcFinal, "|__________________________________|__________________________________|\n");
 }
 
-void imprimirDirectivasPrecompilador(FILE* arcFinal){
+void imprimirDirectivasPrecompilador(){
     fprintf(arcFinal, "\n\n_______________________________________________________________________\n");
     fprintf(arcFinal, "|               Listado de directivas del Precompilador               |\n");
     fprintf(arcFinal, "|_____________________________________________________________________|\n");
