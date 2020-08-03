@@ -14,5 +14,8 @@ Este repositorio corresponde al Grupo 1 (Mixto entre los cursos K2031 y K2002) a
 **Profesor:** 
 Santiago Ferreiros Cabrera 
 
-TP1: Implementación de un Autómata Finito Determinístico
-TP2: Implementación de un Autómata de Pila
+TP1: Implementación de un AFD para GRURL
+
+TP2: Implementación de un AFP para GIC
+
+TP3: Implementación de Analizador Léxico en FLEXURL
