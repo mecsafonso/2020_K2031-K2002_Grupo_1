@@ -6,8 +6,8 @@
 1E-3 = 0,001 0,001
 2568E-3 = 2,568 0,568
 4.28 % 1 = 0.28
-"ho la""a" "asd\"123" "\z\x\p\r" "" "hola
-12  3" 
+"ho la""a" "asd\"123" "\z\x\p\r" "" "ejemplo de un literal cadena muy largo que puede contener muchos espacios para probar en el informe" "hola
+12  3"
 "prueba102\n" " hola
 
 char break auto if int otracosa
@@ -19,9 +19,8 @@ __identificador01 _identificadr prueba_01 052prueba Prueba
 - + * / % ~ & ! ^ = < > |
 ++ -- -> <= == != !! && || += -= *= /= %= >>= <<= &= |= ^= ?: << >>
 
+/* ejemplo de comentario multiples lineas muy largo con muchos espacios para probar en el informe */
 /*Comentario 1*/
-/* Comentario
-                3 */
 /* Comentario_5*/
 /* Comentario_6
 //Comentario 7
@@ -29,8 +28,11 @@ __identificador01 _identificadr prueba_01 052prueba Prueba
 /* Comentario 2 */
 // Comentario 9
 // Comentario 10 //
+// ejemplo de comentario de 1 linea muy largo que contiene muchos espacios para probar en el informe
 // Comentario 
 11
+/* Comentario
+        3*/            
 
 #define ab
 #define FICHERO_YA_INCLUIDO

@@ -1,13 +1,14 @@
 %option noyywrap
 
 %{
-// Definimos las librerías que incluímos
+// Definicion de las librerías que incluímos
 #include <stdio.h>
-#include <string.h>
+#include <string.h> // strcpy, strcmp
 #include <ctype.h>  // toupper y isdigit
 #include <math.h>   // pow
-#include <stdlib.h>
+#include <stdlib.h> // atoi, atof
 
+// Deficinion de directivas de preprocesamiento
 #define DECIMAL 0
 #define OCTAL 1
 #define HEXADECIMAL 2
@@ -26,6 +27,8 @@
 #define BASE8 8
 #define BASE16 16
 
+
+// Definicion de estructuras
 typedef struct nodo{
     char nombre[32];    /* asumimos un tamaño para el identificador de 31 caracteres + '\0' = 32 */
     int cantidad;
@@ -34,7 +37,7 @@ typedef struct nodo{
 } Nodo;
 
 struct infoCola{
-    char nombre[100];    /* asumimos un tamaño para el identificador de 31 caracteres + '\0' = 32 */
+    char nombre[101];    /* asumimos un tamaño para el literal cadena y de los comentarios de 100 caracteres + '\0' + " + " = 101 */
     int cantidad;
     char categoria[32];
 } ;
@@ -50,13 +53,10 @@ struct cola {
 	NodoCola* ultimo;
 } typedef tipoCola;
 
-//typedef struct identificador Nodo;
-
-
 
 // Definicion de Variables Globales
-Nodo* listaIdentificadores = NULL;
-Nodo* listaOper_CarPunt = NULL;
+Nodo* listaIdentificadores;
+Nodo* listaOper_CarPunt;
 
 tipoCola* LiteralCadena;
 tipoCola* PalabrasReservadas;
@@ -87,6 +87,9 @@ int caracterHexadecimalADecimal(char);
 int convertirAdecimal(char*, int, int);
 int contieneSaltoDeLinea(char*, int);
 
+void imprimirLista(Nodo*, FILE*, int);
+void imprimirCola(tipoCola*, FILE*, int);
+
 void imprimirIdentificadores(FILE*);
 void imprimirLiteralesCadena(FILE*);
 void imprimirPalabrasReservadas(FILE*);
@@ -95,10 +98,6 @@ void imprimirOper_Y_CarPunt(FILE*);
 void imprimirComentarios(FILE*);
 void imprimirNoReconocidos(FILE*);
 void imprimirDirectivasPrecompilador(FILE*);
-
-void imprimirLista(Nodo*, FILE*, int);
-void imprimirCola(tipoCola*, FILE*, int);
-
 
 
 %}
@@ -112,13 +111,14 @@ CONDICION (<|\")
 COMENTARIO_MULTILINEA \/\*(\\.|[^\\*\/])*\*\/ 
 
 %% 
+
 [1-9]{DIGITO_DECIMAL}*  {ACUMULADOR_DECIMALES += atoi(yytext); encolar(decimales, yytext, 0, "Decimal");}
 0{DIGITO_OCTAL}* { encolar(octales, yytext, convertirAdecimal(yytext, BASE8, yyleng), "Octal");}
 0[xX]{DIGITO_HEXADECIMAL}+ { encolar(hexadecimales, yytext, convertirAdecimal(yytext, BASE16, yyleng), "Hexa");}
 ({DIGITO_DECIMAL}*\.{DIGITO_DECIMAL}+|{DIGITO_DECIMAL}+\.|{DIGITO_DECIMAL}+)([eE][\+\-]?{DIGITO_DECIMAL}+)? {encolar(reales, yytext, atof(yytext), "Real");}
 \'.?\' {encolar(caracteres, yytext, (CONTADOR_CARACTERES += 1), "Caracter");}
 
-\"(\\.|[^(\n|\\")])*\" { encolar(LiteralCadena, yytext, yyleng, "");} 
+\"(\\.|[^(\n|\\")])*\" { encolar(LiteralCadena, yytext, yyleng - 2, "");} 
 
 char|double|enum|float|int|long|short|signed|struct|union|unsigned|void { encolar(PalabrasReservadas, yytext, 0, "Tipo de Dato");}
 break|case|continue|do|else|for|goto|if|return|switch|while { encolar(PalabrasReservadas, yytext, 0, "Estructura de Control");}
@@ -129,8 +129,8 @@ auto|const|default|extern|register|sizeof|static|typedef|volatile { encolar(Pala
 "++"|"--"|"->"|<=|==|!=|!!|&&|"||"|"+="|"-="|"*="|"/="|%=|>>=|<<=|&=|"|="|"^="|"?:"|<<|>>|"^"|[\+\-\*/%~&!=<>\|] { cargarSinRepetir(listaOper_CarPunt, yytext, OPERADOR);}
 \.\.\.|[.|,|;|:|#|\[|\]|\{|\}|\(|\)] { cargarSinRepetir(listaOper_CarPunt, yytext, PUNTUACION);}
 
-\/\*(\\.|[^\\*\/])*\*\/  {encolar(comentarios, yytext, 0, "Comentario de Multiples Lineas"); contieneSaltoDeLinea(yytext, yyleng);}
-\/\/(\\.|[^\n])*  {encolar(comentarios, yytext, 0, "Comentario de 1 Linea");}
+\/\*(\\.|[^\\*\/])*\*\/  {encolar(comentarios, yytext, 0, "Multiples Lineas"); contieneSaltoDeLinea(yytext, yyleng);}
+\/\/(\\.|[^\n])*  {encolar(comentarios, yytext, 0, "1 Linea");}
 
 "#define"/" "{IDENTIFICADOR} {CONTADOR_DEFINE += 1;}
 "#include"/" "{CONDICION} {CONTADOR_INCLUDE += 1;}
@@ -138,15 +138,19 @@ auto|const|default|extern|register|sizeof|static|typedef|volatile { encolar(Pala
 "\n" {encolar(NoReconocidos, "\\n", CONTADOR_SALTOS_DE_LINEA, "" ); CONTADOR_SALTOS_DE_LINEA += 1;}
 . {encolar(NoReconocidos, yytext, CONTADOR_SALTOS_DE_LINEA, "" );}
 
-
-
 %%
+
 int main() {
    
     /* Acciones previas a la invocación del analizador léxico */
+
     yyin = fopen("entrada.txt", "r");
     yyout = fopen("salida.txt", "w");
     arcFinal = fopen ("Informe.txt", "w");
+
+    // Inicializacion de las estructuras enlazadas
+    listaIdentificadores = NULL;
+    listaOper_CarPunt = NULL;
 
     LiteralCadena = crearCola();
     PalabrasReservadas = crearCola();
@@ -163,8 +167,8 @@ int main() {
 
     /* Acciónes posteriores a la ejecución del analizador léxico */
 
-    fprintf(arcFinal, "                     INFORME - FLEX para reconocimiento de categorías léxicas de C                      \n");
-    fprintf(arcFinal, "__________________________________________________________________________________________________________\n\n");
+    fprintf(arcFinal, "                             INFORME - FLEX para reconocimiento de categorías léxicas de C                               \n\n");
+    fprintf(arcFinal, "-------------------------------------------------------------------------------------------------------------------------\n\n");
     imprimirIdentificadores(arcFinal);
     imprimirLiteralesCadena(arcFinal);
     imprimirPalabrasReservadas(arcFinal);
@@ -173,7 +177,6 @@ int main() {
     imprimirComentarios(arcFinal);
     imprimirNoReconocidos(arcFinal);
     imprimirDirectivasPrecompilador(arcFinal);
-
 
 	fclose(arcFinal);
 
@@ -209,7 +212,6 @@ void insertarEnMedioIdentificador(char* identificador){
     while(aux->sgte != NULL && (strcmp(identificador, aux->sgte->nombre) > 0)){ 
         aux = aux->sgte; 
     } 
-    
     nuevoNodo->sgte = aux->sgte; 
     aux->sgte = nuevoNodo; 
 }
@@ -220,7 +222,6 @@ void insertarOrdenadoIdentificador(char* identificador){
     else 
         insertarEnMedioIdentificador(identificador);
 }
-
 
 void insertarOperador_Puntuacion(char* cadena, char* categoria){
 	Nodo* nuevoNodo = (Nodo*) malloc(sizeof(Nodo));
@@ -242,7 +243,6 @@ void insertarOperador_Puntuacion(char* cadena, char* categoria){
 	}
 }
 
-
 void modificarNodo(Nodo* lista, char* cadena){
 	Nodo* actual = lista;
 	int encontrado = 0;
@@ -258,7 +258,6 @@ void modificarNodo(Nodo* lista, char* cadena){
 		}
 	}
 }
-
 
 void cargarSinRepetir(Nodo* lista, char* cadena, int token){
     int aux = buscarCadena(lista, cadena);
@@ -305,8 +304,6 @@ void encolar(tipoCola* cola, char* cadena, int valor, char* categoria){
 }
 
 struct infoCola desencolar(tipoCola *cola){
-    
-
 	if(cola->primero == NULL){
         fprintf(arcFinal,"\n La cola se encuentra vacia\n\n");
         cola->ultimo = NULL;
@@ -375,10 +372,10 @@ void imprimirLista(Nodo* lista, FILE* arcFinal, int token){
         while(actual != NULL){
             switch (token){
             case IDENTIFICADOR:
-                fprintf (arcFinal, "%32s\t %d\n", actual->nombre, actual->cantidad);
+                fprintf (arcFinal, "|\t%-32s\t|%15d%14s|\n", actual->nombre, actual->cantidad," ");
                 break;
             case OPERADOR ... PUNTUACION:
-                fprintf (arcFinal, "%20s  |\t %10d \t|\t\t %s\n", actual->nombre, actual->cantidad, actual->categoria);
+                fprintf (arcFinal, "|\t\t %-9s\t|\t%4d\t\t|\t%-22s\t|\n", actual->nombre, actual->cantidad, actual->categoria);
                 break;
             }
             actual = actual->sgte;
@@ -401,28 +398,28 @@ void imprimirCola(tipoCola* cola, FILE* arcFinal, int categoria){
 
             switch (categoria){
                 case DECIMAL:
-                    fprintf (arcFinal, "%20s\t\t %8c    \t\t\t%s\n", info.nombre,'-', info.categoria);
+                    fprintf (arcFinal, "|%20s\t|\t%-37s\t|\n", info.nombre, info.categoria);
                     break;
                 case OCTAL ... CARACTER:
-                    fprintf (arcFinal, "%20s\t\t %8d    \t\t\t%s\n", info.nombre, info.cantidad, info.categoria);
+                    fprintf (arcFinal, "|%20s\t|\t%8d\t|\t%-22s\t|\n", info.nombre, info.cantidad, info.categoria);
                     break;
                 case REAL:
-                    fprintf (arcFinal, "%20s\t\t %8d \t\t\t %f \t\t\t%s\n", info.nombre, info.cantidad, mantisa - info.cantidad, info.categoria);
+                    fprintf (arcFinal, "|%20s\t|\t%8d\t|\t%.5f\t|\t%-9s\t|\n", info.nombre, info.cantidad, mantisa - info.cantidad, info.categoria);
                     break;                                                                                 
                 case LITERAL_CADENA:
-                    fprintf (arcFinal, "%30s\t\t %5d\n", info.nombre, info.cantidad);  
+                    fprintf (arcFinal, "|\t%-100s\t|\t%-4d\t |\n", info.nombre, info.cantidad);  
                     break;
                 case P_RESERVADA:
-                    fprintf (arcFinal, "%30s\t\t %s\n", info.nombre, info.categoria);  
+                    fprintf (arcFinal, "|\t%17s\t|\t%-37s\t|\n", info.nombre, info.categoria);  
                     break;
                 case COMENTARIO:
-                    fprintf (arcFinal, "%s\t\t %s\n", info.nombre, info.categoria);
+                    fprintf (arcFinal, "| %-100s | %-16s |\n", info.nombre, info.categoria);
                     break;
                 case NO_RECONOCIDOS:
                     if(strcmp(info.nombre, " ")  != 0)
-                        fprintf (arcFinal, "%30s\t\t %d\n", info.nombre, info.cantidad);
+                        fprintf (arcFinal, "|%30s\t|\t%-30d|\n", info.nombre, info.cantidad);
                     else
-                        fprintf (arcFinal, "%30s \t\t %d\n", "espacio", info.cantidad);
+                        fprintf (arcFinal, "|%30s\t|\t%-30d|\n", "espacio", info.cantidad);
                     break;
             }       
         }
@@ -433,112 +430,113 @@ void imprimirCola(tipoCola* cola, FILE* arcFinal, int categoria){
 
 
 void imprimirIdentificadores(FILE* arcFinal){
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "_______________________________________________________________________\n");
     fprintf(arcFinal, "|                      Lista de Identificadores                       |\n");
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
-    fprintf(arcFinal, "|                      Lexema     |     Nro repeticiones              |\n");
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|_____________________________________________________________________|\n");
+    fprintf(arcFinal, "|                 Lexema                |        Nro Repeticiones     |\n");
+    fprintf(arcFinal, "|_______________________________________|_____________________________|\n");
     imprimirLista(listaIdentificadores, arcFinal, IDENTIFICADOR);
     
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n\n");
+    fprintf(arcFinal, "|_______________________________________|_____________________________|\n\n");
 }
 
 void imprimirLiteralesCadena(FILE* arcFinal){
-    fprintf(arcFinal, "\n\n-----------------------------------------------------------------------\n");
-    fprintf(arcFinal, "|                       Lista de literales Cadena                     |\n");
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
-    fprintf(arcFinal, "|                      Lexema     |     Longitud de la Cadena         |\n");
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "\n\n__________________________________________________________________________________________________________________________\n");
+    fprintf(arcFinal, "|                                                   Lista de literales Cadena                                            |\n");
+    fprintf(arcFinal, "|________________________________________________________________________________________________________________________|\n");
+    fprintf(arcFinal, "|                                                     Lexema                                                  | Longitud |\n");
+    fprintf(arcFinal, "|_____________________________________________________________________________________________________________|__________|\n");
 
     imprimirCola(LiteralCadena, arcFinal, LITERAL_CADENA);
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n\n");
+    fprintf(arcFinal, "|_____________________________________________________________________________________________________________|__________|\n\n");
 }
 
 void imprimirPalabrasReservadas(FILE* arcFinal){
-    fprintf(arcFinal, "\n\n-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "\n\n_______________________________________________________________________\n");
     fprintf(arcFinal, "|                    Lista de Palabras Reservadas                     |\n");
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
-    fprintf(arcFinal, "|                     Lexema     |     Categoria                      |\n");
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|_____________________________________________________________________|\n");
+    fprintf(arcFinal, "|             Lexema     |                 Categoria                  |\n");
+    fprintf(arcFinal, "|________________________|____________________________________________|\n");
 
     imprimirCola(PalabrasReservadas, arcFinal, P_RESERVADA);
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n\n");
+    fprintf(arcFinal, "|________________________|____________________________________________|\n\n");
 }
 
 void imprimirConstantes(FILE* arcFinal){
-    fprintf(arcFinal, "\n\n-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "\n\n_______________________________________________________________________\n");
     fprintf(arcFinal, "|                            Lista de Constantes                      |\n");
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
-    fprintf(arcFinal, "|                        Lexema       |     Token                     |\n");
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|_____________________________________________________________________|\n");
+    fprintf(arcFinal, "|              Lexema    |     Token                                  |\n");
+    fprintf(arcFinal, "|------------------------|--------------------------------------------|\n");
     imprimirCola(decimales, arcFinal, DECIMAL);
-    fprintf(arcFinal, "                                      ---------------------------------\n");
-    fprintf(arcFinal, "                                TOTAL        %d\n\n", ACUMULADOR_DECIMALES);
+    fprintf(arcFinal, "|          ---------------                                            |\n");
+    fprintf(arcFinal, "| TOTAL \t%10d                                                  |\n|%69s|\n", ACUMULADOR_DECIMALES, " ");
 
-
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
-    fprintf(arcFinal, "|             Lexema     |   Valor Decimal   |     Token              |\n");
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|---------------------------------------------------------------------|\n");
+    fprintf(arcFinal, "|              Lexema    |  Val Decimal |     Token                   |\n");
+    fprintf(arcFinal, "|------------------------|--------------|-----------------------------|\n");
     imprimirCola(octales, arcFinal, OCTAL);
     imprimirCola(hexadecimales, arcFinal, HEXADECIMAL);
+    fprintf(arcFinal, "|%69s|\n", " ");
 
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
-    fprintf(arcFinal, "|             Lexema     |  P Entera | Mantisa  |    Token              |\n");
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|---------------------------------------------------------------------|\n");
+    fprintf(arcFinal, "|              Lexema    | Parte Entera |    Mantisa   |    Token     |\n");
+    fprintf(arcFinal, "|------------------------|--------------|--------------|--------------|\n");
     imprimirCola(reales, arcFinal, REAL);
+    fprintf(arcFinal, "|%69s|\n", " ");    
     
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
-    fprintf(arcFinal, "|             Lexema     |  ord de aparicion  |     Token              |\n");
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|---------------------------------------------------------------------|\n");
+    fprintf(arcFinal, "|              Lexema    | Or aparicion |     Token                   |\n");
+    fprintf(arcFinal, "|------------------------|--------------|-----------------------------|\n");
     imprimirCola(caracteres, arcFinal, CARACTER);
     
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|________________________|______________|_____________________________|\n");
 }
 
 
 void imprimirOper_Y_CarPunt(FILE* arcFinal){
-    fprintf(arcFinal, "\n\n-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "\n\n_______________________________________________________________________\n");
     fprintf(arcFinal, "|            Lista de Operadores y Caracteres de Puntuacion           |\n");
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
-    fprintf(arcFinal, "|          Lexema     |  Nro repeticiones  |     Token                |\n");
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|_____________________________________________________________________|\n");
+    fprintf(arcFinal, "|        Lexema          | Repeticiones |     Token                   |\n");
+    fprintf(arcFinal, "|________________________|______________|_____________________________|\n");
     imprimirLista(listaOper_CarPunt, arcFinal, OPERADOR);
     
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|________________________|______________|_____________________________|\n");
 }
 
 void imprimirComentarios(FILE* arcFinal){
-    fprintf(arcFinal, "\n\n-----------------------------------------------------------------------\n");
-    fprintf(arcFinal, "|                      Lista de Comentarios                           |\n");
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
-    fprintf(arcFinal, "|                        Lexema       |     Token                     |\n");
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "\n\n___________________________________________________________________________________________________________________________\n");
+    fprintf(arcFinal, "|                                                    Lista de Comentarios                                                 |\n");
+    fprintf(arcFinal, "|_________________________________________________________________________________________________________________________|\n");
+    fprintf(arcFinal, "|                                                     Lexema                                           |      Token       |\n");
+    fprintf(arcFinal, "|______________________________________________________________________________________________________|__________________|\n");
     imprimirCola(comentarios, arcFinal, COMENTARIO);
     
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n\n");
+    fprintf(arcFinal, "|______________________________________________________________________________________________________|__________________|\n\n");
 }
 
 
 void imprimirNoReconocidos(FILE* arcFinal){
     fprintf(arcFinal, "\n\nNOTA: Asumimos que no habra cadenas no reconocidas, ya que segun las reglas pueden ser catalogadas como identificador, \n\t literal cadena, comentario o palabra reservada, por lo tanto, nos enfocamos en los caracteres que no son reconocidos.");
-    fprintf(arcFinal, "\n\n-----------------------------------------------------------------------\n");
-    fprintf(arcFinal, "|                     Listado de cadenas y/o caracteres NO reconocidos               |\n");
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
-    fprintf(arcFinal, "|                     Lexema       |     Nro de linea                 |\n");
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "\n\n_______________________________________________________________________\n");
+    fprintf(arcFinal, "|         Listado de cadenas y/o caracteres NO reconocidos            |\n");
+    fprintf(arcFinal, "|_____________________________________________________________________|\n");
+    fprintf(arcFinal, "|                        Lexema    |    Nro de linea                  |\n");
+    fprintf(arcFinal, "|__________________________________|__________________________________|\n");
     imprimirCola(NoReconocidos, arcFinal, NO_RECONOCIDOS);
     
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|__________________________________|__________________________________|\n");
 }
 
 void imprimirDirectivasPrecompilador(FILE* arcFinal){
-    fprintf(arcFinal, "\n\n-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "\n\n_______________________________________________________________________\n");
     fprintf(arcFinal, "|               Listado de directivas del Precompilador               |\n");
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
-    fprintf(arcFinal, "|                     Lexema       |     Token                 |\n");
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
-    fprintf(arcFinal, "%30s \t\t %d\n", "#define", CONTADOR_DEFINE);
-    fprintf(arcFinal, "%30s \t\t %d\n", "#include", CONTADOR_INCLUDE);
+    fprintf(arcFinal, "|_____________________________________________________________________|\n");
+    fprintf(arcFinal, "|                        Lexema    |    Nro repeticiones              |\n");
+    fprintf(arcFinal, "|__________________________________|__________________________________|\n");
+    fprintf(arcFinal, "|%30s\t|\t%-30d|\n", "#define", CONTADOR_DEFINE);
+    fprintf(arcFinal, "|%30s\t|\t%-30d|\n", "#include", CONTADOR_INCLUDE);
     
-    fprintf(arcFinal, "-----------------------------------------------------------------------");
+    fprintf(arcFinal, "|__________________________________|__________________________________|");
 }
