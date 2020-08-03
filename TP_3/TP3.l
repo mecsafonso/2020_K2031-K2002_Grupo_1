@@ -108,7 +108,6 @@ DIGITO_HEXADECIMAL [a-fA-F0-9]
 LETRA [a-zA-Z]
 IDENTIFICADOR ({LETRA}|"_")({LETRA}|{DIGITO_DECIMAL}|"_")*
 CONDICION (<|\")
-COMENTARIO_MULTILINEA \/\*(\\.|[^\\*\/])*\*\/ 
 
 %% 
 
