@@ -10,7 +10,7 @@
 12  3" 
 "prueba102\n" " hola
 
-char break auto otracosa
+char break auto if int otracosa
 
 elo rangel ortega ab hola hola ab hola elo ej_DE_IDENTIFICADOR_32_espacios
 __identificador01 _identificadr prueba_01 052prueba Prueba
@@ -21,7 +21,7 @@ __identificador01 _identificadr prueba_01 052prueba Prueba
 
 /*Comentario 1*/
 /* Comentario
-                        3 */
+                3 */
 /* Comentario_5*/
 /* Comentario_6
 //Comentario 7

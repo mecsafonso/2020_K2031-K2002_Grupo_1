@@ -68,7 +68,7 @@ tipoCola* caracteres;
 tipoCola* comentarios;
 tipoCola* NoReconocidos;
 
-int ACUMULADOR_DECIMALES = 0, CONTADOR_CARACTERES = 0, CONTADOR_SALTOS_DE_LINEA = 1;
+int ACUMULADOR_DECIMALES = 0, CONTADOR_CARACTERES = 0, CONTADOR_SALTOS_DE_LINEA = 1, CONTADOR_DEFINE = 0, CONTADOR_INCLUDE = 0;
 FILE* arcFinal;
 
 /* Prototipo de FUNCIONES*/
@@ -85,6 +85,7 @@ void encolar(tipoCola*, char*, int, char*);
 struct infoCola desencolar(tipoCola*);
 int caracterHexadecimalADecimal(char);
 int convertirAdecimal(char*, int, int);
+int contieneSaltoDeLinea(char*, int);
 
 void imprimirIdentificadores(FILE*);
 void imprimirLiteralesCadena(FILE*);
@@ -93,7 +94,7 @@ void imprimirConstantes(FILE*);
 void imprimirOper_Y_CarPunt(FILE*);
 void imprimirComentarios(FILE*);
 void imprimirNoReconocidos(FILE*);
-
+void imprimirDirectivasPrecompilador(FILE*);
 
 void imprimirLista(Nodo*, FILE*, int);
 void imprimirCola(tipoCola*, FILE*, int);
@@ -108,7 +109,7 @@ DIGITO_HEXADECIMAL [a-fA-F0-9]
 LETRA [a-zA-Z]
 IDENTIFICADOR ({LETRA}|"_")({LETRA}|{DIGITO_DECIMAL}|"_")*
 CONDICION (<|\")
-ESPACIO " " 
+COMENTARIO_MULTILINEA \/\*(\\.|[^\\*\/])*\*\/ 
 
 %% 
 [1-9]{DIGITO_DECIMAL}*  {ACUMULADOR_DECIMALES += atoi(yytext); encolar(decimales, yytext, 0, "Decimal");}
@@ -128,11 +129,11 @@ auto|const|default|extern|register|sizeof|static|typedef|volatile { encolar(Pala
 "++"|"--"|"->"|<=|==|!=|!!|&&|"||"|"+="|"-="|"*="|"/="|%=|>>=|<<=|&=|"|="|"^="|"?:"|<<|>>|"^"|[\+\-\*/%~&!=<>\|] { cargarSinRepetir(listaOper_CarPunt, yytext, OPERADOR);}
 \.\.\.|[.|,|;|:|#|\[|\]|\{|\}|\(|\)] { cargarSinRepetir(listaOper_CarPunt, yytext, PUNTUACION);}
 
-\/\*(\\.|[^\\*\/])*\*\/  {encolar(comentarios, yytext, 0, "Comentario de Multiples Lineas");}
+\/\*(\\.|[^\\*\/])*\*\/  {encolar(comentarios, yytext, 0, "Comentario de Multiples Lineas"); contieneSaltoDeLinea(yytext, yyleng);}
 \/\/(\\.|[^\n])*  {encolar(comentarios, yytext, 0, "Comentario de 1 Linea");}
 
-^"#define "/{IDENTIFICADOR} {printf("Encontre una direccion de PREPROCESAMIENTO - DEFINE: %s \n",yytext);}
-^"#include "/{CONDICION} {printf("Encontre una direccion de PREPROCESAMIENTO - INCLUDE: %s \n",yytext);}
+"#define"/" "{IDENTIFICADOR} {CONTADOR_DEFINE += 1;}
+"#include"/" "{CONDICION} {CONTADOR_INCLUDE += 1;}
 
 "\n" {encolar(NoReconocidos, "\\n", CONTADOR_SALTOS_DE_LINEA, "" ); CONTADOR_SALTOS_DE_LINEA += 1;}
 . {encolar(NoReconocidos, yytext, CONTADOR_SALTOS_DE_LINEA, "" );}
@@ -171,6 +172,9 @@ int main() {
     imprimirOper_Y_CarPunt(arcFinal);
     imprimirComentarios(arcFinal);
     imprimirNoReconocidos(arcFinal);
+    imprimirDirectivasPrecompilador(arcFinal);
+
+
 	fclose(arcFinal);
 
     return 0;
@@ -356,7 +360,12 @@ int convertirAdecimal(char* numeroAconvertir, int Base, int longitud) {
     }
 }
 
-
+int contieneSaltoDeLinea(char* cadena, int longitud){
+    for(int i = 0; i < longitud; i++){
+        if(cadena[i] == '\n')
+            CONTADOR_SALTOS_DE_LINEA += 1;
+    }
+}
 
 
 void imprimirLista(Nodo* lista, FILE* arcFinal, int token){
@@ -407,15 +416,14 @@ void imprimirCola(tipoCola* cola, FILE* arcFinal, int categoria){
                     fprintf (arcFinal, "%30s\t\t %s\n", info.nombre, info.categoria);  
                     break;
                 case COMENTARIO:
-                    fprintf (arcFinal, "%30s\t\t %s\n", info.nombre, info.categoria);
+                    fprintf (arcFinal, "%s\t\t %s\n", info.nombre, info.categoria);
                     break;
                 case NO_RECONOCIDOS:
-                    if(info.nombre == " ")
-                        fprintf (arcFinal, "%30s\t\t %d\n", "Espacio", info.cantidad);
-                    else
+                    if(strcmp(info.nombre, " ")  != 0)
                         fprintf (arcFinal, "%30s\t\t %d\n", info.nombre, info.cantidad);
+                    else
+                        fprintf (arcFinal, "%30s \t\t %d\n", "espacio", info.cantidad);
                     break;
-
             }       
         }
 	}
@@ -475,14 +483,14 @@ void imprimirConstantes(FILE* arcFinal){
     imprimirCola(hexadecimales, arcFinal, HEXADECIMAL);
 
     fprintf(arcFinal, "-----------------------------------------------------------------------\n");
-    fprintf(arcFinal, "|             Lexema     |  ord de aparicion  |     Token              |\n");
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
-    imprimirCola(caracteres, arcFinal, CARACTER);
-
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
     fprintf(arcFinal, "|             Lexema     |  P Entera | Mantisa  |    Token              |\n");
     fprintf(arcFinal, "-----------------------------------------------------------------------\n");
     imprimirCola(reales, arcFinal, REAL);
+    
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|             Lexema     |  ord de aparicion  |     Token              |\n");
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    imprimirCola(caracteres, arcFinal, CARACTER);
     
     fprintf(arcFinal, "-----------------------------------------------------------------------\n");
 }
@@ -507,12 +515,12 @@ void imprimirComentarios(FILE* arcFinal){
     fprintf(arcFinal, "-----------------------------------------------------------------------\n");
     imprimirCola(comentarios, arcFinal, COMENTARIO);
     
-    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n\n");
 }
 
 
 void imprimirNoReconocidos(FILE* arcFinal){
-    fprintf(arcFinal, "NOTA: Asumimos que no habra cadenas no reconocidas, ya que segun las reglas pueden ser catalogadas como identificador, \n\t literal cadena, comentario o palabra reservada, por lo tanto, nos enfocamos en los caracteres que no son reconocidos");
+    fprintf(arcFinal, "\n\nNOTA: Asumimos que no habra cadenas no reconocidas, ya que segun las reglas pueden ser catalogadas como identificador, \n\t literal cadena, comentario o palabra reservada, por lo tanto, nos enfocamos en los caracteres que no son reconocidos.");
     fprintf(arcFinal, "\n\n-----------------------------------------------------------------------\n");
     fprintf(arcFinal, "|                     Listado de cadenas y/o caracteres NO reconocidos               |\n");
     fprintf(arcFinal, "-----------------------------------------------------------------------\n");
@@ -523,4 +531,14 @@ void imprimirNoReconocidos(FILE* arcFinal){
     fprintf(arcFinal, "-----------------------------------------------------------------------\n");
 }
 
-
+void imprimirDirectivasPrecompilador(FILE* arcFinal){
+    fprintf(arcFinal, "\n\n-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|               Listado de directivas del Precompilador               |\n");
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "|                     Lexema       |     Token                 |\n");
+    fprintf(arcFinal, "-----------------------------------------------------------------------\n");
+    fprintf(arcFinal, "%30s \t\t %d\n", "#define", CONTADOR_DEFINE);
+    fprintf(arcFinal, "%30s \t\t %d\n", "#include", CONTADOR_INCLUDE);
+    
+    fprintf(arcFinal, "-----------------------------------------------------------------------");
+}
