@@ -37,7 +37,7 @@ typedef struct nodo{
 } Nodo;
 
 struct infoCola{
-    char nombre[101];    /* asumimos un tamaño para el literal cadena y de los comentarios de 100 caracteres + '\0' + " + " = 101 */
+    char nombre[101];    /* asumimos un tamaño para el literal cadena y de los comentarios de 100 caracteres + '\0'= 101 */
     int cantidad;
     char categoria[32];
 } ;
@@ -284,7 +284,6 @@ tipoCola* crearCola(void){
 	return cola;
 }
 
-
 void encolar(tipoCola* cola, char* cadena, int valor, char* categoria){
 	NodoCola* nuevoNodo = (NodoCola*)malloc(sizeof(NodoCola));
 
@@ -379,8 +378,6 @@ void imprimirLista(Nodo* lista, FILE* arcFinal, int token){
 		fprintf(arcFinal,"\n La lista se encuentra vacia\n\n"); 
 }
 
-
-
 void imprimirCola(tipoCola* cola, FILE* arcFinal, int categoria){
     struct infoCola info;
     
@@ -420,7 +417,6 @@ void imprimirCola(tipoCola* cola, FILE* arcFinal, int categoria){
     else
 		fprintf(arcFinal,"\n La cola se encuentra vacia\n\n");
 }
-
 
 void imprimirIdentificadores(){
     fprintf(arcFinal, "_______________________________________________________________________\n");
