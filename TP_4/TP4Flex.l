@@ -1,6 +1,8 @@
 %option noyywrap
 
 %{
+#include "TP4Bison.tab.h"
+
 // Definicion de las librerías que incluímos
 #include <stdio.h>
 #include <string.h> // strcpy, strcmp
