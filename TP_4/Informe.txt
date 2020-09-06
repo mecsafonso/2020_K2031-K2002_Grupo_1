@@ -1,0 +1,406 @@
+
+                             INFORME - FLEX para reconocimiento de categorías léxicas de C                               
+
+-------------------------------------------------------------------------------------------------------------------------
+
+_______________________________________________________________________
+|                      Lista de Identificadores                       |
+|_____________________________________________________________________|
+|                 Lexema                |        Nro Repeticiones     |
+|_______________________________________|_____________________________|
+| Comentario_6                   	|              1              |
+| FICHERO_YA_INCLUIDO            	|              2              |
+| Prueba                         	|              1              |
+| __identificador01              	|              1              |
+| _identificadr                  	|              1              |
+| ab                             	|              6              |
+| define                         	|              2              |
+| definefichero_incluido         	|              1              |
+| ej_DE_IDENTIFICADOR_32_espacios	|              1              |
+| elo                            	|              2              |
+| fichero_incluido               	|              1              |
+| hola                           	|              5              |
+| ortega                         	|              1              |
+| otracosa                       	|              1              |
+| prueba                         	|              1              |
+| prueba_01                      	|              1              |
+| rangel                         	|              1              |
+|_______________________________________|_____________________________|
+
+
+
+__________________________________________________________________________________________________________________________
+|                                                   Lista de literales Cadena                                            |
+|________________________________________________________________________________________________________________________|
+|                                                     Lexema                                            |    Longitud    |
+|_______________________________________________________________________________________________________|________________|
+|"ho la"                                                                                             	|	5   	 |
+|"a"                                                                                                 	|	1   	 |
+|"asd\"123"                                                                                          	|	8   	 |
+|"\z\x\p\r"                                                                                          	|	8   	 |
+|""                                                                                                  	|	0   	 |
+|"ejemplo de un literal cadena muy largo que puede contener muchos espacios para probar en el informe"	|	99  	 |
+|"prueba102\n"                                                                                       	|	11  	 |
+|"AB"                                                                                                	|	2   	 |
+|"prueba"                                                                                            	|	6   	 |
+|"prueba"                                                                                            	|	6   	 |
+|_______________________________________________________________________________________________________|________________|
+
+
+
+_______________________________________________________________________
+|                    Lista de Palabras Reservadas                     |
+|_____________________________________________________________________|
+|             Lexema     |                 Categoria                  |
+|________________________|____________________________________________|
+|            char	 |	Tipo de Dato                          |
+|           break	 |	Estructura de Control                 |
+|            auto	 |	Otros                                 |
+|              if	 |	Estructura de Control                 |
+|             int	 |	Tipo de Dato                          |
+|________________________|____________________________________________|
+
+
+
+_______________________________________________________________________
+|                            Lista de Constantes                      |
+|_____________________________________________________________________|
+|              Lexema    |     Token                                  |
+|------------------------|--------------------------------------------|
+|                 123	 |	Decimal                               |
+|                  12	 |	Decimal                               |
+|                1000	 |	Decimal                               |
+|                   2	 |	Decimal                               |
+|                 568	 |	Decimal                               |
+|                 568	 |	Decimal                               |
+|                   1	 |	Decimal                               |
+|                  12	 |	Decimal                               |
+|                   3	 |	Decimal                               |
+|                  11	 |	Decimal                               |
+|                   7	 |	Decimal                               |
+|                   7	 |	Decimal                               |
+|         ---------------                                             |
+| TOTAL 	2314                                                  |
+|                                                                     |
+|---------------------------------------------------------------------|
+|              Lexema    |  Val Decimal |     Token                   |
+|------------------------|--------------|-----------------------------|
+|                 067	 |           55 |	Octal                 |
+|                 077	 |           63 |	Octal                 |
+|                   0	 |            0 |	Octal                 |
+|                 001	 |            1 |	Octal                 |
+|                   0	 |            0 |	Octal                 |
+|                 001	 |            1 |	Octal                 |
+|                   0	 |            0 |	Octal                 |
+|                 052	 |           42 |	Octal                 |
+|                0xFF	 |          255 |	Hexa                  |
+|                0Xff	 |          255 |	Hexa                  |
+|                                                                     |
+|---------------------------------------------------------------------|
+|              Lexema    | Parte Entera |    Mantisa   |    Token     |
+|------------------------|--------------|--------------|--------------|
+|                 078	 |           78 |      0.00000 |	Real  |
+|                  0.	 |            0 |      0.00000 |	Real  |
+|                0.52	 |            0 |      0.52000 |	Real  |
+|                 .52	 |            0 |      0.52000 |	Real  |
+|                 1E1	 |           10 |      0.00000 |	Real  |
+|                 1e1	 |           10 |      0.00000 |	Real  |
+|                1E+5	 |       100000 |      0.00000 |	Real  |
+|               10E-5	 |            0 |      0.00010 |	Real  |
+|                5e+5	 |       500000 |      0.00000 |	Real  |
+|              2.2e-5	 |            0 |      0.00002 |	Real  |
+|                 1E3	 |         1000 |      0.00000 |	Real  |
+|                1E-3	 |            0 |      0.00100 |	Real  |
+|             2568E-3	 |            2 |      0.56800 |	Real  |
+|                4.28	 |            4 |      0.28000 |	Real  |
+|                0.28	 |            0 |      0.28000 |	Real  |
+|                                                                     |
+|---------------------------------------------------------------------|
+|              Lexema    | Or aparicion |     Token                   |
+|------------------------|--------------|-----------------------------|
+|                 '\'	 |            1 |	Caracter              |
+|                 '.'	 |            2 |	Caracter              |
+|                 'a'	 |            3 |	Caracter              |
+|                 'A'	 |            4 |	Caracter              |
+|                 '1'	 |            5 |	Caracter              |
+|                 '-'	 |            6 |	Caracter              |
+|                 '''	 |            7 |	Caracter              |
+|                 '+'	 |            8 |	Caracter              |
+|                  ''	 |            9 |	Caracter              |
+|                 '0'	 |           10 |	Caracter              |
+|________________________|______________|_____________________________|
+
+
+_______________________________________________________________________
+|            Lista de Operadores y Caracteres de Puntuacion           |
+|_____________________________________________________________________|
+|          Lexema        | Repeticiones |       Token                 |
+|________________________|______________|_____________________________|
+|		&        |	   2	|	Operador              |
+|		=        |	   5	|	Operador              |
+|		,        |	   5	|	Puntuacion            |
+|		%        |	   2	|	Operador              |
+|		...      |	   1	|	Puntuacion            |
+|		;        |	   1	|	Puntuacion            |
+|		:        |	   1	|	Puntuacion            |
+|		.        |	   1	|	Puntuacion            |
+|		#        |	   4	|	Puntuacion            |
+|		{        |	   1	|	Puntuacion            |
+|		[        |	   1	|	Puntuacion            |
+|		]        |	   1	|	Puntuacion            |
+|		)        |	   1	|	Puntuacion            |
+|		-        |	   1	|	Operador              |
+|		+        |	   1	|	Operador              |
+|		*        |	   2	|	Operador              |
+|		/        |	   2	|	Operador              |
+|		~        |	   1	|	Operador              |
+|		!        |	   1	|	Operador              |
+|		^        |	   1	|	Operador              |
+|		<        |	   2	|	Operador              |
+|		>        |	   2	|	Operador              |
+|		|        |	   1	|	Operador              |
+|		++       |	   1	|	Operador              |
+|		--       |	   1	|	Operador              |
+|		->       |	   1	|	Operador              |
+|		<=       |	   1	|	Operador              |
+|		==       |	   1	|	Operador              |
+|		!=       |	   1	|	Operador              |
+|		!!       |	   1	|	Operador              |
+|		&&       |	   1	|	Operador              |
+|		||       |	   1	|	Operador              |
+|		+=       |	   1	|	Operador              |
+|		-=       |	   1	|	Operador              |
+|		*=       |	   1	|	Operador              |
+|		/=       |	   1	|	Operador              |
+|		%=       |	   1	|	Operador              |
+|		>>=      |	   1	|	Operador              |
+|		<<=      |	   1	|	Operador              |
+|		&=       |	   1	|	Operador              |
+|		|=       |	   1	|	Operador              |
+|		^=       |	   1	|	Operador              |
+|		?:       |	   1	|	Operador              |
+|		<<       |	   1	|	Operador              |
+|		>>       |	   1	|	Operador              |
+|________________________|______________|_____________________________|
+
+
+___________________________________________________________________________________________________________________________
+|                                                    Lista de Comentarios                                                 |
+|_________________________________________________________________________________________________________________________|
+|                                                     Lexema                                           |      Token       |
+|______________________________________________________________________________________________________|__________________|
+|/* ejemplo de comentario multiples lineas muy largo con muchos espacios para probar en el informe */  | Multiples Lineas |
+|/*Comentario 1*/                                                                                      | Multiples Lineas |
+|/* Comentario_5*/                                                                                     | Multiples Lineas |
+|//Comentario 7                                                                                        | 1 Linea          |
+|// Comentario_8                                                                                       | 1 Linea          |
+|/* Comentario 2 */                                                                                    | Multiples Lineas |
+|// Comentario 9                                                                                       | 1 Linea          |
+|// Comentario 10 //                                                                                   | 1 Linea          |
+|// ejemplo de comentario de 1 linea muy largo que contiene muchos espacios para probar en el informe  | 1 Linea          |
+|// Comentario                                                                                         | 1 Linea          |
+|/* Comentario
+        3*/                                                                             | Multiples Lineas |
+|______________________________________________________________________________________________________|__________________|
+
+
+
+NOTA: Asumimos que no habra cadenas no reconocidas, ya que segun las reglas pueden ser catalogadas como identificador, 
+	 literal cadena, comentario o palabra reservada, por lo tanto, nos enfocamos en los caracteres que no son reconocidos.
+
+_______________________________________________________________________
+|         Listado de cadenas y/o caracteres NO reconocidos            |
+|_____________________________________________________________________|
+|                        Lexema    |    Nro de linea                  |
+|__________________________________|__________________________________|
+|                       espacio	   |	1                             |
+|                       espacio	   |	1                             |
+|                       espacio	   |	1                             |
+|                       espacio	   |	1                             |
+|                             $	   |	1                             |
+|                       espacio	   |	1                             |
+|                            \n	   |	1                             |
+|                       espacio	   |	2                             |
+|                       espacio	   |	2                             |
+|                       espacio	   |	2                             |
+|                       espacio	   |	2                             |
+|                       espacio	   |	2                             |
+|                       espacio	   |	2                             |
+|                       espacio	   |	2                             |
+|                       espacio	   |	2                             |
+|                       espacio	   |	2                             |
+|                       espacio	   |	2                             |
+|                            \n	   |	2                             |
+|                       espacio	   |	3                             |
+|                       espacio	   |	3                             |
+|                       espacio	   |	3                             |
+|                       espacio	   |	3                             |
+|                       espacio	   |	3                             |
+|                       espacio	   |	3                             |
+|                       espacio	   |	3                             |
+|                       espacio	   |	3                             |
+|                            \n	   |	3                             |
+|                            \n	   |	4                             |
+|                       espacio	   |	5                             |
+|                       espacio	   |	5                             |
+|                       espacio	   |	5                             |
+|                            \n	   |	5                             |
+|                       espacio	   |	6                             |
+|                       espacio	   |	6                             |
+|                       espacio	   |	6                             |
+|                            \n	   |	6                             |
+|                       espacio	   |	7                             |
+|                       espacio	   |	7                             |
+|                       espacio	   |	7                             |
+|                            \n	   |	7                             |
+|                       espacio	   |	8                             |
+|                       espacio	   |	8                             |
+|                       espacio	   |	8                             |
+|                       espacio	   |	8                             |
+|                            \n	   |	8                             |
+|                       espacio	   |	9                             |
+|                       espacio	   |	9                             |
+|                       espacio	   |	9                             |
+|                       espacio	   |	9                             |
+|                       espacio	   |	9                             |
+|                             "	   |	9                             |
+|                            \n	   |	9                             |
+|                       espacio	   |	10                            |
+|                       espacio	   |	10                            |
+|                             "	   |	10                            |
+|                            \n	   |	10                            |
+|                       espacio	   |	11                            |
+|                             "	   |	11                            |
+|                       espacio	   |	11                            |
+|                            \n	   |	11                            |
+|                            \n	   |	12                            |
+|                       espacio	   |	13                            |
+|                       espacio	   |	13                            |
+|                       espacio	   |	13                            |
+|                       espacio	   |	13                            |
+|                       espacio	   |	13                            |
+|                            \n	   |	13                            |
+|                            \n	   |	14                            |
+|                       espacio	   |	15                            |
+|                       espacio	   |	15                            |
+|                       espacio	   |	15                            |
+|                       espacio	   |	15                            |
+|                       espacio	   |	15                            |
+|                       espacio	   |	15                            |
+|                       espacio	   |	15                            |
+|                       espacio	   |	15                            |
+|                       espacio	   |	15                            |
+|                            \n	   |	15                            |
+|                       espacio	   |	16                            |
+|                       espacio	   |	16                            |
+|                       espacio	   |	16                            |
+|                       espacio	   |	16                            |
+|                            \n	   |	16                            |
+|                       espacio	   |	17                            |
+|                       espacio	   |	17                            |
+|                       espacio	   |	17                            |
+|                       espacio	   |	17                            |
+|                       espacio	   |	17                            |
+|                       espacio	   |	17                            |
+|                       espacio	   |	17                            |
+|                       espacio	   |	17                            |
+|                            \n	   |	17                            |
+|                            \n	   |	18                            |
+|                       espacio	   |	19                            |
+|                       espacio	   |	19                            |
+|                       espacio	   |	19                            |
+|                       espacio	   |	19                            |
+|                       espacio	   |	19                            |
+|                       espacio	   |	19                            |
+|                       espacio	   |	19                            |
+|                       espacio	   |	19                            |
+|                       espacio	   |	19                            |
+|                       espacio	   |	19                            |
+|                       espacio	   |	19                            |
+|                       espacio	   |	19                            |
+|                            \n	   |	19                            |
+|                       espacio	   |	20                            |
+|                       espacio	   |	20                            |
+|                       espacio	   |	20                            |
+|                       espacio	   |	20                            |
+|                       espacio	   |	20                            |
+|                       espacio	   |	20                            |
+|                       espacio	   |	20                            |
+|                       espacio	   |	20                            |
+|                       espacio	   |	20                            |
+|                       espacio	   |	20                            |
+|                       espacio	   |	20                            |
+|                       espacio	   |	20                            |
+|                       espacio	   |	20                            |
+|                       espacio	   |	20                            |
+|                       espacio	   |	20                            |
+|                       espacio	   |	20                            |
+|                       espacio	   |	20                            |
+|                       espacio	   |	20                            |
+|                       espacio	   |	20                            |
+|                       espacio	   |	20                            |
+|                       espacio	   |	20                            |
+|                            \n	   |	20                            |
+|                            \n	   |	21                            |
+|                            \n	   |	22                            |
+|                            \n	   |	23                            |
+|                            \n	   |	24                            |
+|                       espacio	   |	25                            |
+|                            \n	   |	25                            |
+|                            \n	   |	26                            |
+|                            \n	   |	27                            |
+|                            \n	   |	28                            |
+|                            \n	   |	29                            |
+|                            \n	   |	30                            |
+|                            \n	   |	31                            |
+|                            \n	   |	32                            |
+|                            \n	   |	33                            |
+|                       espacio	   |	35                            |
+|                       espacio	   |	35                            |
+|                       espacio	   |	35                            |
+|                       espacio	   |	35                            |
+|                       espacio	   |	35                            |
+|                       espacio	   |	35                            |
+|                       espacio	   |	35                            |
+|                       espacio	   |	35                            |
+|                       espacio	   |	35                            |
+|                       espacio	   |	35                            |
+|                       espacio	   |	35                            |
+|                       espacio	   |	35                            |
+|                            \n	   |	35                            |
+|                            \n	   |	36                            |
+|                       espacio	   |	37                            |
+|                            \n	   |	37                            |
+|                       espacio	   |	38                            |
+|                            \n	   |	38                            |
+|                       espacio	   |	39                            |
+|                            \n	   |	39                            |
+|                            \n	   |	40                            |
+|                       espacio	   |	41                            |
+|                       espacio	   |	41                            |
+|                            \n	   |	41                            |
+|                       espacio	   |	42                            |
+|                            \n	   |	42                            |
+|                       espacio	   |	43                            |
+|                       espacio	   |	43                            |
+|                            \n	   |	43                            |
+|                            \n	   |	44                            |
+|                       espacio	   |	45                            |
+|                            \n	   |	45                            |
+|                       espacio	   |	46                            |
+|                            \n	   |	46                            |
+|                       espacio	   |	47                            |
+|                            \n	   |	47                            |
+|                            \n	   |	48                            |
+|                            \n	   |	49                            |
+|__________________________________|__________________________________|
+
+
+_______________________________________________________________________
+|               Listado de directivas del Precompilador               |
+|_____________________________________________________________________|
+|                        Lexema    |    Nro repeticiones              |
+|__________________________________|__________________________________|
+|                       #define	   |	4                             |
+|                      #include	   |	3                             |
+|__________________________________|__________________________________|
