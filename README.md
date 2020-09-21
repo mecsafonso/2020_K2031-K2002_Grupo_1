@@ -19,3 +19,5 @@ TP1: Implementación de un AFD para GRURL
 TP2: Implementación de un AFP para GIC
 
 TP3: Implementación de Analizador Léxico en FLEX
+
+TP4: Implementación de un programa que permita reconocer expresiones, declaraciones de variables, declaraciones de funciones, sentencias de distintos tipos y definiciones de funciones con BISON
