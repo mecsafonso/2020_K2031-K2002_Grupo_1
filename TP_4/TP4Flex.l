@@ -113,31 +113,34 @@ CONDICION (<|\")
 
 %% 
 
-[1-9]{DIGITO_DECIMAL}*  {ACUMULADOR_DECIMALES += atoi(yytext); encolar(decimales, yytext, 0, "Decimal");}
-0{DIGITO_OCTAL}* { encolar(octales, yytext, convertirAdecimal(yytext, BASE8, yyleng), "Octal");}
-0[xX]{DIGITO_HEXADECIMAL}+ { encolar(hexadecimales, yytext, convertirAdecimal(yytext, BASE16, yyleng), "Hexa");}
-({DIGITO_DECIMAL}*\.{DIGITO_DECIMAL}+|{DIGITO_DECIMAL}+\.|{DIGITO_DECIMAL}+)([eE][\+\-]?{DIGITO_DECIMAL}+)? {encolar(reales, yytext, atof(yytext), "Real");}
-\'.?\' {encolar(caracteres, yytext, (CONTADOR_CARACTERES += 1), "Caracter");}
+[1-9]{DIGITO_DECIMAL}*  {yylval.entero = atoi(yytext); return NUM;}
+0{DIGITO_OCTAL}* {yylval.entero = convertirAdecimal(yytext, BASE8, yyleng); return NUM;}
+0[xX]{DIGITO_HEXADECIMAL}+ {yylval.entero = convertirAdecimal(yytext, BASE16, yyleng); return NUM;}
+({DIGITO_DECIMAL}*\.{DIGITO_DECIMAL}+|{DIGITO_DECIMAL}+\.|{DIGITO_DECIMAL}+)([eE][\+\-]?{DIGITO_DECIMAL}+)? {yylval.real = atoi(yytext); return REAL;}
+\'.?\' {yylval.caracter = atoi(yytext); return CCARACTER;}
 
-\"(\\.|[^(\n|\\")])*\" { encolar(LiteralCadena, yytext, yyleng - 2, "");} 
+\"(\\.|[^(\n|\\")])*\" {strcpy(yylval.cadena,yytext); return LIT_CADENA;} 
 
-char|double|enum|float|int|long|short|signed|struct|union|unsigned|void { encolar(PalabrasReservadas, yytext, 0, "Tipo de Dato");}
-break|case|continue|do|else|for|goto|if|return|switch|while { encolar(PalabrasReservadas, yytext, 0, "Estructura de Control");}
-auto|const|default|extern|register|sizeof|static|typedef|volatile { encolar(PalabrasReservadas, yytext, 0, "Otros");}
+char|double|enum|float|int|long|short|signed|struct|union|unsigned|void {strcpy(yylval.cadena,yytext); return TIPO_DATO;}
+break|case|continue|do|else|for|goto|if|return|switch|while {strcpy(yylval.cadena,yytext); return ESTRUCTURA_DE_CONTROL;}
+auto|const|default|extern|register|sizeof|static|typedef|volatile {strcpy(yylval.cadena,yytext); return PALABRA_RESERVADA;}
 
-{IDENTIFICADOR} {cargarSinRepetir(listaIdentificadores, yytext, IDENTIFICADOR);} 
+{IDENTIFICADOR} {strcpy(yylval.cadena,yytext); return IDENTIFICADOR;} 
+
+"+"|"-"|"*"|"/"|"="|"^"|"<"|">"|"("|")"|";" {return yytext[0]}
+
 
 "++"|"--"|"->"|<=|==|!=|!!|&&|"||"|"+="|"-="|"*="|"/="|%=|>>=|<<=|&=|"|="|"^="|"?:"|<<|>>|"^"|[\+\-\*/%~&!=<>\|] { cargarSinRepetir(listaOper_CarPunt, yytext, OPERADOR);}
 \.\.\.|[.|,|;|:|#|\[|\]|\{|\}|\(|\)] { cargarSinRepetir(listaOper_CarPunt, yytext, PUNTUACION);}
 
-\/\*(\\.|[^\\*\/])*\*\/  {encolar(comentarios, yytext, 0, "Multiples Lineas"); contieneSaltoDeLinea(yytext, yyleng);}
-\/\/(\\.|[^\n])*  {encolar(comentarios, yytext, 0, "1 Linea");}
+\/\*(\\.|[^\\*\/])*\*\/  {strcpy(yylval.cadena,yytext); return COMENTARIO;}
+\/\/(\\.|[^\n])*  {strcpy(yylval.cadena,yytext); return COMENTARIO;}
 
 "#define"/" "{IDENTIFICADOR} {CONTADOR_DEFINE += 1;}
 "#include"/" "{CONDICION} {CONTADOR_INCLUDE += 1;}
 
-"\n" {encolar(NoReconocidos, "\\n", CONTADOR_SALTOS_DE_LINEA, "" ); CONTADOR_SALTOS_DE_LINEA += 1;}
-. {encolar(NoReconocidos, yytext, CONTADOR_SALTOS_DE_LINEA, "" );}
+"\n" {return '\n';}
+. {printf("Error en la linea %d, con la cadena %s", yyline, yytext); return ERROR;}
 
 %%
 

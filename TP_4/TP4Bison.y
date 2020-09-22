@@ -15,15 +15,27 @@ char cadena[30];
 int entero;
 int tipo;
 float real;
+char caeacter;
 }
 
 %token <entero> NUM
 %token <cadena> IDENTIFICADOR
 %token <cadena> TIPO_DATO
-%token <entero> error
+%token <real> REAL
+%token <cadena> LIT_CADENA
+%token <cadena> ESTRUCTURA_DE_CONTROL
+%token <cadena> PALABRA_RESERVADA
+%token <caracter> CCARACTER
+%token <entero> ERROR
+%token <cadena> COMENTARIO
 
 %type <cadena> identificadorA
 %type <entero> expresion
+
+%left '+' '-'
+%left '*' '/'
+%left '^'
+%left '(' ')'
 
 %% /* A continuacion las reglas gramaticales y las acciones */
 
