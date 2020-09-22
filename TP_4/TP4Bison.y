@@ -4,6 +4,8 @@
 #include <string.h> // strcpy, strcmp
 #include <ctype.h> // toupper y isdigit
 #include <stdlib.h> // atoi, atof
+#include "TP4.h"
+
 int yylex();
 void yyerror (char const *s) {
    fprintf (stderr, "%s\n", s);
@@ -13,7 +15,7 @@ void yyerror (char const *s) {
 %union {
 char cadena[30];
 int entero;
-int tipo;
+char tipo[20];
 float real;
 char caeacter;
 }
@@ -57,8 +59,13 @@ listaIdentificadores: 	identificadorA
 
 identificadorA:		  	IDENTIFICADOR {printf("Se declara el identificador %s de tipo %s \n",$<cadena>1,tipo);contador++;}
 						| IDENTIFICADOR '=' expresion {if(flag_error==0){printf("Se declara el identificador %s de tipo %s y se le asigna el valor %d \n",$<cadena>1,tipo,$<entero>3);};contador++;}
+            | IDENTIFICADOR '(' sentenciaDeclaracion ')' bloqueDeCodigo{}
 						| error {if(flag_error==0){printf("Falta identificador \n");flag_error=1;};}
 ;
+
+bloqueDeCodigo:
+            | '{' codigo '}'
+            | %empty
 
 expresion:				NUM {$<entero>$=$<entero>1}
 						| error {flag_error=1;printf("Valor no reconocido para asignar \n");}

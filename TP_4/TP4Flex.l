@@ -9,6 +9,7 @@
 #include <ctype.h>  // toupper y isdigit
 #include <math.h>   // pow
 #include <stdlib.h> // atoi, atof
+#include "TP4.h"
 
 // Deficinion de directivas de preprocesamiento
 #define DECIMAL 0

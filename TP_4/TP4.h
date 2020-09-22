@@ -4,37 +4,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+typedef struct var {
+    char* type;
+    char* name;
+    struct var* next;
+}var;
+typedef struct function{
+    char* return_type;
+    char* name;
+    int use_times;
+    var* ts_var;
+    struct function* next;
+}function;
 
-#define TYP_VAR 0
-#define TYP_FNCT 1
+// Declaracion de las funciones para agregar valores a las tablas
+var* putvar(char const* , var*);
+function* putfunc(char const *, function*);
 
-typedef double (*func_t) (double);
+// Declaracion de las funciones para consultar valores a las tablas
+function* getfunc(char const *, function*);
+var* getvar(char const* , var*);
 
-//Definición de la estructura de los nodos de la TS, la denominamos symrec.
-
-typedef struct symrec
-{
-  char *name;
-  int type;   
-  union
-  {
-    double var;    
-    func_t fnctptr;
-  } value;
-  struct symrec *next;
-} symrec;
-
-//Declaración de la variable sym_table que apunta a la TS
-//Se utiliza para exponer variables pertenecientes a un archivo a uno o varios archivos adicionales. 
-
-extern symrec *sym_table;
-
-//Declaración de la función putsym para agregar símbolo a la TS
-
-symrec *putsym (char const *, int);
-
-//Declaración de la función getsym para tomar un símbolo de la TS
-
-symrec *getsym (char const *);
 
 #endif //TP4_H_
