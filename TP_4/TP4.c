@@ -2,25 +2,32 @@
 
 // Definición de la función put
 
-var* putvar(char const*name, var* ts){
+var* putvar(char const*name, var* ts, char* tipo){
     var* ptr = (var*)malloc (sizeof (var));
     ptr->name = (char*) malloc(strlen(name)+1);
     strcpy(ptr->name, name);
-    strcpy(ptr->type, NULL);
-    ptr->next = (struct var*) ts;
+    strcpy(ptr->type, tipo);
+    if(ts == NULL){
+        ptr->next == NULL;
+    } else {
+        ptr->next = (struct var*) ts;
+    }
     ts = ptr;
     return ptr;
 }
 
 
-function* putfunc(char const*name, function* ts){
+function* putfunc(char const*name, function* ts, char* tipo){
     function* ptr = (function*)malloc (sizeof (function));
     ptr->name = (char*) malloc(strlen(name)+1);
     strcpy(ptr->name, name);
-    strcpy(ptr->return_type, NULL);
-    ptr->use_times = 0;
+    strcpy(ptr->return_type, tipo);
     ptr->ts_var = NULL;
-    ptr->next = (struct function*) ts;
+    if (ts == NULL){
+        ptr->next = NULL;
+    } else {
+        ptr->next = (struct function*) ts;
+    }
     ts = ptr;
     return ptr;
 }

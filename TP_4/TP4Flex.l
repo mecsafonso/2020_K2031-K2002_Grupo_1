@@ -11,97 +11,11 @@
 #include <stdlib.h> // atoi, atof
 #include "TP4.h"
 
-// Deficinion de directivas de preprocesamiento
-#define DECIMAL 0
-#define OCTAL 1
-#define HEXADECIMAL 2
-#define CARACTER 3
-#define REAL 4
-#define LITERAL_CADENA 5
-#define P_RESERVADA 6
-#define IDENTIFICADOR 7
-#define OPERADOR 8
-#define PUNTUACION 9
-#define COMENTARIO 10
-#define DEFINE 11 
-#define INCLUDE 12
-#define NO_RECONOCIDOS 13
-
 #define BASE8 8
 #define BASE16 16
 
-
-// Definicion de estructuras
-typedef struct nodo{
-    char nombre[32];    /* asumimos un tamaño para el identificador de 31 caracteres + '\0' = 32 */
-    int cantidad;
-    char categoria[20];
-    struct nodo* sgte;
-} Nodo;
-
-struct infoCola{
-    char nombre[101];    /* asumimos un tamaño para el literal cadena y de los comentarios de 100 caracteres + '\0'= 101 */
-    int cantidad;
-    char categoria[32];
-} ;
-
-typedef struct nodoCola{
-    struct infoCola info;
-    struct nodoCola* sgte;
-} NodoCola;
-
-
-struct cola {
-    NodoCola* primero;
-	NodoCola* ultimo;
-} typedef tipoCola;
-
-
-// Definicion de Variables Globales
-Nodo* listaIdentificadores;
-Nodo* listaOper_CarPunt;
-
-tipoCola* LiteralCadena;
-tipoCola* PalabrasReservadas;
-tipoCola* decimales;
-tipoCola* octales;
-tipoCola* hexadecimales;
-tipoCola* reales;
-tipoCola* caracteres;
-tipoCola* comentarios;
-tipoCola* NoReconocidos;
-
-int ACUMULADOR_DECIMALES = 0, CONTADOR_CARACTERES = 0, CONTADOR_SALTOS_DE_LINEA = 1, CONTADOR_DEFINE = 0, CONTADOR_INCLUDE = 0;
-FILE* arcFinal;
-
-/* Prototipo de FUNCIONES*/
-int buscarCadena(Nodo*, char*);
-void insertarPrimeroIdentificador(char*);
-void insertarEnMedioIdentificador(char*);
-void insertarOrdenadoIdentificador(char*);
-void insertarLiteralCadena(char*, int);
-void insertarOperador_Puntuacion(char*, char*);
-void modificarNodo(Nodo*, char*);
-void cargarSinRepetir(Nodo*, char*, int);
-tipoCola* crearCola();
-void encolar(tipoCola*, char*, int, char*);
-struct infoCola desencolar(tipoCola*);
 int caracterHexadecimalADecimal(char);
 int convertirAdecimal(char*, int, int);
-int contieneSaltoDeLinea(char*, int);
-
-void imprimirLista(Nodo*, FILE*, int);
-void imprimirCola(tipoCola*, FILE*, int);
-
-void imprimirIdentificadores();
-void imprimirLiteralesCadena();
-void imprimirPalabrasReservadas();
-void imprimirConstantes();
-void imprimirOper_Y_CarPunt();
-void imprimirComentarios();
-void imprimirNoReconocidos();
-void imprimirDirectivasPrecompilador();
-
 
 %}
 
@@ -111,218 +25,51 @@ DIGITO_HEXADECIMAL [a-fA-F0-9]
 LETRA [a-zA-Z]
 IDENTIFICADOR ({LETRA}|"_")({LETRA}|{DIGITO_DECIMAL}|"_")*
 CONDICION (<|\")
+TIPO_DATO char\*|char|const|double|float|int|long|short|signed|static|unsigned|void|volatile
+ESTRUCTURA_DE_CONTROL continue|goto
+PALABRA_RESERVADA auto|enum|extern|register|sizeof|struct|typedef|union
 
 %% 
 
-[1-9]{DIGITO_DECIMAL}*  {yylval.entero = atoi(yytext); return NUM;}
-0{DIGITO_OCTAL}* {yylval.entero = convertirAdecimal(yytext, BASE8, yyleng); return NUM;}
-0[xX]{DIGITO_HEXADECIMAL}+ {yylval.entero = convertirAdecimal(yytext, BASE16, yyleng); return NUM;}
+[1-9]{DIGITO_DECIMAL}*  {yylval.num = atoi(yytext); return NUM;}
+0{DIGITO_OCTAL}* {yylval.num = convertirAdecimal(yytext, BASE8, yyleng); return NUM;}
+0[xX]{DIGITO_HEXADECIMAL}+ {yylval.num = convertirAdecimal(yytext, BASE16, yyleng); return NUM;}
 ({DIGITO_DECIMAL}*\.{DIGITO_DECIMAL}+|{DIGITO_DECIMAL}+\.|{DIGITO_DECIMAL}+)([eE][\+\-]?{DIGITO_DECIMAL}+)? {yylval.real = atoi(yytext); return REAL;}
 \'.?\' {yylval.caracter = atoi(yytext); return CCARACTER;}
 
 \"(\\.|[^(\n|\\")])*\" {strcpy(yylval.cadena,yytext); return LIT_CADENA;} 
 
-char|double|enum|float|int|long|short|signed|struct|union|unsigned|void {strcpy(yylval.cadena,yytext); return TIPO_DATO;}
-break|case|continue|do|else|for|goto|if|return|switch|while {strcpy(yylval.cadena,yytext); return ESTRUCTURA_DE_CONTROL;}
-auto|const|default|extern|register|sizeof|static|typedef|volatile {strcpy(yylval.cadena,yytext); return PALABRA_RESERVADA;}
+{TIPO_DATO} {strcpy(yylval.cadena,yytext); return TIPO_DATO;}
+{ESTRUCTURA_DE_CONTROL} {strcpy(yylval.cadena,yytext); return ESTRUCTURA_DE_CONTROL;}
+{PALABRA_RESERVADA} {strcpy(yylval.cadena,yytext); return PALABRA_RESERVADA;}
 
 {IDENTIFICADOR} {strcpy(yylval.cadena,yytext); return IDENTIFICADOR;} 
 
-"+"|"-"|"*"|"/"|"="|"^"|"<"|">"|"("|")"|";" {return yytext[0]}
+/*"+"|"-"|"*"|"/"|"="|"^"|"<"|">"|"("|")"|";" {return yytext[0]}
 
 
-"++"|"--"|"->"|<=|==|!=|!!|&&|"||"|"+="|"-="|"*="|"/="|%=|>>=|<<=|&=|"|="|"^="|"?:"|<<|>>|"^"|[\+\-\*/%~&!=<>\|] { cargarSinRepetir(listaOper_CarPunt, yytext, OPERADOR);}
-\.\.\.|[.|,|;|:|#|\[|\]|\{|\}|\(|\)] { cargarSinRepetir(listaOper_CarPunt, yytext, PUNTUACION);}
+/*"++"|"--"|"->"|<=|==|!=|!!|&&|"||"|"+="|"-="|"*="|"/="|%=|>>=|<<=|&=|"|="|"^="|"?:"|<<|>>|"^"|[\+\-\*/%~&!=<>\|] { cargarSinRepetir(listaOper_CarPunt, yytext, OPERADOR);}
+/*\.\.\.|[.|,|;|:|#|\[|\]|\{|\}|\(|\)] { cargarSinRepetir(listaOper_CarPunt, yytext, PUNTUACION);}
 
-\/\*(\\.|[^\\*\/])*\*\/  {strcpy(yylval.cadena,yytext); return COMENTARIO;}
-\/\/(\\.|[^\n])*  {strcpy(yylval.cadena,yytext); return COMENTARIO;}
+/*\/\*(\\.|[^\\*\/])*\*\/  {strcpy(yylval.cadena,yytext); return COMENTARIO;}
+/*\/\/(\\.|[^\n])*  {strcpy(yylval.cadena,yytext); return COMENTARIO;}
 
 "#define"/" "{IDENTIFICADOR} {CONTADOR_DEFINE += 1;}
 "#include"/" "{CONDICION} {CONTADOR_INCLUDE += 1;}
 
-"\n" {return '\n';}
-. {printf("Error en la linea %d, con la cadena %s", yyline, yytext); return ERROR;}
+"for" {strcpy(yylval.cadena,yytext); return FOR;}
+"while" {strcpy(yylval.cadena,yytext); return WHILE;}
+"do" {strcpy(yylval.cadena,yytext); return DO;}
+"switch" {strcpy(yylval.cadena,yytext); return SWITCH;}
+"break" {strcpy(yylval.cadena,yytext); return BREAK;}
+"case" {strcpy(yylval.cadena,yytext); return CASE;}
+"default" {strcpy(yylval.cadena,yytext); return DEFAULT;}
+"return" {strcpy(yylval.cadena,yytext); return RETURN;}
+"if" {strcpy(yylval.cadena,yytext); return IF;}
+"else" {strcpy(yylval.cadena,yytext); return ELSE;}
+
 
 %%
-
-int main() {
-   
-    /* Acciones previas a la invocación del analizador léxico */
-
-    yyin = fopen("entrada.txt", "r");
-    yyout = fopen("salida.txt", "w");
-    arcFinal = fopen ("Informe.txt", "w");
-
-    // Inicializacion de las estructuras enlazadas
-    listaIdentificadores = NULL;
-    listaOper_CarPunt = NULL;
-
-    LiteralCadena = crearCola();
-    PalabrasReservadas = crearCola();
-    decimales = crearCola();
-    octales = crearCola();
-    hexadecimales = crearCola();
-    caracteres = crearCola ();
-    reales = crearCola();
-    comentarios = crearCola();
-    NoReconocidos = crearCola();
-
-    /* Invocación del analizador léxico */
-    yylex();
-
-    /* Acciónes posteriores a la ejecución del analizador léxico */
-
-    fprintf(arcFinal, "\n                             INFORME - FLEX para reconocimiento de categorías léxicas de C                               \n\n");
-    fprintf(arcFinal, "-------------------------------------------------------------------------------------------------------------------------\n\n");
-    imprimirIdentificadores();
-    imprimirLiteralesCadena();
-    imprimirPalabrasReservadas();
-    imprimirConstantes();
-    imprimirOper_Y_CarPunt();
-    imprimirComentarios();
-    imprimirNoReconocidos();
-    imprimirDirectivasPrecompilador();
-
-	fclose(arcFinal);
-    return 0;
-}
-
-int buscarCadena(Nodo* lista, char* cadena){
-    Nodo* actual = lista;
-
-    while(actual != NULL && (strcmp(cadena, actual->nombre) != 0))
-        actual = actual->sgte;
-
-    if(actual != NULL && (strcmp(cadena, actual->nombre) == 0))
-        return 1;
-	else
-        return 0;
-}
-
-void insertarPrimeroIdentificador(char* identificador){
-    Nodo* nuevoNodo = (Nodo*) malloc(sizeof(Nodo));
-    strcpy (nuevoNodo->nombre, identificador);
-    nuevoNodo->cantidad = 1; 
-    nuevoNodo->sgte = listaIdentificadores; 
-    listaIdentificadores = nuevoNodo; 
-}
-
-void insertarEnMedioIdentificador(char* identificador){
-    Nodo* nuevoNodo = (Nodo*) malloc(sizeof(Nodo)); 
-    Nodo*aux = listaIdentificadores; 
-    strcpy (nuevoNodo->nombre, identificador);
-    nuevoNodo->cantidad = 1; 
-
-    while(aux->sgte != NULL && (strcmp(identificador, aux->sgte->nombre) > 0)){ 
-        aux = aux->sgte; 
-    } 
-    nuevoNodo->sgte = aux->sgte; 
-    aux->sgte = nuevoNodo; 
-}
-
-void insertarOrdenadoIdentificador(char* identificador){
-    if (listaIdentificadores == NULL || (strcmp(listaIdentificadores->nombre, identificador) > 0)) 
-        insertarPrimeroIdentificador(identificador);
-    else 
-        insertarEnMedioIdentificador(identificador);
-}
-
-void insertarOperador_Puntuacion(char* cadena, char* categoria){
-	Nodo* nuevoNodo = (Nodo*) malloc(sizeof(Nodo));
-    strcpy (nuevoNodo->nombre, cadena);
-    nuevoNodo->cantidad = 1;
-    strcpy (nuevoNodo->categoria, categoria);
-
-	if(listaOper_CarPunt == NULL){
-        nuevoNodo->sgte = listaOper_CarPunt; 
-        listaOper_CarPunt = nuevoNodo;
-	}
-    else{
-        Nodo* aux = listaOper_CarPunt;
-
-        while(aux->sgte != NULL)
-            aux = aux->sgte; 
-        nuevoNodo->sgte = NULL;
-        aux->sgte = nuevoNodo;
-	}
-}
-
-void modificarNodo(Nodo* lista, char* cadena){
-	Nodo* actual = lista;
-	int encontrado = 0;
-
-	if(lista != NULL){
-		while(actual != NULL && encontrado != 1){
-			if(strcmp(cadena, actual->nombre) == 0){
-				actual->cantidad += 1;
-				encontrado = 1;
-			}
-            else	
-			    actual = actual->sgte;
-		}
-	}
-}
-
-void cargarSinRepetir(Nodo* lista, char* cadena, int token){
-    int aux = buscarCadena(lista, cadena);
-               
-    if(aux)
-        modificarNodo(lista, cadena);
-    else{
-        switch (token){
-            case IDENTIFICADOR:
-                insertarOrdenadoIdentificador(cadena);
-                break;
-            case OPERADOR:
-                insertarOperador_Puntuacion(cadena, "Operador");
-                break;
-            case PUNTUACION:
-                insertarOperador_Puntuacion(cadena, "Puntuacion");
-        }
-    }
-}
-
-tipoCola* crearCola(void){
-	tipoCola* cola = malloc(sizeof(tipoCola)); 
-	if(cola == NULL) return NULL;
-	cola->primero  =NULL;
-	cola->ultimo = NULL;
-	return cola;
-}
-
-void encolar(tipoCola* cola, char* cadena, int valor, char* categoria){
-	NodoCola* nuevoNodo = (NodoCola*)malloc(sizeof(NodoCola));
-
-    strcpy(nuevoNodo->info.nombre, cadena);
-    nuevoNodo->info.cantidad = valor;
-    strcpy(nuevoNodo->info.categoria, categoria);
-	nuevoNodo->sgte = NULL;
-
-	if (cola->primero == NULL)
-		cola->primero = nuevoNodo;
-	else
-		cola->ultimo->sgte = nuevoNodo;
-	
-    cola->ultimo = nuevoNodo;	
-}
-
-struct infoCola desencolar(tipoCola *cola){
-	if(cola->primero == NULL){
-        fprintf(arcFinal,"\n La cola se encuentra vacia\n\n");
-        cola->ultimo = NULL;
-    }
-    else {
-        struct infoCola info;
-        strcpy(info.nombre, cola->primero->info.nombre);
-        info.cantidad = cola->primero->info.cantidad;
-        strcpy(info.categoria, cola->primero->info.categoria); 
-
-        NodoCola* aux = cola->primero;
-        cola->primero = aux->sgte; 
-        free(aux);
-        return info;
-    }	
-}
 
 int caracterHexadecimalADecimal(char caracter) {
   if (isdigit(caracter))
@@ -355,181 +102,4 @@ int convertirAdecimal(char* numeroAconvertir, int Base, int longitud) {
         }
         return numeroDecimal;
     }
-}
-
-int contieneSaltoDeLinea(char* cadena, int longitud){
-    for(int i = 0; i < longitud; i++){
-        if(cadena[i] == '\n')
-            CONTADOR_SALTOS_DE_LINEA += 1;
-    }
-}
-
-void imprimirLista(Nodo* lista, FILE* arcFinal, int token){
-    Nodo* actual = lista;
-
-    if(lista != NULL){
-        while(actual != NULL){
-            switch (token){
-            case IDENTIFICADOR:
-                fprintf (arcFinal, "| %-31s\t|%15d%14s|\n", actual->nombre, actual->cantidad," ");
-                break;
-            case OPERADOR ... PUNTUACION:
-                fprintf (arcFinal, "|\t\t%-8s |\t%4d\t|\t%-22s|\n", actual->nombre, actual->cantidad, actual->categoria);
-                break;
-            }
-            actual = actual->sgte;
-        }
-	}
-    else
-		fprintf(arcFinal,"\n La lista se encuentra vacia\n\n"); 
-}
-
-void imprimirCola(tipoCola* cola, FILE* arcFinal, int categoria){
-    struct infoCola info;
-    
-    if(cola->primero != NULL){
-        while(cola->primero != NULL){
-            info = desencolar(cola);
-            float mantisa = atof(info.nombre);
-
-            switch (categoria){
-                case DECIMAL:
-                    fprintf (arcFinal, "|%20s\t |\t%-37s |\n", info.nombre, info.categoria);
-                    break;
-                case OCTAL ... CARACTER:
-                    fprintf (arcFinal, "|%20s\t | %12d |\t%-22s|\n", info.nombre, info.cantidad, info.categoria);
-                    break;
-                case REAL:
-                    fprintf (arcFinal, "|%20s\t | %12d | %12.5f |\t%-5s |\n", info.nombre, info.cantidad, mantisa - info.cantidad, info.categoria);
-                    break;                                                                                 
-                case LITERAL_CADENA:
-                    fprintf (arcFinal, "|%-100s\t|\t%-4d\t |\n", info.nombre, info.cantidad);  
-                    break;
-                case P_RESERVADA:
-                    fprintf (arcFinal, "|%16s\t |\t%-37s |\n", info.nombre, info.categoria);  
-                    break;
-                case COMENTARIO:
-                    fprintf (arcFinal, "|%-100s  | %-16s |\n", info.nombre, info.categoria);
-                    break;
-                case NO_RECONOCIDOS:
-                    if(strcmp(info.nombre, " ")  != 0)
-                        fprintf (arcFinal, "|%30s\t   |\t%-30d|\n", info.nombre, info.cantidad);
-                    else
-                        fprintf (arcFinal, "|%30s\t   |\t%-30d|\n", "espacio", info.cantidad);
-                    break;
-            }       
-        }
-	}
-    else
-		fprintf(arcFinal,"\n La cola se encuentra vacia\n\n");
-}
-
-void imprimirIdentificadores(){
-    fprintf(arcFinal, "_______________________________________________________________________\n");
-    fprintf(arcFinal, "|                      Lista de Identificadores                       |\n");
-    fprintf(arcFinal, "|_____________________________________________________________________|\n");
-    fprintf(arcFinal, "|                 Lexema                |        Nro Repeticiones     |\n");
-    fprintf(arcFinal, "|_______________________________________|_____________________________|\n");
-    imprimirLista(listaIdentificadores, arcFinal, IDENTIFICADOR);
-    
-    fprintf(arcFinal, "|_______________________________________|_____________________________|\n\n");
-}
-
-void imprimirLiteralesCadena(){
-    fprintf(arcFinal, "\n\n__________________________________________________________________________________________________________________________\n");
-    fprintf(arcFinal, "|                                                   Lista de literales Cadena                                            |\n");
-    fprintf(arcFinal, "|________________________________________________________________________________________________________________________|\n");
-    fprintf(arcFinal, "|                                                     Lexema                                            |    Longitud    |\n");
-    fprintf(arcFinal, "|_______________________________________________________________________________________________________|________________|\n");
-
-    imprimirCola(LiteralCadena, arcFinal, LITERAL_CADENA);
-    fprintf(arcFinal, "|_______________________________________________________________________________________________________|________________|\n\n");
-}
-
-void imprimirPalabrasReservadas(){
-    fprintf(arcFinal, "\n\n_______________________________________________________________________\n");
-    fprintf(arcFinal, "|                    Lista de Palabras Reservadas                     |\n");
-    fprintf(arcFinal, "|_____________________________________________________________________|\n");
-    fprintf(arcFinal, "|             Lexema     |                 Categoria                  |\n");
-    fprintf(arcFinal, "|________________________|____________________________________________|\n");
-
-    imprimirCola(PalabrasReservadas, arcFinal, P_RESERVADA);
-    fprintf(arcFinal, "|________________________|____________________________________________|\n\n");
-}
-
-void imprimirConstantes(){
-    fprintf(arcFinal, "\n\n_______________________________________________________________________\n");
-    fprintf(arcFinal, "|                            Lista de Constantes                      |\n");
-    fprintf(arcFinal, "|_____________________________________________________________________|\n");
-    fprintf(arcFinal, "|              Lexema    |     Token                                  |\n");
-    fprintf(arcFinal, "|------------------------|--------------------------------------------|\n");
-    imprimirCola(decimales, arcFinal, DECIMAL);
-    fprintf(arcFinal, "|         ---------------                                             |\n");
-    fprintf(arcFinal, "| TOTAL \t%-10d                                            |\n|%69s|\n", ACUMULADOR_DECIMALES, " ");
-
-    fprintf(arcFinal, "|---------------------------------------------------------------------|\n");
-    fprintf(arcFinal, "|              Lexema    |  Val Decimal |     Token                   |\n");
-    fprintf(arcFinal, "|------------------------|--------------|-----------------------------|\n");
-    imprimirCola(octales, arcFinal, OCTAL);
-    imprimirCola(hexadecimales, arcFinal, HEXADECIMAL);
-    fprintf(arcFinal, "|%69s|\n", " ");
-
-    fprintf(arcFinal, "|---------------------------------------------------------------------|\n");
-    fprintf(arcFinal, "|              Lexema    | Parte Entera |    Mantisa   |    Token     |\n");
-    fprintf(arcFinal, "|------------------------|--------------|--------------|--------------|\n");
-    imprimirCola(reales, arcFinal, REAL);
-    fprintf(arcFinal, "|%69s|\n", " ");    
-    
-    fprintf(arcFinal, "|---------------------------------------------------------------------|\n");
-    fprintf(arcFinal, "|              Lexema    | Or aparicion |     Token                   |\n");
-    fprintf(arcFinal, "|------------------------|--------------|-----------------------------|\n");
-    imprimirCola(caracteres, arcFinal, CARACTER);
-    
-    fprintf(arcFinal, "|________________________|______________|_____________________________|\n");
-}
-
-void imprimirOper_Y_CarPunt(){
-    fprintf(arcFinal, "\n\n_______________________________________________________________________\n");
-    fprintf(arcFinal, "|            Lista de Operadores y Caracteres de Puntuacion           |\n");
-    fprintf(arcFinal, "|_____________________________________________________________________|\n");
-    fprintf(arcFinal, "|          Lexema        | Repeticiones |       Token                 |\n");
-    fprintf(arcFinal, "|________________________|______________|_____________________________|\n");
-    imprimirLista(listaOper_CarPunt, arcFinal, OPERADOR);
-    
-    fprintf(arcFinal, "|________________________|______________|_____________________________|\n");
-}
-
-void imprimirComentarios(){
-    fprintf(arcFinal, "\n\n___________________________________________________________________________________________________________________________\n");
-    fprintf(arcFinal, "|                                                    Lista de Comentarios                                                 |\n");
-    fprintf(arcFinal, "|_________________________________________________________________________________________________________________________|\n");
-    fprintf(arcFinal, "|                                                     Lexema                                           |      Token       |\n");
-    fprintf(arcFinal, "|______________________________________________________________________________________________________|__________________|\n");
-    imprimirCola(comentarios, arcFinal, COMENTARIO);
-    
-    fprintf(arcFinal, "|______________________________________________________________________________________________________|__________________|\n\n");
-}
-
-void imprimirNoReconocidos(){
-    fprintf(arcFinal, "\n\nNOTA: Asumimos que no habra cadenas no reconocidas, ya que segun las reglas pueden ser catalogadas como identificador, \n\t literal cadena, comentario o palabra reservada, por lo tanto, nos enfocamos en los caracteres que no son reconocidos.");
-    fprintf(arcFinal, "\n\n_______________________________________________________________________\n");
-    fprintf(arcFinal, "|         Listado de cadenas y/o caracteres NO reconocidos            |\n");
-    fprintf(arcFinal, "|_____________________________________________________________________|\n");
-    fprintf(arcFinal, "|                        Lexema    |    Nro de linea                  |\n");
-    fprintf(arcFinal, "|__________________________________|__________________________________|\n");
-    imprimirCola(NoReconocidos, arcFinal, NO_RECONOCIDOS);
-    
-    fprintf(arcFinal, "|__________________________________|__________________________________|\n");
-}
-
-void imprimirDirectivasPrecompilador(){
-    fprintf(arcFinal, "\n\n_______________________________________________________________________\n");
-    fprintf(arcFinal, "|               Listado de directivas del Precompilador               |\n");
-    fprintf(arcFinal, "|_____________________________________________________________________|\n");
-    fprintf(arcFinal, "|                        Lexema    |    Nro repeticiones              |\n");
-    fprintf(arcFinal, "|__________________________________|__________________________________|\n");
-    fprintf(arcFinal, "|%30s\t   |\t%-30d|\n", "#define", CONTADOR_DEFINE);
-    fprintf(arcFinal, "|%30s\t   |\t%-30d|\n", "#include", CONTADOR_INCLUDE);
-    
-    fprintf(arcFinal, "|__________________________________|__________________________________|");
 }
