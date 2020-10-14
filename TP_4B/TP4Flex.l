@@ -47,8 +47,8 @@ OPERADOR [\+\-\*\/\%]|\+\+|\-\-
 {IDENTIFICADOR} {strcpy(yylval.cadena,yytext); return IDENTIFICADOR;} 
 
 {OPERADOR} {yylval.caracter = atoi(yytext); return OPERADOR}
-/*"++"|"--"|"->"|<=|==|!=|!!|&&|"||"|"+="|"-="|"*="|"/="|%=|>>=|<<=|&=|"|="|"^="|"?:"|<<|>>|"^"|[\+\-\*/    /*%~&!=<>\|] { cargarSinRepetir(listaOper_CarPunt, yytext, OPERADOR);}
-/*\.\.\.|[.|,|;|:|#|\[|\]|\{|\}|\(|\)] { cargarSinRepetir(listaOper_CarPunt, yytext, PUNTUACION);}
+"++"|"--"|"->"|<=|==|!=|!!|&&|"||"|"+="|"-="|"*="|"/="|%=|>>=|<<=|&=|"|="|"^="|"?:"|<<|>>|"^"|[\+\-\*/%~&!=<>\|] { cargarSinRepetir(listaOper_CarPunt, yytext, OPERADOR);}
+\.\.\.|[.|,|;|:|#|\[|\]|\{|\}|\(|\)] { cargarSinRepetir(listaOper_CarPunt, yytext, PUNTUACION);}
 
 \/\*(\\.|[^\\*\/])*\*\/  {strcpy(yylval.cadena,yytext); return COMENTARIO;}
 \/\/(\\.|[^\n])*  {strcpy(yylval.cadena,yytext); return COMENTARIO;}
@@ -56,16 +56,7 @@ OPERADOR [\+\-\*\/\%]|\+\+|\-\-
 "#define"/" "{IDENTIFICADOR} {CONTADOR_DEFINE += 1;}
 "#include"/" "{CONDICION} {CONTADOR_INCLUDE += 1;}
 
-"for" {strcpy(yylval.cadena,yytext); return FOR;}
-"while" {strcpy(yylval.cadena,yytext); return WHILE;}
-"do" {strcpy(yylval.cadena,yytext); return DO;}
-"switch" {strcpy(yylval.cadena,yytext); return SWITCH;}
-"break" {strcpy(yylval.cadena,yytext); return BREAK;}
-"case" {strcpy(yylval.cadena,yytext); return CASE;}
-"default" {strcpy(yylval.cadena,yytext); return DEFAULT;}
-"return" {strcpy(yylval.cadena,yytext); return RETURN;}
-"if" {strcpy(yylval.cadena,yytext); return IF;}
-"else" {strcpy(yylval.cadena,yytext); return ELSE;}
+
 
 
 %%

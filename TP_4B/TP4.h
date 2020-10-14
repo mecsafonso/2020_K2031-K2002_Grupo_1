@@ -13,7 +13,7 @@ typedef struct var {
 typedef struct function{
     char return_type[50];
     char name[50];
-    bool errorRetorno;
+    int errorRetorno;
     var* ts_var;
     var* ts_errores;
     var* ts_parametros;
@@ -41,7 +41,7 @@ function* putfunc(char const*name, function* ts, char* tipo){
     ptr->ts_var = NULL;
     ptr->ts_errores = NULL;
     ptr->ts_parametros = NULL;
-    ptr->errorRetorno = false;
+    ptr->errorRetorno = 0;
     if (ts == NULL){
         ptr->next = NULL;
     } else {

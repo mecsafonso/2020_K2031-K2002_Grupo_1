@@ -39,25 +39,27 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     REAL = 258,
-     IDENTIFICADOR = 259,
-     TIPO_DATO = 260,
-     LIT_CADENA = 261,
-     ESTRUCTURA_DE_CONTROL = 262,
-     PALABRA_RESERVADA = 263,
-     CCARACTER = 264,
-     FOR = 265,
-     WHILE = 266,
-     DO = 267,
-     SWITCH = 268,
-     BREAK = 269,
-     CASE = 270,
-     DEFAULT = 271,
-     RETURN = 272,
-     IF = 273,
-     ELSE = 274,
-     ERROR = 275,
-     COMENTARIO = 276
+     DECIMAL = 258,
+     REAL = 259,
+     IDENTIFICADOR = 260,
+     TIPO_DATO = 261,
+     LIT_CADENA = 262,
+     ESTRUCTURA_DE_CONTROL = 263,
+     PALABRA_RESERVADA = 264,
+     CCARACTER = 265,
+     FOR = 266,
+     WHILE = 267,
+     DO = 268,
+     SWITCH = 269,
+     BREAK = 270,
+     CASE = 271,
+     DEFAULT = 272,
+     RETURN = 273,
+     IF = 274,
+     ELSE = 275,
+     ERROR = 276,
+     COMENTARIO = 277,
+     OPERADOR = 278
    };
 #endif
 
@@ -68,7 +70,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 29 "TP4Bison.y"
+#line 32 "TP4Bison.y"
 
 char cadena[30];
 int num;
@@ -78,7 +80,7 @@ char caracter;
 
 
 /* Line 1676 of yacc.c  */
-#line 66 "TP4Bison.tab.h"
+#line 84 "TP4Bison.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

@@ -9,7 +9,6 @@
 #include <ctype.h>  // toupper y isdigit
 #include <math.h>   // pow
 #include <stdlib.h> // atoi, atof
-#include "TP4.h"
 
 #define BASE8 8
 #define BASE16 16
@@ -26,47 +25,31 @@ LETRA [a-zA-Z]
 IDENTIFICADOR ({LETRA}|"_")({LETRA}|{DIGITO_DECIMAL}|"_")*
 CONDICION (<|\")
 TIPO_DATO char\*|char|const|double|float|int|long|short|signed|static|unsigned|void|volatile
-ESTRUCTURA_DE_CONTROL continue|goto
-PALABRA_RESERVADA auto|enum|extern|register|sizeof|struct|typedef|union
+ESTRUCTURA_DE_CONTROL break|case|continue|do|else|for|goto|if|return|switch|while
+PALABRA_RESERVADA auto|default|enum|extern|register|sizeof|struct|typedef|union
+OPERADOR [\+\-\*\/\%]|\+\+|\-\-
 
 %% 
 
-[1-9]{DIGITO_DECIMAL}*  {yylval.num = atoi(yytext); return NUM;}
-0{DIGITO_OCTAL}* {yylval.num = convertirAdecimal(yytext, BASE8, yyleng); return NUM;}
-0[xX]{DIGITO_HEXADECIMAL}+ {yylval.num = convertirAdecimal(yytext, BASE16, yyleng); return NUM;}
-({DIGITO_DECIMAL}*\.{DIGITO_DECIMAL}+|{DIGITO_DECIMAL}+\.|{DIGITO_DECIMAL}+)([eE][\+\-]?{DIGITO_DECIMAL}+)? {yylval.real = atoi(yytext); return REAL;}
-\'.?\' {yylval.caracter = atoi(yytext); return CCARACTER;}
+[1-9]{DIGITO_DECIMAL}*  {yylval.entero = atoi(yytext); return NUM;}
+0{DIGITO_OCTAL}* {yylval.entero = convertirAdecimal(yytext, BASE8, yyleng); return NUM;}
+0[xX]{DIGITO_HEXADECIMAL}+ {yylval.entero = convertirAdecimal(yytext, BASE16, yyleng); return NUM;}
+
+"++"|"--"|"->"|<=|==|!=|!!|&&|"||"|"-="|"*="|"/="|%=|>>=|<<=|&=|"|="|"^="|"?:"|<<|>>|"^"|[\+\-\*/%~&!<>\|] {strcpy(yylval.cadena,yytext); return OPERADOR;}
+\.\.\.|[.|:|#|\[|\]|\{|\}|\(|\)] {strcpy(yylval.cadena,yytext); return PUNTUACION;}
+
+","     {return ',';}
+"="|"+="    {strcpy(yylval.cadena,yytext); return OPERASIGNACION;}
+";"     {return ';';}
+\n	{return '\n';}
+
+\'.?\' {strcpy(yylval.cadena,yytext); return CARACTER;}
 
 \"(\\.|[^(\n|\\")])*\" {strcpy(yylval.cadena,yytext); return LIT_CADENA;} 
 
 {TIPO_DATO} {strcpy(yylval.cadena,yytext); return TIPO_DATO;}
-{ESTRUCTURA_DE_CONTROL} {strcpy(yylval.cadena,yytext); return ESTRUCTURA_DE_CONTROL;}
-{PALABRA_RESERVADA} {strcpy(yylval.cadena,yytext); return PALABRA_RESERVADA;}
 
 {IDENTIFICADOR} {strcpy(yylval.cadena,yytext); return IDENTIFICADOR;} 
-
-/*"+"|"-"|"*"|"/"|"="|"^"|"<"|">"|"("|")"|";" {return yytext[0]}
-
-
-/*"++"|"--"|"->"|<=|==|!=|!!|&&|"||"|"+="|"-="|"*="|"/="|%=|>>=|<<=|&=|"|="|"^="|"?:"|<<|>>|"^"|[\+\-\*/%~&!=<>\|] { cargarSinRepetir(listaOper_CarPunt, yytext, OPERADOR);}
-/*\.\.\.|[.|,|;|:|#|\[|\]|\{|\}|\(|\)] { cargarSinRepetir(listaOper_CarPunt, yytext, PUNTUACION);}
-
-/*\/\*(\\.|[^\\*\/])*\*\/  {strcpy(yylval.cadena,yytext); return COMENTARIO;}
-/*\/\/(\\.|[^\n])*  {strcpy(yylval.cadena,yytext); return COMENTARIO;}
-
-"#define"/" "{IDENTIFICADOR} {CONTADOR_DEFINE += 1;}
-"#include"/" "{CONDICION} {CONTADOR_INCLUDE += 1;}
-
-"for" {strcpy(yylval.cadena,yytext); return FOR;}
-"while" {strcpy(yylval.cadena,yytext); return WHILE;}
-"do" {strcpy(yylval.cadena,yytext); return DO;}
-"switch" {strcpy(yylval.cadena,yytext); return SWITCH;}
-"break" {strcpy(yylval.cadena,yytext); return BREAK;}
-"case" {strcpy(yylval.cadena,yytext); return CASE;}
-"default" {strcpy(yylval.cadena,yytext); return DEFAULT;}
-"return" {strcpy(yylval.cadena,yytext); return RETURN;}
-"if" {strcpy(yylval.cadena,yytext); return IF;}
-"else" {strcpy(yylval.cadena,yytext); return ELSE;}
 
 
 %%

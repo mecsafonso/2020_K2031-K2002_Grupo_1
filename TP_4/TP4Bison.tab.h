@@ -41,7 +41,12 @@
    enum yytokentype {
      NUM = 258,
      IDENTIFICADOR = 259,
-     TIPO_DATO = 260
+     TIPO_DATO = 260,
+     OPERADOR = 261,
+     PUNTUACION = 262,
+     OPERASIGNACION = 263,
+     LIT_CADENA = 264,
+     CARACTER = 265
    };
 #endif
 
@@ -52,7 +57,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 13 "TP4Bison.y"
+#line 25 "TP4Bison.y"
 
 char cadena[30];
 int entero;
@@ -62,7 +67,7 @@ float real;
 
 
 /* Line 1676 of yacc.c  */
-#line 66 "TP4Bison.tab.h"
+#line 71 "TP4Bison.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

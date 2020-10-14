@@ -1,60 +1,47 @@
+/* Sentencias (todos los tipos: compuesta, If, While, Salto, For, Expresión, etc) */
+/* Declaraciones de variables (puede agregar variables tipo puntero y tipo arreglo) de forma correcta almacenando en TS. */
+/* Declaraciones de funciones de forma correcta almacenando en TS.*/
+/* Expresiones (que están incluidas dentro de las sentencias). */
+
 %{
-#include <math.h> // pow
 #include <stdio.h>
-#include <string.h> // strcpy, strcmp
-#include <ctype.h> // toupper y isdigit
-#include <stdlib.h> // atoi, atof
-#include "TP4.h"
+#include <ctype.h>
+#include <string.h>
 #define YYDEBUG 1
+
 int flag_error=0;
-extern FILE *yyin;
-extern FILE *yyout;
+int contador=0;
+char* tipo;
 
 int yylex();
+
+int yywrap(){
+	return(1);
+}
+
 void yyerror (char const *s) {
    fprintf (stderr, "%s\n", s);
 }
-
-function* listaFunciones = NULL;
-putfunc(variablesGlobales, listaFunciones, "Variables Globales");
-function* funcionAcutal = listaFunciones;
-
-
-char tipo[30];
-char id[50];
 
 %}
 
 %union {
 char cadena[30];
-int num;
+int entero;
+int tipo;
 float real;
-char caracter;
 }
 
-%token <num> DECIMAL
-%token <real> REAL
+%token <entero> NUM
 %token <cadena> IDENTIFICADOR
 %token <cadena> TIPO_DATO
+%token <entero> error
+%token <cadena> OPERADOR
+%token <cadena> PUNTUACION
+%token <cadena> OPERASIGNACION
 %token <cadena> LIT_CADENA
-%token <cadena> ESTRUCTURA_DE_CONTROL
-%token <cadena> PALABRA_RESERVADA
-%token <caracter> CCARACTER
-%token <cadena> FOR
-%token <cadena> WHILE
-%token <cadena> DO 
-%token <cadena> SWITCH
-%token <cadena> BREAK
-%token <cadena> CASE
-%token <cadena> DEFAULT
-%token <cadena> RETURN
-%token <cadena> IF
-%token <cadena> ELSE
-%token <num> ERROR
-%token <cadena> COMENTARIO
+%token <cadena> CARACTER
 
-
-void gestionarIdentificador(char const* nombre, char const* tipo, var* listaVariables);
 
 %% /* A continuacion las reglas gramaticales y las acciones */
 
@@ -62,53 +49,32 @@ input:    /* vacio */
         | input line
 ;
 
-line: '\n'
-    | sentenciaDeclaracion '\n'
-    |  
+line:     '\n'
+    | declaVarSimples '\n'
 ;
 
-sentenciaDeclaracion: TIPO_DATO {strcpy(tipo=$<cadena>1);} declaraciones
-						        | error caracterDeCorte {if(flag_error==0){putvar("", funcionAcutal->ts_errores, "Tipo no reconocido")} flag_error = 0;}
+/* Declaraciones y definiciones de variable simples: (Pag 63) */
 ;
 
-declaraciones: listaIdentificadores ';'
-             | identificadorFuncion '{'input retorno'}'
+declaVarSimples: TIPO_DATO listaVarSimples ';' {printf("se declaro una variable de tipo %s", $<cadena>1)}
+               | error caracterDeCorte
 ;
 
-listaIdentificadores:	identificadorA ',' listaIdentificadores
-                    | identificadorA
-                    | identificadorFuncion
-            
+listaVarSimples: unaVarSimple
+	| listaVarSimples ',' unaVarSimple
 ;
 
-identificadorA:	IDENTIFICADOR '=' expresion {strcpy(id=$<cadena>1);}
-						  | IDENTIFICADOR {strcpy(id=$<cadena>1);gestionarIdentificador(id, tipo, funcionAcutal->ts_var);}
-              | error {if(flag_error==0){printf("Falta identificador \n");flag_error=1;};}
+unaVarSimple: variable inicial
+	| variable
 ;
 
-identificadorFuncion: IDENTIFICADOR '(' sentenciaDeclaracionFuncion ')' {funcionAcutal = putfunc($<cadena>1, listaFunciones, tipo)}
-;
+variable: IDENTIFICADOR ;
+inicial: OPERASIGNACION CONSTANTE ;
 
-sentenciaDeclaracionFuncion: soloTipo
-                           | tipoEIdentificador
-                           | %empty
-;
-
-soloTipo: TIPO_DATO 
-        | TIPO_DATO ',' soloTipo
-        | error (putvar("", listaErrores, "Tipo no reconocido"))
-;
-
-tipoEIdentificador: TIPO_DATO IDENTIFICADOR {gestionarIdentificador($<cadena>2, $<cadena>1, funcionAcutal->ts_var);}
-                  | TIPO_DATO IDENTIFICADOR {gestionarIdentificador($<cadena>2, $<cadena>1, funcionAcutal->ts_var);}',' tipoEIdentificador
-                  | error (putvar("", listaErrores, "Tipo no reconocido"))
-
-
-expresion: DECIMAL {if(compatibleA("int", tipo)){gestionarIdentificador(id, tipo, funcionAcutal->ts_var)}else{putvar(id, funcionAcutal->ts_errores, "Error de tipos");}}
-         | REAL {if(compatibleA("float", tipo)){gestionarIdentificador(id, tipo, funcionAcutal->ts_var)}else{putvar(id, funcionAcutal->ts_errores, "Error de tipos");}}
-			   | CCARACTER {if(compatibleA("char", tipo)){gestionarIdentificador(id, tipo, funcionAcutal->ts_var)}else{putvar(id, funcionAcutal->ts_errores, "Error de tipos");}}
-         | LIT_CADENA {if(compatibleA("char*", tipo)){gestionarIdentificador(id, tipo, funcionAcutal->ts_var)}else{putvar(id, funcionAcutal->ts_errores, "Error de tipos");}}
-         | error {flag_error=1;printf("Valor no reconocido para asignar \n");}
+CONSTANTE: NUM
+  | LIT_CADENA
+  | CARACTER
+  | error {flag_error=1;printf("constante no valida \n");}
 ;
 
 caracterDeCorte:	';' | '\n'
@@ -118,21 +84,7 @@ caracterDeCorte:	';' | '\n'
 
 int main ()
 {
+
   //yydebug = 1; --> Utilizar en caso de MODO DEBUG
   yyparse ();
-}
-
-void gestionarIdentificador(char const* nombre, char const* tipo, var* listaVariables){
-  var* variable;
-  if(tipo[0]=='\0'){
-    if (getvar(nombre, listaVariables)==0){
-      variable = putvar(nombre, listaErrores, "Variable no declarada");
-    } else {
-      variable = getvar(nombre, listaVariables);
-    }
-  } else if (getvar(nombre, listaVariables)!=0){
-    variable = putvar(nombre, listaErrores, "Doble declaracion");
-  } else{
-    variable = putvar(nombre, listaVariables, tipo);
-  } 
 }

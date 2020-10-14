@@ -15,10 +15,12 @@ void yyerror (char const *s) {
    fprintf (stderr, "%s\n", s);
 }
 
+void gestionarIdentificador(char const* nombre, char const* tipo, function* funcionActual);
+
 function* listaFunciones = NULL;
 putfunc(variablesGlobales, listaFunciones, "Variables Globales");
-function* funcionAcutal = listaFunciones;
-function* funcionAnterior = funcionAcutal;
+function* funcionActual = listaFunciones;
+function* funcionAnterior = funcionActual;
 function* variablesGlobales = listaFunciones;
 var* variableAComparar;
 
@@ -54,9 +56,9 @@ char caracter;
 %token <cadena> ELSE
 %token <num> ERROR
 %token <cadena> COMENTARIO
+%token <cadena> OPERADOR
 
 
-void gestionarIdentificador(char const* nombre, char const* tipo, function* funcionActual);
 
 %% /* A continuacion las reglas gramaticales y las acciones */
 
@@ -67,11 +69,11 @@ input: /* vacio */
 line: '\n'
     | sentenciaDeclaracion '\n'
     | sentenciaExprecion '\n'
-    | sentenciaFuncion '\n'
+    | identificadorFuncion '\n'
 ;
 
 sentenciaDeclaracion: TIPO_DATO {strcpy(tipo, $<cadena>1);} declaraciones
-						        | error ';' {if(flag_error==0){putvar("", funcionAcutal->ts_errores, "Tipo no reconocido")} flag_error = 0;}
+						        | error ';' {if(flag_error==0){putvar("", funcionActual->ts_errores, "Tipo no reconocido")} flag_error = 0;}
 ;
 
 declaraciones: listaIdentificadores ';'
@@ -84,11 +86,11 @@ listaIdentificadores:	identificadorA ',' listaIdentificadores
 ;
 
 identificadorA:	IDENTIFICADOR '=' expresion {strcpy(id, $<cadena>1);}
-						  | IDENTIFICADOR {strcpy(id, $<cadena>1);gestionarIdentificador(id, tipo, funcionAcutal);}
+						  | IDENTIFICADOR {strcpy(id, $<cadena>1);gestionarIdentificador(id, tipo, funcionActual);}
               | error {if(flag_error==0){printf("Falta identificador \n");flag_error=1;};}
 ;
 
-identificadorFuncion: IDENTIFICADOR {funcionAcutal = gestionarFuncion($<cadena>1, tipo, listaFunciones)} '(' sentenciaDeclaracionFuncion ')' codigoFuncion {funcionAcutal = funcionAnterior}
+identificadorFuncion: IDENTIFICADOR {funcionActual = gestionarFuncion($<cadena>1, tipo, listaFunciones)} '(' sentenciaDeclaracionFuncion ')' codigoFuncion {funcionActual = funcionAnterior}
 ;
 
 sentenciaDeclaracionFuncion: /* vacio */
@@ -100,38 +102,36 @@ codigoFuncion: '{'input retorno'}'
              | ';'
 ;
 
-retorno: /* vacio */ (if(!compatibleA("void", funcionAcutal->return_type)) funcionAcutal->errorRetorno = true;)
-       |RETURN IDENTIFICADOR {gestionarRetorno(funcionAcutal, $<cadena>2)} ';'
-       | RETURN ';' (if(!compatibleA("void", funcionAcutal->return_type)) funcionAcutal->errorRetorno = true;)
+retorno: /* vacio */ {if(!compatibleA("void", funcionActual->return_type)) funcionActual->errorRetorno = 1;}
+       |RETURN IDENTIFICADOR {gestionarRetorno(funcionActual, $<cadena>2)} ';'
+       | RETURN ';' {if(!compatibleA("void", funcionActual->return_type)) funcionActual->errorRetorno = 1;}
 ;
 
 soloTipo: TIPO_DATO 
         | TIPO_DATO ',' soloTipo
-        | error (putvar("", funcionAcutal->ts_errores, "Tipo no reconocido"))
 ;
 
-tipoEIdentificador: TIPO_DATO IDENTIFICADOR {gestionarIdentificador($<cadena>2, $<cadena>1, funcionAcutal);}
-                  | TIPO_DATO IDENTIFICADOR {gestionarIdentificador($<cadena>2, $<cadena>1, funcionAcutal);}',' tipoEIdentificador
-                  | error (putvar("", funcionAcutal->ts_errores, "Tipo no reconocido"))
+tipoEIdentificador: TIPO_DATO IDENTIFICADOR {gestionarIdentificador($<cadena>2, $<cadena>1, funcionActual);}
+                  | TIPO_DATO IDENTIFICADOR {gestionarIdentificador($<cadena>2, $<cadena>1, funcionActual);}',' tipoEIdentificador
+                  | error {putvar("", funcionActual->ts_errores, "Tipo no reconocido")}
 ;
 
-expresion: DECIMAL {if(compatibleA("int", tipo)){gestionarIdentificador(id, tipo, funcionAcutal)}else{putvar(id, funcionAcutal->ts_errores, "Error de tipos");}}
-         | REAL {if(compatibleA("float", tipo)){gestionarIdentificador(id, tipo, funcionAcutal)}else{putvar(id, funcionAcutal->ts_errores, "Error de tipos");}}
-			   | CCARACTER {if(compatibleA("char", tipo)){gestionarIdentificador(id, tipo, funcionAcutal)}else{putvar(id, funcionAcutal->ts_errores, "Error de tipos");}}
-         | LIT_CADENA {if(compatibleA("char*", tipo)){gestionarIdentificador(id, tipo, funcionAcutal)}else{putvar(id, funcionAcutal->ts_errores, "Error de tipos");}}
-         | error {flag_error=1;printf("Valor no reconocido para asignar \n");}
+expresion: DECIMAL {if(compatibleA("int", tipo)){gestionarIdentificador(id, tipo, funcionActual)}else{putvar(id, funcionActual->ts_errores, "Error de tipos");}}
+         | REAL {if(compatibleA("float", tipo)){gestionarIdentificador(id, tipo, funcionActual)}else{putvar(id, funcionActual->ts_errores, "Error de tipos");}}
+			   | CCARACTER {if(compatibleA("char", tipo)){gestionarIdentificador(id, tipo, funcionActual)}else{putvar(id, funcionActual->ts_errores, "Error de tipos");}}
+         | LIT_CADENA {if(compatibleA("char*", tipo)){gestionarIdentificador(id, tipo, funcionActual)}else{putvar(id, funcionActual->ts_errores, "Error de tipos");}}
+         | error {if(!flag_error) {putvar("", funcionActual->ts_errores, "Caracter no valido"); flag_error = 1;}}
 ;
-
+/* si el identificador ya fue declarado va a copiar el tipo del identificador en una variable, luego sigue leyendo */
 sentenciaExprecion: IDENTIFICADOR {variableAComparar = gestionarIdentificador($<cadena>1, "", funcionActual); if(variableAComparar!= NULL)strcpy(tipo, variableAComparar->type);} '=' listaExpresion ';'
 ;
 
 listaExpresion: elementoExpresion
               | elementoExpresion OPERADOR listaExpresion
 ;
-
-elementoExpresion: IDENTIFICADOR {variableAComparar = gestionarIdentificador($<cadena>1, "", funcionActual); if(variableAComparar!= NULL && !compatibleA(variableAComparar->type, tipo)) putvar($<cadena>1, funcionAcutal->ts_errores, "Problema de tipos");}
-                 | espresion
-                 | error {if(!flag_error) {putvar("", funcionAcutal->ts_errores, "Caracter no valido"); flag_error = 1;}}
+/* se realiza lo mismo que en sentenciaExprecion y ademas se fija si los tipos coinciden, en caso contrario devuelve un error */
+elementoExpresion: IDENTIFICADOR {variableAComparar = gestionarIdentificador($<cadena>1, "", funcionActual); if(variableAComparar!= NULL && !compatibleA(variableAComparar->type, tipo)) putvar($<cadena>1, funcionActual->ts_errores, "Problema de tipos");}
+                 | expresion
 ;
 
 
@@ -145,23 +145,23 @@ int main ()
 }
 
 var* gestionarIdentificador(char const* nombre, char const* tipo, function* funcionActual){
-  var* variable = getvar(nombre, funcionAcutal->ts_var)
+  var* variable = getvar(nombre, funcionActual->ts_var)
   if(variable==NULL){
     if (tipo[0]=='\0'){
-      variable = putvar(nombre, funcionAcutal->ts_errores, "Variable no declarada");
+      variable = putvar(nombre, funcionActual->ts_errores, "Variable no declarada");
     } else {
-      variable = putvar(nombre, funcionAcutal->ts_var, tipo);
+      variable = putvar(nombre, funcionActual->ts_var, tipo);
     }
   } else if (variable!= NULL){
-    variable = putvar(nombre, funcionAcutal->ts_errores, "Doble declaracion");
+    variable = putvar(nombre, funcionActual->ts_errores, "Doble declaracion");
   }
   return variable;
 }
 
 void gestionarRetorno(function* funcionActual, char const* identificador){
-  var* variable = getvar(nombre, funcionAcutal->ts_var)
+  var* variable = getvar(nombre, funcionActual->ts_var)
   if(variable==NULL || strcmp(variable->type, funcionActual->return_type)){
-    funcionActual->errorRetorno = true
+    funcionActual->errorRetorno = 1
   } 
 }
 
