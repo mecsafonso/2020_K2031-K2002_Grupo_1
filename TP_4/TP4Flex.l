@@ -36,12 +36,16 @@ OPERADOR [\+\-\*\/\%]|\+\+|\-\-
 0[xX]{DIGITO_HEXADECIMAL}+ {yylval.entero = convertirAdecimal(yytext, BASE16, yyleng); return NUM;}
 ({DIGITO_DECIMAL}*\.{DIGITO_DECIMAL}+|{DIGITO_DECIMAL}+\.|{DIGITO_DECIMAL}+)([eE][\+\-]?{DIGITO_DECIMAL}+)? {yylval.real = atof(yytext); return CONS_REAL;}
 
-"->"|!!|"-="|"*="|"/="|%=|>>=|<<=|&=|"|="|"^="|"?:"|<<|>>|"^"|[%~<>\|] {strcpy(yylval.cadena,yytext); return OPERADOR;}
-\.\.\.|[.|:|#|\{|\}|\(|\)] {strcpy(yylval.cadena,yytext); return PUNTUACION;}
-"'"."'" {return CARACTER;}            //Devuelve todos los  '\\'|'\''|"'"[^'\\]"'"
+"->"|!!|"-="|"*="|"/="|%=|>>=|<<=|&=|"|="|"^="|"?:"|<<|>>|"^"|[%~\|] {strcpy(yylval.cadena,yytext); return OPERADOR;}
+\.\.\.|[.|:|#] {strcpy(yylval.cadena,yytext); return PUNTUACION;}
+"'"."'" {return CARACTER;}            
 ","     {return ',';}
 "="|"+="    {strcpy(yylval.cadena,yytext); return OPER_ASIGNACION;}
 ";"     {return ';';}
+"{"     {return '{';}
+"}"     {return '}';}
+"("     {return '(';}
+")"     {return ')';}
 "["     {return '[';}
 "]"     {return ']';}
 "||"    {return OPER_OR;}

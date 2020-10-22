@@ -40,7 +40,6 @@ float real;
 %token <entero> error
 %token <cadena> OPERADOR
 %token <cadena> PUNTUACION
-%token <cadena> OPERASIGNACION
 %token <cadena> LIT_CADENA
 %token <cadena> CARACTER
 %token <cadena> FOR
@@ -53,6 +52,16 @@ float real;
 %token <cadena> RETURN
 %token <cadena> IF
 %token <cadena> ELSE
+%token <cadena> SIZEOF
+%token <cadena> OPER_ASIGNACION
+%token <cadena> OPER_OR
+%token <cadena> OPER_AND
+%token <cadena> OPER_IGUALDAD
+%token <cadena> OPER_DIFERENCIA
+%token <cadena> OPER_RELACIONAL
+%token <cadena> OPER_INC_DEC
+%token <cadena> OPER_NEGACION
+%token <cadena> OPER_DIRECCION
 
 
 %% /* A continuación las reglas gramaticales y las acciones */
@@ -63,7 +72,7 @@ input:    /* vacio */
 
 line:     '\n'
     | declaVarSimples '\n'
-    | sentencia
+    | sentencia '\n'
 ;
 
 
@@ -100,6 +109,7 @@ expOr: expAnd
 
 expAnd: expIgualdad
   | expAnd OPER_AND expIgualdad
+  | 
 ;
 
 expIgualdad: expRelacional
@@ -109,7 +119,6 @@ expIgualdad: expRelacional
 
 expRelacional: expAditiva
   | expRelacional OPER_RELACIONAL expAditiva
-
 ;
 
 expAditiva: expMultiplicativa
@@ -128,6 +137,9 @@ expUnaria: expPostfijo
   | SIZEOF '(' nombreTipo ')'
 ;
 
+nombreTipo: TIPO_DATO
+;
+
 operUnario: OPER_DIRECCION
   |'*'
   |'-'
@@ -136,7 +148,7 @@ operUnario: OPER_DIRECCION
 
 expPostfijo: expPrimaria
   | expPostfijo '[' expresion ']'
-  | expPostijo '(' listaArgumentosOP ')'
+  | expPostfijo '(' listaArgumentosOP ')'
 ;
 
 listaArgumentosOP:
@@ -147,10 +159,11 @@ listaArgumentos: expAsignacion
   | listaArgumentos ',' expAsignacion
 ;
 
-expPrimaria: IDENTIFICADOR,
-| NUM
-| LIT_CADENA
-| '(' expresion ')'
+expPrimaria: IDENTIFICADOR
+  | NUM {printf("se encontro un numero %i", $<entero>1)}
+  | LIT_CADENA
+  | '(' expresion ')'
+  | error {flag_error=1;printf("constante no valida \n")};
 ;
 
 
@@ -176,8 +189,11 @@ unaVarSimple: variable inicial
   | variable '[' NUM ']'
 ;
 
-variable: IDENTIFICADOR ;
-inicial: OPERASIGNACION CONSTANTE ;
+variable: IDENTIFICADOR 
+;
+
+inicial: OPER_ASIGNACION CONSTANTE 
+;
 
 CONSTANTE: NUM
   | LIT_CADENA
@@ -198,7 +214,7 @@ caracterDeCorte:	';' | '\n'
 
 sentencia: sentCompuesta
   | sentExpresion
-  | sentSeleccion
+  | sentSeleccion 
   | sentIteracion
   | sentSalto
 ;

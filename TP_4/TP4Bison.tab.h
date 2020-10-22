@@ -46,9 +46,28 @@
      TIPO_DATO = 262,
      OPERADOR = 263,
      PUNTUACION = 264,
-     OPERASIGNACION = 265,
-     LIT_CADENA = 266,
-     CARACTER = 267
+     LIT_CADENA = 265,
+     CARACTER = 266,
+     FOR = 267,
+     WHILE = 268,
+     DO = 269,
+     SWITCH = 270,
+     BREAK = 271,
+     CASE = 272,
+     DEFAULT = 273,
+     RETURN = 274,
+     IF = 275,
+     ELSE = 276,
+     SIZEOF = 277,
+     OPER_ASIGNACION = 278,
+     OPER_OR = 279,
+     OPER_AND = 280,
+     OPER_IGUALDAD = 281,
+     OPER_DIFERENCIA = 282,
+     OPER_RELACIONAL = 283,
+     OPER_INC_DEC = 284,
+     OPER_NEGACION = 285,
+     OPER_DIRECCION = 286
    };
 #endif
 
@@ -69,7 +88,7 @@ float real;
 
 
 /* Line 1676 of yacc.c  */
-#line 73 "TP4Bison.tab.h"
+#line 92 "TP4Bison.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
