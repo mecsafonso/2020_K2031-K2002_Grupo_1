@@ -53,6 +53,7 @@ line:     '\n'
     | declaVarSimples '\n'
 ;
 
+
 /* Declaraciones y definiciones de variable simples: (Pag 63) */
 ;
 
@@ -76,9 +77,21 @@ CONSTANTE: NUM
   | CARACTER
   | error {flag_error=1;printf("constante no valida \n");}
 ;
-
 caracterDeCorte:	';' | '\n'
 ;
+
+/* Sentencias : (Pag 64) */
+
+
+
+
+
+
+
+
+
+
+
 
 %%
 

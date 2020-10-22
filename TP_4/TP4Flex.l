@@ -22,7 +22,7 @@ DIGITO_DECIMAL [0-9]
 DIGITO_OCTAL [0-7] 
 DIGITO_HEXADECIMAL [a-fA-F0-9] 
 LETRA [a-zA-Z]
-IDENTIFICADOR ({LETRA}|"_")({LETRA}|{DIGITO_DECIMAL}|"_")*
+IDENTIFICADOR ({LETRA}|"_")({LETRA}|{DIGITO_DECIMAL}|"_")*("[{DIGITO_DECIMAL}*]")?
 CONDICION (<|\")
 TIPO_DATO char\*|char|const|double|float|int|long|short|signed|static|unsigned|void|volatile
 ESTRUCTURA_DE_CONTROL break|case|continue|do|else|for|goto|if|return|switch|while
