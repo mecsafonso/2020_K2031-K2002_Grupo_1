@@ -46,6 +46,8 @@ float real;
 %token <cadena> WHILE
 %token <cadena> DO
 %token <cadena> SWITCH
+%token <cadena> GOTO
+%token <cadena> CONTINUE
 %token <cadena> BREAK
 %token <cadena> CASE
 %token <cadena> DEFAULT
@@ -216,6 +218,7 @@ sentencia: sentCompuesta
   | sentExpresion
   | sentSeleccion 
   | sentIteracion
+  | sentEtiquetada
   | sentSalto
 ;
 
@@ -253,13 +256,19 @@ sentIteracion: WHILE '(' expresion ')' sentencia
 ;
 
 sentSalto: RETURN expresionOP ';'
+  | CONTINUE ';'
+  | BREAK ';'
+  | GOTO IDENTIFICADOR ';'
 ;
 
 
 sentExpresion: expresionOP ';' 
 ;
 
-
+sentEtiquetada: CASE  expresion ':' sentencia
+  | DEFAULT ':' sentencia
+  | IDENTIFICADOR ':' sentencia
+;
 
 
 

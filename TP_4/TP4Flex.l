@@ -42,6 +42,7 @@ OPERADOR [\+\-\*\/\%]|\+\+|\-\-
 ","     {return ',';}
 "="|"+="    {strcpy(yylval.cadena,yytext); return OPER_ASIGNACION;}
 ";"     {return ';';}
+":"     {return ':';}
 "{"     {return '{';}
 "}"     {return '}';}
 "("     {return '(';}
@@ -77,6 +78,9 @@ OPERADOR [\+\-\*\/\%]|\+\+|\-\-
 "if"        {strcpy(yylval.cadena,yytext); return IF;}
 "else"      {strcpy(yylval.cadena,yytext); return ELSE;}
 "sizeof"    {strcpy(yylval.cadena,yytext); return SIZEOF;}
+"continue"  {strcpy(yylval.cadena,yytext); return CONTINUE;}
+"goto"      {strcpy(yylval.cadena,yytext); return GOTO;}
+"break"     {strcpy(yylval.cadena,yytext); return BREAK;}
 
 {TIPO_DATO} {strcpy(yylval.cadena,yytext); return TIPO_DATO;}
  
