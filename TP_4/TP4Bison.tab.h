@@ -42,7 +42,7 @@
      NUM = 258,
      CONS_REAL = 259,
      IDENTIFICADOR = 260,
-     TIPO_DATO = 261,
+     ESPECIFICADOR_TIPO = 261,
      LIT_CADENA = 262,
      CARACTER = 263,
      FOR = 264,
@@ -59,15 +59,20 @@
      ELSE = 275,
      SIZEOF = 276,
      STRUCT = 277,
-     OPER_ASIGNACION = 278,
-     OPER_OR = 279,
-     OPER_AND = 280,
-     OPER_IGUALDAD = 281,
-     OPER_DIFERENCIA = 282,
-     OPER_RELACIONAL = 283,
-     OPER_INC_DEC = 284,
-     OPER_NEGACION = 285,
-     OPER_DIRECCION = 286
+     UNION = 278,
+     CONST = 279,
+     VOLATILE = 280,
+     ENUM = 281,
+     OPER_ASIGNACION = 282,
+     OPER_OR = 283,
+     OPER_AND = 284,
+     OPER_IGUALDAD = 285,
+     OPER_DIFERENCIA = 286,
+     OPER_RELACIONAL = 287,
+     OPER_INC_DEC = 288,
+     OPER_NEGACION = 289,
+     OPER_DIRECCION = 290,
+     ESPECIFICADOR_ALMACENAMIENTO = 291
    };
 #endif
 
@@ -88,7 +93,7 @@ float real;
 
 
 /* Line 1676 of yacc.c  */
-#line 92 "TP4Bison.tab.h"
+#line 97 "TP4Bison.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

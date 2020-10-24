@@ -24,9 +24,8 @@ DIGITO_HEXADECIMAL [a-fA-F0-9]
 LETRA [a-zA-Z]
 IDENTIFICADOR ({LETRA}|"_")({LETRA}|{DIGITO_DECIMAL}|"_")*
 CONDICION (<|\")
-TIPO_DATO char\*|char|const|double|float|int|long|short|signed|static|unsigned|void|volatile
+TIPO_DATO char|double|float|int|long|short|signed|unsigned|void
 ESPECIFICADOR_ALMACENAMIENTO typedef | static | auto | register | extern
-PALABRA_RESERVADA auto|default|extern|register|typedef|union
 OPERADOR [\+\-\*\/\%]|\+\+|\-\-
 
 %% 
@@ -83,9 +82,10 @@ OPERADOR [\+\-\*\/\%]|\+\+|\-\-
 "const"                         {strcpy(yylval.cadena,yytext); return CONST;}
 "volatile"                      {strcpy(yylval.cadena,yytext); return VOLATILE;}
 "enum"                          {strcpy(yylval.cadena,yytext); return ENUM;}
+{TIPO_DATO}                     {strcpy(yylval.cadena,yytext); return ESPECIFICADOR_TIPO;}
 {ESPECIFICADOR_ALMACENAMIENTO}  {strcpy(yylval.cadena,yytext); return ESPECIFICADOR_ALMACENAMIENTO;}
 
-{TIPO_DATO} {strcpy(yylval.cadena,yytext); return TIPO_DATO;}
+
  
 {IDENTIFICADOR} {strcpy(yylval.cadena,yytext); return IDENTIFICADOR;} 
 

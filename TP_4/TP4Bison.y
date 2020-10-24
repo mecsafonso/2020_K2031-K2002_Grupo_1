@@ -30,7 +30,7 @@ float real;
 %token <entero> NUM
 %token <real> CONS_REAL
 %token <cadena> IDENTIFICADOR
-%token <cadena> TIPO_DATO
+%token <cadena> ESPECIFICADOR_TIPO
 %token <entero> error
 %token <cadena> LIT_CADENA
 %token <cadena> CARACTER
@@ -95,8 +95,8 @@ especificadoresDeclaracionOP:
   | especificadoresDeclaracion
 ;
 
-listaDeclaradoes: declarador
-  | listaDeclaradores , declarador
+listaDeclaradores: declarador
+  | listaDeclaradores ',' declarador
 ;
 
 declarador: decla
@@ -183,7 +183,7 @@ listaCalificadoresTiposOP:
   | listaCalificadoresTipos
 ;
 
-declaradorDirecto: identificador
+declaradorDirecto: IDENTIFICADOR
   | '(' decla ')'
   | declaradorDirecto '[' expConstanteOP ']'
   | declaradorDirecto '(' listaTiposParametros ')'
@@ -223,7 +223,7 @@ listaEnumeradores: enumerador
 ;
 
 enumerador: constanteEnumeracion
-  | contanteEnumeracion OPER_ASIGNACION expConstante
+  | constanteEnumeracion OPER_ASIGNACION expConstante
 ;
 
 constanteEnumeracion: IDENTIFICADOR
@@ -319,7 +319,7 @@ expUnaria: expPostfijo
   | SIZEOF '(' nombreTipo ')'
 ;
 
-nombreTipo: TIPO_DATO
+nombreTipo: ESPECIFICADOR_TIPO
 ;
 
 operUnario: OPER_DIRECCION
