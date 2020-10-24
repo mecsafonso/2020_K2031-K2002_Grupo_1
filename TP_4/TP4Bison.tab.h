@@ -42,23 +42,23 @@
      NUM = 258,
      CONS_REAL = 259,
      IDENTIFICADOR = 260,
-     ARRAY = 261,
-     TIPO_DATO = 262,
-     OPERADOR = 263,
-     PUNTUACION = 264,
-     LIT_CADENA = 265,
-     CARACTER = 266,
-     FOR = 267,
-     WHILE = 268,
-     DO = 269,
-     SWITCH = 270,
-     BREAK = 271,
-     CASE = 272,
-     DEFAULT = 273,
-     RETURN = 274,
-     IF = 275,
-     ELSE = 276,
-     SIZEOF = 277,
+     TIPO_DATO = 261,
+     LIT_CADENA = 262,
+     CARACTER = 263,
+     FOR = 264,
+     WHILE = 265,
+     DO = 266,
+     SWITCH = 267,
+     GOTO = 268,
+     CONTINUE = 269,
+     BREAK = 270,
+     CASE = 271,
+     DEFAULT = 272,
+     RETURN = 273,
+     IF = 274,
+     ELSE = 275,
+     SIZEOF = 276,
+     STRUCT = 277,
      OPER_ASIGNACION = 278,
      OPER_OR = 279,
      OPER_AND = 280,
@@ -78,7 +78,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 28 "TP4Bison.y"
+#line 23 "TP4Bison.y"
 
 char cadena[30];
 int entero;

@@ -25,8 +25,8 @@ LETRA [a-zA-Z]
 IDENTIFICADOR ({LETRA}|"_")({LETRA}|{DIGITO_DECIMAL}|"_")*
 CONDICION (<|\")
 TIPO_DATO char\*|char|const|double|float|int|long|short|signed|static|unsigned|void|volatile
-ESTRUCTURA_DE_CONTROL break|case|continue|do|else|for|goto|if|return|switch|while
-PALABRA_RESERVADA auto|default|enum|extern|register|struct|typedef|union
+
+PALABRA_RESERVADA auto|default|enum|extern|register|typedef|union
 OPERADOR [\+\-\*\/\%]|\+\+|\-\-
 
 %% 
@@ -34,17 +34,16 @@ OPERADOR [\+\-\*\/\%]|\+\+|\-\-
 [1-9]{DIGITO_DECIMAL}*  {yylval.entero = atoi(yytext); return NUM;}
 0{DIGITO_OCTAL}* {yylval.entero = convertirAdecimal(yytext, BASE8, yyleng); return NUM;}
 0[xX]{DIGITO_HEXADECIMAL}+ {yylval.entero = convertirAdecimal(yytext, BASE16, yyleng); return NUM;}
+
 ({DIGITO_DECIMAL}*\.{DIGITO_DECIMAL}+|{DIGITO_DECIMAL}+\.|{DIGITO_DECIMAL}+)([eE][\+\-]?{DIGITO_DECIMAL}+)? {yylval.real = atof(yytext); return CONS_REAL;}
 
-"->"|!!|"-="|"*="|"/="|%=|>>=|<<=|&=|"|="|"^="|"?:"|<<|>>|"^"|[%~\|] {strcpy(yylval.cadena,yytext); return OPERADOR;}
-\.\.\.|[.|:|#] {strcpy(yylval.cadena,yytext); return PUNTUACION;}
 "'"."'" {return CARACTER;}            
 ","     {return ',';}
 "="|"+="    {strcpy(yylval.cadena,yytext); return OPER_ASIGNACION;}
 ";"     {return ';';}
 ":"     {return ':';}
-"{"     {return '{';}
-"}"     {return '}';}
+\{      {return '{';}
+\}      {return '}';}
 "("     {return '(';}
 ")"     {return ')';}
 "["     {return '[';}
@@ -63,8 +62,6 @@ OPERADOR [\+\-\*\/\%]|\+\+|\-\-
 "&"     {return OPER_DIRECCION;}
 \n	{return '\n';}
 
-\'.?\' {strcpy(yylval.cadena,yytext); return CARACTER;}
-
 \"(\\.|[^(\n|\\")])*\" {strcpy(yylval.cadena,yytext); return LIT_CADENA;} 
 
 "for"       {strcpy(yylval.cadena,yytext); return FOR;}
@@ -80,7 +77,7 @@ OPERADOR [\+\-\*\/\%]|\+\+|\-\-
 "sizeof"    {strcpy(yylval.cadena,yytext); return SIZEOF;}
 "continue"  {strcpy(yylval.cadena,yytext); return CONTINUE;}
 "goto"      {strcpy(yylval.cadena,yytext); return GOTO;}
-"break"     {strcpy(yylval.cadena,yytext); return BREAK;}
+"struct"    {strcpy(yylval.cadena,yytext); return STRUCT;}
 
 {TIPO_DATO} {strcpy(yylval.cadena,yytext); return TIPO_DATO;}
  

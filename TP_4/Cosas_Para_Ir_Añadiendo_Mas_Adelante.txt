@@ -26,3 +26,24 @@
 "#define"/" "{IDENTIFICADOR} {CONTADOR_DEFINE += 1;}
 "#include"/" "{CONDICION} {CONTADOR_INCLUDE += 1;}
 
+
+ESTRUCTURA_DE_CONTROL break|case|continue|do|else|for|goto|if|return|switch|while
+
+
+listaDeclaracionesOP: 
+  | listaDeclaraciones
+;
+s
+listaDeclaraciones: declaVarSimples
+  | listaDeclaraciones declaVarSimples
+;
+
+listaSentenciasOP:
+  | listaSentencias
+;
+
+"->"|!!|"-="|"*="|"/="|%=|>>=|<<=|&=|"|="|"^="|"?:"|<<|>>|"^"|[%~\|] {strcpy(yylval.cadena,yytext); return OPERADOR;}
+
+\.\.\.|[.|#] {strcpy(yylval.cadena,yytext); return PUNTUACION;}
+
+({DIGITO_DECIMAL}*\.{DIGITO_DECIMAL}+|{DIGITO_DECIMAL}+\.|{DIGITO_DECIMAL}+)([eE][\+\-]?{DIGITO_DECIMAL}+)? {yylval.real = atof(yytext); return CONS_REAL;}

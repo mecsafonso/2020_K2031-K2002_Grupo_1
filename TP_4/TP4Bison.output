@@ -1,0 +1,3372 @@
+Rules useless in parser due to conflicts
+
+   40 listaArgumentosOP: /* vacío */
+
+
+Estado 1 conflictos: 1 desplazamiento/reducción, 2 reducción/reducción
+Estado 3 conflictos: 2 desplazamiento(s)/reducción(ones)
+Estado 10 conflictos: 1 desplazamiento/reducción, 2 reducción/reducción
+Estado 17 conflictos: 1 reducción(ones)/reducción(ones)
+Estado 27 conflictos: 24 desplazamiento/reducción, 28 reducción/reducción
+Estado 30 conflictos: 1 desplazamiento(s)/reducción(ones)
+Estado 33 conflictos: 1 desplazamiento(s)/reducción(ones)
+Estado 34 conflictos: 1 desplazamiento(s)/reducción(ones)
+Estado 37 conflictos: 1 desplazamiento(s)/reducción(ones)
+Estado 38 conflictos: 1 desplazamiento(s)/reducción(ones)
+Estado 41 conflictos: 1 desplazamiento(s)/reducción(ones)
+Estado 54 conflictos: 24 desplazamiento/reducción, 30 reducción/reducción
+Estado 56 conflictos: 1 reducción(ones)/reducción(ones)
+Estado 66 conflictos: 24 desplazamiento/reducción, 30 reducción/reducción
+Estado 73 conflictos: 25 desplazamiento/reducción, 28 reducción/reducción
+Estado 75 conflictos: 11 desplazamiento(s)/reducción(ones)
+Estado 85 conflictos: 11 desplazamiento(s)/reducción(ones)
+Estado 87 conflictos: 1 reducción(ones)/reducción(ones)
+Estado 100 conflictos: 24 desplazamiento/reducción, 30 reducción/reducción
+Estado 109 conflictos: 1 desplazamiento(s)/reducción(ones)
+Estado 114 conflictos: 1 desplazamiento(s)/reducción(ones)
+Estado 115 conflictos: 1 desplazamiento(s)/reducción(ones)
+Estado 116 conflictos: 1 desplazamiento(s)/reducción(ones)
+Estado 129 conflictos: 1 reducción(ones)/reducción(ones)
+Estado 130 conflictos: 24 desplazamiento/reducción, 30 reducción/reducción
+Estado 132 conflictos: 24 desplazamiento/reducción, 30 reducción/reducción
+Estado 134 conflictos: 24 desplazamiento/reducción, 30 reducción/reducción
+Estado 150 conflictos: 1 desplazamiento(s)/reducción(ones)
+Estado 153 conflictos: 1 reducción(ones)/reducción(ones)
+Estado 155 conflictos: 24 desplazamiento/reducción, 30 reducción/reducción
+Estado 159 conflictos: 24 desplazamiento/reducción, 30 reducción/reducción
+
+
+Gramática
+
+    0 $accept: input $end
+
+    1 input: /* vacío */
+    2      | input line
+
+    3 line: '\n'
+    4     | sentencia '\n'
+
+    5 expresion: expAsignacion
+
+    6 expresionOP: /* vacío */
+    7            | expresion
+
+    8 expAsignacion: expCondicional
+    9              | expUnaria operAsignacion expAsignacion
+
+   10 operAsignacion: OPER_ASIGNACION
+
+   11 expCondicional: expOr
+
+   12 expOr: expAnd
+   13      | expOr OPER_OR expAnd
+
+   14 expAnd: expIgualdad
+   15       | expAnd OPER_AND expIgualdad
+   16       | /* vacío */
+
+   17 expIgualdad: expRelacional
+   18            | expIgualdad OPER_IGUALDAD expRelacional
+   19            | expIgualdad OPER_DIFERENCIA expRelacional
+
+   20 expRelacional: expAditiva
+   21              | expRelacional OPER_RELACIONAL expAditiva
+
+   22 expAditiva: expMultiplicativa
+   23           | expAditiva '+' expMultiplicativa
+   24           | expAditiva '-' expMultiplicativa
+
+   25 expMultiplicativa: expUnaria
+   26                  | expMultiplicativa '*' expUnaria
+   27                  | expMultiplicativa '/' expUnaria
+
+   28 expUnaria: expPostfijo
+   29          | OPER_INC_DEC expUnaria
+   30          | operUnario expUnaria
+   31          | SIZEOF '(' nombreTipo ')'
+
+   32 nombreTipo: TIPO_DATO
+
+   33 operUnario: OPER_DIRECCION
+   34           | '*'
+   35           | '-'
+   36           | OPER_NEGACION
+
+   37 expPostfijo: expPrimaria
+   38            | expPostfijo '[' expresion ']'
+   39            | expPostfijo '(' listaArgumentosOP ')'
+
+   40 listaArgumentosOP: /* vacío */
+   41                  | listaArgumentos
+
+   42 listaArgumentos: expAsignacion
+   43                | listaArgumentos ',' expAsignacion
+
+   44 expPrimaria: IDENTIFICADOR
+   45            | NUM
+   46            | LIT_CADENA
+   47            | '(' expresion ')'
+   48            | error
+
+   49 $@1: /* vacío */
+
+   50 declaVarSimples: TIPO_DATO $@1 listaVarSimples ';'
+   51                | error caracterDeCorte
+
+   52 listaVarSimples: unaVarSimple
+   53                | listaVarSimples ',' unaVarSimple
+
+   54 unaVarSimple: variable inicial
+   55             | variable
+   56             | variable '[' NUM ']'
+
+   57 variable: IDENTIFICADOR
+
+   58 inicial: OPER_ASIGNACION CONSTANTE
+
+   59 CONSTANTE: NUM
+   60          | LIT_CADENA
+   61          | CARACTER
+   62          | error
+
+   63 caracterDeCorte: ';'
+   64                | '\n'
+
+   65 sentencia: sentCompuesta
+   66          | sentExpresion
+   67          | sentSeleccion
+   68          | sentIteracion
+   69          | sentEtiquetada
+   70          | sentSalto
+   71          | declaVarSimples
+
+   72 sentCompuesta: '{' listaSentencias '}'
+
+   73 listaSentencias: sentencia
+   74                | listaSentencias sentencia
+
+   75 sentExpresion: expresionOP
+
+   76 sentSeleccion: IF '(' expresion ')' sentencia
+   77              | IF '(' expresion ')' sentencia ELSE sentencia
+   78              | SWITCH '(' expresion ')' sentencia
+
+   79 sentIteracion: WHILE '(' expresion ')' sentencia
+   80              | DO sentencia WHILE '(' expresion ')' ';'
+   81              | FOR '(' expresionOP ';' expresionOP ';' expresionOP ')' sentencia
+
+   82 sentSalto: RETURN expresionOP ';'
+   83          | CONTINUE ';'
+   84          | BREAK ';'
+   85          | GOTO IDENTIFICADOR ';'
+
+   86 sentExpresion: expresionOP ';'
+
+   87 sentEtiquetada: CASE expresion ':' sentencia
+   88               | DEFAULT ':' sentencia
+   89               | IDENTIFICADOR ':' sentencia
+
+
+Terminales con las reglas donde aparecen
+
+$end (0) 0
+'\n' (10) 3 4 64
+'(' (40) 31 39 47 76 77 78 79 80 81
+')' (41) 31 39 47 76 77 78 79 80 81
+'*' (42) 26 34
+'+' (43) 23
+',' (44) 43 53
+'-' (45) 24 35
+'/' (47) 27
+':' (58) 87 88 89
+';' (59) 50 63 80 81 82 83 84 85 86
+'[' (91) 38 56
+']' (93) 38 56
+'{' (123) 72
+'}' (125) 72
+error (256) 48 51 62
+NUM (258) 45 56 59
+IDENTIFICADOR (259) 44 57 85 89
+TIPO_DATO (260) 32 50
+LIT_CADENA (261) 46 60
+CARACTER (262) 61
+FOR (263) 81
+WHILE (264) 79 80
+DO (265) 80
+SWITCH (266) 78
+GOTO (267) 85
+CONTINUE (268) 83
+BREAK (269) 84
+CASE (270) 87
+DEFAULT (271) 88
+RETURN (272) 82
+IF (273) 76 77
+ELSE (274) 77
+SIZEOF (275) 31
+OPER_ASIGNACION (276) 10 58
+OPER_OR (277) 13
+OPER_AND (278) 15
+OPER_IGUALDAD (279) 18
+OPER_DIFERENCIA (280) 19
+OPER_RELACIONAL (281) 21
+OPER_INC_DEC (282) 29
+OPER_NEGACION (283) 36
+OPER_DIRECCION (284) 33
+
+
+No terminales con las reglas donde aparecen
+
+$accept (44)
+    en la izquierda: 0
+input (45)
+    en la izquierda: 1 2, en la derecha: 0 2
+line (46)
+    en la izquierda: 3 4, en la derecha: 2
+expresion (47)
+    en la izquierda: 5, en la derecha: 7 38 47 76 77 78 79 80 87
+expresionOP (48)
+    en la izquierda: 6 7, en la derecha: 75 81 82 86
+expAsignacion (49)
+    en la izquierda: 8 9, en la derecha: 5 9 42 43
+operAsignacion (50)
+    en la izquierda: 10, en la derecha: 9
+expCondicional (51)
+    en la izquierda: 11, en la derecha: 8
+expOr (52)
+    en la izquierda: 12 13, en la derecha: 11 13
+expAnd (53)
+    en la izquierda: 14 15 16, en la derecha: 12 13 15
+expIgualdad (54)
+    en la izquierda: 17 18 19, en la derecha: 14 15 18 19
+expRelacional (55)
+    en la izquierda: 20 21, en la derecha: 17 18 19 21
+expAditiva (56)
+    en la izquierda: 22 23 24, en la derecha: 20 21 23 24
+expMultiplicativa (57)
+    en la izquierda: 25 26 27, en la derecha: 22 23 24 26 27
+expUnaria (58)
+    en la izquierda: 28 29 30 31, en la derecha: 9 25 26 27 29 30
+nombreTipo (59)
+    en la izquierda: 32, en la derecha: 31
+operUnario (60)
+    en la izquierda: 33 34 35 36, en la derecha: 30
+expPostfijo (61)
+    en la izquierda: 37 38 39, en la derecha: 28 38 39
+listaArgumentosOP (62)
+    en la izquierda: 40 41, en la derecha: 39
+listaArgumentos (63)
+    en la izquierda: 42 43, en la derecha: 41 43
+expPrimaria (64)
+    en la izquierda: 44 45 46 47 48, en la derecha: 37
+declaVarSimples (65)
+    en la izquierda: 50 51, en la derecha: 71
+$@1 (66)
+    en la izquierda: 49, en la derecha: 50
+listaVarSimples (67)
+    en la izquierda: 52 53, en la derecha: 50 53
+unaVarSimple (68)
+    en la izquierda: 54 55 56, en la derecha: 52 53
+variable (69)
+    en la izquierda: 57, en la derecha: 54 55 56
+inicial (70)
+    en la izquierda: 58, en la derecha: 54
+CONSTANTE (71)
+    en la izquierda: 59 60 61 62, en la derecha: 58
+caracterDeCorte (72)
+    en la izquierda: 63 64, en la derecha: 51
+sentencia (73)
+    en la izquierda: 65 66 67 68 69 70 71, en la derecha: 4 73 74 76
+    77 78 79 80 81 87 88 89
+sentCompuesta (74)
+    en la izquierda: 72, en la derecha: 65
+listaSentencias (75)
+    en la izquierda: 73 74, en la derecha: 72 74
+sentExpresion (76)
+    en la izquierda: 75 86, en la derecha: 66
+sentSeleccion (77)
+    en la izquierda: 76 77 78, en la derecha: 67
+sentIteracion (78)
+    en la izquierda: 79 80 81, en la derecha: 68
+sentSalto (79)
+    en la izquierda: 82 83 84 85, en la derecha: 70
+sentEtiquetada (80)
+    en la izquierda: 87 88 89, en la derecha: 69
+
+
+estado 0
+
+    0 $accept: . input $end
+
+    $default  reduce usando la regla 1 (input)
+
+    input  ir al estado 1
+
+
+estado 1
+
+    0 $accept: input . $end
+    2 input: input . line
+
+    $end            desplazar e ir al estado 2
+    error           desplazar e ir al estado 3
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 5
+    TIPO_DATO       desplazar e ir al estado 6
+    LIT_CADENA      desplazar e ir al estado 7
+    FOR             desplazar e ir al estado 8
+    WHILE           desplazar e ir al estado 9
+    DO              desplazar e ir al estado 10
+    SWITCH          desplazar e ir al estado 11
+    GOTO            desplazar e ir al estado 12
+    CONTINUE        desplazar e ir al estado 13
+    BREAK           desplazar e ir al estado 14
+    CASE            desplazar e ir al estado 15
+    DEFAULT         desplazar e ir al estado 16
+    RETURN          desplazar e ir al estado 17
+    IF              desplazar e ir al estado 18
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '\n'            desplazar e ir al estado 23
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+    '{'             desplazar e ir al estado 27
+
+    OPER_OR   reduce usando la regla 16 (expAnd)
+    OPER_AND  reduce usando la regla 16 (expAnd)
+    '\n'      [reduce usando la regla 6 (expresionOP)]
+    '\n'      [reduce usando la regla 16 (expAnd)]
+    ';'       reduce usando la regla 6 (expresionOP)
+    ';'       [reduce usando la regla 16 (expAnd)]
+
+    line               ir al estado 28
+    expresion          ir al estado 29
+    expresionOP        ir al estado 30
+    expAsignacion      ir al estado 31
+    expCondicional     ir al estado 32
+    expOr              ir al estado 33
+    expAnd             ir al estado 34
+    expIgualdad        ir al estado 35
+    expRelacional      ir al estado 36
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 39
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+    declaVarSimples    ir al estado 43
+    sentencia          ir al estado 44
+    sentCompuesta      ir al estado 45
+    sentExpresion      ir al estado 46
+    sentSeleccion      ir al estado 47
+    sentIteracion      ir al estado 48
+    sentSalto          ir al estado 49
+    sentEtiquetada     ir al estado 50
+
+
+estado 2
+
+    0 $accept: input $end .
+
+    $default  aceptar
+
+
+estado 3
+
+   48 expPrimaria: error .
+   51 declaVarSimples: error . caracterDeCorte
+
+    '\n'  desplazar e ir al estado 51
+    ';'   desplazar e ir al estado 52
+
+    '\n'      [reduce usando la regla 48 (expPrimaria)]
+    ';'       [reduce usando la regla 48 (expPrimaria)]
+    $default  reduce usando la regla 48 (expPrimaria)
+
+    caracterDeCorte  ir al estado 53
+
+
+estado 4
+
+   45 expPrimaria: NUM .
+
+    $default  reduce usando la regla 45 (expPrimaria)
+
+
+estado 5
+
+   44 expPrimaria: IDENTIFICADOR .
+   89 sentEtiquetada: IDENTIFICADOR . ':' sentencia
+
+    ':'  desplazar e ir al estado 54
+
+    $default  reduce usando la regla 44 (expPrimaria)
+
+
+estado 6
+
+   50 declaVarSimples: TIPO_DATO . $@1 listaVarSimples ';'
+
+    $default  reduce usando la regla 49 ($@1)
+
+    $@1  ir al estado 55
+
+
+estado 7
+
+   46 expPrimaria: LIT_CADENA .
+
+    $default  reduce usando la regla 46 (expPrimaria)
+
+
+estado 8
+
+   81 sentIteracion: FOR . '(' expresionOP ';' expresionOP ';' expresionOP ')' sentencia
+
+    '('  desplazar e ir al estado 56
+
+
+estado 9
+
+   79 sentIteracion: WHILE . '(' expresion ')' sentencia
+
+    '('  desplazar e ir al estado 57
+
+
+estado 10
+
+   80 sentIteracion: DO . sentencia WHILE '(' expresion ')' ';'
+
+    error           desplazar e ir al estado 3
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 5
+    TIPO_DATO       desplazar e ir al estado 6
+    LIT_CADENA      desplazar e ir al estado 7
+    FOR             desplazar e ir al estado 8
+    WHILE           desplazar e ir al estado 9
+    DO              desplazar e ir al estado 10
+    SWITCH          desplazar e ir al estado 11
+    GOTO            desplazar e ir al estado 12
+    CONTINUE        desplazar e ir al estado 13
+    BREAK           desplazar e ir al estado 14
+    CASE            desplazar e ir al estado 15
+    DEFAULT         desplazar e ir al estado 16
+    RETURN          desplazar e ir al estado 17
+    IF              desplazar e ir al estado 18
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+    '{'             desplazar e ir al estado 27
+
+    WHILE     [reduce usando la regla 6 (expresionOP)]
+    WHILE     [reduce usando la regla 16 (expAnd)]
+    OPER_OR   reduce usando la regla 16 (expAnd)
+    OPER_AND  reduce usando la regla 16 (expAnd)
+    ';'       reduce usando la regla 6 (expresionOP)
+    ';'       [reduce usando la regla 16 (expAnd)]
+
+    expresion          ir al estado 29
+    expresionOP        ir al estado 30
+    expAsignacion      ir al estado 31
+    expCondicional     ir al estado 32
+    expOr              ir al estado 33
+    expAnd             ir al estado 34
+    expIgualdad        ir al estado 35
+    expRelacional      ir al estado 36
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 39
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+    declaVarSimples    ir al estado 43
+    sentencia          ir al estado 58
+    sentCompuesta      ir al estado 45
+    sentExpresion      ir al estado 46
+    sentSeleccion      ir al estado 47
+    sentIteracion      ir al estado 48
+    sentSalto          ir al estado 49
+    sentEtiquetada     ir al estado 50
+
+
+estado 11
+
+   78 sentSeleccion: SWITCH . '(' expresion ')' sentencia
+
+    '('  desplazar e ir al estado 59
+
+
+estado 12
+
+   85 sentSalto: GOTO . IDENTIFICADOR ';'
+
+    IDENTIFICADOR  desplazar e ir al estado 60
+
+
+estado 13
+
+   83 sentSalto: CONTINUE . ';'
+
+    ';'  desplazar e ir al estado 61
+
+
+estado 14
+
+   84 sentSalto: BREAK . ';'
+
+    ';'  desplazar e ir al estado 62
+
+
+estado 15
+
+   87 sentEtiquetada: CASE . expresion ':' sentencia
+
+    error           desplazar e ir al estado 63
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 64
+    LIT_CADENA      desplazar e ir al estado 7
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+
+    OPER_OR   reduce usando la regla 16 (expAnd)
+    OPER_AND  reduce usando la regla 16 (expAnd)
+    ':'       reduce usando la regla 16 (expAnd)
+
+    expresion          ir al estado 65
+    expAsignacion      ir al estado 31
+    expCondicional     ir al estado 32
+    expOr              ir al estado 33
+    expAnd             ir al estado 34
+    expIgualdad        ir al estado 35
+    expRelacional      ir al estado 36
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 39
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+
+
+estado 16
+
+   88 sentEtiquetada: DEFAULT . ':' sentencia
+
+    ':'  desplazar e ir al estado 66
+
+
+estado 17
+
+   82 sentSalto: RETURN . expresionOP ';'
+
+    error           desplazar e ir al estado 63
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 64
+    LIT_CADENA      desplazar e ir al estado 7
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+
+    OPER_OR   reduce usando la regla 16 (expAnd)
+    OPER_AND  reduce usando la regla 16 (expAnd)
+    ';'       reduce usando la regla 6 (expresionOP)
+    ';'       [reduce usando la regla 16 (expAnd)]
+
+    expresion          ir al estado 29
+    expresionOP        ir al estado 67
+    expAsignacion      ir al estado 31
+    expCondicional     ir al estado 32
+    expOr              ir al estado 33
+    expAnd             ir al estado 34
+    expIgualdad        ir al estado 35
+    expRelacional      ir al estado 36
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 39
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+
+
+estado 18
+
+   76 sentSeleccion: IF . '(' expresion ')' sentencia
+   77              | IF . '(' expresion ')' sentencia ELSE sentencia
+
+    '('  desplazar e ir al estado 68
+
+
+estado 19
+
+   31 expUnaria: SIZEOF . '(' nombreTipo ')'
+
+    '('  desplazar e ir al estado 69
+
+
+estado 20
+
+   29 expUnaria: OPER_INC_DEC . expUnaria
+
+    error           desplazar e ir al estado 63
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 64
+    LIT_CADENA      desplazar e ir al estado 7
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+
+    expUnaria    ir al estado 70
+    operUnario   ir al estado 40
+    expPostfijo  ir al estado 41
+    expPrimaria  ir al estado 42
+
+
+estado 21
+
+   36 operUnario: OPER_NEGACION .
+
+    $default  reduce usando la regla 36 (operUnario)
+
+
+estado 22
+
+   33 operUnario: OPER_DIRECCION .
+
+    $default  reduce usando la regla 33 (operUnario)
+
+
+estado 23
+
+    3 line: '\n' .
+
+    $default  reduce usando la regla 3 (line)
+
+
+estado 24
+
+   35 operUnario: '-' .
+
+    $default  reduce usando la regla 35 (operUnario)
+
+
+estado 25
+
+   34 operUnario: '*' .
+
+    $default  reduce usando la regla 34 (operUnario)
+
+
+estado 26
+
+   47 expPrimaria: '(' . expresion ')'
+
+    error           desplazar e ir al estado 63
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 64
+    LIT_CADENA      desplazar e ir al estado 7
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+
+    OPER_OR   reduce usando la regla 16 (expAnd)
+    OPER_AND  reduce usando la regla 16 (expAnd)
+    ')'       reduce usando la regla 16 (expAnd)
+
+    expresion          ir al estado 71
+    expAsignacion      ir al estado 31
+    expCondicional     ir al estado 32
+    expOr              ir al estado 33
+    expAnd             ir al estado 34
+    expIgualdad        ir al estado 35
+    expRelacional      ir al estado 36
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 39
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+
+
+estado 27
+
+   72 sentCompuesta: '{' . listaSentencias '}'
+
+    error           desplazar e ir al estado 3
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 5
+    TIPO_DATO       desplazar e ir al estado 6
+    LIT_CADENA      desplazar e ir al estado 7
+    FOR             desplazar e ir al estado 8
+    WHILE           desplazar e ir al estado 9
+    DO              desplazar e ir al estado 10
+    SWITCH          desplazar e ir al estado 11
+    GOTO            desplazar e ir al estado 12
+    CONTINUE        desplazar e ir al estado 13
+    BREAK           desplazar e ir al estado 14
+    CASE            desplazar e ir al estado 15
+    DEFAULT         desplazar e ir al estado 16
+    RETURN          desplazar e ir al estado 17
+    IF              desplazar e ir al estado 18
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+    '{'             desplazar e ir al estado 27
+
+    error           [reduce usando la regla 6 (expresionOP)]
+    error           [reduce usando la regla 16 (expAnd)]
+    NUM             [reduce usando la regla 6 (expresionOP)]
+    NUM             [reduce usando la regla 16 (expAnd)]
+    IDENTIFICADOR   [reduce usando la regla 6 (expresionOP)]
+    IDENTIFICADOR   [reduce usando la regla 16 (expAnd)]
+    TIPO_DATO       [reduce usando la regla 6 (expresionOP)]
+    TIPO_DATO       [reduce usando la regla 16 (expAnd)]
+    LIT_CADENA      [reduce usando la regla 6 (expresionOP)]
+    LIT_CADENA      [reduce usando la regla 16 (expAnd)]
+    FOR             [reduce usando la regla 6 (expresionOP)]
+    FOR             [reduce usando la regla 16 (expAnd)]
+    WHILE           [reduce usando la regla 6 (expresionOP)]
+    WHILE           [reduce usando la regla 16 (expAnd)]
+    DO              [reduce usando la regla 6 (expresionOP)]
+    DO              [reduce usando la regla 16 (expAnd)]
+    SWITCH          [reduce usando la regla 6 (expresionOP)]
+    SWITCH          [reduce usando la regla 16 (expAnd)]
+    GOTO            [reduce usando la regla 6 (expresionOP)]
+    GOTO            [reduce usando la regla 16 (expAnd)]
+    CONTINUE        [reduce usando la regla 6 (expresionOP)]
+    CONTINUE        [reduce usando la regla 16 (expAnd)]
+    BREAK           [reduce usando la regla 6 (expresionOP)]
+    BREAK           [reduce usando la regla 16 (expAnd)]
+    CASE            [reduce usando la regla 6 (expresionOP)]
+    CASE            [reduce usando la regla 16 (expAnd)]
+    DEFAULT         [reduce usando la regla 6 (expresionOP)]
+    DEFAULT         [reduce usando la regla 16 (expAnd)]
+    RETURN          [reduce usando la regla 6 (expresionOP)]
+    RETURN          [reduce usando la regla 16 (expAnd)]
+    IF              [reduce usando la regla 6 (expresionOP)]
+    IF              [reduce usando la regla 16 (expAnd)]
+    SIZEOF          [reduce usando la regla 6 (expresionOP)]
+    SIZEOF          [reduce usando la regla 16 (expAnd)]
+    OPER_OR         reduce usando la regla 6 (expresionOP)
+    OPER_OR         [reduce usando la regla 16 (expAnd)]
+    OPER_AND        reduce usando la regla 6 (expresionOP)
+    OPER_AND        [reduce usando la regla 16 (expAnd)]
+    OPER_INC_DEC    [reduce usando la regla 6 (expresionOP)]
+    OPER_INC_DEC    [reduce usando la regla 16 (expAnd)]
+    OPER_NEGACION   [reduce usando la regla 6 (expresionOP)]
+    OPER_NEGACION   [reduce usando la regla 16 (expAnd)]
+    OPER_DIRECCION  [reduce usando la regla 6 (expresionOP)]
+    OPER_DIRECCION  [reduce usando la regla 16 (expAnd)]
+    '-'             [reduce usando la regla 6 (expresionOP)]
+    '-'             [reduce usando la regla 16 (expAnd)]
+    '*'             [reduce usando la regla 6 (expresionOP)]
+    '*'             [reduce usando la regla 16 (expAnd)]
+    '('             [reduce usando la regla 6 (expresionOP)]
+    '('             [reduce usando la regla 16 (expAnd)]
+    ';'             reduce usando la regla 6 (expresionOP)
+    ';'             [reduce usando la regla 16 (expAnd)]
+    '{'             [reduce usando la regla 6 (expresionOP)]
+    '{'             [reduce usando la regla 16 (expAnd)]
+    '}'             reduce usando la regla 6 (expresionOP)
+    '}'             [reduce usando la regla 16 (expAnd)]
+
+    expresion          ir al estado 29
+    expresionOP        ir al estado 30
+    expAsignacion      ir al estado 31
+    expCondicional     ir al estado 32
+    expOr              ir al estado 33
+    expAnd             ir al estado 34
+    expIgualdad        ir al estado 35
+    expRelacional      ir al estado 36
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 39
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+    declaVarSimples    ir al estado 43
+    sentencia          ir al estado 72
+    sentCompuesta      ir al estado 45
+    listaSentencias    ir al estado 73
+    sentExpresion      ir al estado 46
+    sentSeleccion      ir al estado 47
+    sentIteracion      ir al estado 48
+    sentSalto          ir al estado 49
+    sentEtiquetada     ir al estado 50
+
+
+estado 28
+
+    2 input: input line .
+
+    $default  reduce usando la regla 2 (input)
+
+
+estado 29
+
+    7 expresionOP: expresion .
+
+    $default  reduce usando la regla 7 (expresionOP)
+
+
+estado 30
+
+   75 sentExpresion: expresionOP .
+   86              | expresionOP . ';'
+
+    ';'  desplazar e ir al estado 74
+
+    ';'       [reduce usando la regla 75 (sentExpresion)]
+    $default  reduce usando la regla 75 (sentExpresion)
+
+
+estado 31
+
+    5 expresion: expAsignacion .
+
+    $default  reduce usando la regla 5 (expresion)
+
+
+estado 32
+
+    8 expAsignacion: expCondicional .
+
+    $default  reduce usando la regla 8 (expAsignacion)
+
+
+estado 33
+
+   11 expCondicional: expOr .
+   13 expOr: expOr . OPER_OR expAnd
+
+    OPER_OR  desplazar e ir al estado 75
+
+    OPER_OR   [reduce usando la regla 11 (expCondicional)]
+    $default  reduce usando la regla 11 (expCondicional)
+
+
+estado 34
+
+   12 expOr: expAnd .
+   15 expAnd: expAnd . OPER_AND expIgualdad
+
+    OPER_AND  desplazar e ir al estado 76
+
+    OPER_AND  [reduce usando la regla 12 (expOr)]
+    $default  reduce usando la regla 12 (expOr)
+
+
+estado 35
+
+   14 expAnd: expIgualdad .
+   18 expIgualdad: expIgualdad . OPER_IGUALDAD expRelacional
+   19            | expIgualdad . OPER_DIFERENCIA expRelacional
+
+    OPER_IGUALDAD    desplazar e ir al estado 77
+    OPER_DIFERENCIA  desplazar e ir al estado 78
+
+    $default  reduce usando la regla 14 (expAnd)
+
+
+estado 36
+
+   17 expIgualdad: expRelacional .
+   21 expRelacional: expRelacional . OPER_RELACIONAL expAditiva
+
+    OPER_RELACIONAL  desplazar e ir al estado 79
+
+    $default  reduce usando la regla 17 (expIgualdad)
+
+
+estado 37
+
+   20 expRelacional: expAditiva .
+   23 expAditiva: expAditiva . '+' expMultiplicativa
+   24           | expAditiva . '-' expMultiplicativa
+
+    '+'  desplazar e ir al estado 80
+    '-'  desplazar e ir al estado 81
+
+    '-'       [reduce usando la regla 20 (expRelacional)]
+    $default  reduce usando la regla 20 (expRelacional)
+
+
+estado 38
+
+   22 expAditiva: expMultiplicativa .
+   26 expMultiplicativa: expMultiplicativa . '*' expUnaria
+   27                  | expMultiplicativa . '/' expUnaria
+
+    '*'  desplazar e ir al estado 82
+    '/'  desplazar e ir al estado 83
+
+    '*'       [reduce usando la regla 22 (expAditiva)]
+    $default  reduce usando la regla 22 (expAditiva)
+
+
+estado 39
+
+    9 expAsignacion: expUnaria . operAsignacion expAsignacion
+   25 expMultiplicativa: expUnaria .
+
+    OPER_ASIGNACION  desplazar e ir al estado 84
+
+    $default  reduce usando la regla 25 (expMultiplicativa)
+
+    operAsignacion  ir al estado 85
+
+
+estado 40
+
+   30 expUnaria: operUnario . expUnaria
+
+    error           desplazar e ir al estado 63
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 64
+    LIT_CADENA      desplazar e ir al estado 7
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+
+    expUnaria    ir al estado 86
+    operUnario   ir al estado 40
+    expPostfijo  ir al estado 41
+    expPrimaria  ir al estado 42
+
+
+estado 41
+
+   28 expUnaria: expPostfijo .
+   38 expPostfijo: expPostfijo . '[' expresion ']'
+   39            | expPostfijo . '(' listaArgumentosOP ')'
+
+    '('  desplazar e ir al estado 87
+    '['  desplazar e ir al estado 88
+
+    '('       [reduce usando la regla 28 (expUnaria)]
+    $default  reduce usando la regla 28 (expUnaria)
+
+
+estado 42
+
+   37 expPostfijo: expPrimaria .
+
+    $default  reduce usando la regla 37 (expPostfijo)
+
+
+estado 43
+
+   71 sentencia: declaVarSimples .
+
+    $default  reduce usando la regla 71 (sentencia)
+
+
+estado 44
+
+    4 line: sentencia . '\n'
+
+    '\n'  desplazar e ir al estado 89
+
+
+estado 45
+
+   65 sentencia: sentCompuesta .
+
+    $default  reduce usando la regla 65 (sentencia)
+
+
+estado 46
+
+   66 sentencia: sentExpresion .
+
+    $default  reduce usando la regla 66 (sentencia)
+
+
+estado 47
+
+   67 sentencia: sentSeleccion .
+
+    $default  reduce usando la regla 67 (sentencia)
+
+
+estado 48
+
+   68 sentencia: sentIteracion .
+
+    $default  reduce usando la regla 68 (sentencia)
+
+
+estado 49
+
+   70 sentencia: sentSalto .
+
+    $default  reduce usando la regla 70 (sentencia)
+
+
+estado 50
+
+   69 sentencia: sentEtiquetada .
+
+    $default  reduce usando la regla 69 (sentencia)
+
+
+estado 51
+
+   64 caracterDeCorte: '\n' .
+
+    $default  reduce usando la regla 64 (caracterDeCorte)
+
+
+estado 52
+
+   63 caracterDeCorte: ';' .
+
+    $default  reduce usando la regla 63 (caracterDeCorte)
+
+
+estado 53
+
+   51 declaVarSimples: error caracterDeCorte .
+
+    $default  reduce usando la regla 51 (declaVarSimples)
+
+
+estado 54
+
+   89 sentEtiquetada: IDENTIFICADOR ':' . sentencia
+
+    error           desplazar e ir al estado 3
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 5
+    TIPO_DATO       desplazar e ir al estado 6
+    LIT_CADENA      desplazar e ir al estado 7
+    FOR             desplazar e ir al estado 8
+    WHILE           desplazar e ir al estado 9
+    DO              desplazar e ir al estado 10
+    SWITCH          desplazar e ir al estado 11
+    GOTO            desplazar e ir al estado 12
+    CONTINUE        desplazar e ir al estado 13
+    BREAK           desplazar e ir al estado 14
+    CASE            desplazar e ir al estado 15
+    DEFAULT         desplazar e ir al estado 16
+    RETURN          desplazar e ir al estado 17
+    IF              desplazar e ir al estado 18
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+    '{'             desplazar e ir al estado 27
+
+    error           [reduce usando la regla 6 (expresionOP)]
+    error           [reduce usando la regla 16 (expAnd)]
+    NUM             [reduce usando la regla 6 (expresionOP)]
+    NUM             [reduce usando la regla 16 (expAnd)]
+    IDENTIFICADOR   [reduce usando la regla 6 (expresionOP)]
+    IDENTIFICADOR   [reduce usando la regla 16 (expAnd)]
+    TIPO_DATO       [reduce usando la regla 6 (expresionOP)]
+    TIPO_DATO       [reduce usando la regla 16 (expAnd)]
+    LIT_CADENA      [reduce usando la regla 6 (expresionOP)]
+    LIT_CADENA      [reduce usando la regla 16 (expAnd)]
+    FOR             [reduce usando la regla 6 (expresionOP)]
+    FOR             [reduce usando la regla 16 (expAnd)]
+    WHILE           [reduce usando la regla 6 (expresionOP)]
+    WHILE           [reduce usando la regla 16 (expAnd)]
+    DO              [reduce usando la regla 6 (expresionOP)]
+    DO              [reduce usando la regla 16 (expAnd)]
+    SWITCH          [reduce usando la regla 6 (expresionOP)]
+    SWITCH          [reduce usando la regla 16 (expAnd)]
+    GOTO            [reduce usando la regla 6 (expresionOP)]
+    GOTO            [reduce usando la regla 16 (expAnd)]
+    CONTINUE        [reduce usando la regla 6 (expresionOP)]
+    CONTINUE        [reduce usando la regla 16 (expAnd)]
+    BREAK           [reduce usando la regla 6 (expresionOP)]
+    BREAK           [reduce usando la regla 16 (expAnd)]
+    CASE            [reduce usando la regla 6 (expresionOP)]
+    CASE            [reduce usando la regla 16 (expAnd)]
+    DEFAULT         [reduce usando la regla 6 (expresionOP)]
+    DEFAULT         [reduce usando la regla 16 (expAnd)]
+    RETURN          [reduce usando la regla 6 (expresionOP)]
+    RETURN          [reduce usando la regla 16 (expAnd)]
+    IF              [reduce usando la regla 6 (expresionOP)]
+    IF              [reduce usando la regla 16 (expAnd)]
+    ELSE            reduce usando la regla 6 (expresionOP)
+    ELSE            [reduce usando la regla 16 (expAnd)]
+    SIZEOF          [reduce usando la regla 6 (expresionOP)]
+    SIZEOF          [reduce usando la regla 16 (expAnd)]
+    OPER_OR         reduce usando la regla 6 (expresionOP)
+    OPER_OR         [reduce usando la regla 16 (expAnd)]
+    OPER_AND        reduce usando la regla 6 (expresionOP)
+    OPER_AND        [reduce usando la regla 16 (expAnd)]
+    OPER_INC_DEC    [reduce usando la regla 6 (expresionOP)]
+    OPER_INC_DEC    [reduce usando la regla 16 (expAnd)]
+    OPER_NEGACION   [reduce usando la regla 6 (expresionOP)]
+    OPER_NEGACION   [reduce usando la regla 16 (expAnd)]
+    OPER_DIRECCION  [reduce usando la regla 6 (expresionOP)]
+    OPER_DIRECCION  [reduce usando la regla 16 (expAnd)]
+    '\n'            reduce usando la regla 6 (expresionOP)
+    '\n'            [reduce usando la regla 16 (expAnd)]
+    '-'             [reduce usando la regla 6 (expresionOP)]
+    '-'             [reduce usando la regla 16 (expAnd)]
+    '*'             [reduce usando la regla 6 (expresionOP)]
+    '*'             [reduce usando la regla 16 (expAnd)]
+    '('             [reduce usando la regla 6 (expresionOP)]
+    '('             [reduce usando la regla 16 (expAnd)]
+    ';'             reduce usando la regla 6 (expresionOP)
+    ';'             [reduce usando la regla 16 (expAnd)]
+    '{'             [reduce usando la regla 6 (expresionOP)]
+    '{'             [reduce usando la regla 16 (expAnd)]
+    '}'             reduce usando la regla 6 (expresionOP)
+    '}'             [reduce usando la regla 16 (expAnd)]
+
+    expresion          ir al estado 29
+    expresionOP        ir al estado 30
+    expAsignacion      ir al estado 31
+    expCondicional     ir al estado 32
+    expOr              ir al estado 33
+    expAnd             ir al estado 34
+    expIgualdad        ir al estado 35
+    expRelacional      ir al estado 36
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 39
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+    declaVarSimples    ir al estado 43
+    sentencia          ir al estado 90
+    sentCompuesta      ir al estado 45
+    sentExpresion      ir al estado 46
+    sentSeleccion      ir al estado 47
+    sentIteracion      ir al estado 48
+    sentSalto          ir al estado 49
+    sentEtiquetada     ir al estado 50
+
+
+estado 55
+
+   50 declaVarSimples: TIPO_DATO $@1 . listaVarSimples ';'
+
+    IDENTIFICADOR  desplazar e ir al estado 91
+
+    listaVarSimples  ir al estado 92
+    unaVarSimple     ir al estado 93
+    variable         ir al estado 94
+
+
+estado 56
+
+   81 sentIteracion: FOR '(' . expresionOP ';' expresionOP ';' expresionOP ')' sentencia
+
+    error           desplazar e ir al estado 63
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 64
+    LIT_CADENA      desplazar e ir al estado 7
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+
+    OPER_OR   reduce usando la regla 16 (expAnd)
+    OPER_AND  reduce usando la regla 16 (expAnd)
+    ';'       reduce usando la regla 6 (expresionOP)
+    ';'       [reduce usando la regla 16 (expAnd)]
+
+    expresion          ir al estado 29
+    expresionOP        ir al estado 95
+    expAsignacion      ir al estado 31
+    expCondicional     ir al estado 32
+    expOr              ir al estado 33
+    expAnd             ir al estado 34
+    expIgualdad        ir al estado 35
+    expRelacional      ir al estado 36
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 39
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+
+
+estado 57
+
+   79 sentIteracion: WHILE '(' . expresion ')' sentencia
+
+    error           desplazar e ir al estado 63
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 64
+    LIT_CADENA      desplazar e ir al estado 7
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+
+    OPER_OR   reduce usando la regla 16 (expAnd)
+    OPER_AND  reduce usando la regla 16 (expAnd)
+    ')'       reduce usando la regla 16 (expAnd)
+
+    expresion          ir al estado 96
+    expAsignacion      ir al estado 31
+    expCondicional     ir al estado 32
+    expOr              ir al estado 33
+    expAnd             ir al estado 34
+    expIgualdad        ir al estado 35
+    expRelacional      ir al estado 36
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 39
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+
+
+estado 58
+
+   80 sentIteracion: DO sentencia . WHILE '(' expresion ')' ';'
+
+    WHILE  desplazar e ir al estado 97
+
+
+estado 59
+
+   78 sentSeleccion: SWITCH '(' . expresion ')' sentencia
+
+    error           desplazar e ir al estado 63
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 64
+    LIT_CADENA      desplazar e ir al estado 7
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+
+    OPER_OR   reduce usando la regla 16 (expAnd)
+    OPER_AND  reduce usando la regla 16 (expAnd)
+    ')'       reduce usando la regla 16 (expAnd)
+
+    expresion          ir al estado 98
+    expAsignacion      ir al estado 31
+    expCondicional     ir al estado 32
+    expOr              ir al estado 33
+    expAnd             ir al estado 34
+    expIgualdad        ir al estado 35
+    expRelacional      ir al estado 36
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 39
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+
+
+estado 60
+
+   85 sentSalto: GOTO IDENTIFICADOR . ';'
+
+    ';'  desplazar e ir al estado 99
+
+
+estado 61
+
+   83 sentSalto: CONTINUE ';' .
+
+    $default  reduce usando la regla 83 (sentSalto)
+
+
+estado 62
+
+   84 sentSalto: BREAK ';' .
+
+    $default  reduce usando la regla 84 (sentSalto)
+
+
+estado 63
+
+   48 expPrimaria: error .
+
+    $default  reduce usando la regla 48 (expPrimaria)
+
+
+estado 64
+
+   44 expPrimaria: IDENTIFICADOR .
+
+    $default  reduce usando la regla 44 (expPrimaria)
+
+
+estado 65
+
+   87 sentEtiquetada: CASE expresion . ':' sentencia
+
+    ':'  desplazar e ir al estado 100
+
+
+estado 66
+
+   88 sentEtiquetada: DEFAULT ':' . sentencia
+
+    error           desplazar e ir al estado 3
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 5
+    TIPO_DATO       desplazar e ir al estado 6
+    LIT_CADENA      desplazar e ir al estado 7
+    FOR             desplazar e ir al estado 8
+    WHILE           desplazar e ir al estado 9
+    DO              desplazar e ir al estado 10
+    SWITCH          desplazar e ir al estado 11
+    GOTO            desplazar e ir al estado 12
+    CONTINUE        desplazar e ir al estado 13
+    BREAK           desplazar e ir al estado 14
+    CASE            desplazar e ir al estado 15
+    DEFAULT         desplazar e ir al estado 16
+    RETURN          desplazar e ir al estado 17
+    IF              desplazar e ir al estado 18
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+    '{'             desplazar e ir al estado 27
+
+    error           [reduce usando la regla 6 (expresionOP)]
+    error           [reduce usando la regla 16 (expAnd)]
+    NUM             [reduce usando la regla 6 (expresionOP)]
+    NUM             [reduce usando la regla 16 (expAnd)]
+    IDENTIFICADOR   [reduce usando la regla 6 (expresionOP)]
+    IDENTIFICADOR   [reduce usando la regla 16 (expAnd)]
+    TIPO_DATO       [reduce usando la regla 6 (expresionOP)]
+    TIPO_DATO       [reduce usando la regla 16 (expAnd)]
+    LIT_CADENA      [reduce usando la regla 6 (expresionOP)]
+    LIT_CADENA      [reduce usando la regla 16 (expAnd)]
+    FOR             [reduce usando la regla 6 (expresionOP)]
+    FOR             [reduce usando la regla 16 (expAnd)]
+    WHILE           [reduce usando la regla 6 (expresionOP)]
+    WHILE           [reduce usando la regla 16 (expAnd)]
+    DO              [reduce usando la regla 6 (expresionOP)]
+    DO              [reduce usando la regla 16 (expAnd)]
+    SWITCH          [reduce usando la regla 6 (expresionOP)]
+    SWITCH          [reduce usando la regla 16 (expAnd)]
+    GOTO            [reduce usando la regla 6 (expresionOP)]
+    GOTO            [reduce usando la regla 16 (expAnd)]
+    CONTINUE        [reduce usando la regla 6 (expresionOP)]
+    CONTINUE        [reduce usando la regla 16 (expAnd)]
+    BREAK           [reduce usando la regla 6 (expresionOP)]
+    BREAK           [reduce usando la regla 16 (expAnd)]
+    CASE            [reduce usando la regla 6 (expresionOP)]
+    CASE            [reduce usando la regla 16 (expAnd)]
+    DEFAULT         [reduce usando la regla 6 (expresionOP)]
+    DEFAULT         [reduce usando la regla 16 (expAnd)]
+    RETURN          [reduce usando la regla 6 (expresionOP)]
+    RETURN          [reduce usando la regla 16 (expAnd)]
+    IF              [reduce usando la regla 6 (expresionOP)]
+    IF              [reduce usando la regla 16 (expAnd)]
+    ELSE            reduce usando la regla 6 (expresionOP)
+    ELSE            [reduce usando la regla 16 (expAnd)]
+    SIZEOF          [reduce usando la regla 6 (expresionOP)]
+    SIZEOF          [reduce usando la regla 16 (expAnd)]
+    OPER_OR         reduce usando la regla 6 (expresionOP)
+    OPER_OR         [reduce usando la regla 16 (expAnd)]
+    OPER_AND        reduce usando la regla 6 (expresionOP)
+    OPER_AND        [reduce usando la regla 16 (expAnd)]
+    OPER_INC_DEC    [reduce usando la regla 6 (expresionOP)]
+    OPER_INC_DEC    [reduce usando la regla 16 (expAnd)]
+    OPER_NEGACION   [reduce usando la regla 6 (expresionOP)]
+    OPER_NEGACION   [reduce usando la regla 16 (expAnd)]
+    OPER_DIRECCION  [reduce usando la regla 6 (expresionOP)]
+    OPER_DIRECCION  [reduce usando la regla 16 (expAnd)]
+    '\n'            reduce usando la regla 6 (expresionOP)
+    '\n'            [reduce usando la regla 16 (expAnd)]
+    '-'             [reduce usando la regla 6 (expresionOP)]
+    '-'             [reduce usando la regla 16 (expAnd)]
+    '*'             [reduce usando la regla 6 (expresionOP)]
+    '*'             [reduce usando la regla 16 (expAnd)]
+    '('             [reduce usando la regla 6 (expresionOP)]
+    '('             [reduce usando la regla 16 (expAnd)]
+    ';'             reduce usando la regla 6 (expresionOP)
+    ';'             [reduce usando la regla 16 (expAnd)]
+    '{'             [reduce usando la regla 6 (expresionOP)]
+    '{'             [reduce usando la regla 16 (expAnd)]
+    '}'             reduce usando la regla 6 (expresionOP)
+    '}'             [reduce usando la regla 16 (expAnd)]
+
+    expresion          ir al estado 29
+    expresionOP        ir al estado 30
+    expAsignacion      ir al estado 31
+    expCondicional     ir al estado 32
+    expOr              ir al estado 33
+    expAnd             ir al estado 34
+    expIgualdad        ir al estado 35
+    expRelacional      ir al estado 36
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 39
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+    declaVarSimples    ir al estado 43
+    sentencia          ir al estado 101
+    sentCompuesta      ir al estado 45
+    sentExpresion      ir al estado 46
+    sentSeleccion      ir al estado 47
+    sentIteracion      ir al estado 48
+    sentSalto          ir al estado 49
+    sentEtiquetada     ir al estado 50
+
+
+estado 67
+
+   82 sentSalto: RETURN expresionOP . ';'
+
+    ';'  desplazar e ir al estado 102
+
+
+estado 68
+
+   76 sentSeleccion: IF '(' . expresion ')' sentencia
+   77              | IF '(' . expresion ')' sentencia ELSE sentencia
+
+    error           desplazar e ir al estado 63
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 64
+    LIT_CADENA      desplazar e ir al estado 7
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+
+    OPER_OR   reduce usando la regla 16 (expAnd)
+    OPER_AND  reduce usando la regla 16 (expAnd)
+    ')'       reduce usando la regla 16 (expAnd)
+
+    expresion          ir al estado 103
+    expAsignacion      ir al estado 31
+    expCondicional     ir al estado 32
+    expOr              ir al estado 33
+    expAnd             ir al estado 34
+    expIgualdad        ir al estado 35
+    expRelacional      ir al estado 36
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 39
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+
+
+estado 69
+
+   31 expUnaria: SIZEOF '(' . nombreTipo ')'
+
+    TIPO_DATO  desplazar e ir al estado 104
+
+    nombreTipo  ir al estado 105
+
+
+estado 70
+
+   29 expUnaria: OPER_INC_DEC expUnaria .
+
+    $default  reduce usando la regla 29 (expUnaria)
+
+
+estado 71
+
+   47 expPrimaria: '(' expresion . ')'
+
+    ')'  desplazar e ir al estado 106
+
+
+estado 72
+
+   73 listaSentencias: sentencia .
+
+    $default  reduce usando la regla 73 (listaSentencias)
+
+
+estado 73
+
+   72 sentCompuesta: '{' listaSentencias . '}'
+   74 listaSentencias: listaSentencias . sentencia
+
+    error           desplazar e ir al estado 3
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 5
+    TIPO_DATO       desplazar e ir al estado 6
+    LIT_CADENA      desplazar e ir al estado 7
+    FOR             desplazar e ir al estado 8
+    WHILE           desplazar e ir al estado 9
+    DO              desplazar e ir al estado 10
+    SWITCH          desplazar e ir al estado 11
+    GOTO            desplazar e ir al estado 12
+    CONTINUE        desplazar e ir al estado 13
+    BREAK           desplazar e ir al estado 14
+    CASE            desplazar e ir al estado 15
+    DEFAULT         desplazar e ir al estado 16
+    RETURN          desplazar e ir al estado 17
+    IF              desplazar e ir al estado 18
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+    '{'             desplazar e ir al estado 27
+    '}'             desplazar e ir al estado 107
+
+    error           [reduce usando la regla 6 (expresionOP)]
+    error           [reduce usando la regla 16 (expAnd)]
+    NUM             [reduce usando la regla 6 (expresionOP)]
+    NUM             [reduce usando la regla 16 (expAnd)]
+    IDENTIFICADOR   [reduce usando la regla 6 (expresionOP)]
+    IDENTIFICADOR   [reduce usando la regla 16 (expAnd)]
+    TIPO_DATO       [reduce usando la regla 6 (expresionOP)]
+    TIPO_DATO       [reduce usando la regla 16 (expAnd)]
+    LIT_CADENA      [reduce usando la regla 6 (expresionOP)]
+    LIT_CADENA      [reduce usando la regla 16 (expAnd)]
+    FOR             [reduce usando la regla 6 (expresionOP)]
+    FOR             [reduce usando la regla 16 (expAnd)]
+    WHILE           [reduce usando la regla 6 (expresionOP)]
+    WHILE           [reduce usando la regla 16 (expAnd)]
+    DO              [reduce usando la regla 6 (expresionOP)]
+    DO              [reduce usando la regla 16 (expAnd)]
+    SWITCH          [reduce usando la regla 6 (expresionOP)]
+    SWITCH          [reduce usando la regla 16 (expAnd)]
+    GOTO            [reduce usando la regla 6 (expresionOP)]
+    GOTO            [reduce usando la regla 16 (expAnd)]
+    CONTINUE        [reduce usando la regla 6 (expresionOP)]
+    CONTINUE        [reduce usando la regla 16 (expAnd)]
+    BREAK           [reduce usando la regla 6 (expresionOP)]
+    BREAK           [reduce usando la regla 16 (expAnd)]
+    CASE            [reduce usando la regla 6 (expresionOP)]
+    CASE            [reduce usando la regla 16 (expAnd)]
+    DEFAULT         [reduce usando la regla 6 (expresionOP)]
+    DEFAULT         [reduce usando la regla 16 (expAnd)]
+    RETURN          [reduce usando la regla 6 (expresionOP)]
+    RETURN          [reduce usando la regla 16 (expAnd)]
+    IF              [reduce usando la regla 6 (expresionOP)]
+    IF              [reduce usando la regla 16 (expAnd)]
+    SIZEOF          [reduce usando la regla 6 (expresionOP)]
+    SIZEOF          [reduce usando la regla 16 (expAnd)]
+    OPER_OR         reduce usando la regla 6 (expresionOP)
+    OPER_OR         [reduce usando la regla 16 (expAnd)]
+    OPER_AND        reduce usando la regla 6 (expresionOP)
+    OPER_AND        [reduce usando la regla 16 (expAnd)]
+    OPER_INC_DEC    [reduce usando la regla 6 (expresionOP)]
+    OPER_INC_DEC    [reduce usando la regla 16 (expAnd)]
+    OPER_NEGACION   [reduce usando la regla 6 (expresionOP)]
+    OPER_NEGACION   [reduce usando la regla 16 (expAnd)]
+    OPER_DIRECCION  [reduce usando la regla 6 (expresionOP)]
+    OPER_DIRECCION  [reduce usando la regla 16 (expAnd)]
+    '-'             [reduce usando la regla 6 (expresionOP)]
+    '-'             [reduce usando la regla 16 (expAnd)]
+    '*'             [reduce usando la regla 6 (expresionOP)]
+    '*'             [reduce usando la regla 16 (expAnd)]
+    '('             [reduce usando la regla 6 (expresionOP)]
+    '('             [reduce usando la regla 16 (expAnd)]
+    ';'             reduce usando la regla 6 (expresionOP)
+    ';'             [reduce usando la regla 16 (expAnd)]
+    '{'             [reduce usando la regla 6 (expresionOP)]
+    '{'             [reduce usando la regla 16 (expAnd)]
+    '}'             [reduce usando la regla 6 (expresionOP)]
+    '}'             [reduce usando la regla 16 (expAnd)]
+
+    expresion          ir al estado 29
+    expresionOP        ir al estado 30
+    expAsignacion      ir al estado 31
+    expCondicional     ir al estado 32
+    expOr              ir al estado 33
+    expAnd             ir al estado 34
+    expIgualdad        ir al estado 35
+    expRelacional      ir al estado 36
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 39
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+    declaVarSimples    ir al estado 43
+    sentencia          ir al estado 108
+    sentCompuesta      ir al estado 45
+    sentExpresion      ir al estado 46
+    sentSeleccion      ir al estado 47
+    sentIteracion      ir al estado 48
+    sentSalto          ir al estado 49
+    sentEtiquetada     ir al estado 50
+
+
+estado 74
+
+   86 sentExpresion: expresionOP ';' .
+
+    $default  reduce usando la regla 86 (sentExpresion)
+
+
+estado 75
+
+   13 expOr: expOr OPER_OR . expAnd
+
+    error           desplazar e ir al estado 63
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 64
+    LIT_CADENA      desplazar e ir al estado 7
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+
+    error           [reduce usando la regla 16 (expAnd)]
+    NUM             [reduce usando la regla 16 (expAnd)]
+    IDENTIFICADOR   [reduce usando la regla 16 (expAnd)]
+    TIPO_DATO       reduce usando la regla 16 (expAnd)
+    LIT_CADENA      [reduce usando la regla 16 (expAnd)]
+    FOR             reduce usando la regla 16 (expAnd)
+    WHILE           reduce usando la regla 16 (expAnd)
+    DO              reduce usando la regla 16 (expAnd)
+    SWITCH          reduce usando la regla 16 (expAnd)
+    GOTO            reduce usando la regla 16 (expAnd)
+    CONTINUE        reduce usando la regla 16 (expAnd)
+    BREAK           reduce usando la regla 16 (expAnd)
+    CASE            reduce usando la regla 16 (expAnd)
+    DEFAULT         reduce usando la regla 16 (expAnd)
+    RETURN          reduce usando la regla 16 (expAnd)
+    IF              reduce usando la regla 16 (expAnd)
+    ELSE            reduce usando la regla 16 (expAnd)
+    SIZEOF          [reduce usando la regla 16 (expAnd)]
+    OPER_OR         reduce usando la regla 16 (expAnd)
+    OPER_AND        reduce usando la regla 16 (expAnd)
+    OPER_INC_DEC    [reduce usando la regla 16 (expAnd)]
+    OPER_NEGACION   [reduce usando la regla 16 (expAnd)]
+    OPER_DIRECCION  [reduce usando la regla 16 (expAnd)]
+    '\n'            reduce usando la regla 16 (expAnd)
+    '-'             [reduce usando la regla 16 (expAnd)]
+    '*'             [reduce usando la regla 16 (expAnd)]
+    '('             [reduce usando la regla 16 (expAnd)]
+    ')'             reduce usando la regla 16 (expAnd)
+    ']'             reduce usando la regla 16 (expAnd)
+    ','             reduce usando la regla 16 (expAnd)
+    ';'             reduce usando la regla 16 (expAnd)
+    '{'             reduce usando la regla 16 (expAnd)
+    '}'             reduce usando la regla 16 (expAnd)
+    ':'             reduce usando la regla 16 (expAnd)
+
+    expAnd             ir al estado 109
+    expIgualdad        ir al estado 35
+    expRelacional      ir al estado 36
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 110
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+
+
+estado 76
+
+   15 expAnd: expAnd OPER_AND . expIgualdad
+
+    error           desplazar e ir al estado 63
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 64
+    LIT_CADENA      desplazar e ir al estado 7
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+
+    expIgualdad        ir al estado 111
+    expRelacional      ir al estado 36
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 110
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+
+
+estado 77
+
+   18 expIgualdad: expIgualdad OPER_IGUALDAD . expRelacional
+
+    error           desplazar e ir al estado 63
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 64
+    LIT_CADENA      desplazar e ir al estado 7
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+
+    expRelacional      ir al estado 112
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 110
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+
+
+estado 78
+
+   19 expIgualdad: expIgualdad OPER_DIFERENCIA . expRelacional
+
+    error           desplazar e ir al estado 63
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 64
+    LIT_CADENA      desplazar e ir al estado 7
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+
+    expRelacional      ir al estado 113
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 110
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+
+
+estado 79
+
+   21 expRelacional: expRelacional OPER_RELACIONAL . expAditiva
+
+    error           desplazar e ir al estado 63
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 64
+    LIT_CADENA      desplazar e ir al estado 7
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+
+    expAditiva         ir al estado 114
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 110
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+
+
+estado 80
+
+   23 expAditiva: expAditiva '+' . expMultiplicativa
+
+    error           desplazar e ir al estado 63
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 64
+    LIT_CADENA      desplazar e ir al estado 7
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+
+    expMultiplicativa  ir al estado 115
+    expUnaria          ir al estado 110
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+
+
+estado 81
+
+   24 expAditiva: expAditiva '-' . expMultiplicativa
+
+    error           desplazar e ir al estado 63
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 64
+    LIT_CADENA      desplazar e ir al estado 7
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+
+    expMultiplicativa  ir al estado 116
+    expUnaria          ir al estado 110
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+
+
+estado 82
+
+   26 expMultiplicativa: expMultiplicativa '*' . expUnaria
+
+    error           desplazar e ir al estado 63
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 64
+    LIT_CADENA      desplazar e ir al estado 7
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+
+    expUnaria    ir al estado 117
+    operUnario   ir al estado 40
+    expPostfijo  ir al estado 41
+    expPrimaria  ir al estado 42
+
+
+estado 83
+
+   27 expMultiplicativa: expMultiplicativa '/' . expUnaria
+
+    error           desplazar e ir al estado 63
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 64
+    LIT_CADENA      desplazar e ir al estado 7
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+
+    expUnaria    ir al estado 118
+    operUnario   ir al estado 40
+    expPostfijo  ir al estado 41
+    expPrimaria  ir al estado 42
+
+
+estado 84
+
+   10 operAsignacion: OPER_ASIGNACION .
+
+    $default  reduce usando la regla 10 (operAsignacion)
+
+
+estado 85
+
+    9 expAsignacion: expUnaria operAsignacion . expAsignacion
+
+    error           desplazar e ir al estado 63
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 64
+    LIT_CADENA      desplazar e ir al estado 7
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+
+    error           [reduce usando la regla 16 (expAnd)]
+    NUM             [reduce usando la regla 16 (expAnd)]
+    IDENTIFICADOR   [reduce usando la regla 16 (expAnd)]
+    TIPO_DATO       reduce usando la regla 16 (expAnd)
+    LIT_CADENA      [reduce usando la regla 16 (expAnd)]
+    FOR             reduce usando la regla 16 (expAnd)
+    WHILE           reduce usando la regla 16 (expAnd)
+    DO              reduce usando la regla 16 (expAnd)
+    SWITCH          reduce usando la regla 16 (expAnd)
+    GOTO            reduce usando la regla 16 (expAnd)
+    CONTINUE        reduce usando la regla 16 (expAnd)
+    BREAK           reduce usando la regla 16 (expAnd)
+    CASE            reduce usando la regla 16 (expAnd)
+    DEFAULT         reduce usando la regla 16 (expAnd)
+    RETURN          reduce usando la regla 16 (expAnd)
+    IF              reduce usando la regla 16 (expAnd)
+    ELSE            reduce usando la regla 16 (expAnd)
+    SIZEOF          [reduce usando la regla 16 (expAnd)]
+    OPER_OR         reduce usando la regla 16 (expAnd)
+    OPER_AND        reduce usando la regla 16 (expAnd)
+    OPER_INC_DEC    [reduce usando la regla 16 (expAnd)]
+    OPER_NEGACION   [reduce usando la regla 16 (expAnd)]
+    OPER_DIRECCION  [reduce usando la regla 16 (expAnd)]
+    '\n'            reduce usando la regla 16 (expAnd)
+    '-'             [reduce usando la regla 16 (expAnd)]
+    '*'             [reduce usando la regla 16 (expAnd)]
+    '('             [reduce usando la regla 16 (expAnd)]
+    ')'             reduce usando la regla 16 (expAnd)
+    ']'             reduce usando la regla 16 (expAnd)
+    ','             reduce usando la regla 16 (expAnd)
+    ';'             reduce usando la regla 16 (expAnd)
+    '{'             reduce usando la regla 16 (expAnd)
+    '}'             reduce usando la regla 16 (expAnd)
+    ':'             reduce usando la regla 16 (expAnd)
+
+    expAsignacion      ir al estado 119
+    expCondicional     ir al estado 32
+    expOr              ir al estado 33
+    expAnd             ir al estado 34
+    expIgualdad        ir al estado 35
+    expRelacional      ir al estado 36
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 39
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+
+
+estado 86
+
+   30 expUnaria: operUnario expUnaria .
+
+    $default  reduce usando la regla 30 (expUnaria)
+
+
+estado 87
+
+   39 expPostfijo: expPostfijo '(' . listaArgumentosOP ')'
+
+    error           desplazar e ir al estado 63
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 64
+    LIT_CADENA      desplazar e ir al estado 7
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+
+    OPER_OR   reduce usando la regla 16 (expAnd)
+    OPER_AND  reduce usando la regla 16 (expAnd)
+    ')'       reduce usando la regla 16 (expAnd)
+    ')'       [reduce usando la regla 40 (listaArgumentosOP)]
+    ','       reduce usando la regla 16 (expAnd)
+
+    expAsignacion      ir al estado 120
+    expCondicional     ir al estado 32
+    expOr              ir al estado 33
+    expAnd             ir al estado 34
+    expIgualdad        ir al estado 35
+    expRelacional      ir al estado 36
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 39
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    listaArgumentosOP  ir al estado 121
+    listaArgumentos    ir al estado 122
+    expPrimaria        ir al estado 42
+
+
+estado 88
+
+   38 expPostfijo: expPostfijo '[' . expresion ']'
+
+    error           desplazar e ir al estado 63
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 64
+    LIT_CADENA      desplazar e ir al estado 7
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+
+    OPER_OR   reduce usando la regla 16 (expAnd)
+    OPER_AND  reduce usando la regla 16 (expAnd)
+    ']'       reduce usando la regla 16 (expAnd)
+
+    expresion          ir al estado 123
+    expAsignacion      ir al estado 31
+    expCondicional     ir al estado 32
+    expOr              ir al estado 33
+    expAnd             ir al estado 34
+    expIgualdad        ir al estado 35
+    expRelacional      ir al estado 36
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 39
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+
+
+estado 89
+
+    4 line: sentencia '\n' .
+
+    $default  reduce usando la regla 4 (line)
+
+
+estado 90
+
+   89 sentEtiquetada: IDENTIFICADOR ':' sentencia .
+
+    $default  reduce usando la regla 89 (sentEtiquetada)
+
+
+estado 91
+
+   57 variable: IDENTIFICADOR .
+
+    $default  reduce usando la regla 57 (variable)
+
+
+estado 92
+
+   50 declaVarSimples: TIPO_DATO $@1 listaVarSimples . ';'
+   53 listaVarSimples: listaVarSimples . ',' unaVarSimple
+
+    ','  desplazar e ir al estado 124
+    ';'  desplazar e ir al estado 125
+
+
+estado 93
+
+   52 listaVarSimples: unaVarSimple .
+
+    $default  reduce usando la regla 52 (listaVarSimples)
+
+
+estado 94
+
+   54 unaVarSimple: variable . inicial
+   55             | variable .
+   56             | variable . '[' NUM ']'
+
+    OPER_ASIGNACION  desplazar e ir al estado 126
+    '['              desplazar e ir al estado 127
+
+    $default  reduce usando la regla 55 (unaVarSimple)
+
+    inicial  ir al estado 128
+
+
+estado 95
+
+   81 sentIteracion: FOR '(' expresionOP . ';' expresionOP ';' expresionOP ')' sentencia
+
+    ';'  desplazar e ir al estado 129
+
+
+estado 96
+
+   79 sentIteracion: WHILE '(' expresion . ')' sentencia
+
+    ')'  desplazar e ir al estado 130
+
+
+estado 97
+
+   80 sentIteracion: DO sentencia WHILE . '(' expresion ')' ';'
+
+    '('  desplazar e ir al estado 131
+
+
+estado 98
+
+   78 sentSeleccion: SWITCH '(' expresion . ')' sentencia
+
+    ')'  desplazar e ir al estado 132
+
+
+estado 99
+
+   85 sentSalto: GOTO IDENTIFICADOR ';' .
+
+    $default  reduce usando la regla 85 (sentSalto)
+
+
+estado 100
+
+   87 sentEtiquetada: CASE expresion ':' . sentencia
+
+    error           desplazar e ir al estado 3
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 5
+    TIPO_DATO       desplazar e ir al estado 6
+    LIT_CADENA      desplazar e ir al estado 7
+    FOR             desplazar e ir al estado 8
+    WHILE           desplazar e ir al estado 9
+    DO              desplazar e ir al estado 10
+    SWITCH          desplazar e ir al estado 11
+    GOTO            desplazar e ir al estado 12
+    CONTINUE        desplazar e ir al estado 13
+    BREAK           desplazar e ir al estado 14
+    CASE            desplazar e ir al estado 15
+    DEFAULT         desplazar e ir al estado 16
+    RETURN          desplazar e ir al estado 17
+    IF              desplazar e ir al estado 18
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+    '{'             desplazar e ir al estado 27
+
+    error           [reduce usando la regla 6 (expresionOP)]
+    error           [reduce usando la regla 16 (expAnd)]
+    NUM             [reduce usando la regla 6 (expresionOP)]
+    NUM             [reduce usando la regla 16 (expAnd)]
+    IDENTIFICADOR   [reduce usando la regla 6 (expresionOP)]
+    IDENTIFICADOR   [reduce usando la regla 16 (expAnd)]
+    TIPO_DATO       [reduce usando la regla 6 (expresionOP)]
+    TIPO_DATO       [reduce usando la regla 16 (expAnd)]
+    LIT_CADENA      [reduce usando la regla 6 (expresionOP)]
+    LIT_CADENA      [reduce usando la regla 16 (expAnd)]
+    FOR             [reduce usando la regla 6 (expresionOP)]
+    FOR             [reduce usando la regla 16 (expAnd)]
+    WHILE           [reduce usando la regla 6 (expresionOP)]
+    WHILE           [reduce usando la regla 16 (expAnd)]
+    DO              [reduce usando la regla 6 (expresionOP)]
+    DO              [reduce usando la regla 16 (expAnd)]
+    SWITCH          [reduce usando la regla 6 (expresionOP)]
+    SWITCH          [reduce usando la regla 16 (expAnd)]
+    GOTO            [reduce usando la regla 6 (expresionOP)]
+    GOTO            [reduce usando la regla 16 (expAnd)]
+    CONTINUE        [reduce usando la regla 6 (expresionOP)]
+    CONTINUE        [reduce usando la regla 16 (expAnd)]
+    BREAK           [reduce usando la regla 6 (expresionOP)]
+    BREAK           [reduce usando la regla 16 (expAnd)]
+    CASE            [reduce usando la regla 6 (expresionOP)]
+    CASE            [reduce usando la regla 16 (expAnd)]
+    DEFAULT         [reduce usando la regla 6 (expresionOP)]
+    DEFAULT         [reduce usando la regla 16 (expAnd)]
+    RETURN          [reduce usando la regla 6 (expresionOP)]
+    RETURN          [reduce usando la regla 16 (expAnd)]
+    IF              [reduce usando la regla 6 (expresionOP)]
+    IF              [reduce usando la regla 16 (expAnd)]
+    ELSE            reduce usando la regla 6 (expresionOP)
+    ELSE            [reduce usando la regla 16 (expAnd)]
+    SIZEOF          [reduce usando la regla 6 (expresionOP)]
+    SIZEOF          [reduce usando la regla 16 (expAnd)]
+    OPER_OR         reduce usando la regla 6 (expresionOP)
+    OPER_OR         [reduce usando la regla 16 (expAnd)]
+    OPER_AND        reduce usando la regla 6 (expresionOP)
+    OPER_AND        [reduce usando la regla 16 (expAnd)]
+    OPER_INC_DEC    [reduce usando la regla 6 (expresionOP)]
+    OPER_INC_DEC    [reduce usando la regla 16 (expAnd)]
+    OPER_NEGACION   [reduce usando la regla 6 (expresionOP)]
+    OPER_NEGACION   [reduce usando la regla 16 (expAnd)]
+    OPER_DIRECCION  [reduce usando la regla 6 (expresionOP)]
+    OPER_DIRECCION  [reduce usando la regla 16 (expAnd)]
+    '\n'            reduce usando la regla 6 (expresionOP)
+    '\n'            [reduce usando la regla 16 (expAnd)]
+    '-'             [reduce usando la regla 6 (expresionOP)]
+    '-'             [reduce usando la regla 16 (expAnd)]
+    '*'             [reduce usando la regla 6 (expresionOP)]
+    '*'             [reduce usando la regla 16 (expAnd)]
+    '('             [reduce usando la regla 6 (expresionOP)]
+    '('             [reduce usando la regla 16 (expAnd)]
+    ';'             reduce usando la regla 6 (expresionOP)
+    ';'             [reduce usando la regla 16 (expAnd)]
+    '{'             [reduce usando la regla 6 (expresionOP)]
+    '{'             [reduce usando la regla 16 (expAnd)]
+    '}'             reduce usando la regla 6 (expresionOP)
+    '}'             [reduce usando la regla 16 (expAnd)]
+
+    expresion          ir al estado 29
+    expresionOP        ir al estado 30
+    expAsignacion      ir al estado 31
+    expCondicional     ir al estado 32
+    expOr              ir al estado 33
+    expAnd             ir al estado 34
+    expIgualdad        ir al estado 35
+    expRelacional      ir al estado 36
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 39
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+    declaVarSimples    ir al estado 43
+    sentencia          ir al estado 133
+    sentCompuesta      ir al estado 45
+    sentExpresion      ir al estado 46
+    sentSeleccion      ir al estado 47
+    sentIteracion      ir al estado 48
+    sentSalto          ir al estado 49
+    sentEtiquetada     ir al estado 50
+
+
+estado 101
+
+   88 sentEtiquetada: DEFAULT ':' sentencia .
+
+    $default  reduce usando la regla 88 (sentEtiquetada)
+
+
+estado 102
+
+   82 sentSalto: RETURN expresionOP ';' .
+
+    $default  reduce usando la regla 82 (sentSalto)
+
+
+estado 103
+
+   76 sentSeleccion: IF '(' expresion . ')' sentencia
+   77              | IF '(' expresion . ')' sentencia ELSE sentencia
+
+    ')'  desplazar e ir al estado 134
+
+
+estado 104
+
+   32 nombreTipo: TIPO_DATO .
+
+    $default  reduce usando la regla 32 (nombreTipo)
+
+
+estado 105
+
+   31 expUnaria: SIZEOF '(' nombreTipo . ')'
+
+    ')'  desplazar e ir al estado 135
+
+
+estado 106
+
+   47 expPrimaria: '(' expresion ')' .
+
+    $default  reduce usando la regla 47 (expPrimaria)
+
+
+estado 107
+
+   72 sentCompuesta: '{' listaSentencias '}' .
+
+    $default  reduce usando la regla 72 (sentCompuesta)
+
+
+estado 108
+
+   74 listaSentencias: listaSentencias sentencia .
+
+    $default  reduce usando la regla 74 (listaSentencias)
+
+
+estado 109
+
+   13 expOr: expOr OPER_OR expAnd .
+   15 expAnd: expAnd . OPER_AND expIgualdad
+
+    OPER_AND  desplazar e ir al estado 76
+
+    OPER_AND  [reduce usando la regla 13 (expOr)]
+    $default  reduce usando la regla 13 (expOr)
+
+
+estado 110
+
+   25 expMultiplicativa: expUnaria .
+
+    $default  reduce usando la regla 25 (expMultiplicativa)
+
+
+estado 111
+
+   15 expAnd: expAnd OPER_AND expIgualdad .
+   18 expIgualdad: expIgualdad . OPER_IGUALDAD expRelacional
+   19            | expIgualdad . OPER_DIFERENCIA expRelacional
+
+    OPER_IGUALDAD    desplazar e ir al estado 77
+    OPER_DIFERENCIA  desplazar e ir al estado 78
+
+    $default  reduce usando la regla 15 (expAnd)
+
+
+estado 112
+
+   18 expIgualdad: expIgualdad OPER_IGUALDAD expRelacional .
+   21 expRelacional: expRelacional . OPER_RELACIONAL expAditiva
+
+    OPER_RELACIONAL  desplazar e ir al estado 79
+
+    $default  reduce usando la regla 18 (expIgualdad)
+
+
+estado 113
+
+   19 expIgualdad: expIgualdad OPER_DIFERENCIA expRelacional .
+   21 expRelacional: expRelacional . OPER_RELACIONAL expAditiva
+
+    OPER_RELACIONAL  desplazar e ir al estado 79
+
+    $default  reduce usando la regla 19 (expIgualdad)
+
+
+estado 114
+
+   21 expRelacional: expRelacional OPER_RELACIONAL expAditiva .
+   23 expAditiva: expAditiva . '+' expMultiplicativa
+   24           | expAditiva . '-' expMultiplicativa
+
+    '+'  desplazar e ir al estado 80
+    '-'  desplazar e ir al estado 81
+
+    '-'       [reduce usando la regla 21 (expRelacional)]
+    $default  reduce usando la regla 21 (expRelacional)
+
+
+estado 115
+
+   23 expAditiva: expAditiva '+' expMultiplicativa .
+   26 expMultiplicativa: expMultiplicativa . '*' expUnaria
+   27                  | expMultiplicativa . '/' expUnaria
+
+    '*'  desplazar e ir al estado 82
+    '/'  desplazar e ir al estado 83
+
+    '*'       [reduce usando la regla 23 (expAditiva)]
+    $default  reduce usando la regla 23 (expAditiva)
+
+
+estado 116
+
+   24 expAditiva: expAditiva '-' expMultiplicativa .
+   26 expMultiplicativa: expMultiplicativa . '*' expUnaria
+   27                  | expMultiplicativa . '/' expUnaria
+
+    '*'  desplazar e ir al estado 82
+    '/'  desplazar e ir al estado 83
+
+    '*'       [reduce usando la regla 24 (expAditiva)]
+    $default  reduce usando la regla 24 (expAditiva)
+
+
+estado 117
+
+   26 expMultiplicativa: expMultiplicativa '*' expUnaria .
+
+    $default  reduce usando la regla 26 (expMultiplicativa)
+
+
+estado 118
+
+   27 expMultiplicativa: expMultiplicativa '/' expUnaria .
+
+    $default  reduce usando la regla 27 (expMultiplicativa)
+
+
+estado 119
+
+    9 expAsignacion: expUnaria operAsignacion expAsignacion .
+
+    $default  reduce usando la regla 9 (expAsignacion)
+
+
+estado 120
+
+   42 listaArgumentos: expAsignacion .
+
+    $default  reduce usando la regla 42 (listaArgumentos)
+
+
+estado 121
+
+   39 expPostfijo: expPostfijo '(' listaArgumentosOP . ')'
+
+    ')'  desplazar e ir al estado 136
+
+
+estado 122
+
+   41 listaArgumentosOP: listaArgumentos .
+   43 listaArgumentos: listaArgumentos . ',' expAsignacion
+
+    ','  desplazar e ir al estado 137
+
+    $default  reduce usando la regla 41 (listaArgumentosOP)
+
+
+estado 123
+
+   38 expPostfijo: expPostfijo '[' expresion . ']'
+
+    ']'  desplazar e ir al estado 138
+
+
+estado 124
+
+   53 listaVarSimples: listaVarSimples ',' . unaVarSimple
+
+    IDENTIFICADOR  desplazar e ir al estado 91
+
+    unaVarSimple  ir al estado 139
+    variable      ir al estado 94
+
+
+estado 125
+
+   50 declaVarSimples: TIPO_DATO $@1 listaVarSimples ';' .
+
+    $default  reduce usando la regla 50 (declaVarSimples)
+
+
+estado 126
+
+   58 inicial: OPER_ASIGNACION . CONSTANTE
+
+    error       desplazar e ir al estado 140
+    NUM         desplazar e ir al estado 141
+    LIT_CADENA  desplazar e ir al estado 142
+    CARACTER    desplazar e ir al estado 143
+
+    CONSTANTE  ir al estado 144
+
+
+estado 127
+
+   56 unaVarSimple: variable '[' . NUM ']'
+
+    NUM  desplazar e ir al estado 145
+
+
+estado 128
+
+   54 unaVarSimple: variable inicial .
+
+    $default  reduce usando la regla 54 (unaVarSimple)
+
+
+estado 129
+
+   81 sentIteracion: FOR '(' expresionOP ';' . expresionOP ';' expresionOP ')' sentencia
+
+    error           desplazar e ir al estado 63
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 64
+    LIT_CADENA      desplazar e ir al estado 7
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+
+    OPER_OR   reduce usando la regla 16 (expAnd)
+    OPER_AND  reduce usando la regla 16 (expAnd)
+    ';'       reduce usando la regla 6 (expresionOP)
+    ';'       [reduce usando la regla 16 (expAnd)]
+
+    expresion          ir al estado 29
+    expresionOP        ir al estado 146
+    expAsignacion      ir al estado 31
+    expCondicional     ir al estado 32
+    expOr              ir al estado 33
+    expAnd             ir al estado 34
+    expIgualdad        ir al estado 35
+    expRelacional      ir al estado 36
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 39
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+
+
+estado 130
+
+   79 sentIteracion: WHILE '(' expresion ')' . sentencia
+
+    error           desplazar e ir al estado 3
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 5
+    TIPO_DATO       desplazar e ir al estado 6
+    LIT_CADENA      desplazar e ir al estado 7
+    FOR             desplazar e ir al estado 8
+    WHILE           desplazar e ir al estado 9
+    DO              desplazar e ir al estado 10
+    SWITCH          desplazar e ir al estado 11
+    GOTO            desplazar e ir al estado 12
+    CONTINUE        desplazar e ir al estado 13
+    BREAK           desplazar e ir al estado 14
+    CASE            desplazar e ir al estado 15
+    DEFAULT         desplazar e ir al estado 16
+    RETURN          desplazar e ir al estado 17
+    IF              desplazar e ir al estado 18
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+    '{'             desplazar e ir al estado 27
+
+    error           [reduce usando la regla 6 (expresionOP)]
+    error           [reduce usando la regla 16 (expAnd)]
+    NUM             [reduce usando la regla 6 (expresionOP)]
+    NUM             [reduce usando la regla 16 (expAnd)]
+    IDENTIFICADOR   [reduce usando la regla 6 (expresionOP)]
+    IDENTIFICADOR   [reduce usando la regla 16 (expAnd)]
+    TIPO_DATO       [reduce usando la regla 6 (expresionOP)]
+    TIPO_DATO       [reduce usando la regla 16 (expAnd)]
+    LIT_CADENA      [reduce usando la regla 6 (expresionOP)]
+    LIT_CADENA      [reduce usando la regla 16 (expAnd)]
+    FOR             [reduce usando la regla 6 (expresionOP)]
+    FOR             [reduce usando la regla 16 (expAnd)]
+    WHILE           [reduce usando la regla 6 (expresionOP)]
+    WHILE           [reduce usando la regla 16 (expAnd)]
+    DO              [reduce usando la regla 6 (expresionOP)]
+    DO              [reduce usando la regla 16 (expAnd)]
+    SWITCH          [reduce usando la regla 6 (expresionOP)]
+    SWITCH          [reduce usando la regla 16 (expAnd)]
+    GOTO            [reduce usando la regla 6 (expresionOP)]
+    GOTO            [reduce usando la regla 16 (expAnd)]
+    CONTINUE        [reduce usando la regla 6 (expresionOP)]
+    CONTINUE        [reduce usando la regla 16 (expAnd)]
+    BREAK           [reduce usando la regla 6 (expresionOP)]
+    BREAK           [reduce usando la regla 16 (expAnd)]
+    CASE            [reduce usando la regla 6 (expresionOP)]
+    CASE            [reduce usando la regla 16 (expAnd)]
+    DEFAULT         [reduce usando la regla 6 (expresionOP)]
+    DEFAULT         [reduce usando la regla 16 (expAnd)]
+    RETURN          [reduce usando la regla 6 (expresionOP)]
+    RETURN          [reduce usando la regla 16 (expAnd)]
+    IF              [reduce usando la regla 6 (expresionOP)]
+    IF              [reduce usando la regla 16 (expAnd)]
+    ELSE            reduce usando la regla 6 (expresionOP)
+    ELSE            [reduce usando la regla 16 (expAnd)]
+    SIZEOF          [reduce usando la regla 6 (expresionOP)]
+    SIZEOF          [reduce usando la regla 16 (expAnd)]
+    OPER_OR         reduce usando la regla 6 (expresionOP)
+    OPER_OR         [reduce usando la regla 16 (expAnd)]
+    OPER_AND        reduce usando la regla 6 (expresionOP)
+    OPER_AND        [reduce usando la regla 16 (expAnd)]
+    OPER_INC_DEC    [reduce usando la regla 6 (expresionOP)]
+    OPER_INC_DEC    [reduce usando la regla 16 (expAnd)]
+    OPER_NEGACION   [reduce usando la regla 6 (expresionOP)]
+    OPER_NEGACION   [reduce usando la regla 16 (expAnd)]
+    OPER_DIRECCION  [reduce usando la regla 6 (expresionOP)]
+    OPER_DIRECCION  [reduce usando la regla 16 (expAnd)]
+    '\n'            reduce usando la regla 6 (expresionOP)
+    '\n'            [reduce usando la regla 16 (expAnd)]
+    '-'             [reduce usando la regla 6 (expresionOP)]
+    '-'             [reduce usando la regla 16 (expAnd)]
+    '*'             [reduce usando la regla 6 (expresionOP)]
+    '*'             [reduce usando la regla 16 (expAnd)]
+    '('             [reduce usando la regla 6 (expresionOP)]
+    '('             [reduce usando la regla 16 (expAnd)]
+    ';'             reduce usando la regla 6 (expresionOP)
+    ';'             [reduce usando la regla 16 (expAnd)]
+    '{'             [reduce usando la regla 6 (expresionOP)]
+    '{'             [reduce usando la regla 16 (expAnd)]
+    '}'             reduce usando la regla 6 (expresionOP)
+    '}'             [reduce usando la regla 16 (expAnd)]
+
+    expresion          ir al estado 29
+    expresionOP        ir al estado 30
+    expAsignacion      ir al estado 31
+    expCondicional     ir al estado 32
+    expOr              ir al estado 33
+    expAnd             ir al estado 34
+    expIgualdad        ir al estado 35
+    expRelacional      ir al estado 36
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 39
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+    declaVarSimples    ir al estado 43
+    sentencia          ir al estado 147
+    sentCompuesta      ir al estado 45
+    sentExpresion      ir al estado 46
+    sentSeleccion      ir al estado 47
+    sentIteracion      ir al estado 48
+    sentSalto          ir al estado 49
+    sentEtiquetada     ir al estado 50
+
+
+estado 131
+
+   80 sentIteracion: DO sentencia WHILE '(' . expresion ')' ';'
+
+    error           desplazar e ir al estado 63
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 64
+    LIT_CADENA      desplazar e ir al estado 7
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+
+    OPER_OR   reduce usando la regla 16 (expAnd)
+    OPER_AND  reduce usando la regla 16 (expAnd)
+    ')'       reduce usando la regla 16 (expAnd)
+
+    expresion          ir al estado 148
+    expAsignacion      ir al estado 31
+    expCondicional     ir al estado 32
+    expOr              ir al estado 33
+    expAnd             ir al estado 34
+    expIgualdad        ir al estado 35
+    expRelacional      ir al estado 36
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 39
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+
+
+estado 132
+
+   78 sentSeleccion: SWITCH '(' expresion ')' . sentencia
+
+    error           desplazar e ir al estado 3
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 5
+    TIPO_DATO       desplazar e ir al estado 6
+    LIT_CADENA      desplazar e ir al estado 7
+    FOR             desplazar e ir al estado 8
+    WHILE           desplazar e ir al estado 9
+    DO              desplazar e ir al estado 10
+    SWITCH          desplazar e ir al estado 11
+    GOTO            desplazar e ir al estado 12
+    CONTINUE        desplazar e ir al estado 13
+    BREAK           desplazar e ir al estado 14
+    CASE            desplazar e ir al estado 15
+    DEFAULT         desplazar e ir al estado 16
+    RETURN          desplazar e ir al estado 17
+    IF              desplazar e ir al estado 18
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+    '{'             desplazar e ir al estado 27
+
+    error           [reduce usando la regla 6 (expresionOP)]
+    error           [reduce usando la regla 16 (expAnd)]
+    NUM             [reduce usando la regla 6 (expresionOP)]
+    NUM             [reduce usando la regla 16 (expAnd)]
+    IDENTIFICADOR   [reduce usando la regla 6 (expresionOP)]
+    IDENTIFICADOR   [reduce usando la regla 16 (expAnd)]
+    TIPO_DATO       [reduce usando la regla 6 (expresionOP)]
+    TIPO_DATO       [reduce usando la regla 16 (expAnd)]
+    LIT_CADENA      [reduce usando la regla 6 (expresionOP)]
+    LIT_CADENA      [reduce usando la regla 16 (expAnd)]
+    FOR             [reduce usando la regla 6 (expresionOP)]
+    FOR             [reduce usando la regla 16 (expAnd)]
+    WHILE           [reduce usando la regla 6 (expresionOP)]
+    WHILE           [reduce usando la regla 16 (expAnd)]
+    DO              [reduce usando la regla 6 (expresionOP)]
+    DO              [reduce usando la regla 16 (expAnd)]
+    SWITCH          [reduce usando la regla 6 (expresionOP)]
+    SWITCH          [reduce usando la regla 16 (expAnd)]
+    GOTO            [reduce usando la regla 6 (expresionOP)]
+    GOTO            [reduce usando la regla 16 (expAnd)]
+    CONTINUE        [reduce usando la regla 6 (expresionOP)]
+    CONTINUE        [reduce usando la regla 16 (expAnd)]
+    BREAK           [reduce usando la regla 6 (expresionOP)]
+    BREAK           [reduce usando la regla 16 (expAnd)]
+    CASE            [reduce usando la regla 6 (expresionOP)]
+    CASE            [reduce usando la regla 16 (expAnd)]
+    DEFAULT         [reduce usando la regla 6 (expresionOP)]
+    DEFAULT         [reduce usando la regla 16 (expAnd)]
+    RETURN          [reduce usando la regla 6 (expresionOP)]
+    RETURN          [reduce usando la regla 16 (expAnd)]
+    IF              [reduce usando la regla 6 (expresionOP)]
+    IF              [reduce usando la regla 16 (expAnd)]
+    ELSE            reduce usando la regla 6 (expresionOP)
+    ELSE            [reduce usando la regla 16 (expAnd)]
+    SIZEOF          [reduce usando la regla 6 (expresionOP)]
+    SIZEOF          [reduce usando la regla 16 (expAnd)]
+    OPER_OR         reduce usando la regla 6 (expresionOP)
+    OPER_OR         [reduce usando la regla 16 (expAnd)]
+    OPER_AND        reduce usando la regla 6 (expresionOP)
+    OPER_AND        [reduce usando la regla 16 (expAnd)]
+    OPER_INC_DEC    [reduce usando la regla 6 (expresionOP)]
+    OPER_INC_DEC    [reduce usando la regla 16 (expAnd)]
+    OPER_NEGACION   [reduce usando la regla 6 (expresionOP)]
+    OPER_NEGACION   [reduce usando la regla 16 (expAnd)]
+    OPER_DIRECCION  [reduce usando la regla 6 (expresionOP)]
+    OPER_DIRECCION  [reduce usando la regla 16 (expAnd)]
+    '\n'            reduce usando la regla 6 (expresionOP)
+    '\n'            [reduce usando la regla 16 (expAnd)]
+    '-'             [reduce usando la regla 6 (expresionOP)]
+    '-'             [reduce usando la regla 16 (expAnd)]
+    '*'             [reduce usando la regla 6 (expresionOP)]
+    '*'             [reduce usando la regla 16 (expAnd)]
+    '('             [reduce usando la regla 6 (expresionOP)]
+    '('             [reduce usando la regla 16 (expAnd)]
+    ';'             reduce usando la regla 6 (expresionOP)
+    ';'             [reduce usando la regla 16 (expAnd)]
+    '{'             [reduce usando la regla 6 (expresionOP)]
+    '{'             [reduce usando la regla 16 (expAnd)]
+    '}'             reduce usando la regla 6 (expresionOP)
+    '}'             [reduce usando la regla 16 (expAnd)]
+
+    expresion          ir al estado 29
+    expresionOP        ir al estado 30
+    expAsignacion      ir al estado 31
+    expCondicional     ir al estado 32
+    expOr              ir al estado 33
+    expAnd             ir al estado 34
+    expIgualdad        ir al estado 35
+    expRelacional      ir al estado 36
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 39
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+    declaVarSimples    ir al estado 43
+    sentencia          ir al estado 149
+    sentCompuesta      ir al estado 45
+    sentExpresion      ir al estado 46
+    sentSeleccion      ir al estado 47
+    sentIteracion      ir al estado 48
+    sentSalto          ir al estado 49
+    sentEtiquetada     ir al estado 50
+
+
+estado 133
+
+   87 sentEtiquetada: CASE expresion ':' sentencia .
+
+    $default  reduce usando la regla 87 (sentEtiquetada)
+
+
+estado 134
+
+   76 sentSeleccion: IF '(' expresion ')' . sentencia
+   77              | IF '(' expresion ')' . sentencia ELSE sentencia
+
+    error           desplazar e ir al estado 3
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 5
+    TIPO_DATO       desplazar e ir al estado 6
+    LIT_CADENA      desplazar e ir al estado 7
+    FOR             desplazar e ir al estado 8
+    WHILE           desplazar e ir al estado 9
+    DO              desplazar e ir al estado 10
+    SWITCH          desplazar e ir al estado 11
+    GOTO            desplazar e ir al estado 12
+    CONTINUE        desplazar e ir al estado 13
+    BREAK           desplazar e ir al estado 14
+    CASE            desplazar e ir al estado 15
+    DEFAULT         desplazar e ir al estado 16
+    RETURN          desplazar e ir al estado 17
+    IF              desplazar e ir al estado 18
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+    '{'             desplazar e ir al estado 27
+
+    error           [reduce usando la regla 6 (expresionOP)]
+    error           [reduce usando la regla 16 (expAnd)]
+    NUM             [reduce usando la regla 6 (expresionOP)]
+    NUM             [reduce usando la regla 16 (expAnd)]
+    IDENTIFICADOR   [reduce usando la regla 6 (expresionOP)]
+    IDENTIFICADOR   [reduce usando la regla 16 (expAnd)]
+    TIPO_DATO       [reduce usando la regla 6 (expresionOP)]
+    TIPO_DATO       [reduce usando la regla 16 (expAnd)]
+    LIT_CADENA      [reduce usando la regla 6 (expresionOP)]
+    LIT_CADENA      [reduce usando la regla 16 (expAnd)]
+    FOR             [reduce usando la regla 6 (expresionOP)]
+    FOR             [reduce usando la regla 16 (expAnd)]
+    WHILE           [reduce usando la regla 6 (expresionOP)]
+    WHILE           [reduce usando la regla 16 (expAnd)]
+    DO              [reduce usando la regla 6 (expresionOP)]
+    DO              [reduce usando la regla 16 (expAnd)]
+    SWITCH          [reduce usando la regla 6 (expresionOP)]
+    SWITCH          [reduce usando la regla 16 (expAnd)]
+    GOTO            [reduce usando la regla 6 (expresionOP)]
+    GOTO            [reduce usando la regla 16 (expAnd)]
+    CONTINUE        [reduce usando la regla 6 (expresionOP)]
+    CONTINUE        [reduce usando la regla 16 (expAnd)]
+    BREAK           [reduce usando la regla 6 (expresionOP)]
+    BREAK           [reduce usando la regla 16 (expAnd)]
+    CASE            [reduce usando la regla 6 (expresionOP)]
+    CASE            [reduce usando la regla 16 (expAnd)]
+    DEFAULT         [reduce usando la regla 6 (expresionOP)]
+    DEFAULT         [reduce usando la regla 16 (expAnd)]
+    RETURN          [reduce usando la regla 6 (expresionOP)]
+    RETURN          [reduce usando la regla 16 (expAnd)]
+    IF              [reduce usando la regla 6 (expresionOP)]
+    IF              [reduce usando la regla 16 (expAnd)]
+    ELSE            reduce usando la regla 6 (expresionOP)
+    ELSE            [reduce usando la regla 16 (expAnd)]
+    SIZEOF          [reduce usando la regla 6 (expresionOP)]
+    SIZEOF          [reduce usando la regla 16 (expAnd)]
+    OPER_OR         reduce usando la regla 6 (expresionOP)
+    OPER_OR         [reduce usando la regla 16 (expAnd)]
+    OPER_AND        reduce usando la regla 6 (expresionOP)
+    OPER_AND        [reduce usando la regla 16 (expAnd)]
+    OPER_INC_DEC    [reduce usando la regla 6 (expresionOP)]
+    OPER_INC_DEC    [reduce usando la regla 16 (expAnd)]
+    OPER_NEGACION   [reduce usando la regla 6 (expresionOP)]
+    OPER_NEGACION   [reduce usando la regla 16 (expAnd)]
+    OPER_DIRECCION  [reduce usando la regla 6 (expresionOP)]
+    OPER_DIRECCION  [reduce usando la regla 16 (expAnd)]
+    '\n'            reduce usando la regla 6 (expresionOP)
+    '\n'            [reduce usando la regla 16 (expAnd)]
+    '-'             [reduce usando la regla 6 (expresionOP)]
+    '-'             [reduce usando la regla 16 (expAnd)]
+    '*'             [reduce usando la regla 6 (expresionOP)]
+    '*'             [reduce usando la regla 16 (expAnd)]
+    '('             [reduce usando la regla 6 (expresionOP)]
+    '('             [reduce usando la regla 16 (expAnd)]
+    ';'             reduce usando la regla 6 (expresionOP)
+    ';'             [reduce usando la regla 16 (expAnd)]
+    '{'             [reduce usando la regla 6 (expresionOP)]
+    '{'             [reduce usando la regla 16 (expAnd)]
+    '}'             reduce usando la regla 6 (expresionOP)
+    '}'             [reduce usando la regla 16 (expAnd)]
+
+    expresion          ir al estado 29
+    expresionOP        ir al estado 30
+    expAsignacion      ir al estado 31
+    expCondicional     ir al estado 32
+    expOr              ir al estado 33
+    expAnd             ir al estado 34
+    expIgualdad        ir al estado 35
+    expRelacional      ir al estado 36
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 39
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+    declaVarSimples    ir al estado 43
+    sentencia          ir al estado 150
+    sentCompuesta      ir al estado 45
+    sentExpresion      ir al estado 46
+    sentSeleccion      ir al estado 47
+    sentIteracion      ir al estado 48
+    sentSalto          ir al estado 49
+    sentEtiquetada     ir al estado 50
+
+
+estado 135
+
+   31 expUnaria: SIZEOF '(' nombreTipo ')' .
+
+    $default  reduce usando la regla 31 (expUnaria)
+
+
+estado 136
+
+   39 expPostfijo: expPostfijo '(' listaArgumentosOP ')' .
+
+    $default  reduce usando la regla 39 (expPostfijo)
+
+
+estado 137
+
+   43 listaArgumentos: listaArgumentos ',' . expAsignacion
+
+    error           desplazar e ir al estado 63
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 64
+    LIT_CADENA      desplazar e ir al estado 7
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+
+    OPER_OR   reduce usando la regla 16 (expAnd)
+    OPER_AND  reduce usando la regla 16 (expAnd)
+    ')'       reduce usando la regla 16 (expAnd)
+    ','       reduce usando la regla 16 (expAnd)
+
+    expAsignacion      ir al estado 151
+    expCondicional     ir al estado 32
+    expOr              ir al estado 33
+    expAnd             ir al estado 34
+    expIgualdad        ir al estado 35
+    expRelacional      ir al estado 36
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 39
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+
+
+estado 138
+
+   38 expPostfijo: expPostfijo '[' expresion ']' .
+
+    $default  reduce usando la regla 38 (expPostfijo)
+
+
+estado 139
+
+   53 listaVarSimples: listaVarSimples ',' unaVarSimple .
+
+    $default  reduce usando la regla 53 (listaVarSimples)
+
+
+estado 140
+
+   62 CONSTANTE: error .
+
+    $default  reduce usando la regla 62 (CONSTANTE)
+
+
+estado 141
+
+   59 CONSTANTE: NUM .
+
+    $default  reduce usando la regla 59 (CONSTANTE)
+
+
+estado 142
+
+   60 CONSTANTE: LIT_CADENA .
+
+    $default  reduce usando la regla 60 (CONSTANTE)
+
+
+estado 143
+
+   61 CONSTANTE: CARACTER .
+
+    $default  reduce usando la regla 61 (CONSTANTE)
+
+
+estado 144
+
+   58 inicial: OPER_ASIGNACION CONSTANTE .
+
+    $default  reduce usando la regla 58 (inicial)
+
+
+estado 145
+
+   56 unaVarSimple: variable '[' NUM . ']'
+
+    ']'  desplazar e ir al estado 152
+
+
+estado 146
+
+   81 sentIteracion: FOR '(' expresionOP ';' expresionOP . ';' expresionOP ')' sentencia
+
+    ';'  desplazar e ir al estado 153
+
+
+estado 147
+
+   79 sentIteracion: WHILE '(' expresion ')' sentencia .
+
+    $default  reduce usando la regla 79 (sentIteracion)
+
+
+estado 148
+
+   80 sentIteracion: DO sentencia WHILE '(' expresion . ')' ';'
+
+    ')'  desplazar e ir al estado 154
+
+
+estado 149
+
+   78 sentSeleccion: SWITCH '(' expresion ')' sentencia .
+
+    $default  reduce usando la regla 78 (sentSeleccion)
+
+
+estado 150
+
+   76 sentSeleccion: IF '(' expresion ')' sentencia .
+   77              | IF '(' expresion ')' sentencia . ELSE sentencia
+
+    ELSE  desplazar e ir al estado 155
+
+    ELSE      [reduce usando la regla 76 (sentSeleccion)]
+    $default  reduce usando la regla 76 (sentSeleccion)
+
+
+estado 151
+
+   43 listaArgumentos: listaArgumentos ',' expAsignacion .
+
+    $default  reduce usando la regla 43 (listaArgumentos)
+
+
+estado 152
+
+   56 unaVarSimple: variable '[' NUM ']' .
+
+    $default  reduce usando la regla 56 (unaVarSimple)
+
+
+estado 153
+
+   81 sentIteracion: FOR '(' expresionOP ';' expresionOP ';' . expresionOP ')' sentencia
+
+    error           desplazar e ir al estado 63
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 64
+    LIT_CADENA      desplazar e ir al estado 7
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+
+    OPER_OR   reduce usando la regla 16 (expAnd)
+    OPER_AND  reduce usando la regla 16 (expAnd)
+    ')'       reduce usando la regla 6 (expresionOP)
+    ')'       [reduce usando la regla 16 (expAnd)]
+
+    expresion          ir al estado 29
+    expresionOP        ir al estado 156
+    expAsignacion      ir al estado 31
+    expCondicional     ir al estado 32
+    expOr              ir al estado 33
+    expAnd             ir al estado 34
+    expIgualdad        ir al estado 35
+    expRelacional      ir al estado 36
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 39
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+
+
+estado 154
+
+   80 sentIteracion: DO sentencia WHILE '(' expresion ')' . ';'
+
+    ';'  desplazar e ir al estado 157
+
+
+estado 155
+
+   77 sentSeleccion: IF '(' expresion ')' sentencia ELSE . sentencia
+
+    error           desplazar e ir al estado 3
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 5
+    TIPO_DATO       desplazar e ir al estado 6
+    LIT_CADENA      desplazar e ir al estado 7
+    FOR             desplazar e ir al estado 8
+    WHILE           desplazar e ir al estado 9
+    DO              desplazar e ir al estado 10
+    SWITCH          desplazar e ir al estado 11
+    GOTO            desplazar e ir al estado 12
+    CONTINUE        desplazar e ir al estado 13
+    BREAK           desplazar e ir al estado 14
+    CASE            desplazar e ir al estado 15
+    DEFAULT         desplazar e ir al estado 16
+    RETURN          desplazar e ir al estado 17
+    IF              desplazar e ir al estado 18
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+    '{'             desplazar e ir al estado 27
+
+    error           [reduce usando la regla 6 (expresionOP)]
+    error           [reduce usando la regla 16 (expAnd)]
+    NUM             [reduce usando la regla 6 (expresionOP)]
+    NUM             [reduce usando la regla 16 (expAnd)]
+    IDENTIFICADOR   [reduce usando la regla 6 (expresionOP)]
+    IDENTIFICADOR   [reduce usando la regla 16 (expAnd)]
+    TIPO_DATO       [reduce usando la regla 6 (expresionOP)]
+    TIPO_DATO       [reduce usando la regla 16 (expAnd)]
+    LIT_CADENA      [reduce usando la regla 6 (expresionOP)]
+    LIT_CADENA      [reduce usando la regla 16 (expAnd)]
+    FOR             [reduce usando la regla 6 (expresionOP)]
+    FOR             [reduce usando la regla 16 (expAnd)]
+    WHILE           [reduce usando la regla 6 (expresionOP)]
+    WHILE           [reduce usando la regla 16 (expAnd)]
+    DO              [reduce usando la regla 6 (expresionOP)]
+    DO              [reduce usando la regla 16 (expAnd)]
+    SWITCH          [reduce usando la regla 6 (expresionOP)]
+    SWITCH          [reduce usando la regla 16 (expAnd)]
+    GOTO            [reduce usando la regla 6 (expresionOP)]
+    GOTO            [reduce usando la regla 16 (expAnd)]
+    CONTINUE        [reduce usando la regla 6 (expresionOP)]
+    CONTINUE        [reduce usando la regla 16 (expAnd)]
+    BREAK           [reduce usando la regla 6 (expresionOP)]
+    BREAK           [reduce usando la regla 16 (expAnd)]
+    CASE            [reduce usando la regla 6 (expresionOP)]
+    CASE            [reduce usando la regla 16 (expAnd)]
+    DEFAULT         [reduce usando la regla 6 (expresionOP)]
+    DEFAULT         [reduce usando la regla 16 (expAnd)]
+    RETURN          [reduce usando la regla 6 (expresionOP)]
+    RETURN          [reduce usando la regla 16 (expAnd)]
+    IF              [reduce usando la regla 6 (expresionOP)]
+    IF              [reduce usando la regla 16 (expAnd)]
+    ELSE            reduce usando la regla 6 (expresionOP)
+    ELSE            [reduce usando la regla 16 (expAnd)]
+    SIZEOF          [reduce usando la regla 6 (expresionOP)]
+    SIZEOF          [reduce usando la regla 16 (expAnd)]
+    OPER_OR         reduce usando la regla 6 (expresionOP)
+    OPER_OR         [reduce usando la regla 16 (expAnd)]
+    OPER_AND        reduce usando la regla 6 (expresionOP)
+    OPER_AND        [reduce usando la regla 16 (expAnd)]
+    OPER_INC_DEC    [reduce usando la regla 6 (expresionOP)]
+    OPER_INC_DEC    [reduce usando la regla 16 (expAnd)]
+    OPER_NEGACION   [reduce usando la regla 6 (expresionOP)]
+    OPER_NEGACION   [reduce usando la regla 16 (expAnd)]
+    OPER_DIRECCION  [reduce usando la regla 6 (expresionOP)]
+    OPER_DIRECCION  [reduce usando la regla 16 (expAnd)]
+    '\n'            reduce usando la regla 6 (expresionOP)
+    '\n'            [reduce usando la regla 16 (expAnd)]
+    '-'             [reduce usando la regla 6 (expresionOP)]
+    '-'             [reduce usando la regla 16 (expAnd)]
+    '*'             [reduce usando la regla 6 (expresionOP)]
+    '*'             [reduce usando la regla 16 (expAnd)]
+    '('             [reduce usando la regla 6 (expresionOP)]
+    '('             [reduce usando la regla 16 (expAnd)]
+    ';'             reduce usando la regla 6 (expresionOP)
+    ';'             [reduce usando la regla 16 (expAnd)]
+    '{'             [reduce usando la regla 6 (expresionOP)]
+    '{'             [reduce usando la regla 16 (expAnd)]
+    '}'             reduce usando la regla 6 (expresionOP)
+    '}'             [reduce usando la regla 16 (expAnd)]
+
+    expresion          ir al estado 29
+    expresionOP        ir al estado 30
+    expAsignacion      ir al estado 31
+    expCondicional     ir al estado 32
+    expOr              ir al estado 33
+    expAnd             ir al estado 34
+    expIgualdad        ir al estado 35
+    expRelacional      ir al estado 36
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 39
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+    declaVarSimples    ir al estado 43
+    sentencia          ir al estado 158
+    sentCompuesta      ir al estado 45
+    sentExpresion      ir al estado 46
+    sentSeleccion      ir al estado 47
+    sentIteracion      ir al estado 48
+    sentSalto          ir al estado 49
+    sentEtiquetada     ir al estado 50
+
+
+estado 156
+
+   81 sentIteracion: FOR '(' expresionOP ';' expresionOP ';' expresionOP . ')' sentencia
+
+    ')'  desplazar e ir al estado 159
+
+
+estado 157
+
+   80 sentIteracion: DO sentencia WHILE '(' expresion ')' ';' .
+
+    $default  reduce usando la regla 80 (sentIteracion)
+
+
+estado 158
+
+   77 sentSeleccion: IF '(' expresion ')' sentencia ELSE sentencia .
+
+    $default  reduce usando la regla 77 (sentSeleccion)
+
+
+estado 159
+
+   81 sentIteracion: FOR '(' expresionOP ';' expresionOP ';' expresionOP ')' . sentencia
+
+    error           desplazar e ir al estado 3
+    NUM             desplazar e ir al estado 4
+    IDENTIFICADOR   desplazar e ir al estado 5
+    TIPO_DATO       desplazar e ir al estado 6
+    LIT_CADENA      desplazar e ir al estado 7
+    FOR             desplazar e ir al estado 8
+    WHILE           desplazar e ir al estado 9
+    DO              desplazar e ir al estado 10
+    SWITCH          desplazar e ir al estado 11
+    GOTO            desplazar e ir al estado 12
+    CONTINUE        desplazar e ir al estado 13
+    BREAK           desplazar e ir al estado 14
+    CASE            desplazar e ir al estado 15
+    DEFAULT         desplazar e ir al estado 16
+    RETURN          desplazar e ir al estado 17
+    IF              desplazar e ir al estado 18
+    SIZEOF          desplazar e ir al estado 19
+    OPER_INC_DEC    desplazar e ir al estado 20
+    OPER_NEGACION   desplazar e ir al estado 21
+    OPER_DIRECCION  desplazar e ir al estado 22
+    '-'             desplazar e ir al estado 24
+    '*'             desplazar e ir al estado 25
+    '('             desplazar e ir al estado 26
+    '{'             desplazar e ir al estado 27
+
+    error           [reduce usando la regla 6 (expresionOP)]
+    error           [reduce usando la regla 16 (expAnd)]
+    NUM             [reduce usando la regla 6 (expresionOP)]
+    NUM             [reduce usando la regla 16 (expAnd)]
+    IDENTIFICADOR   [reduce usando la regla 6 (expresionOP)]
+    IDENTIFICADOR   [reduce usando la regla 16 (expAnd)]
+    TIPO_DATO       [reduce usando la regla 6 (expresionOP)]
+    TIPO_DATO       [reduce usando la regla 16 (expAnd)]
+    LIT_CADENA      [reduce usando la regla 6 (expresionOP)]
+    LIT_CADENA      [reduce usando la regla 16 (expAnd)]
+    FOR             [reduce usando la regla 6 (expresionOP)]
+    FOR             [reduce usando la regla 16 (expAnd)]
+    WHILE           [reduce usando la regla 6 (expresionOP)]
+    WHILE           [reduce usando la regla 16 (expAnd)]
+    DO              [reduce usando la regla 6 (expresionOP)]
+    DO              [reduce usando la regla 16 (expAnd)]
+    SWITCH          [reduce usando la regla 6 (expresionOP)]
+    SWITCH          [reduce usando la regla 16 (expAnd)]
+    GOTO            [reduce usando la regla 6 (expresionOP)]
+    GOTO            [reduce usando la regla 16 (expAnd)]
+    CONTINUE        [reduce usando la regla 6 (expresionOP)]
+    CONTINUE        [reduce usando la regla 16 (expAnd)]
+    BREAK           [reduce usando la regla 6 (expresionOP)]
+    BREAK           [reduce usando la regla 16 (expAnd)]
+    CASE            [reduce usando la regla 6 (expresionOP)]
+    CASE            [reduce usando la regla 16 (expAnd)]
+    DEFAULT         [reduce usando la regla 6 (expresionOP)]
+    DEFAULT         [reduce usando la regla 16 (expAnd)]
+    RETURN          [reduce usando la regla 6 (expresionOP)]
+    RETURN          [reduce usando la regla 16 (expAnd)]
+    IF              [reduce usando la regla 6 (expresionOP)]
+    IF              [reduce usando la regla 16 (expAnd)]
+    ELSE            reduce usando la regla 6 (expresionOP)
+    ELSE            [reduce usando la regla 16 (expAnd)]
+    SIZEOF          [reduce usando la regla 6 (expresionOP)]
+    SIZEOF          [reduce usando la regla 16 (expAnd)]
+    OPER_OR         reduce usando la regla 6 (expresionOP)
+    OPER_OR         [reduce usando la regla 16 (expAnd)]
+    OPER_AND        reduce usando la regla 6 (expresionOP)
+    OPER_AND        [reduce usando la regla 16 (expAnd)]
+    OPER_INC_DEC    [reduce usando la regla 6 (expresionOP)]
+    OPER_INC_DEC    [reduce usando la regla 16 (expAnd)]
+    OPER_NEGACION   [reduce usando la regla 6 (expresionOP)]
+    OPER_NEGACION   [reduce usando la regla 16 (expAnd)]
+    OPER_DIRECCION  [reduce usando la regla 6 (expresionOP)]
+    OPER_DIRECCION  [reduce usando la regla 16 (expAnd)]
+    '\n'            reduce usando la regla 6 (expresionOP)
+    '\n'            [reduce usando la regla 16 (expAnd)]
+    '-'             [reduce usando la regla 6 (expresionOP)]
+    '-'             [reduce usando la regla 16 (expAnd)]
+    '*'             [reduce usando la regla 6 (expresionOP)]
+    '*'             [reduce usando la regla 16 (expAnd)]
+    '('             [reduce usando la regla 6 (expresionOP)]
+    '('             [reduce usando la regla 16 (expAnd)]
+    ';'             reduce usando la regla 6 (expresionOP)
+    ';'             [reduce usando la regla 16 (expAnd)]
+    '{'             [reduce usando la regla 6 (expresionOP)]
+    '{'             [reduce usando la regla 16 (expAnd)]
+    '}'             reduce usando la regla 6 (expresionOP)
+    '}'             [reduce usando la regla 16 (expAnd)]
+
+    expresion          ir al estado 29
+    expresionOP        ir al estado 30
+    expAsignacion      ir al estado 31
+    expCondicional     ir al estado 32
+    expOr              ir al estado 33
+    expAnd             ir al estado 34
+    expIgualdad        ir al estado 35
+    expRelacional      ir al estado 36
+    expAditiva         ir al estado 37
+    expMultiplicativa  ir al estado 38
+    expUnaria          ir al estado 39
+    operUnario         ir al estado 40
+    expPostfijo        ir al estado 41
+    expPrimaria        ir al estado 42
+    declaVarSimples    ir al estado 43
+    sentencia          ir al estado 160
+    sentCompuesta      ir al estado 45
+    sentExpresion      ir al estado 46
+    sentSeleccion      ir al estado 47
+    sentIteracion      ir al estado 48
+    sentSalto          ir al estado 49
+    sentEtiquetada     ir al estado 50
+
+
+estado 160
+
+   81 sentIteracion: FOR '(' expresionOP ';' expresionOP ';' expresionOP ')' sentencia .
+
+    $default  reduce usando la regla 81 (sentIteracion)
