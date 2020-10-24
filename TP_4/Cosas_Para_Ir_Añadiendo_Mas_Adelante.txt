@@ -47,3 +47,56 @@ listaSentenciasOP:
 \.\.\.|[.|#] {strcpy(yylval.cadena,yytext); return PUNTUACION;}
 
 ({DIGITO_DECIMAL}*\.{DIGITO_DECIMAL}+|{DIGITO_DECIMAL}+\.|{DIGITO_DECIMAL}+)([eE][\+\-]?{DIGITO_DECIMAL}+)? {yylval.real = atof(yytext); return CONS_REAL;}
+
+
+
+
+
+----------DECLARACION---------
+
+
+
+declaracion: declaVarSimples
+  | declaStruct
+;
+
+declaStruct:  STRUCT IDENTIFICADOR '{' TIPO_DATO listaDeVariables ';' soloDeclarar '}' IDENTIFICADOR ';' {printf("Se encontró un struct \n");}
+  | STRUCT IDENTIFICADOR '{' TIPO_DATO listaDeVariables ';' soloDeclarar '}' ';' {printf("Se encontro un struct \n");}
+;
+
+
+soloDeclarar: 
+  | TIPO_DATO listaDeVariables ';' soloDeclarar
+;
+
+declaVarSimples: TIPO_DATO  {printf("se declaro una variable de tipo %s \n", $<cadena>1);}  listaVarSimples ';'
+  | error caracterDeCorte {printf("Falta tipo de dato \n");}
+;
+
+listaVarSimples: unaVarSimple
+	| listaVarSimples ',' unaVarSimple
+;
+
+unaVarSimple: variable inicial
+	| variable
+  | variable '[' NUM ']'
+;
+
+listaDeVariables: variable
+  | variable ',' variable
+;
+
+variable: IDENTIFICADOR 
+;
+
+inicial: OPER_ASIGNACION CONSTANTE 
+;
+
+CONSTANTE: NUM
+  | LIT_CADENA
+  | CARACTER
+  | error {flag_error=1;printf("constante no valida \n");}
+;
+
+caracterDeCorte:	';' | '\n'
+;

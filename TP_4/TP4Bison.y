@@ -48,6 +48,10 @@ float real;
 %token <cadena> ELSE
 %token <cadena> SIZEOF
 %token <cadena> STRUCT 
+%token <cadena> UNION
+%token <cadena> CONST
+%token <cadena> VOLATILE
+%token <cadena> ENUM
 %token <cadena> OPER_ASIGNACION
 %token <cadena> OPER_OR
 %token <cadena> OPER_AND
@@ -57,6 +61,7 @@ float real;
 %token <cadena> OPER_INC_DEC
 %token <cadena> OPER_NEGACION
 %token <cadena> OPER_DIRECCION
+%token <cadena> ESPECIFICADOR_ALMACENAMIENTO
 
 
 %% 
@@ -68,6 +73,191 @@ input:
 line: '\n'
   | sentencia '\n'
 ;
+
+
+
+
+
+
+declaracion: especificadoresDeclaracion listaDeclaradoresOP
+;
+
+listaDeclaradoresOP:
+  | listaDeclaradores
+;
+
+especificadoresDeclaracion: especificadorClaseAlmacenamiento especificadoresDeclaracionOP
+  | especificadorTipo especificadoresDeclaracionOP
+  | calificadorTipo especificadoresDeclaracionOP
+;
+
+especificadoresDeclaracionOP:
+  | especificadoresDeclaracion
+;
+
+listaDeclaradoes: declarador
+  | listaDeclaradores , declarador
+;
+
+declarador: decla
+  | decla '=' inicializador
+;
+
+inicializador: expAsignacion 
+  | '{' listaInicializadores '}'
+  | '{' listaInicializadores ',' '}'
+;
+
+listaInicializadores: inicializador
+  | listaInicializadores ',' inicializador
+;
+
+especificadorClaseAlmacenamiento: ESPECIFICADOR_ALMACENAMIENTO
+;
+
+especificadorTipo: ESPECIFICADOR_TIPO
+  | especificadorStructOUnion
+  | especificadorEnum
+  | nombreTypedef
+;
+
+calificadorTipo: CONST
+  | VOLATILE
+;
+
+especificadorStructOUnion: structOUnion identificadorOP '{' listaDeclaracionesStruct '}'
+  | structOUnion IDENTIFICADOR
+;
+
+identificadorOP: 
+  | IDENTIFICADOR
+;
+
+structOUnion: STRUCT
+  | UNION
+;
+
+listaDeclaracionesStruct: declaracionStruct ';'
+  | listaDeclaracionesStruct declaracionStruct
+;
+
+declaracionStruct: listaCalificadores declaradoresStruct ';'
+;
+
+listaCalificadores: especificadorTipo listaCalificadoresOP
+  | calificadorTipo listaCalificadoresOP
+;
+
+listaCalificadoresOP: 
+  | listaCalificadores
+;
+
+declaradoresStruct: declaStruct
+  | declaradoresStruct ',' declaStruct
+;
+
+declaStruct: decla
+  | declaOP ':' expConstante
+;
+
+decla: punteroOP declaradorDirecto
+;
+
+declaOP: 
+  | decla
+;
+
+puntero: '*' listaCalificadoresTiposOP
+  | '*' listaCalificadoresTiposOP puntero
+;
+
+punteroOP: 
+  | puntero
+;
+
+listaCalificadoresTipos: calificadorTipo 
+  | listaCalificadoresTipos calificadorTipo
+;
+
+listaCalificadoresTiposOP: 
+  | listaCalificadoresTipos
+;
+
+declaradorDirecto: identificador
+  | '(' decla ')'
+  | declaradorDirecto '[' expConstanteOP ']'
+  | declaradorDirecto '(' listaTiposParametros ')'
+  | declaradorDirecto '(' listaIdentificadoresOP ')'
+;
+
+listaTiposParametros: listaParametros
+  | listaParametros ',' '.' '.' '.'
+;
+
+listaTiposParametrosOP: 
+  | listaTiposParametros
+;
+
+listaParametros: declaracionParametro 
+  | listaParametros ',' declaracionParametro
+;
+
+declaracionParametro: especificadoresDeclaracion decla
+  | especificadoresDeclaracion declaradorAbstractoOP
+;
+
+listaIdentificadores: IDENTIFICADOR
+  | listaIdentificadores ',' IDENTIFICADOR
+;
+
+listaIdentificadoresOP: 
+  | listaIdentificadores
+;
+
+especificadorEnum: ENUM identificadorOP '{' listaEnumeradores '}'
+  | ENUM IDENTIFICADOR
+;
+
+listaEnumeradores: enumerador
+  | listaEnumeradores ',' enumerador
+;
+
+enumerador: constanteEnumeracion
+  | contanteEnumeracion OPER_ASIGNACION expConstante
+;
+
+constanteEnumeracion: IDENTIFICADOR
+;
+
+nombreTypedef: IDENTIFICADOR
+;
+
+nombreTipo: listaCalificadores declaradorAbstractoOP
+;
+
+declaradorAbstracto: puntero 
+  | punteroOP declaradorAbstractoDirecto
+;
+
+declaradorAbstractoOP: 
+  | declaradorAbstracto
+;
+
+declaradorAbstractoDirecto: '(' declaradorAbstracto ')'
+  | declaradorAbstractoDirectoOP '[' expConstanteOP ']'
+  | declaradorAbstractoDirectoOP '(' listaTiposParametrosOP ')'
+;
+
+declaradorAbstractoDirectoOP: 
+  | declaradorAbstractoDirecto
+;
+
+
+
+
+
+
+
 
 
 
@@ -85,8 +275,16 @@ expAsignacion: expCondicional
 operAsignacion: OPER_ASIGNACION
 ;
 
+expConstante: expCondicional
+;
+
+expConstanteOP: 
+  | expConstante
+;
+
 expCondicional: expOr 
 ;
+
 
 expOr: expAnd
   | expOr OPER_OR expAnd    
@@ -150,63 +348,6 @@ expPrimaria: IDENTIFICADOR
   | '(' expresion ')'
   | error {flag_error=1;printf("constante no valida \n");}
 ;
-
-
-
-
-
-
-
-
-declaracion: declaVarSimples
-  | declaStruct
-;
-
-declaStruct:  STRUCT IDENTIFICADOR '{' TIPO_DATO listaDeVariables ';' soloDeclarar '}' IDENTIFICADOR ';' {printf("Se encontró un struct \n");}
-  | STRUCT IDENTIFICADOR '{' TIPO_DATO listaDeVariables ';' soloDeclarar '}' ';' {printf("Se encontro un struct \n");}
-;
-
-
-soloDeclarar: 
-  | TIPO_DATO listaDeVariables ';' soloDeclarar
-;
-
-declaVarSimples: TIPO_DATO  {printf("se declaro una variable de tipo %s \n", $<cadena>1);}  listaVarSimples ';'
-  | error caracterDeCorte {printf("Falta tipo de dato \n");}
-;
-
-listaVarSimples: unaVarSimple
-	| listaVarSimples ',' unaVarSimple
-;
-
-unaVarSimple: variable inicial
-	| variable
-  | variable '[' NUM ']'
-;
-
-listaDeVariables: variable
-  | variable ',' variable
-;
-
-variable: IDENTIFICADOR 
-;
-
-inicial: OPER_ASIGNACION CONSTANTE 
-;
-
-CONSTANTE: NUM
-  | LIT_CADENA
-  | CARACTER
-  | error {flag_error=1;printf("constante no valida \n");}
-;
-
-caracterDeCorte:	';' | '\n'
-;
-
-
-
-
-
 
 
 

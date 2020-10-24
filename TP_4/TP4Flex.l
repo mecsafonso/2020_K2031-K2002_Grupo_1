@@ -25,8 +25,8 @@ LETRA [a-zA-Z]
 IDENTIFICADOR ({LETRA}|"_")({LETRA}|{DIGITO_DECIMAL}|"_")*
 CONDICION (<|\")
 TIPO_DATO char\*|char|const|double|float|int|long|short|signed|static|unsigned|void|volatile
-
-PALABRA_RESERVADA auto|default|enum|extern|register|typedef|union
+ESPECIFICADOR_ALMACENAMIENTO typedef | static | auto | register | extern
+PALABRA_RESERVADA auto|default|extern|register|typedef|union
 OPERADOR [\+\-\*\/\%]|\+\+|\-\-
 
 %% 
@@ -39,6 +39,7 @@ OPERADOR [\+\-\*\/\%]|\+\+|\-\-
 
 "'"."'" {return CARACTER;}            
 ","     {return ',';}
+"."     {return '.';}
 "="|"+="    {strcpy(yylval.cadena,yytext); return OPER_ASIGNACION;}
 ";"     {return ';';}
 ":"     {return ':';}
@@ -64,20 +65,25 @@ OPERADOR [\+\-\*\/\%]|\+\+|\-\-
 
 \"(\\.|[^(\n|\\")])*\" {strcpy(yylval.cadena,yytext); return LIT_CADENA;} 
 
-"for"       {strcpy(yylval.cadena,yytext); return FOR;}
-"while"     {strcpy(yylval.cadena,yytext); return WHILE;}
-"do"        {strcpy(yylval.cadena,yytext); return DO;}
-"switch"    {strcpy(yylval.cadena,yytext); return SWITCH;}
-"break"     {strcpy(yylval.cadena,yytext); return BREAK;}
-"case"      {strcpy(yylval.cadena,yytext); return CASE;}
-"default"   {strcpy(yylval.cadena,yytext); return DEFAULT;}
-"return"    {strcpy(yylval.cadena,yytext); return RETURN;}
-"if"        {strcpy(yylval.cadena,yytext); return IF;}
-"else"      {strcpy(yylval.cadena,yytext); return ELSE;}
-"sizeof"    {strcpy(yylval.cadena,yytext); return SIZEOF;}
-"continue"  {strcpy(yylval.cadena,yytext); return CONTINUE;}
-"goto"      {strcpy(yylval.cadena,yytext); return GOTO;}
-"struct"    {strcpy(yylval.cadena,yytext); return STRUCT;}
+"for"                           {strcpy(yylval.cadena,yytext); return FOR;}
+"while"                         {strcpy(yylval.cadena,yytext); return WHILE;}
+"do"                            {strcpy(yylval.cadena,yytext); return DO;}
+"switch"                        {strcpy(yylval.cadena,yytext); return SWITCH;}
+"break"                         {strcpy(yylval.cadena,yytext); return BREAK;}
+"case"                          {strcpy(yylval.cadena,yytext); return CASE;}
+"default"                       {strcpy(yylval.cadena,yytext); return DEFAULT;}
+"return"                        {strcpy(yylval.cadena,yytext); return RETURN;}
+"if"                            {strcpy(yylval.cadena,yytext); return IF;}
+"else"                          {strcpy(yylval.cadena,yytext); return ELSE;}
+"sizeof"                        {strcpy(yylval.cadena,yytext); return SIZEOF;}
+"continue"                      {strcpy(yylval.cadena,yytext); return CONTINUE;}
+"goto"                          {strcpy(yylval.cadena,yytext); return GOTO;}
+"struct"                        {strcpy(yylval.cadena,yytext); return STRUCT;}
+"union"                         {strcpy(yylval.cadena,yytext); return UNION;}
+"const"                         {strcpy(yylval.cadena,yytext); return CONST;}
+"volatile"                      {strcpy(yylval.cadena,yytext); return VOLATILE;}
+"enum"                          {strcpy(yylval.cadena,yytext); return ENUM;}
+{ESPECIFICADOR_ALMACENAMIENTO}  {strcpy(yylval.cadena,yytext); return ESPECIFICADOR_ALMACENAMIENTO;}
 
 {TIPO_DATO} {strcpy(yylval.cadena,yytext); return TIPO_DATO;}
  
