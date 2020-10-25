@@ -47,7 +47,7 @@ float real;
 %token <cadena> IF
 %token <cadena> ELSE
 %token <cadena> SIZEOF
-%token <cadena> STRUCT 
+%token <cadena> STRUCT
 %token <cadena> UNION
 %token <cadena> CONST
 %token <cadena> VOLATILE
@@ -79,19 +79,19 @@ line: '\n'
 
 
 
-declaracion: especificadoresDeclaracion listaDeclaradoresOP
+declaracion: especificadoresDeclaracion listaDeclaradoresOP {printf("se encontro declaracion \n");}
 ;
 
-listaDeclaradoresOP:
-  | listaDeclaradores
+listaDeclaradoresOP: listaDeclaradores {printf("se encontro lsitaDeclaradoresOP \n");}
+  | {printf("se encontro un opcional \n");}
 ;
 
-especificadoresDeclaracion: especificadorClaseAlmacenamiento especificadoresDeclaracionOP
-  | especificadorTipo especificadoresDeclaracionOP
-  | calificadorTipo especificadoresDeclaracionOP
+especificadoresDeclaracion: especificadorClaseAlmacenamiento especificadoresDeclaracionOP {printf("se encontr1 \n");}
+  | especificadorTipo especificadoresDeclaracionOP {printf("se encontro lsitaDeclaradoresOP 2222 \n");}
+  | calificadorTipo especificadoresDeclaracionOP {printf("se encontro lsitaDeclaradoresOP 3333 \n");}
 ;
 
-especificadoresDeclaracionOP:
+especificadoresDeclaracionOP: 
   | especificadoresDeclaracion
 ;
 
@@ -99,8 +99,8 @@ listaDeclaradores: declarador
   | listaDeclaradores ',' declarador
 ;
 
-declarador: decla
-  | decla '=' inicializador
+declarador: decla {printf("se encontro declador1 \n");}
+  | decla OPER_ASIGNACION inicializador {printf("se encontro el declarador2 \n");}
 ;
 
 inicializador: expAsignacion 
@@ -115,7 +115,7 @@ listaInicializadores: inicializador
 especificadorClaseAlmacenamiento: ESPECIFICADOR_ALMACENAMIENTO
 ;
 
-especificadorTipo: ESPECIFICADOR_TIPO
+especificadorTipo: ESPECIFICADOR_TIPO {printf("se encontro el tipo de dato %s \n", $<cadena>1);}
   | especificadorStructOUnion
   | especificadorEnum
   | nombreTypedef
@@ -183,11 +183,12 @@ listaCalificadoresTiposOP:
   | listaCalificadoresTipos
 ;
 
-declaradorDirecto: IDENTIFICADOR
+declaradorDirecto: IDENTIFICADOR {printf("se encontro declaradorDirecto %s \n", $<cadena>1);}
   | '(' decla ')'
   | declaradorDirecto '[' expConstanteOP ']'
   | declaradorDirecto '(' listaTiposParametros ')'
   | declaradorDirecto '(' listaIdentificadoresOP ')'
+	| error {flag_error=1;printf("error xd \n");}
 ;
 
 listaTiposParametros: listaParametros
@@ -262,6 +263,7 @@ declaradorAbstractoDirectoOP:
 
 
 expresion: expAsignacion
+  | expresion ',' expAsignacion
 ;
 
 expresionOP: 
@@ -311,6 +313,7 @@ expAditiva: expMultiplicativa
 expMultiplicativa: expUnaria
   | expMultiplicativa '*' expUnaria
   | expMultiplicativa '/' expUnaria
+  | expMultiplicativa '%' expUnaria
 ;
 
 expUnaria: expPostfijo
@@ -319,12 +322,10 @@ expUnaria: expPostfijo
   | SIZEOF '(' nombreTipo ')'
 ;
 
-nombreTipo: ESPECIFICADOR_TIPO
-;
-
 operUnario: OPER_DIRECCION
   |'*'
   |'-'
+  |'+'
   |OPER_NEGACION
 ;
 
@@ -341,12 +342,12 @@ listaArgumentos: expAsignacion
   | listaArgumentos ',' expAsignacion
 ;
 
-expPrimaria: IDENTIFICADOR
+expPrimaria: IDENTIFICADOR {printf("se encontro el identificador %s \n", $<cadena>1);}
   | NUM {printf("se encontro el valor %i \n", $<entero>1);}
   | CONS_REAL
   | LIT_CADENA
   | '(' expresion ')'
-  | error {flag_error=1;printf("constante no valida \n");}
+  | error {flag_error=1;printf("Expresion unaria no valida \n");}
 ;
 
 
@@ -373,17 +374,29 @@ sentencia: sentCompuesta
   | sentIteracion
   | sentEtiquetada
   | sentSalto
-  | declaracion
 ;
 
-sentCompuesta: '{' listaSentencias '}' {printf("se encontro una sentencia compuesta \n");}
+sentCompuesta: '{' listaDeclaracionesOP listaSentenciasOP '}' {printf("se encontro una sentencia compuesta \n");}
 ;
+
+listaDeclaraciones: declaracion 
+  | listaDeclaraciones declaracion
+;
+
+listaDeclaracionesOP:
+  | listaDeclaraciones
+;
+
 
 listaSentencias: sentencia
   | listaSentencias sentencia
 ;
 
-sentExpresion: expresionOP
+listaSentenciasOP: 
+  | listaSentencias
+;
+
+sentExpresion: expresionOP ';'
 ;
 
 sentSeleccion: IF '(' expresion ')' sentencia  {printf("se encontro un if \n");}
@@ -396,19 +409,17 @@ sentIteracion: WHILE '(' expresion ')' sentencia
   | FOR '(' expresionOP ';' expresionOP ';' expresionOP ')' sentencia
 ;
 
+sentEtiquetada: CASE  expresion ':' sentencia
+  | DEFAULT ':' sentencia
+  | IDENTIFICADOR ':' sentencia
+;
+
 sentSalto: RETURN expresionOP ';'
   | CONTINUE ';'
   | BREAK ';'
   | GOTO IDENTIFICADOR ';'
 ;
 
-sentExpresion: expresionOP ';' 
-;
-
-sentEtiquetada: CASE  expresion ':' sentencia
-  | DEFAULT ':' sentencia
-  | IDENTIFICADOR ':' sentencia
-;
 
 
 

@@ -25,7 +25,7 @@ LETRA [a-zA-Z]
 IDENTIFICADOR ({LETRA}|"_")({LETRA}|{DIGITO_DECIMAL}|"_")*
 CONDICION (<|\")
 TIPO_DATO char|double|float|int|long|short|signed|unsigned|void
-ESPECIFICADOR_ALMACENAMIENTO typedef | static | auto | register | extern
+ESPECIFICADOR_ALMACENAMIENTO typedef|static|auto|register|extern
 OPERADOR [\+\-\*\/\%]|\+\+|\-\-
 
 %% 
@@ -58,9 +58,11 @@ OPERADOR [\+\-\*\/\%]|\+\+|\-\-
 "-"     {return '-';}
 "*"     {return '*';}
 "/"     {return '/';}
+"%"     {return '%';}
 "!"     {return OPER_NEGACION;}
 "&"     {return OPER_DIRECCION;}
 \n	{return '\n';}
+
 
 \"(\\.|[^(\n|\\")])*\" {strcpy(yylval.cadena,yytext); return LIT_CADENA;} 
 
@@ -85,9 +87,7 @@ OPERADOR [\+\-\*\/\%]|\+\+|\-\-
 {TIPO_DATO}                     {strcpy(yylval.cadena,yytext); return ESPECIFICADOR_TIPO;}
 {ESPECIFICADOR_ALMACENAMIENTO}  {strcpy(yylval.cadena,yytext); return ESPECIFICADOR_ALMACENAMIENTO;}
 
-
- 
-{IDENTIFICADOR} {strcpy(yylval.cadena,yytext); return IDENTIFICADOR;} 
+{IDENTIFICADOR}                 {strcpy(yylval.cadena,yytext); return IDENTIFICADOR;} 
 
 
 %%
