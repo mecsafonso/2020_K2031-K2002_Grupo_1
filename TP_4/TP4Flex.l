@@ -22,7 +22,7 @@ DIGITO_DECIMAL [0-9]
 DIGITO_OCTAL [0-7] 
 DIGITO_HEXADECIMAL [a-fA-F0-9] 
 LETRA [a-zA-Z]
-IDENTIFICADOR ({LETRA}|"_")({LETRA}|{DIGITO_DECIMAL}|"_")*
+IDENTIFICADOR ({LETRA}|_)({LETRA}|{DIGITO_DECIMAL}|_)*
 CONDICION (<|\")
 TIPO_DATO char|double|float|int|long|short|signed|unsigned|void
 ESPECIFICADOR_ALMACENAMIENTO typedef|static|auto|register|extern

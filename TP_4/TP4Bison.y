@@ -72,6 +72,7 @@ input:
 
 line: '\n'
   | sentencia '\n'
+  | declaracion '\n'
 ;
 
 
@@ -79,16 +80,16 @@ line: '\n'
 
 
 
-declaracion: especificadoresDeclaracion listaDeclaradoresOP {printf("se encontro declaracion \n");}
+declaracion: especificadoresDeclaracion listaDeclaradoresOP ';' {printf("se encontro una declaracion \n");}
 ;
 
-listaDeclaradoresOP: listaDeclaradores {printf("se encontro lsitaDeclaradoresOP \n");}
-  | {printf("se encontro un opcional \n");}
+listaDeclaradoresOP: 
+  | listaDeclaradores
 ;
 
-especificadoresDeclaracion: especificadorClaseAlmacenamiento especificadoresDeclaracionOP {printf("se encontr1 \n");}
-  | especificadorTipo especificadoresDeclaracionOP {printf("se encontro lsitaDeclaradoresOP 2222 \n");}
-  | calificadorTipo especificadoresDeclaracionOP {printf("se encontro lsitaDeclaradoresOP 3333 \n");}
+especificadoresDeclaracion: especificadorClaseAlmacenamiento especificadoresDeclaracionOP
+  | especificadorTipo especificadoresDeclaracionOP
+  | calificadorTipo especificadoresDeclaracionOP
 ;
 
 especificadoresDeclaracionOP: 
@@ -96,11 +97,11 @@ especificadoresDeclaracionOP:
 ;
 
 listaDeclaradores: declarador
-  | listaDeclaradores ',' declarador
+  | listaDeclaradores ',' declarador {printf("se encontro mas de una declaracion \n");}
 ;
 
-declarador: decla {printf("se encontro declador1 \n");}
-  | decla OPER_ASIGNACION inicializador {printf("se encontro el declarador2 \n");}
+declarador: decla
+  | decla OPER_ASIGNACION inicializador {printf("se encontro una asignacion \n");}
 ;
 
 inicializador: expAsignacion 
@@ -118,7 +119,6 @@ especificadorClaseAlmacenamiento: ESPECIFICADOR_ALMACENAMIENTO
 especificadorTipo: ESPECIFICADOR_TIPO {printf("se encontro el tipo de dato %s \n", $<cadena>1);}
   | especificadorStructOUnion
   | especificadorEnum
-  | nombreTypedef
 ;
 
 calificadorTipo: CONST
@@ -228,9 +228,6 @@ enumerador: constanteEnumeracion
 ;
 
 constanteEnumeracion: IDENTIFICADOR
-;
-
-nombreTypedef: IDENTIFICADOR
 ;
 
 nombreTipo: listaCalificadores declaradorAbstractoOP
