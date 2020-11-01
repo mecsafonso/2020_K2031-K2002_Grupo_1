@@ -3,10 +3,14 @@
 #include <ctype.h>
 #include <string.h>
 #define YYDEBUG 1
+extern FILE *yyin;
+extern FILE *yyout;
 
 int flag_error=0;
 int contador=0;
 char* tipo;
+
+FILE* archivoFinal;
 
 int yylex();
 
@@ -292,31 +296,31 @@ expCondicional: expOr
 
 
 expOr: expAnd
-  | expOr OPER_OR expAnd    {printf("se encontro una expresion OR \n";}
+  | expOr OPER_OR expAnd    {printf("se encontro una expresion OR \n");}
 ;
 
 expAnd: expIgualdad
-  | expAnd OPER_AND expIgualdad   {printf("se encontro una expresion AND \n";}
+  | expAnd OPER_AND expIgualdad   {printf("se encontro una expresion AND \n");}
 ;
 
 expIgualdad: expRelacional
-  | expIgualdad OPER_IGUALDAD expRelacional   {printf("se encontro una expresion de IGUALDAD \n";}
-  | expIgualdad OPER_DIFERENCIA expRelacional   {printf("se encontro una expresion de DIFERENCIA \n";}
+  | expIgualdad OPER_IGUALDAD expRelacional   {printf("se encontro una expresion de IGUALDAD \n");}
+  | expIgualdad OPER_DIFERENCIA expRelacional   {printf("se encontro una expresion de DIFERENCIA \n");}
 ;
 
 expRelacional: expAditiva
-  | expRelacional OPER_RELACIONAL expAditiva    {printf("se encontro una expresion RELACIONAL \n";}
+  | expRelacional OPER_RELACIONAL expAditiva    {printf("se encontro una expresion RELACIONAL \n");}
 ;
 
 expAditiva: expMultiplicativa
-  | expAditiva '+' expMultiplicativa    {printf("se encontro una expresion de SUMA \n";}
-  | expAditiva '-' expMultiplicativa    {printf("se encontro una expresion de RESTA \n";}
+  | expAditiva '+' expMultiplicativa    {printf("se encontro una expresion de SUMA \n");}
+  | expAditiva '-' expMultiplicativa    {printf("se encontro una expresion de RESTA \n");}
 ;
 
 expMultiplicativa: expUnaria
-  | expMultiplicativa '*' expUnaria     {printf("se encontro una expresion de MULTIPLICACION \n";}
-  | expMultiplicativa '/' expUnaria     {printf("se encontro una expresion de DIVISION \n";}
-  | expMultiplicativa '%' expUnaria     {printf("se encontro una expresion de RESTO \n";}
+  | expMultiplicativa '*' expUnaria     {printf("se encontro una expresion de MULTIPLICACION \n");}
+  | expMultiplicativa '/' expUnaria     {printf("se encontro una expresion de DIVISION \n");}
+  | expMultiplicativa '%' expUnaria     {printf("se encontro una expresion de RESTO \n");}
 ;
 
 expUnaria: expPostfijo
@@ -372,11 +376,11 @@ expPrimaria: IDENTIFICADOR {printf("se encontro el identificador %s \n", $<caden
 
 
 sentencia: sentCompuesta
-  | sentExpresion {printf("se encontro una expresion \n";}
-  | sentSeleccion {printf("se encontro un sentencia de seleccion \n";}
-  | sentIteracion {printf("se encontro un sentencia de iteracion \n";}
-  | sentEtiquetada {printf("se encontro un sentencia etiquetada \n";}
-  | sentSalto {printf("se encontro un sentencia de salto \n";}
+  | sentExpresion {printf("se encontro una expresion \n");}
+  | sentSeleccion {printf("se encontro un sentencia de seleccion \n");}
+  | sentIteracion {printf("se encontro un sentencia de iteracion \n");}
+  | sentEtiquetada {printf("se encontro un sentencia etiquetada \n");}
+  | sentSalto {printf("se encontro un sentencia de salto \n");}
 ;
 
 sentCompuesta: '{' listaDeclaracionesOP listaSentenciasOP '}' {printf("se encontro una sentencia compuesta \n");}
@@ -428,26 +432,19 @@ sentSalto: RETURN expresionOP ';'
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 %%
 
 int main ()
 {
+  yyin = fopen("entrada.txt", "r");
+  yyout = fopen("salida.txt", "w");
+  archivoFinal = fopen("Informe.txt", "w");
 
-  //yydebug = 1; --> Utilizar en caso de MODO DEBUG
+  yylex();
   yyparse ();
+
+  fclose(archivoFinal);
+  return 0;
+  //yydebug = 1; --> Utilizar en caso de MODO DEBUG
+
 }

@@ -16,6 +16,7 @@
 int caracterHexadecimalADecimal(char);
 int convertirAdecimal(char*, int, int);
 
+/* FILE* archivoFinal;*/
 %}
 
 DIGITO_DECIMAL [0-9] 
@@ -92,6 +93,18 @@ OPERADOR [\+\-\*\/\%]|\+\+|\-\-
 
 %%
 
+/* int main() {
+ *
+ *    yyin = fopen("entrada.txt", "r");
+ *    yyout = fopen("salida.txt", "w");
+ *    archivoFinal = fopen("Informe.txt", "w");
+ *
+ *    yylex();
+ *    
+ *    fclose(archivoFinal);
+ *    return 0;
+ * } 
+ */
 int caracterHexadecimalADecimal(char caracter) {
   if (isdigit(caracter))
     return caracter - '0';

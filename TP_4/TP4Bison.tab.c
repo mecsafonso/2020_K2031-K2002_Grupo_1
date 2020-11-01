@@ -74,10 +74,14 @@
 #include <ctype.h>
 #include <string.h>
 #define YYDEBUG 1
+extern FILE *yyin;
+extern FILE *yyout;
 
 int flag_error=0;
 int contador=0;
 char* tipo;
+
+FILE* archivoFinal;
 
 int yylex();
 
@@ -92,7 +96,7 @@ void yyerror (char const *s) {
 
 
 /* Line 189 of yacc.c  */
-#line 96 "TP4Bison.tab.c"
+#line 100 "TP4Bison.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -163,7 +167,7 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 23 "TP4Bison.y"
+#line 27 "TP4Bison.y"
 
 char cadena[30];
 int entero;
@@ -173,7 +177,7 @@ float real;
 
 
 /* Line 214 of yacc.c  */
-#line 177 "TP4Bison.tab.c"
+#line 181 "TP4Bison.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -185,7 +189,7 @@ float real;
 
 
 /* Line 264 of yacc.c  */
-#line 189 "TP4Bison.tab.c"
+#line 193 "TP4Bison.tab.c"
 
 #ifdef short
 # undef short
@@ -536,24 +540,24 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    69,    69,    70,    73,    74,    75,    83,    84,    87,
-      88,    91,    92,    93,    96,    97,   100,   101,   104,   105,
-     108,   109,   110,   113,   114,   117,   120,   121,   122,   127,
-     128,   131,   132,   135,   136,   139,   140,   143,   144,   147,
-     150,   151,   154,   155,   158,   159,   162,   163,   166,   169,
-     170,   173,   174,   177,   178,   181,   182,   185,   186,   189,
-     190,   191,   192,   193,   194,   197,   198,   201,   202,   205,
-     206,   209,   210,   213,   214,   217,   218,   221,   222,   225,
-     226,   229,   230,   233,   236,   239,   240,   243,   244,   247,
-     248,   249,   252,   253,   265,   266,   269,   270,   273,   274,
-     277,   280,   283,   284,   287,   291,   292,   295,   296,   299,
-     300,   301,   304,   305,   308,   309,   310,   313,   314,   315,
-     316,   319,   320,   321,   322,   325,   326,   327,   328,   329,
-     332,   333,   334,   337,   338,   341,   342,   345,   346,   347,
-     348,   349,   350,   371,   372,   373,   374,   375,   376,   379,
-     382,   383,   386,   387,   391,   392,   395,   396,   399,   402,
-     403,   404,   407,   408,   409,   412,   413,   414,   417,   418,
-     419,   420
+       0,    73,    73,    74,    77,    78,    79,    87,    88,    94,
+      95,    98,    99,   100,   103,   104,   107,   108,   111,   112,
+     115,   116,   117,   120,   121,   124,   127,   128,   129,   134,
+     135,   138,   139,   142,   143,   146,   147,   150,   151,   154,
+     157,   158,   161,   162,   165,   166,   169,   170,   173,   176,
+     177,   180,   181,   184,   185,   188,   189,   192,   193,   196,
+     197,   198,   199,   200,   201,   204,   205,   208,   209,   212,
+     213,   216,   217,   220,   221,   224,   225,   228,   229,   232,
+     233,   236,   237,   240,   243,   246,   247,   250,   251,   254,
+     255,   256,   259,   260,   272,   273,   276,   277,   280,   281,
+     284,   287,   290,   291,   294,   298,   299,   302,   303,   306,
+     307,   308,   311,   312,   315,   316,   317,   320,   321,   322,
+     323,   326,   327,   328,   329,   332,   333,   334,   335,   336,
+     339,   340,   341,   344,   345,   348,   349,   352,   353,   354,
+     355,   356,   357,   378,   379,   380,   381,   382,   383,   386,
+     389,   390,   393,   394,   398,   399,   402,   403,   406,   409,
+     410,   411,   414,   415,   416,   419,   420,   421,   424,   425,
+     426,   427
 };
 #endif
 
@@ -1737,119 +1741,203 @@ yyreduce:
         case 7:
 
 /* Line 1455 of yacc.c  */
-#line 83 "TP4Bison.y"
+#line 87 "TP4Bison.y"
     {printf("se encontro una declaracion \n");;}
     break;
 
   case 8:
 
 /* Line 1455 of yacc.c  */
-#line 84 "TP4Bison.y"
+#line 88 "TP4Bison.y"
     {printf("se encontró una desarrollo de función");}
     break;
 
   case 9:
 
 /* Line 1455 of yacc.c  */
-#line 87 "TP4Bison.y"
+#line 94 "TP4Bison.y"
     {printf("se fue al vacio");}
     break;
 
   case 17:
 
 /* Line 1455 of yacc.c  */
-#line 101 "TP4Bison.y"
+#line 108 "TP4Bison.y"
     {printf("se encontro mas de una declaracion \n");;}
     break;
 
   case 19:
 
 /* Line 1455 of yacc.c  */
-#line 105 "TP4Bison.y"
+#line 112 "TP4Bison.y"
     {printf("se encontro una asignacion \n");;}
     break;
 
   case 26:
 
 /* Line 1455 of yacc.c  */
-#line 120 "TP4Bison.y"
+#line 127 "TP4Bison.y"
     {printf("se encontro el tipo de dato %s \n", (yyvsp[(1) - (1)].cadena));;}
     break;
 
   case 59:
 
 /* Line 1455 of yacc.c  */
-#line 189 "TP4Bison.y"
+#line 196 "TP4Bison.y"
     {printf("se encontro declaradorDirecto %s \n", (yyvsp[(1) - (1)].cadena));;}
     break;
 
   case 62:
 
 /* Line 1455 of yacc.c  */
-#line 192 "TP4Bison.y"
+#line 199 "TP4Bison.y"
     {printf("se encontró una firma de función");}
     break;
 
   case 64:
 
 /* Line 1455 of yacc.c  */
-#line 194 "TP4Bison.y"
+#line 201 "TP4Bison.y"
     {flag_error=1;printf("error xd \n");;}
+    break;
+
+  case 106:
+
+/* Line 1455 of yacc.c  */
+#line 299 "TP4Bison.y"
+    {printf("se encontro una expresion OR \n");;}
+    break;
+
+  case 108:
+
+/* Line 1455 of yacc.c  */
+#line 303 "TP4Bison.y"
+    {printf("se encontro una expresion AND \n");;}
+    break;
+
+  case 110:
+
+/* Line 1455 of yacc.c  */
+#line 307 "TP4Bison.y"
+    {printf("se encontro una expresion de IGUALDAD \n");;}
+    break;
+
+  case 111:
+
+/* Line 1455 of yacc.c  */
+#line 308 "TP4Bison.y"
+    {printf("se encontro una expresion de DIFERENCIA \n");;}
+    break;
+
+  case 113:
+
+/* Line 1455 of yacc.c  */
+#line 312 "TP4Bison.y"
+    {printf("se encontro una expresion RELACIONAL \n");;}
+    break;
+
+  case 115:
+
+/* Line 1455 of yacc.c  */
+#line 316 "TP4Bison.y"
+    {printf("se encontro una expresion de SUMA \n");;}
+    break;
+
+  case 116:
+
+/* Line 1455 of yacc.c  */
+#line 317 "TP4Bison.y"
+    {printf("se encontro una expresion de RESTA \n");;}
+    break;
+
+  case 118:
+
+/* Line 1455 of yacc.c  */
+#line 321 "TP4Bison.y"
+    {printf("se encontro una expresion de MULTIPLICACION \n");;}
+    break;
+
+  case 119:
+
+/* Line 1455 of yacc.c  */
+#line 322 "TP4Bison.y"
+    {printf("se encontro una expresion de DIVISION \n");;}
+    break;
+
+  case 120:
+
+/* Line 1455 of yacc.c  */
+#line 323 "TP4Bison.y"
+    {printf("se encontro una expresion de RESTO \n");;}
     break;
 
   case 137:
 
 /* Line 1455 of yacc.c  */
-#line 345 "TP4Bison.y"
+#line 352 "TP4Bison.y"
     {printf("se encontro el identificador %s \n", (yyvsp[(1) - (1)].cadena));;}
     break;
 
   case 138:
 
 /* Line 1455 of yacc.c  */
-#line 346 "TP4Bison.y"
+#line 353 "TP4Bison.y"
     {printf("se encontro el valor %i \n", (yyvsp[(1) - (1)].entero));;}
     break;
 
   case 142:
 
 /* Line 1455 of yacc.c  */
-#line 350 "TP4Bison.y"
+#line 357 "TP4Bison.y"
     {flag_error=1;printf("Expresion unaria no valida \n");;}
+    break;
+
+  case 144:
+
+/* Line 1455 of yacc.c  */
+#line 379 "TP4Bison.y"
+    {printf("se encontro una expresion \n");;}
+    break;
+
+  case 145:
+
+/* Line 1455 of yacc.c  */
+#line 380 "TP4Bison.y"
+    {printf("se encontro un sentencia de seleccion \n");;}
+    break;
+
+  case 146:
+
+/* Line 1455 of yacc.c  */
+#line 381 "TP4Bison.y"
+    {printf("se encontro un sentencia de iteracion \n");;}
+    break;
+
+  case 147:
+
+/* Line 1455 of yacc.c  */
+#line 382 "TP4Bison.y"
+    {printf("se encontro un sentencia etiquetada \n");;}
+    break;
+
+  case 148:
+
+/* Line 1455 of yacc.c  */
+#line 383 "TP4Bison.y"
+    {printf("se encontro un sentencia de salto \n");;}
     break;
 
   case 149:
 
 /* Line 1455 of yacc.c  */
-#line 379 "TP4Bison.y"
+#line 386 "TP4Bison.y"
     {printf("se encontro una sentencia compuesta \n");;}
     break;
 
-  case 159:
-
-/* Line 1455 of yacc.c  */
-#line 402 "TP4Bison.y"
-    {printf("se encontro un if \n");;}
-    break;
-
-  case 160:
-
-/* Line 1455 of yacc.c  */
-#line 403 "TP4Bison.y"
-    {printf("se encontro un if con un else \n");;}
-    break;
-
-  case 161:
-
-/* Line 1455 of yacc.c  */
-#line 404 "TP4Bison.y"
-    {printf("se encontro un switch \n");;}
-    break;
-
 
 
 /* Line 1455 of yacc.c  */
-#line 1853 "TP4Bison.tab.c"
+#line 1941 "TP4Bison.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2061,13 +2149,21 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 443 "TP4Bison.y"
+#line 435 "TP4Bison.y"
 
 
 int main ()
 {
+  yyin = fopen("entrada.txt", "r");
+  yyout = fopen("salida.txt", "w");
+  archivoFinal = fopen("Informe.txt", "w");
 
-  //yydebug = 1; --> Utilizar en caso de MODO DEBUG
+  yylex();
   yyparse ();
+
+  fclose(archivoFinal);
+  return 0;
+  //yydebug = 1; --> Utilizar en caso de MODO DEBUG
+
 }
 

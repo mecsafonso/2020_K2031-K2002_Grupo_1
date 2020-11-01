@@ -510,7 +510,8 @@ char *yytext;
 int caracterHexadecimalADecimal(char);
 int convertirAdecimal(char*, int, int);
 
-#line 514 "lex.yy.c"
+/* FILE* archivoFinal;*/
+#line 515 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -661,10 +662,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 31 "TP4Flex.l"
+#line 32 "TP4Flex.l"
 
 
-#line 668 "lex.yy.c"
+#line 669 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -749,270 +750,270 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 33 "TP4Flex.l"
+#line 34 "TP4Flex.l"
 {yylval.entero = atoi(yytext); return NUM;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 34 "TP4Flex.l"
+#line 35 "TP4Flex.l"
 {yylval.entero = convertirAdecimal(yytext, BASE8, yyleng); return NUM;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 35 "TP4Flex.l"
+#line 36 "TP4Flex.l"
 {yylval.entero = convertirAdecimal(yytext, BASE16, yyleng); return NUM;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 37 "TP4Flex.l"
+#line 38 "TP4Flex.l"
 {yylval.real = atof(yytext); return CONS_REAL;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 39 "TP4Flex.l"
+#line 40 "TP4Flex.l"
 {return CARACTER;}            
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 40 "TP4Flex.l"
+#line 41 "TP4Flex.l"
 {return ',';}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 41 "TP4Flex.l"
+#line 42 "TP4Flex.l"
 {return '.';}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 42 "TP4Flex.l"
+#line 43 "TP4Flex.l"
 {strcpy(yylval.cadena,yytext); return OPER_ASIGNACION;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 43 "TP4Flex.l"
+#line 44 "TP4Flex.l"
 {return ';';}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 44 "TP4Flex.l"
+#line 45 "TP4Flex.l"
 {return ':';}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 45 "TP4Flex.l"
+#line 46 "TP4Flex.l"
 {return '{';}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 46 "TP4Flex.l"
+#line 47 "TP4Flex.l"
 {return '}';}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 47 "TP4Flex.l"
+#line 48 "TP4Flex.l"
 {return '(';}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 48 "TP4Flex.l"
+#line 49 "TP4Flex.l"
 {return ')';}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 49 "TP4Flex.l"
+#line 50 "TP4Flex.l"
 {return '[';}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 50 "TP4Flex.l"
+#line 51 "TP4Flex.l"
 {return ']';}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 51 "TP4Flex.l"
+#line 52 "TP4Flex.l"
 {return OPER_OR;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 52 "TP4Flex.l"
+#line 53 "TP4Flex.l"
 {return OPER_AND;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 53 "TP4Flex.l"
+#line 54 "TP4Flex.l"
 {return OPER_IGUALDAD;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 54 "TP4Flex.l"
+#line 55 "TP4Flex.l"
 {return OPER_DIFERENCIA;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 55 "TP4Flex.l"
+#line 56 "TP4Flex.l"
 {return OPER_RELACIONAL;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 56 "TP4Flex.l"
+#line 57 "TP4Flex.l"
 {return OPER_INC_DEC;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 57 "TP4Flex.l"
+#line 58 "TP4Flex.l"
 {return '+';}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 58 "TP4Flex.l"
+#line 59 "TP4Flex.l"
 {return '-';}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 59 "TP4Flex.l"
+#line 60 "TP4Flex.l"
 {return '*';}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 60 "TP4Flex.l"
+#line 61 "TP4Flex.l"
 {return '/';}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 61 "TP4Flex.l"
+#line 62 "TP4Flex.l"
 {return '%';}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 62 "TP4Flex.l"
+#line 63 "TP4Flex.l"
 {return OPER_NEGACION;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 63 "TP4Flex.l"
+#line 64 "TP4Flex.l"
 {return OPER_DIRECCION;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 64 "TP4Flex.l"
+#line 65 "TP4Flex.l"
 {return '\n';}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 67 "TP4Flex.l"
+#line 68 "TP4Flex.l"
 {strcpy(yylval.cadena,yytext); return LIT_CADENA;} 
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 69 "TP4Flex.l"
+#line 70 "TP4Flex.l"
 {strcpy(yylval.cadena,yytext); return FOR;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 70 "TP4Flex.l"
+#line 71 "TP4Flex.l"
 {strcpy(yylval.cadena,yytext); return WHILE;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 71 "TP4Flex.l"
+#line 72 "TP4Flex.l"
 {strcpy(yylval.cadena,yytext); return DO;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 72 "TP4Flex.l"
+#line 73 "TP4Flex.l"
 {strcpy(yylval.cadena,yytext); return SWITCH;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 73 "TP4Flex.l"
+#line 74 "TP4Flex.l"
 {strcpy(yylval.cadena,yytext); return BREAK;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 74 "TP4Flex.l"
+#line 75 "TP4Flex.l"
 {strcpy(yylval.cadena,yytext); return CASE;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 75 "TP4Flex.l"
+#line 76 "TP4Flex.l"
 {strcpy(yylval.cadena,yytext); return DEFAULT;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 76 "TP4Flex.l"
+#line 77 "TP4Flex.l"
 {strcpy(yylval.cadena,yytext); return RETURN;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 77 "TP4Flex.l"
+#line 78 "TP4Flex.l"
 {strcpy(yylval.cadena,yytext); return IF;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 78 "TP4Flex.l"
+#line 79 "TP4Flex.l"
 {strcpy(yylval.cadena,yytext); return ELSE;}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 79 "TP4Flex.l"
+#line 80 "TP4Flex.l"
 {strcpy(yylval.cadena,yytext); return SIZEOF;}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 80 "TP4Flex.l"
+#line 81 "TP4Flex.l"
 {strcpy(yylval.cadena,yytext); return CONTINUE;}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 81 "TP4Flex.l"
+#line 82 "TP4Flex.l"
 {strcpy(yylval.cadena,yytext); return GOTO;}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 82 "TP4Flex.l"
+#line 83 "TP4Flex.l"
 {strcpy(yylval.cadena,yytext); return STRUCT;}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 83 "TP4Flex.l"
+#line 84 "TP4Flex.l"
 {strcpy(yylval.cadena,yytext); return UNION;}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 84 "TP4Flex.l"
+#line 85 "TP4Flex.l"
 {strcpy(yylval.cadena,yytext); return CONST;}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 85 "TP4Flex.l"
+#line 86 "TP4Flex.l"
 {strcpy(yylval.cadena,yytext); return VOLATILE;}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 86 "TP4Flex.l"
+#line 87 "TP4Flex.l"
 {strcpy(yylval.cadena,yytext); return ENUM;}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 87 "TP4Flex.l"
+#line 88 "TP4Flex.l"
 {strcpy(yylval.cadena,yytext); return ESPECIFICADOR_TIPO;}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 88 "TP4Flex.l"
+#line 89 "TP4Flex.l"
 {strcpy(yylval.cadena,yytext); return ESPECIFICADOR_ALMACENAMIENTO;}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 90 "TP4Flex.l"
+#line 91 "TP4Flex.l"
 {strcpy(yylval.cadena,yytext); return IDENTIFICADOR;} 
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 93 "TP4Flex.l"
+#line 94 "TP4Flex.l"
 ECHO;
 	YY_BREAK
-#line 1016 "lex.yy.c"
+#line 1017 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1898,9 +1899,21 @@ int main()
 	return 0;
 	}
 #endif
-#line 93 "TP4Flex.l"
+#line 94 "TP4Flex.l"
 
 
+/* int main() {
+ *
+ *    yyin = fopen("entrada.txt", "r");
+ *    yyout = fopen("salida.txt", "w");
+ *    archivoFinal = fopen("Informe.txt", "w");
+ *
+ *    yylex();
+ *    
+ *    fclose(archivoFinal);
+ *    return 0;
+ * } 
+ */
 int caracterHexadecimalADecimal(char caracter) {
   if (isdigit(caracter))
     return caracter - '0';
