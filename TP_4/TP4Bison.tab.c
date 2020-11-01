@@ -1738,7 +1738,21 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 7:
+        case 4:
+
+/* Line 1455 of yacc.c  */
+#line 77 "TP4Bison.y"
+    {fprintf(archivoFinal,"--------------------1---- \n");;}
+    break;
+
+  case 6:
+
+/* Line 1455 of yacc.c  */
+#line 79 "TP4Bison.y"
+    {fprintf(archivoFinal,"\n--------------------------------------- \n \n");;}
+    break;
+
+  case 7:
 
 /* Line 1455 of yacc.c  */
 #line 87 "TP4Bison.y"
@@ -1770,21 +1784,21 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 112 "TP4Bison.y"
-    {printf("se encontro una asignacion \n");;}
+    {fprintf(archivoFinal,"se encontro una asignacion \n");;}
     break;
 
   case 26:
 
 /* Line 1455 of yacc.c  */
 #line 127 "TP4Bison.y"
-    {printf("se encontro el tipo de dato %s \n", (yyvsp[(1) - (1)].cadena));;}
+    {fprintf(archivoFinal, "se encontro el tipo de dato %s \n", (yyvsp[(1) - (1)].cadena));;}
     break;
 
   case 59:
 
 /* Line 1455 of yacc.c  */
 #line 196 "TP4Bison.y"
-    {printf("se encontro declaradorDirecto %s \n", (yyvsp[(1) - (1)].cadena));;}
+    {fprintf(archivoFinal,"se encontro declaradorDirecto %s \n", (yyvsp[(1) - (1)].cadena));;}
     break;
 
   case 62:
@@ -1840,14 +1854,14 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 316 "TP4Bison.y"
-    {printf("se encontro una expresion de SUMA \n");;}
+    {fprintf(archivoFinal,"se encontro una expresion de SUMA \n");;}
     break;
 
   case 116:
 
 /* Line 1455 of yacc.c  */
 #line 317 "TP4Bison.y"
-    {printf("se encontro una expresion de RESTA \n");;}
+    {fprintf(archivoFinal,"se encontro una expresion de RESTA \n");;}
     break;
 
   case 118:
@@ -1937,7 +1951,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 1941 "TP4Bison.tab.c"
+#line 1955 "TP4Bison.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2158,12 +2172,16 @@ int main ()
   yyout = fopen("salida.txt", "w");
   archivoFinal = fopen("Informe.txt", "w");
 
+
+  yyparse();
   yylex();
-  yyparse ();
+
+
 
   fclose(archivoFinal);
   return 0;
   //yydebug = 1; --> Utilizar en caso de MODO DEBUG
 
 }
+
 

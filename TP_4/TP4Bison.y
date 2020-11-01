@@ -74,9 +74,9 @@ input:
   | input line
 ;
 
-line: '\n'
+line: '\n'  {fprintf(archivoFinal,"--------------------1---- \n");}
   | sentencia '\n'
-  | declaracion '\n'
+  | declaracion '\n' {fprintf(archivoFinal,"\n--------------------------------------- \n \n");}
 ;
 
 
@@ -109,7 +109,7 @@ listaDeclaradores: declarador
 ;
 
 declarador: decla
-  | decla OPER_ASIGNACION inicializador {printf("se encontro una asignacion \n");}
+  | decla OPER_ASIGNACION inicializador {fprintf(archivoFinal,"se encontro una asignacion \n");}
 ;
 
 inicializador: expAsignacion 
@@ -124,7 +124,7 @@ listaInicializadores: inicializador
 especificadorClaseAlmacenamiento: ESPECIFICADOR_ALMACENAMIENTO
 ;
 
-especificadorTipo: ESPECIFICADOR_TIPO {printf("se encontro el tipo de dato %s \n", $<cadena>1);}
+especificadorTipo: ESPECIFICADOR_TIPO {fprintf(archivoFinal, "se encontro el tipo de dato %s \n", $<cadena>1);}
   | especificadorStructOUnion
   | especificadorEnum
 ;
@@ -193,7 +193,7 @@ listaCalificadoresTiposOP:
   | listaCalificadoresTipos
 ;
 
-declaradorDirecto: IDENTIFICADOR {printf("se encontro declaradorDirecto %s \n", $<cadena>1);}
+declaradorDirecto: IDENTIFICADOR {fprintf(archivoFinal,"se encontro declaradorDirecto %s \n", $<cadena>1);}
   | '(' decla ')'
   | declaradorDirecto '[' expConstanteOP ']'
   | declaradorDirecto '(' listaTiposParametros ')' {printf("se encontró una firma de función")}
@@ -313,8 +313,8 @@ expRelacional: expAditiva
 ;
 
 expAditiva: expMultiplicativa
-  | expAditiva '+' expMultiplicativa    {printf("se encontro una expresion de SUMA \n");}
-  | expAditiva '-' expMultiplicativa    {printf("se encontro una expresion de RESTA \n");}
+  | expAditiva '+' expMultiplicativa    {fprintf(archivoFinal,"se encontro una expresion de SUMA \n");}
+  | expAditiva '-' expMultiplicativa    {fprintf(archivoFinal,"se encontro una expresion de RESTA \n");}
 ;
 
 expMultiplicativa: expUnaria
@@ -440,11 +440,15 @@ int main ()
   yyout = fopen("salida.txt", "w");
   archivoFinal = fopen("Informe.txt", "w");
 
+
+  yyparse();
   yylex();
-  yyparse ();
+
+
 
   fclose(archivoFinal);
   return 0;
   //yydebug = 1; --> Utilizar en caso de MODO DEBUG
 
 }
+

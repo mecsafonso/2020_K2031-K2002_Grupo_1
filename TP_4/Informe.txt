@@ -1,0 +1,14 @@
+se encontro el tipo de dato int 
+se encontro declaradorDirecto a 
+se encontro una expresion de SUMA 
+se encontro una asignacion 
+
+--------------------------------------- 
+ 
+se encontro el tipo de dato int 
+se encontro declaradorDirecto b 
+se encontro una expresion de RESTA 
+se encontro una asignacion 
+
+--------------------------------------- 
+ 
