@@ -74,9 +74,9 @@ input:
   | input line
 ;
 
-line: '\n'  {fprintf(archivoFinal,"--------------------1---- \n");}
-  | sentencia '\n'
-  | declaracion '\n' {fprintf(archivoFinal,"\n--------------------------------------- \n \n");}
+line: '\n'  {fprintf(archivoFinal,"\n--------------------------------------- \n \n");}
+  | sentencia '\n'    {fprintf(archivoFinal,"\n-----------------SENTENCIA---------------- \n \n");}
+  | declaracion '\n'  {fprintf(archivoFinal,"\n-----------------DECLARACION---------------- \n \n");}
 ;
 
 
@@ -84,14 +84,14 @@ line: '\n'  {fprintf(archivoFinal,"--------------------1---- \n");}
 
 
 
-declaracion: especificadoresDeclaracion listaDeclaradoresOP ';' {printf("se encontro una declaracion \n");}
-  | especificadoresDeclaracion listaDeclaradoresOP sentCompuesta {printf("se encontró una desarrollo de función")}
+declaracion: especificadoresDeclaracion listaDeclaradoresOP ';' {fprintf(archivoFinal,"se encontro una declaracion \n");}
+  | especificadoresDeclaracion listaDeclaradoresOP sentCompuesta {fprintf(archivoFinal,"se encontró una desarrollo de función")}
 ;
 
 /* En la segunda linea se va a el desarrollo de una funcion, sin embargo esta puede escribirse como int asd(a,b){} debido a listaIdentificadoresOP, */
 /* como el compilador no da error sino un warning, se decidió dejarlo así */
 
-listaDeclaradoresOP: {printf("se fue al vacio")}
+listaDeclaradoresOP: {fprintf(archivoFinal,"se fue al vacio")}
   | listaDeclaradores
 ;
 
@@ -105,7 +105,7 @@ especificadoresDeclaracionOP:
 ;
 
 listaDeclaradores: declarador
-  | listaDeclaradores ',' declarador {printf("se encontro mas de una declaracion \n");}
+  | listaDeclaradores ',' declarador {fprintf(archivoFinal,"se encontro mas de una declaracion \n");}
 ;
 
 declarador: decla
@@ -196,9 +196,9 @@ listaCalificadoresTiposOP:
 declaradorDirecto: IDENTIFICADOR {fprintf(archivoFinal,"se encontro declaradorDirecto %s \n", $<cadena>1);}
   | '(' decla ')'
   | declaradorDirecto '[' expConstanteOP ']'
-  | declaradorDirecto '(' listaTiposParametros ')' {printf("se encontró una firma de función")}
+  | declaradorDirecto '(' listaTiposParametros ')' {fprintf(archivoFinal,"se encontró una firma de función")}
   | declaradorDirecto '(' listaIdentificadoresOP ')'
-	| error {flag_error=1;printf("error xd \n");}
+	| error {flag_error=1;fprintf(archivoFinal,"error xd \n");}
 ;
 
 listaTiposParametros: listaParametros
@@ -296,20 +296,20 @@ expCondicional: expOr
 
 
 expOr: expAnd
-  | expOr OPER_OR expAnd    {printf("se encontro una expresion OR \n");}
+  | expOr OPER_OR expAnd    {fprintf(archivoFinal,"se encontro una expresion OR \n");}
 ;
 
 expAnd: expIgualdad
-  | expAnd OPER_AND expIgualdad   {printf("se encontro una expresion AND \n");}
+  | expAnd OPER_AND expIgualdad   {fprintf(archivoFinal,"se encontro una expresion AND \n");}
 ;
 
 expIgualdad: expRelacional
-  | expIgualdad OPER_IGUALDAD expRelacional   {printf("se encontro una expresion de IGUALDAD \n");}
-  | expIgualdad OPER_DIFERENCIA expRelacional   {printf("se encontro una expresion de DIFERENCIA \n");}
+  | expIgualdad OPER_IGUALDAD expRelacional   {fprintf(archivoFinal,"se encontro una expresion de IGUALDAD \n");}
+  | expIgualdad OPER_DIFERENCIA expRelacional   {fprintf(archivoFinal,"se encontro una expresion de DIFERENCIA \n");}
 ;
 
 expRelacional: expAditiva
-  | expRelacional OPER_RELACIONAL expAditiva    {printf("se encontro una expresion RELACIONAL \n");}
+  | expRelacional OPER_RELACIONAL expAditiva    {fprintf(archivoFinal,"se encontro una expresion RELACIONAL \n");}
 ;
 
 expAditiva: expMultiplicativa
@@ -318,9 +318,9 @@ expAditiva: expMultiplicativa
 ;
 
 expMultiplicativa: expUnaria
-  | expMultiplicativa '*' expUnaria     {printf("se encontro una expresion de MULTIPLICACION \n");}
-  | expMultiplicativa '/' expUnaria     {printf("se encontro una expresion de DIVISION \n");}
-  | expMultiplicativa '%' expUnaria     {printf("se encontro una expresion de RESTO \n");}
+  | expMultiplicativa '*' expUnaria     {fprintf(archivoFinal,"se encontro una expresion de MULTIPLICACION \n");}
+  | expMultiplicativa '/' expUnaria     {fprintf(archivoFinal,"se encontro una expresion de DIVISION \n");}
+  | expMultiplicativa '%' expUnaria     {fprintf(archivoFinal,"se encontro una expresion de RESTO \n");}
 ;
 
 expUnaria: expPostfijo
@@ -349,12 +349,12 @@ listaArgumentos: expAsignacion
   | listaArgumentos ',' expAsignacion
 ;
 
-expPrimaria: IDENTIFICADOR {printf("se encontro el identificador %s \n", $<cadena>1);}
-  | NUM {printf("se encontro el valor %i \n", $<entero>1);}
+expPrimaria: IDENTIFICADOR {fprintf(archivoFinal,"se encontro el identificador %s \n", $<cadena>1);}
+  | NUM {fprintf(archivoFinal,"se encontro el valor %i \n", $<entero>1);}
   | CONS_REAL
   | LIT_CADENA
   | '(' expresion ')'
-  | error {flag_error=1;printf("Expresion unaria no valida \n");}
+  | error {flag_error=1;fprintf(archivoFinal,"Expresion unaria no valida \n");}
 ;
 
 
@@ -376,14 +376,14 @@ expPrimaria: IDENTIFICADOR {printf("se encontro el identificador %s \n", $<caden
 
 
 sentencia: sentCompuesta
-  | sentExpresion {printf("se encontro una expresion \n");}
-  | sentSeleccion {printf("se encontro un sentencia de seleccion \n");}
-  | sentIteracion {printf("se encontro un sentencia de iteracion \n");}
-  | sentEtiquetada {printf("se encontro un sentencia etiquetada \n");}
-  | sentSalto {printf("se encontro un sentencia de salto \n");}
+  | sentExpresion {fprintf(archivoFinal,"se encontro una expresion \n");}
+  | sentSeleccion {fprintf(archivoFinal,"se encontro un sentencia de seleccion \n");}
+  | sentIteracion {fprintf(archivoFinal,"se encontro un sentencia de iteracion \n");}
+  | sentEtiquetada {fprintf(archivoFinal,"se encontro un sentencia etiquetada \n");}
+  | sentSalto {fprintf(archivoFinal,"se encontro un sentencia de salto \n");}
 ;
 
-sentCompuesta: '{' listaDeclaracionesOP listaSentenciasOP '}' {printf("se encontro una sentencia compuesta \n");}
+sentCompuesta: '{' listaDeclaracionesOP listaSentenciasOP '}' {fprintf(archivoFinal,"se encontro una sentencia compuesta \n");}
 ;
 
 listaDeclaraciones: declaracion 
