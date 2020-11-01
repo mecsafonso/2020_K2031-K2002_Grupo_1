@@ -458,7 +458,7 @@ static const yytype_uint8 yytranslate[] =
    YYRHS.  */
 static const yytype_uint16 yyprhs[] =
 {
-       0,     0,     3,     4,     7,     9,    12,    15,    19,    21,
+       0,     0,     3,     4,     7,     9,    12,    15,    19,    20,
       22,    25,    28,    31,    32,    34,    36,    40,    42,    46,
       48,    52,    57,    59,    63,    65,    67,    69,    71,    73,
       75,    81,    84,    85,    87,    89,    91,    94,    97,   101,
@@ -482,8 +482,8 @@ static const yytype_uint16 yyprhs[] =
 static const yytype_int8 yyrhs[] =
 {
       54,     0,    -1,    -1,    54,    55,    -1,    37,    -1,   117,
-      37,    -1,    56,    37,    -1,    58,    57,    38,    -1,    60,
-      -1,    -1,    64,    59,    -1,    65,    59,    -1,    66,    59,
+      37,    -1,    56,    37,    -1,    58,    57,    38,    -1,    -1,
+      60,    -1,    64,    59,    -1,    65,    59,    -1,    66,    59,
       -1,    -1,    58,    -1,    61,    -1,    60,    39,    61,    -1,
       76,    -1,    76,    27,    62,    -1,   100,    -1,    40,    63,
       41,    -1,    40,    63,    39,    41,    -1,    62,    -1,    63,
@@ -637,7 +637,7 @@ static const yytype_uint8 yyr1[] =
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     0,     2,     1,     2,     2,     3,     1,     0,
+       0,     2,     0,     2,     1,     2,     2,     3,     0,     1,
        2,     2,     2,     0,     1,     1,     3,     1,     3,     1,
        3,     4,     1,     3,     1,     1,     1,     1,     1,     1,
        5,     2,     0,     1,     1,     1,     2,     2,     3,     2,
@@ -671,7 +671,7 @@ static const yytype_uint8 yydefact[] =
      142,   143,   144,   145,   146,   147,     0,     0,     0,     0,
        0,     0,   168,   169,   136,     0,     0,     0,     0,     0,
       77,     0,   121,   149,   152,     0,     0,     6,    56,     0,
-       8,    15,    17,    53,     0,    14,    10,    11,    12,    31,
+       9,    15,    17,    53,     0,    14,    10,    11,    12,    31,
        0,     0,   157,     0,     0,     0,     0,     0,     0,     0,
        0,     0,     0,    99,     0,   122,     0,     0,     5,   166,
        0,     0,     0,     0,   170,     0,   165,   167,     0,    41,
@@ -774,7 +774,7 @@ static const yytype_int16 yytable[] =
      172,     7,   130,   130,   171,    71,   244,    21,    22,    23,
       24,    25,    88,   187,   -86,   185,    72,    21,    22,    23,
       24,    25,   130,   -84,   108,   109,   101,   198,   210,   -84,
-     211,    29,   235,   129,    -9,   176,   245,   192,   194,    88,
+     211,    29,   235,   129,    -8,   176,   245,   192,   194,    88,
      195,   202,   231,   265,   216,     7,    73,   203,   217,   205,
      204,   206,     3,   193,     4,     5,    74,   -92,     8,   -92,
      152,    21,    22,    23,    24,    25,   238,    78,   239,   130,
@@ -1738,56 +1738,21 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 83 "TP4Bison.y"
-    {printf("se encontro declaracion \n");;}
+    {printf("se encontro una declaracion \n");;}
     break;
 
-  case 8:
+  case 16:
 
 /* Line 1455 of yacc.c  */
-#line 86 "TP4Bison.y"
-    {printf("se encontro lsitaDeclaradoresOP \n");;}
-    break;
-
-  case 9:
-
-/* Line 1455 of yacc.c  */
-#line 87 "TP4Bison.y"
-    {printf("se encontro un opcional \n");;}
-    break;
-
-  case 10:
-
-/* Line 1455 of yacc.c  */
-#line 90 "TP4Bison.y"
-    {printf("se encontr1 \n");;}
-    break;
-
-  case 11:
-
-/* Line 1455 of yacc.c  */
-#line 91 "TP4Bison.y"
-    {printf("se encontro lsitaDeclaradoresOP 2222 \n");;}
-    break;
-
-  case 12:
-
-/* Line 1455 of yacc.c  */
-#line 92 "TP4Bison.y"
-    {printf("se encontro lsitaDeclaradoresOP 3333 \n");;}
-    break;
-
-  case 17:
-
-/* Line 1455 of yacc.c  */
-#line 103 "TP4Bison.y"
-    {printf("se encontro declador1 \n");;}
+#line 100 "TP4Bison.y"
+    {printf("se encontro mas de una declaracion \n");;}
     break;
 
   case 18:
 
 /* Line 1455 of yacc.c  */
 #line 104 "TP4Bison.y"
-    {printf("se encontro el declarador2 \n");;}
+    {printf("se encontro una asignacion \n");;}
     break;
 
   case 25:
@@ -1863,7 +1828,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 1867 "TP4Bison.tab.c"
+#line 1832 "TP4Bison.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
