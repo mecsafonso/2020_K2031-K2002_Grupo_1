@@ -81,9 +81,13 @@ line: '\n'
 
 
 declaracion: especificadoresDeclaracion listaDeclaradoresOP ';' {printf("se encontro una declaracion \n");}
+  | especificadoresDeclaracion listaDeclaradoresOP sentCompuesta {printf("se encontró una desarrollo de función")}
 ;
 
-listaDeclaradoresOP: 
+/* En la segunda linea se va a el desarrollo de una funcion, sin embargo esta puede escribirse como int asd(a,b){} debido a listaIdentificadoresOP, */
+/* como el compilador no da error sino un warning, se decidió dejarlo así */
+
+listaDeclaradoresOP: {printf("se fue al vacio")}
   | listaDeclaradores
 ;
 
@@ -120,6 +124,8 @@ especificadorTipo: ESPECIFICADOR_TIPO {printf("se encontro el tipo de dato %s \n
   | especificadorStructOUnion
   | especificadorEnum
 ;
+
+
 
 calificadorTipo: CONST
   | VOLATILE
@@ -186,7 +192,7 @@ listaCalificadoresTiposOP:
 declaradorDirecto: IDENTIFICADOR {printf("se encontro declaradorDirecto %s \n", $<cadena>1);}
   | '(' decla ')'
   | declaradorDirecto '[' expConstanteOP ']'
-  | declaradorDirecto '(' listaTiposParametros ')'
+  | declaradorDirecto '(' listaTiposParametros ')' {printf("se encontró una firma de función")}
   | declaradorDirecto '(' listaIdentificadoresOP ')'
 	| error {flag_error=1;printf("error xd \n");}
 ;
@@ -286,31 +292,31 @@ expCondicional: expOr
 
 
 expOr: expAnd
-  | expOr OPER_OR expAnd    
+  | expOr OPER_OR expAnd    {printf("se encontro una expresion OR \n";}
 ;
 
 expAnd: expIgualdad
-  | expAnd OPER_AND expIgualdad
+  | expAnd OPER_AND expIgualdad   {printf("se encontro una expresion AND \n";}
 ;
 
 expIgualdad: expRelacional
-  | expIgualdad OPER_IGUALDAD expRelacional
-  | expIgualdad OPER_DIFERENCIA expRelacional
+  | expIgualdad OPER_IGUALDAD expRelacional   {printf("se encontro una expresion de IGUALDAD \n";}
+  | expIgualdad OPER_DIFERENCIA expRelacional   {printf("se encontro una expresion de DIFERENCIA \n";}
 ;
 
 expRelacional: expAditiva
-  | expRelacional OPER_RELACIONAL expAditiva
+  | expRelacional OPER_RELACIONAL expAditiva    {printf("se encontro una expresion RELACIONAL \n";}
 ;
 
 expAditiva: expMultiplicativa
-  | expAditiva '+' expMultiplicativa
-  | expAditiva '-' expMultiplicativa
+  | expAditiva '+' expMultiplicativa    {printf("se encontro una expresion de SUMA \n";}
+  | expAditiva '-' expMultiplicativa    {printf("se encontro una expresion de RESTA \n";}
 ;
 
 expMultiplicativa: expUnaria
-  | expMultiplicativa '*' expUnaria
-  | expMultiplicativa '/' expUnaria
-  | expMultiplicativa '%' expUnaria
+  | expMultiplicativa '*' expUnaria     {printf("se encontro una expresion de MULTIPLICACION \n";}
+  | expMultiplicativa '/' expUnaria     {printf("se encontro una expresion de DIVISION \n";}
+  | expMultiplicativa '%' expUnaria     {printf("se encontro una expresion de RESTO \n";}
 ;
 
 expUnaria: expPostfijo
@@ -366,11 +372,11 @@ expPrimaria: IDENTIFICADOR {printf("se encontro el identificador %s \n", $<caden
 
 
 sentencia: sentCompuesta
-  | sentExpresion
-  | sentSeleccion 
-  | sentIteracion
-  | sentEtiquetada
-  | sentSalto
+  | sentExpresion {printf("se encontro una expresion \n";}
+  | sentSeleccion {printf("se encontro un sentencia de seleccion \n";}
+  | sentIteracion {printf("se encontro un sentencia de iteracion \n";}
+  | sentEtiquetada {printf("se encontro un sentencia etiquetada \n";}
+  | sentSalto {printf("se encontro un sentencia de salto \n";}
 ;
 
 sentCompuesta: '{' listaDeclaracionesOP listaSentenciasOP '}' {printf("se encontro una sentencia compuesta \n");}
@@ -396,9 +402,9 @@ listaSentenciasOP:
 sentExpresion: expresionOP ';'
 ;
 
-sentSeleccion: IF '(' expresion ')' sentencia  {printf("se encontro un if \n");}
-  | IF '(' expresion ')' sentencia ELSE sentencia  {printf("se encontro un if con un else \n");}
-  | SWITCH '(' expresion ')' sentencia {printf("se encontro un switch \n");}
+sentSeleccion: IF '(' expresion ')' sentencia  
+  | IF '(' expresion ')' sentencia ELSE sentencia  
+  | SWITCH '(' expresion ')' sentencia 
 ;
 
 sentIteracion: WHILE '(' expresion ')' sentencia
