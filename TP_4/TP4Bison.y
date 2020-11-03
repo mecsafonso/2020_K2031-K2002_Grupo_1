@@ -8,9 +8,11 @@ extern FILE *yyout;
 
 int flag_error=0;
 int contador=0;
-char* tipo;
+char[30] tipo;
 
 FILE* archivoFinal;
+
+nodoVariables* listaVariables = NULL;
 
 int yylex();
 
@@ -124,9 +126,9 @@ listaInicializadores: inicializador
 especificadorClaseAlmacenamiento: ESPECIFICADOR_ALMACENAMIENTO
 ;
 
-especificadorTipo: ESPECIFICADOR_TIPO {fprintf(archivoFinal, "se encontro el tipo de dato %s \n", $<cadena>1);}
-  | especificadorStructOUnion
-  | especificadorEnum
+especificadorTipo: ESPECIFICADOR_TIPO {strcpy(tipo, $<cadena>1) ; fprintf(archivoFinal, "se encontro el tipo de dato %s \n", $<cadena>1);}
+  | especificadorStructOUnion 
+  | especificadorEnum 
 ;
 
 
@@ -136,11 +138,11 @@ calificadorTipo: CONST
 ;
 
 especificadorStructOUnion: structOUnion identificadorOP '{' listaDeclaracionesStruct '}'
-  | structOUnion IDENTIFICADOR
+  | structOUnion IDENTIFICADOR {strcpy(tipo, $<cadena>2);} 
 ;
 
 identificadorOP: 
-  | IDENTIFICADOR
+  | IDENTIFICADOR {strcpy(tipo, $<cadena>1);} 
 ;
 
 structOUnion: STRUCT

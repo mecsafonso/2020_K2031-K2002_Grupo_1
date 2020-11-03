@@ -33,7 +33,7 @@ ESTRUCTURA_DE_CONTROL break|case|continue|do|else|for|goto|if|return|switch|whil
 listaDeclaracionesOP: 
   | listaDeclaraciones
 ;
-s
+
 listaDeclaraciones: declaVarSimples
   | listaDeclaraciones declaVarSimples
 ;

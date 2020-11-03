@@ -6,7 +6,7 @@
 // Definicion de las librerías que incluímos
 #include <stdio.h>
 #include <string.h> // strcpy, strcmp
-#include <ctype.h>  // toupper y isdigit
+#include <ctype.h>  // toupper y isdigi
 #include <math.h>   // pow
 #include <stdlib.h> // atoi, atof
 
@@ -90,6 +90,9 @@ OPERADOR [\+\-\*\/\%]|\+\+|\-\-
 
 {IDENTIFICADOR}                 {strcpy(yylval.cadena,yytext); return IDENTIFICADOR;} 
 
+.+                              {strcpy(yylval.cadena,yytext); return ERROR_LEXICO;} 
+
+int 3adas = 4;
 
 %%
 
