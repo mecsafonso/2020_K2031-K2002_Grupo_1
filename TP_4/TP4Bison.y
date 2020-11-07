@@ -2,17 +2,27 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include "TP4.h"
+
 #define YYDEBUG 1
 extern FILE *yyin;
 extern FILE *yyout;
 
 int flag_error=0;
 int contador=0;
-char[30] tipo;
+char* tipo;
+char* identificador;
+int modo_funcion = 0;
+int contador_parametros = 0;
 
 FILE* archivoFinal;
 
 nodoVariables* listaVariables = NULL;
+nodoFuncion* listaFunciones = NULL;
+nodoError* listaErroresLexicos = NULL;
+nodoError* dobleDeclaracion = NULL;
+nodoVariable* listaParametros = NULL;
+
 
 int yylex();
 
@@ -84,8 +94,6 @@ line: '\n'  {fprintf(archivoFinal,"\n--------------------------------------- \n 
 
 
 
-
-
 declaracion: especificadoresDeclaracion listaDeclaradoresOP ';' {fprintf(archivoFinal,"se encontro una declaracion \n");}
   | especificadoresDeclaracion listaDeclaradoresOP sentCompuesta {fprintf(archivoFinal,"se encontró una desarrollo de función")}
 ;
@@ -93,7 +101,7 @@ declaracion: especificadoresDeclaracion listaDeclaradoresOP ';' {fprintf(archivo
 /* En la segunda linea se va a el desarrollo de una funcion, sin embargo esta puede escribirse como int asd(a,b){} debido a listaIdentificadoresOP, */
 /* como el compilador no da error sino un warning, se decidió dejarlo así */
 
-listaDeclaradoresOP: {fprintf(archivoFinal,"se fue al vacio")}
+listaDeclaradoresOP: {tipo = NULL}
   | listaDeclaradores
 ;
 
@@ -123,7 +131,7 @@ listaInicializadores: inicializador
   | listaInicializadores ',' inicializador
 ;
 
-especificadorClaseAlmacenamiento: ESPECIFICADOR_ALMACENAMIENTO
+especificadorClaseAlmacenamiento: ESPECIFICADOR_ALMACENAMIENTO {if(tipo == NULL){strcpy(tipo, $<cadena>1)}}
 ;
 
 especificadorTipo: ESPECIFICADOR_TIPO {strcpy(tipo, $<cadena>1) ; fprintf(archivoFinal, "se encontro el tipo de dato %s \n", $<cadena>1);}
@@ -133,8 +141,8 @@ especificadorTipo: ESPECIFICADOR_TIPO {strcpy(tipo, $<cadena>1) ; fprintf(archiv
 
 
 
-calificadorTipo: CONST
-  | VOLATILE
+calificadorTipo: CONST {if(tipo == NULL){strcpy(tipo, $<cadena>1)}}
+  | VOLATILE {if(tipo == NULL){strcpy(tipo, $<cadena>1)}}
 ;
 
 especificadorStructOUnion: structOUnion identificadorOP '{' listaDeclaracionesStruct '}'
@@ -195,11 +203,11 @@ listaCalificadoresTiposOP:
   | listaCalificadoresTipos
 ;
 
-declaradorDirecto: IDENTIFICADOR {fprintf(archivoFinal,"se encontro declaradorDirecto %s \n", $<cadena>1);}
+declaradorDirecto: IDENTIFICADOR {gestionar_identificador(listaFunciones, listaVariables, $<cadena>1, tipo, modo_funcion, listaParametros, archivoFinal);}
   | '(' decla ')'
   | declaradorDirecto '[' expConstanteOP ']'
-  | declaradorDirecto '(' listaTiposParametros ')' {fprintf(archivoFinal,"se encontró una firma de función")}
-  | declaradorDirecto '(' listaIdentificadoresOP ')'
+  | declaradorDirecto {modo_funcion = 1; pasar_a_lista_parametros(listaParametros, listavariables, contador_parametrosint cantidad);} '(' listaTiposParametros ')' {contador_parametros = 0; modo_funcion = 0; vaciar_parametros(listaParametros); fprintf(archivoFinal,"se encontró una firma de función")}
+  | declaradorDirecto {modo_funcion = 1;}'(' listaIdentificadoresOP ')' {modo_funcion = 0; vaciar_parametros(listaParametros);}
 	| error {flag_error=1;fprintf(archivoFinal,"error xd \n");}
 ;
 
@@ -215,12 +223,12 @@ listaParametros: declaracionParametro
   | listaParametros ',' declaracionParametro
 ;
 
-declaracionParametro: especificadoresDeclaracion decla
+declaracionParametro: especificadoresDeclaracion decla {contador_parametros++;}
   | especificadoresDeclaracion declaradorAbstractoOP
 ;
 
-listaIdentificadores: IDENTIFICADOR
-  | listaIdentificadores ',' IDENTIFICADOR
+listaIdentificadores: IDENTIFICADOR {agregar_variable(listaParametros, $<cadena>1, "int");}
+  | listaIdentificadores ',' IDENTIFICADOR {agregar_variable(listaParametros, $<cadena>2, "int");}
 ;
 
 listaIdentificadoresOP: 
@@ -228,7 +236,7 @@ listaIdentificadoresOP:
 ;
 
 especificadorEnum: ENUM identificadorOP '{' listaEnumeradores '}'
-  | ENUM IDENTIFICADOR
+  | ENUM IDENTIFICADOR {strcpy(tipo, $<cadena>2);}
 ;
 
 listaEnumeradores: enumerador

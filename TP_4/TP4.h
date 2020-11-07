@@ -16,7 +16,7 @@ typedef struct nodoVariable{
 typedef struct{
     char identificador[30];
     char tipo[30];
-    variable* listaParametros;
+    nodoVariable* listaParametros;
 } funcion;
 
 typedef struct nodoFuncion{
@@ -24,25 +24,150 @@ typedef struct nodoFuncion{
     struct nodoFuncion* sig;
 } nodoFuncion;
 
-
-typedef struct nodoErrorLexico{
+typedef struct nodoError{
     char info[30];
-    struct nodoError* sgt;
-}nodoErrorLexico;
-
-nodoFuncion* listaFunciones = NULL;
-nodoErrorLexico* listaErroresLexicos = NULL;
+    struct nodoError* sig;
+}nodoError;
 
 
-
-int control_tipos(char palabra[], char tipo[]) {
+int control_tipos(char* palabra, char* tipo) {
   if((!strcmp(tipo, "int") || !strcmp(tipo, "float")) && (!strcmp(palabra, "int") || !strcmp(palabra, "float") || !strcmp(palabra, "char"))){
     return 1;
   }
-  else if(!strcmp(tipo, "char") && !strcmp(palabra, "char")){
+  if(!strcmp(tipo, "char") && !strcmp(palabra, "char")){
     return 1;
+  }
+  if(!strcmp(tipo, "void") && !strcmp(palabra, "void")){
+    return 1;
+  }
+  if((!strcmp(tipo, "const") || !strcmp(tipo, "volatile") || !strcmp(tipo, "typedef")) && (!strcmp(palabra, "int"))){
+    return 1;
+  }
+  return 0;
+}
 
-// 
+int existe_variable(nodoVariable* lista, char nombre[30]){
+    nodoVariable* aux = lista;
+    while(aux){
+        if(!strcmp(lista->info.identificador, nombre)){
+            return 1;
+        }
+        aux = aux->sig;
+    }
+    return 0;
+}
+
+nodoFuncion* existe_funcion(nodoFuncion* lista, char* nombre){
+    nodoFuncion* aux = lista;
+    while(aux != NULL){
+        if(!strcmp(aux->info.identificador, nombre)){
+            return aux;
+        }
+        aux = aux->sig;
+    }
+    return NULL;
+}
+
+int agregar_variable(nodoVariable* lista, char* nombre, char* tipo){
+    if(existe_variable(lista, nombre)){
+        return 0;
+    }
+    nodoVariable* aux = lista;
+    while(aux != NULL){
+        aux = aux->sig;
+    }
+     //aux = malloc(sizeof(*aux));
+    strcpy(aux->info.identificador, nombre);
+    strcpy(aux->info.tipo, tipo);
+    aux->sig = NULL;
+    return 1;
+}
+
+int agregar_funcion(nodoFuncion* lista, char* nombre, char* tipo, nodoVariable* listaParametros){
+    nodoFuncion* aux = lista;
+    while(aux != NULL){
+        aux = aux->sig;
+    }
+    //aux = malloc(sizeof(*aux));
+    strcpy(aux->info.identificador, nombre);
+    strcpy(aux->info.tipo, tipo);
+    aux->info.listaParametros = listaParametros;
+    aux->sig = NULL;
+}
+
+void gestionar_identificador(nodoFuncion* listaFunciones, nodoVariable* listaVariables, char* nombre, char* tipo, int modo, nodoVariable* listaParametros, FILE* archivoFinal){
+  switch(modo){
+    case 0:
+      if(!agregar_variable(listaVariables, nombre, tipo)){
+        fprintf(archivoFinal, "Doble declaración de la variable: %s", nombre);
+      }
+      break;
+    case 1:;
+      nodoFuncion* aux = existe_funcion(listaFunciones, nombre);
+      if(aux == NULL){
+        agregar_funcion(listaFunciones, nombre, tipo, listaParametros);
+      } else {
+        parametros_contra_funcion(aux, listaParametros, archivoFinal);           
+      }
+      break;
+  }
+}
+
+int parametros_contra_funcion(nodoFuncion* funcion, nodoVariable* listaParametros, FILE* archivoFinal){
+  nodoVariable* auxLista = funcion->info.listaParametros;
+  nodoVariable* auxParam = listaParametros;
+  int contador_parametros = 0;
+  while(auxParam != NULL && auxLista != NULL){
+    if(!control_tipos(auxParam->info.tipo, auxLista->info.tipo)){
+      fprintf(archivoFinal, "La funcion %s esperaba una variable de tipo %s como parametro %d, pero recibio %s", funcion->info.identificador, auxLista->info.tipo, contador_parametros, auxParam->info.tipo);
+      return 0;
+    }
+    auxLista = auxLista->sig;
+    auxParam = auxParam->sig;
+  }
+  if(auxLista != NULL){
+    fprintf(archivoFinal, "La funcion %s esperaba mas parametros de los recibidos", funcion->info.identificador); 
+    return 0;
+  } 
+  if (auxParam != NULL){
+    fprintf(archivoFinal, "La funcion %s recibio mas parametros de los esperados", funcion->info.identificador);     
+  }
+  return 1;
+}
+
+void vaciar_parametros(nodoVariable* listaParametros){
+  nodoVariable* aux = listaParametros;
+  while(listaParametros != NULL){
+    listaParametros = listaParametros->sig;
+    free(aux);
+    aux = listaParametros;
+  }
+}
+
+//Esto es nefasto y super no performante, Para mi hay que rever la gramaica y simplificar
+void pasar_a_lista_parametros(nodoVariable* listaParametros, nodoVariable* listavariables, int cantidad){
+  nodoVariable* aux = listavariables;
+  while(aux->sig != NULL){
+    aux = aux->sig;
+  }
+  strcpy(listaParametros->info.identificador, aux->info.identificador);
+  strcpy(listaParametros->info.tipo, aux->info.tipo);
+  listaParametros->sig = NULL;
+  free(aux);
+  nodoVariable* auxParam = listaParametros->sig;
+  cantidad--;
+  while(cantidad != 0){
+    aux = listavariables;
+    while(aux->sig != NULL){
+      aux = aux->sig;
+    }
+    strcpy(auxParam->info.identificador, aux->info.identificador);
+    strcpy(auxParam->info.tipo, aux->info.tipo);
+    auxParam->sig = NULL;
+    auxParam = auxParam->sig;
+    free(aux);
+  }
+}
 
 
 
@@ -57,18 +182,13 @@ int control_tipos(char palabra[], char tipo[]) {
 
 
 
-
-
-
-
-
-
-remover y copiarla en la ista de parametros
-nodoVariabñe* listaParametros = NULL;ESPECIFICADOR_TIPO
+/*
+//remover y copiarla en la ista de parametros
+ESPECIFICADOR_TIPO
 
 /// IDEA DANI (que tubo gracias al dibujito magnifico de Sol);
         // Copiar todas las variables de parametros a la lnodoFuncion* listaFunciones = NULL;
-nodoErrorLexico* listaErroresLexicos = NULL;
+
 
 typedef struct nodoErrorLexico{
     char info[30];
@@ -104,48 +224,4 @@ calificadorTipo: CONST {if(tipo[0]== '\0'){strcpy(tipo, $<cadena>1)}}
 ;
 
 ////  TP4.h
-
-int existe_variable(nodoVariables* lista, char nombre[30]){
-    nodoVariable* aux = lista;
-    while(aux){
-        if(!strcmp(lista->info.identificador, nombre)){
-            return 1;
-        }
-        aux = aux->sig;
-    }
-    return 0;
-}
-
-int existe_funcion(nodoFuncion* lista, char nombre[30]){
-    nodoFuncion* aux = lista;
-    while(lista){
-        if(!strcmp(lista->info.identificador, nombre)){
-            return 1;
-        }
-        aux = aux->sig;
-    }
-    return 0;
-}
-
-int agregar_variable(nodoVariables* lista, char nombre[30], char tipo[30]){
-    if(existe_variable(lista, nombre)){
-        return 0;
-    }
-    nodoVariable* aux = lista;
-    while(aux){
-        aux = aux->sig;
-    }
-    strcpy(aux->identificador, nombre);
-    strcpy(aux->tipo, tipo);
-
-    return 1;
-}
-
-int agregar_funcion(nodoFuncion* lista, char nombre[30], char tipo[30]){
-    nodoFuncion* aux = lista;
-    while(aux){
-        aux = aux->sig;
-    }
-    strcpy(aux->identificador, nombre);
-    strcpy(aux->tipo, tipo);
-}
+*/
