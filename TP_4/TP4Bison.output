@@ -3,9 +3,17 @@ Terminals unused in grammar
    CARACTER
 
 
-Estado 177 conflictos: 1 desplazamiento(s)/reducción(ones)
-Estado 206 conflictos: 1 desplazamiento(s)/reducción(ones)
-Estado 245 conflictos: 1 desplazamiento(s)/reducción(ones)
+Rules useless in parser due to conflicts
+
+   63 $@2: /* vacío */
+
+
+Estado 80 conflictos: 1 reducción(ones)/reducción(ones)
+Estado 99 conflictos: 1 reducción(ones)/reducción(ones)
+Estado 149 conflictos: 1 reducción(ones)/reducción(ones)
+Estado 178 conflictos: 1 desplazamiento(s)/reducción(ones)
+Estado 208 conflictos: 1 desplazamiento(s)/reducción(ones)
+Estado 262 conflictos: 1 desplazamiento(s)/reducción(ones)
 
 
 Gramática
@@ -20,296 +28,303 @@ Gramática
     5     | declaracion '\n'
 
     6 declaracion: especificadoresDeclaracion listaDeclaradoresOP ';'
+    7            | especificadoresDeclaracion listaDeclaradoresOP sentCompuesta
 
-    7 listaDeclaradoresOP: listaDeclaradores
-    8                    | /* vacío */
+    8 listaDeclaradoresOP: /* vacío */
+    9                    | listaDeclaradores
 
-    9 especificadoresDeclaracion: especificadorClaseAlmacenamiento especificadoresDeclaracionOP
-   10                           | especificadorTipo especificadoresDeclaracionOP
-   11                           | calificadorTipo especificadoresDeclaracionOP
+   10 especificadoresDeclaracion: especificadorClaseAlmacenamiento especificadoresDeclaracionOP
+   11                           | especificadorTipo especificadoresDeclaracionOP
+   12                           | calificadorTipo especificadoresDeclaracionOP
 
-   12 especificadoresDeclaracionOP: /* vacío */
-   13                             | especificadoresDeclaracion
+   13 especificadoresDeclaracionOP: /* vacío */
+   14                             | especificadoresDeclaracion
 
-   14 listaDeclaradores: declarador
-   15                  | listaDeclaradores ',' declarador
+   15 listaDeclaradores: declarador
+   16                  | listaDeclaradores ',' declarador
 
-   16 declarador: decla
-   17           | decla OPER_ASIGNACION inicializador
+   17 declarador: decla
+   18           | decla OPER_ASIGNACION inicializador
 
-   18 inicializador: expAsignacion
-   19              | '{' listaInicializadores '}'
-   20              | '{' listaInicializadores ',' '}'
+   19 inicializador: expAsignacion
+   20              | '{' listaInicializadores '}'
+   21              | '{' listaInicializadores ',' '}'
 
-   21 listaInicializadores: inicializador
-   22                     | listaInicializadores ',' inicializador
+   22 listaInicializadores: inicializador
+   23                     | listaInicializadores ',' inicializador
 
-   23 especificadorClaseAlmacenamiento: ESPECIFICADOR_ALMACENAMIENTO
+   24 especificadorClaseAlmacenamiento: ESPECIFICADOR_ALMACENAMIENTO
 
-   24 especificadorTipo: ESPECIFICADOR_TIPO
-   25                  | especificadorStructOUnion
-   26                  | especificadorEnum
+   25 especificadorTipo: ESPECIFICADOR_TIPO
+   26                  | especificadorStructOUnion
+   27                  | especificadorEnum
 
-   27 calificadorTipo: CONST
-   28                | VOLATILE
+   28 calificadorTipo: CONST
+   29                | VOLATILE
 
-   29 especificadorStructOUnion: structOUnion identificadorOP '{' listaDeclaracionesStruct '}'
-   30                          | structOUnion IDENTIFICADOR
+   30 especificadorStructOUnion: structOUnion identificadorOP '{' listaDeclaracionesStruct '}'
+   31                          | structOUnion IDENTIFICADOR
 
-   31 identificadorOP: /* vacío */
-   32                | IDENTIFICADOR
+   32 identificadorOP: /* vacío */
+   33                | IDENTIFICADOR
 
-   33 structOUnion: STRUCT
-   34             | UNION
+   34 structOUnion: STRUCT
+   35             | UNION
 
-   35 listaDeclaracionesStruct: declaracionStruct ';'
-   36                         | listaDeclaracionesStruct declaracionStruct
+   36 listaDeclaracionesStruct: declaracionStruct ';'
+   37                         | listaDeclaracionesStruct declaracionStruct
 
-   37 declaracionStruct: listaCalificadores declaradoresStruct ';'
+   38 declaracionStruct: listaCalificadores declaradoresStruct ';'
 
-   38 listaCalificadores: especificadorTipo listaCalificadoresOP
-   39                   | calificadorTipo listaCalificadoresOP
+   39 listaCalificadores: especificadorTipo listaCalificadoresOP
+   40                   | calificadorTipo listaCalificadoresOP
 
-   40 listaCalificadoresOP: /* vacío */
-   41                     | listaCalificadores
+   41 listaCalificadoresOP: /* vacío */
+   42                     | listaCalificadores
 
-   42 declaradoresStruct: declaStruct
-   43                   | declaradoresStruct ',' declaStruct
+   43 declaradoresStruct: declaStruct
+   44                   | declaradoresStruct ',' declaStruct
 
-   44 declaStruct: decla
-   45            | declaOP ':' expConstante
+   45 declaStruct: decla
+   46            | declaOP ':' expConstante
 
-   46 decla: punteroOP declaradorDirecto
+   47 decla: punteroOP declaradorDirecto
 
-   47 declaOP: /* vacío */
-   48        | decla
+   48 declaOP: /* vacío */
+   49        | decla
 
-   49 puntero: '*' listaCalificadoresTiposOP
-   50        | '*' listaCalificadoresTiposOP puntero
+   50 puntero: '*' listaCalificadoresTiposOP
+   51        | '*' listaCalificadoresTiposOP puntero
 
-   51 punteroOP: /* vacío */
-   52          | puntero
+   52 punteroOP: /* vacío */
+   53          | puntero
 
-   53 listaCalificadoresTipos: calificadorTipo
-   54                        | listaCalificadoresTipos calificadorTipo
+   54 listaCalificadoresTipos: calificadorTipo
+   55                        | listaCalificadoresTipos calificadorTipo
 
-   55 listaCalificadoresTiposOP: /* vacío */
-   56                          | listaCalificadoresTipos
+   56 listaCalificadoresTiposOP: /* vacío */
+   57                          | listaCalificadoresTipos
 
-   57 declaradorDirecto: IDENTIFICADOR
-   58                  | '(' decla ')'
-   59                  | declaradorDirecto '[' expConstanteOP ']'
-   60                  | declaradorDirecto '(' listaTiposParametros ')'
-   61                  | declaradorDirecto '(' listaIdentificadoresOP ')'
-   62                  | error
+   58 declaradorDirecto: IDENTIFICADOR
+   59                  | '(' decla ')'
+   60                  | declaradorDirecto '[' expConstanteOP ']'
 
-   63 listaTiposParametros: listaParametros
-   64                     | listaParametros ',' '.' '.' '.'
+   61 $@1: /* vacío */
 
-   65 listaTiposParametrosOP: /* vacío */
-   66                       | listaTiposParametros
+   62 declaradorDirecto: declaradorDirecto $@1 '(' listaTiposParametros ')'
 
-   67 listaParametros: declaracionParametro
-   68                | listaParametros ',' declaracionParametro
+   63 $@2: /* vacío */
 
-   69 declaracionParametro: especificadoresDeclaracion decla
-   70                     | especificadoresDeclaracion declaradorAbstractoOP
+   64 declaradorDirecto: declaradorDirecto $@2 '(' listaIdentificadoresOP ')'
+   65                  | error
 
-   71 listaIdentificadores: IDENTIFICADOR
-   72                     | listaIdentificadores ',' IDENTIFICADOR
+   66 listaTiposParametros: listaParametros
+   67                     | listaParametros ',' '.' '.' '.'
 
-   73 listaIdentificadoresOP: /* vacío */
-   74                       | listaIdentificadores
+   68 listaTiposParametrosOP: /* vacío */
+   69                       | listaTiposParametros
 
-   75 especificadorEnum: ENUM identificadorOP '{' listaEnumeradores '}'
-   76                  | ENUM IDENTIFICADOR
+   70 listaParametros: declaracionParametro
+   71                | listaParametros ',' declaracionParametro
 
-   77 listaEnumeradores: enumerador
-   78                  | listaEnumeradores ',' enumerador
+   72 declaracionParametro: especificadoresDeclaracion decla
+   73                     | especificadoresDeclaracion declaradorAbstractoOP
 
-   79 enumerador: constanteEnumeracion
-   80           | constanteEnumeracion OPER_ASIGNACION expConstante
+   74 listaIdentificadores: IDENTIFICADOR
+   75                     | listaIdentificadores ',' IDENTIFICADOR
 
-   81 constanteEnumeracion: IDENTIFICADOR
+   76 listaIdentificadoresOP: /* vacío */
+   77                       | listaIdentificadores
 
-   82 nombreTipo: listaCalificadores declaradorAbstractoOP
+   78 especificadorEnum: ENUM identificadorOP '{' listaEnumeradores '}'
+   79                  | ENUM IDENTIFICADOR
 
-   83 declaradorAbstracto: puntero
-   84                    | punteroOP declaradorAbstractoDirecto
+   80 listaEnumeradores: enumerador
+   81                  | listaEnumeradores ',' enumerador
 
-   85 declaradorAbstractoOP: /* vacío */
-   86                      | declaradorAbstracto
+   82 enumerador: constanteEnumeracion
+   83           | constanteEnumeracion OPER_ASIGNACION expConstante
 
-   87 declaradorAbstractoDirecto: '(' declaradorAbstracto ')'
-   88                           | declaradorAbstractoDirectoOP '[' expConstanteOP ']'
-   89                           | declaradorAbstractoDirectoOP '(' listaTiposParametrosOP ')'
+   84 constanteEnumeracion: IDENTIFICADOR
 
-   90 declaradorAbstractoDirectoOP: /* vacío */
-   91                             | declaradorAbstractoDirecto
+   85 nombreTipo: listaCalificadores declaradorAbstractoOP
 
-   92 expresion: expAsignacion
-   93          | expresion ',' expAsignacion
+   86 declaradorAbstracto: puntero
+   87                    | punteroOP declaradorAbstractoDirecto
 
-   94 expresionOP: /* vacío */
-   95            | expresion
+   88 declaradorAbstractoOP: /* vacío */
+   89                      | declaradorAbstracto
 
-   96 expAsignacion: expCondicional
-   97              | expUnaria operAsignacion expAsignacion
+   90 declaradorAbstractoDirecto: '(' declaradorAbstracto ')'
+   91                           | declaradorAbstractoDirectoOP '[' expConstanteOP ']'
+   92                           | declaradorAbstractoDirectoOP '(' listaTiposParametrosOP ')'
 
-   98 operAsignacion: OPER_ASIGNACION
+   93 declaradorAbstractoDirectoOP: /* vacío */
+   94                             | declaradorAbstractoDirecto
 
-   99 expConstante: expCondicional
+   95 expresion: expAsignacion
+   96          | expresion ',' expAsignacion
 
-  100 expConstanteOP: /* vacío */
-  101               | expConstante
+   97 expresionOP: /* vacío */
+   98            | expresion
 
-  102 expCondicional: expOr
+   99 expAsignacion: expCondicional
+  100              | expUnaria operAsignacion expAsignacion
 
-  103 expOr: expAnd
-  104      | expOr OPER_OR expAnd
+  101 operAsignacion: OPER_ASIGNACION
 
-  105 expAnd: expIgualdad
-  106       | expAnd OPER_AND expIgualdad
+  102 expConstante: expCondicional
 
-  107 expIgualdad: expRelacional
-  108            | expIgualdad OPER_IGUALDAD expRelacional
-  109            | expIgualdad OPER_DIFERENCIA expRelacional
+  103 expConstanteOP: /* vacío */
+  104               | expConstante
 
-  110 expRelacional: expAditiva
-  111              | expRelacional OPER_RELACIONAL expAditiva
+  105 expCondicional: expOr
 
-  112 expAditiva: expMultiplicativa
-  113           | expAditiva '+' expMultiplicativa
-  114           | expAditiva '-' expMultiplicativa
+  106 expOr: expAnd
+  107      | expOr OPER_OR expAnd
 
-  115 expMultiplicativa: expUnaria
-  116                  | expMultiplicativa '*' expUnaria
-  117                  | expMultiplicativa '/' expUnaria
-  118                  | expMultiplicativa '%' expUnaria
+  108 expAnd: expIgualdad
+  109       | expAnd OPER_AND expIgualdad
 
-  119 expUnaria: expPostfijo
-  120          | OPER_INC_DEC expUnaria
-  121          | operUnario expUnaria
-  122          | SIZEOF '(' nombreTipo ')'
+  110 expIgualdad: expRelacional
+  111            | expIgualdad OPER_IGUALDAD expRelacional
+  112            | expIgualdad OPER_DIFERENCIA expRelacional
 
-  123 operUnario: OPER_DIRECCION
-  124           | '*'
-  125           | '-'
-  126           | '+'
-  127           | OPER_NEGACION
+  113 expRelacional: expAditiva
+  114              | expRelacional OPER_RELACIONAL expAditiva
 
-  128 expPostfijo: expPrimaria
-  129            | expPostfijo '[' expresion ']'
-  130            | expPostfijo '(' listaArgumentosOP ')'
+  115 expAditiva: expMultiplicativa
+  116           | expAditiva '+' expMultiplicativa
+  117           | expAditiva '-' expMultiplicativa
 
-  131 listaArgumentosOP: /* vacío */
-  132                  | listaArgumentos
+  118 expMultiplicativa: expUnaria
+  119                  | expMultiplicativa '*' expUnaria
+  120                  | expMultiplicativa '/' expUnaria
+  121                  | expMultiplicativa '%' expUnaria
 
-  133 listaArgumentos: expAsignacion
-  134                | listaArgumentos ',' expAsignacion
+  122 expUnaria: expPostfijo
+  123          | OPER_INC_DEC expUnaria
+  124          | operUnario expUnaria
+  125          | SIZEOF '(' nombreTipo ')'
 
-  135 expPrimaria: IDENTIFICADOR
-  136            | NUM
-  137            | CONS_REAL
-  138            | LIT_CADENA
-  139            | '(' expresion ')'
-  140            | error
+  126 operUnario: OPER_DIRECCION
+  127           | '*'
+  128           | '-'
+  129           | '+'
+  130           | OPER_NEGACION
 
-  141 sentencia: sentCompuesta
-  142          | sentExpresion
-  143          | sentSeleccion
-  144          | sentIteracion
-  145          | sentEtiquetada
-  146          | sentSalto
+  131 expPostfijo: expPrimaria
+  132            | expPostfijo '[' expresion ']'
+  133            | expPostfijo '(' listaArgumentosOP ')'
 
-  147 sentCompuesta: '{' listaDeclaracionesOP listaSentenciasOP '}'
+  134 listaArgumentosOP: /* vacío */
+  135                  | listaArgumentos
 
-  148 listaDeclaraciones: declaracion
-  149                   | listaDeclaraciones declaracion
+  136 listaArgumentos: expAsignacion
+  137                | listaArgumentos ',' expAsignacion
 
-  150 listaDeclaracionesOP: /* vacío */
-  151                     | listaDeclaraciones
+  138 expPrimaria: IDENTIFICADOR
+  139            | NUM
+  140            | CONS_REAL
+  141            | LIT_CADENA
+  142            | '(' expresion ')'
+  143            | error
 
-  152 listaSentencias: sentencia
-  153                | listaSentencias sentencia
+  144 sentencia: sentCompuesta
+  145          | sentExpresion
+  146          | sentSeleccion
+  147          | sentIteracion
+  148          | sentEtiquetada
+  149          | sentSalto
 
-  154 listaSentenciasOP: /* vacío */
-  155                  | listaSentencias
+  150 sentCompuesta: '{' listaDeclaracionesOP listaSentenciasOP '}'
 
-  156 sentExpresion: expresionOP ';'
+  151 listaDeclaraciones: declaracion
+  152                   | listaDeclaraciones declaracion
 
-  157 sentSeleccion: IF '(' expresion ')' sentencia
-  158              | IF '(' expresion ')' sentencia ELSE sentencia
-  159              | SWITCH '(' expresion ')' sentencia
+  153 listaDeclaracionesOP: /* vacío */
+  154                     | listaDeclaraciones
 
-  160 sentIteracion: WHILE '(' expresion ')' sentencia
-  161              | DO sentencia WHILE '(' expresion ')' ';'
-  162              | FOR '(' expresionOP ';' expresionOP ';' expresionOP ')' sentencia
+  155 listaSentencias: sentencia
+  156                | listaSentencias sentencia
 
-  163 sentEtiquetada: CASE expresion ':' sentencia
-  164               | DEFAULT ':' sentencia
-  165               | IDENTIFICADOR ':' sentencia
+  157 listaSentenciasOP: /* vacío */
+  158                  | listaSentencias
 
-  166 sentSalto: RETURN expresionOP ';'
-  167          | CONTINUE ';'
-  168          | BREAK ';'
-  169          | GOTO IDENTIFICADOR ';'
+  159 sentExpresion: expresionOP ';'
+
+  160 sentSeleccion: IF '(' expresion ')' sentencia
+  161              | IF '(' expresion ')' sentencia ELSE sentencia
+  162              | SWITCH '(' expresion ')' sentencia
+
+  163 sentIteracion: WHILE '(' expresion ')' sentencia
+  164              | DO sentencia WHILE '(' expresion ')' ';'
+  165              | FOR '(' expresionOP ';' expresionOP ';' expresionOP ')' sentencia
+
+  166 sentEtiquetada: CASE expresion ':' sentencia
+  167               | DEFAULT ':' sentencia
+  168               | IDENTIFICADOR ':' sentencia
+
+  169 sentSalto: RETURN expresionOP ';'
+  170          | CONTINUE ';'
+  171          | BREAK ';'
+  172          | GOTO IDENTIFICADOR ';'
 
 
 Terminales con las reglas donde aparecen
 
 $end (0) 0
 '\n' (10) 3 4 5
-'%' (37) 118
-'(' (40) 58 60 61 87 89 122 130 139 157 158 159 160 161 162
-')' (41) 58 60 61 87 89 122 130 139 157 158 159 160 161 162
-'*' (42) 49 50 116 124
-'+' (43) 113 126
-',' (44) 15 20 22 43 64 68 72 78 93 134
-'-' (45) 114 125
-'.' (46) 64
-'/' (47) 117
-':' (58) 45 163 164 165
-';' (59) 6 35 37 156 161 162 166 167 168 169
-'[' (91) 59 88 129
-']' (93) 59 88 129
-'{' (123) 19 20 29 75 147
-'}' (125) 19 20 29 75 147
-error (256) 62 140
-NUM (258) 136
-CONS_REAL (259) 137
-IDENTIFICADOR (260) 30 32 57 71 72 76 81 135 165 169
-ESPECIFICADOR_TIPO (261) 24
-LIT_CADENA (262) 138
+'%' (37) 121
+'(' (40) 59 62 64 90 92 125 133 142 160 161 162 163 164 165
+')' (41) 59 62 64 90 92 125 133 142 160 161 162 163 164 165
+'*' (42) 50 51 119 127
+'+' (43) 116 129
+',' (44) 16 21 23 44 67 71 75 81 96 137
+'-' (45) 117 128
+'.' (46) 67
+'/' (47) 120
+':' (58) 46 166 167 168
+';' (59) 6 36 38 159 164 165 169 170 171 172
+'[' (91) 60 91 132
+']' (93) 60 91 132
+'{' (123) 20 21 30 78 150
+'}' (125) 20 21 30 78 150
+error (256) 65 143
+NUM (258) 139
+CONS_REAL (259) 140
+IDENTIFICADOR (260) 31 33 58 74 75 79 84 138 168 172
+ESPECIFICADOR_TIPO (261) 25
+LIT_CADENA (262) 141
 CARACTER (263)
-FOR (264) 162
-WHILE (265) 160 161
-DO (266) 161
-SWITCH (267) 159
-GOTO (268) 169
-CONTINUE (269) 167
-BREAK (270) 168
-CASE (271) 163
-DEFAULT (272) 164
-RETURN (273) 166
-IF (274) 157 158
-ELSE (275) 158
-SIZEOF (276) 122
-STRUCT (277) 33
-UNION (278) 34
-CONST (279) 27
-VOLATILE (280) 28
-ENUM (281) 75 76
-OPER_ASIGNACION (282) 17 80 98
-OPER_OR (283) 104
-OPER_AND (284) 106
-OPER_IGUALDAD (285) 108
-OPER_DIFERENCIA (286) 109
-OPER_RELACIONAL (287) 111
-OPER_INC_DEC (288) 120
-OPER_NEGACION (289) 127
-OPER_DIRECCION (290) 123
-ESPECIFICADOR_ALMACENAMIENTO (291) 23
+FOR (264) 165
+WHILE (265) 163 164
+DO (266) 164
+SWITCH (267) 162
+GOTO (268) 172
+CONTINUE (269) 170
+BREAK (270) 171
+CASE (271) 166
+DEFAULT (272) 167
+RETURN (273) 169
+IF (274) 160 161
+ELSE (275) 161
+SIZEOF (276) 125
+STRUCT (277) 34
+UNION (278) 35
+CONST (279) 28
+VOLATILE (280) 29
+ENUM (281) 78 79
+OPER_ASIGNACION (282) 18 83 101
+OPER_OR (283) 107
+OPER_AND (284) 109
+OPER_IGUALDAD (285) 111
+OPER_DIFERENCIA (286) 112
+OPER_RELACIONAL (287) 114
+OPER_INC_DEC (288) 123
+OPER_NEGACION (289) 130
+OPER_DIRECCION (290) 126
+ESPECIFICADOR_ALMACENAMIENTO (291) 24
 
 
 No terminales con las reglas donde aparecen
@@ -321,153 +336,157 @@ input (54)
 line (55)
     en la izquierda: 3 4 5, en la derecha: 2
 declaracion (56)
-    en la izquierda: 6, en la derecha: 5 148 149
+    en la izquierda: 6 7, en la derecha: 5 151 152
 listaDeclaradoresOP (57)
-    en la izquierda: 7 8, en la derecha: 6
+    en la izquierda: 8 9, en la derecha: 6 7
 especificadoresDeclaracion (58)
-    en la izquierda: 9 10 11, en la derecha: 6 13 69 70
+    en la izquierda: 10 11 12, en la derecha: 6 7 14 72 73
 especificadoresDeclaracionOP (59)
-    en la izquierda: 12 13, en la derecha: 9 10 11
+    en la izquierda: 13 14, en la derecha: 10 11 12
 listaDeclaradores (60)
-    en la izquierda: 14 15, en la derecha: 7 15
+    en la izquierda: 15 16, en la derecha: 9 16
 declarador (61)
-    en la izquierda: 16 17, en la derecha: 14 15
+    en la izquierda: 17 18, en la derecha: 15 16
 inicializador (62)
-    en la izquierda: 18 19 20, en la derecha: 17 21 22
+    en la izquierda: 19 20 21, en la derecha: 18 22 23
 listaInicializadores (63)
-    en la izquierda: 21 22, en la derecha: 19 20 22
+    en la izquierda: 22 23, en la derecha: 20 21 23
 especificadorClaseAlmacenamiento (64)
-    en la izquierda: 23, en la derecha: 9
+    en la izquierda: 24, en la derecha: 10
 especificadorTipo (65)
-    en la izquierda: 24 25 26, en la derecha: 10 38
+    en la izquierda: 25 26 27, en la derecha: 11 39
 calificadorTipo (66)
-    en la izquierda: 27 28, en la derecha: 11 39 53 54
+    en la izquierda: 28 29, en la derecha: 12 40 54 55
 especificadorStructOUnion (67)
-    en la izquierda: 29 30, en la derecha: 25
+    en la izquierda: 30 31, en la derecha: 26
 identificadorOP (68)
-    en la izquierda: 31 32, en la derecha: 29 75
+    en la izquierda: 32 33, en la derecha: 30 78
 structOUnion (69)
-    en la izquierda: 33 34, en la derecha: 29 30
+    en la izquierda: 34 35, en la derecha: 30 31
 listaDeclaracionesStruct (70)
-    en la izquierda: 35 36, en la derecha: 29 36
+    en la izquierda: 36 37, en la derecha: 30 37
 declaracionStruct (71)
-    en la izquierda: 37, en la derecha: 35 36
+    en la izquierda: 38, en la derecha: 36 37
 listaCalificadores (72)
-    en la izquierda: 38 39, en la derecha: 37 41 82
+    en la izquierda: 39 40, en la derecha: 38 42 85
 listaCalificadoresOP (73)
-    en la izquierda: 40 41, en la derecha: 38 39
+    en la izquierda: 41 42, en la derecha: 39 40
 declaradoresStruct (74)
-    en la izquierda: 42 43, en la derecha: 37 43
+    en la izquierda: 43 44, en la derecha: 38 44
 declaStruct (75)
-    en la izquierda: 44 45, en la derecha: 42 43
+    en la izquierda: 45 46, en la derecha: 43 44
 decla (76)
-    en la izquierda: 46, en la derecha: 16 17 44 48 58 69
+    en la izquierda: 47, en la derecha: 17 18 45 49 59 72
 declaOP (77)
-    en la izquierda: 47 48, en la derecha: 45
+    en la izquierda: 48 49, en la derecha: 46
 puntero (78)
-    en la izquierda: 49 50, en la derecha: 50 52 83
+    en la izquierda: 50 51, en la derecha: 51 53 86
 punteroOP (79)
-    en la izquierda: 51 52, en la derecha: 46 84
+    en la izquierda: 52 53, en la derecha: 47 87
 listaCalificadoresTipos (80)
-    en la izquierda: 53 54, en la derecha: 54 56
+    en la izquierda: 54 55, en la derecha: 55 57
 listaCalificadoresTiposOP (81)
-    en la izquierda: 55 56, en la derecha: 49 50
+    en la izquierda: 56 57, en la derecha: 50 51
 declaradorDirecto (82)
-    en la izquierda: 57 58 59 60 61 62, en la derecha: 46 59 60 61
-listaTiposParametros (83)
-    en la izquierda: 63 64, en la derecha: 60 66
-listaTiposParametrosOP (84)
-    en la izquierda: 65 66, en la derecha: 89
-listaParametros (85)
-    en la izquierda: 67 68, en la derecha: 63 64 68
-declaracionParametro (86)
-    en la izquierda: 69 70, en la derecha: 67 68
-listaIdentificadores (87)
-    en la izquierda: 71 72, en la derecha: 72 74
-listaIdentificadoresOP (88)
-    en la izquierda: 73 74, en la derecha: 61
-especificadorEnum (89)
-    en la izquierda: 75 76, en la derecha: 26
-listaEnumeradores (90)
-    en la izquierda: 77 78, en la derecha: 75 78
-enumerador (91)
-    en la izquierda: 79 80, en la derecha: 77 78
-constanteEnumeracion (92)
-    en la izquierda: 81, en la derecha: 79 80
-nombreTipo (93)
-    en la izquierda: 82, en la derecha: 122
-declaradorAbstracto (94)
-    en la izquierda: 83 84, en la derecha: 86 87
-declaradorAbstractoOP (95)
-    en la izquierda: 85 86, en la derecha: 70 82
-declaradorAbstractoDirecto (96)
-    en la izquierda: 87 88 89, en la derecha: 84 91
-declaradorAbstractoDirectoOP (97)
-    en la izquierda: 90 91, en la derecha: 88 89
-expresion (98)
-    en la izquierda: 92 93, en la derecha: 93 95 129 139 157 158 159
-    160 161 163
-expresionOP (99)
-    en la izquierda: 94 95, en la derecha: 156 162 166
-expAsignacion (100)
-    en la izquierda: 96 97, en la derecha: 18 92 93 97 133 134
-operAsignacion (101)
-    en la izquierda: 98, en la derecha: 97
-expConstante (102)
-    en la izquierda: 99, en la derecha: 45 80 101
-expConstanteOP (103)
-    en la izquierda: 100 101, en la derecha: 59 88
-expCondicional (104)
-    en la izquierda: 102, en la derecha: 96 99
-expOr (105)
-    en la izquierda: 103 104, en la derecha: 102 104
-expAnd (106)
-    en la izquierda: 105 106, en la derecha: 103 104 106
-expIgualdad (107)
-    en la izquierda: 107 108 109, en la derecha: 105 106 108 109
-expRelacional (108)
-    en la izquierda: 110 111, en la derecha: 107 108 109 111
-expAditiva (109)
-    en la izquierda: 112 113 114, en la derecha: 110 111 113 114
-expMultiplicativa (110)
-    en la izquierda: 115 116 117 118, en la derecha: 112 113 114 116
-    117 118
-expUnaria (111)
-    en la izquierda: 119 120 121 122, en la derecha: 97 115 116 117
-    118 120 121
-operUnario (112)
-    en la izquierda: 123 124 125 126 127, en la derecha: 121
-expPostfijo (113)
-    en la izquierda: 128 129 130, en la derecha: 119 129 130
-listaArgumentosOP (114)
-    en la izquierda: 131 132, en la derecha: 130
-listaArgumentos (115)
-    en la izquierda: 133 134, en la derecha: 132 134
-expPrimaria (116)
-    en la izquierda: 135 136 137 138 139 140, en la derecha: 128
-sentencia (117)
-    en la izquierda: 141 142 143 144 145 146, en la derecha: 4 152
-    153 157 158 159 160 161 162 163 164 165
-sentCompuesta (118)
-    en la izquierda: 147, en la derecha: 141
-listaDeclaraciones (119)
-    en la izquierda: 148 149, en la derecha: 149 151
-listaDeclaracionesOP (120)
-    en la izquierda: 150 151, en la derecha: 147
-listaSentencias (121)
-    en la izquierda: 152 153, en la derecha: 153 155
-listaSentenciasOP (122)
-    en la izquierda: 154 155, en la derecha: 147
-sentExpresion (123)
-    en la izquierda: 156, en la derecha: 142
-sentSeleccion (124)
-    en la izquierda: 157 158 159, en la derecha: 143
-sentIteracion (125)
-    en la izquierda: 160 161 162, en la derecha: 144
-sentEtiquetada (126)
-    en la izquierda: 163 164 165, en la derecha: 145
-sentSalto (127)
-    en la izquierda: 166 167 168 169, en la derecha: 146
+    en la izquierda: 58 59 60 62 64 65, en la derecha: 47 60 62 64
+$@1 (83)
+    en la izquierda: 61, en la derecha: 62
+$@2 (84)
+    en la izquierda: 63, en la derecha: 64
+listaTiposParametros (85)
+    en la izquierda: 66 67, en la derecha: 62 69
+listaTiposParametrosOP (86)
+    en la izquierda: 68 69, en la derecha: 92
+listaParametros (87)
+    en la izquierda: 70 71, en la derecha: 66 67 71
+declaracionParametro (88)
+    en la izquierda: 72 73, en la derecha: 70 71
+listaIdentificadores (89)
+    en la izquierda: 74 75, en la derecha: 75 77
+listaIdentificadoresOP (90)
+    en la izquierda: 76 77, en la derecha: 64
+especificadorEnum (91)
+    en la izquierda: 78 79, en la derecha: 27
+listaEnumeradores (92)
+    en la izquierda: 80 81, en la derecha: 78 81
+enumerador (93)
+    en la izquierda: 82 83, en la derecha: 80 81
+constanteEnumeracion (94)
+    en la izquierda: 84, en la derecha: 82 83
+nombreTipo (95)
+    en la izquierda: 85, en la derecha: 125
+declaradorAbstracto (96)
+    en la izquierda: 86 87, en la derecha: 89 90
+declaradorAbstractoOP (97)
+    en la izquierda: 88 89, en la derecha: 73 85
+declaradorAbstractoDirecto (98)
+    en la izquierda: 90 91 92, en la derecha: 87 94
+declaradorAbstractoDirectoOP (99)
+    en la izquierda: 93 94, en la derecha: 91 92
+expresion (100)
+    en la izquierda: 95 96, en la derecha: 96 98 132 142 160 161 162
+    163 164 166
+expresionOP (101)
+    en la izquierda: 97 98, en la derecha: 159 165 169
+expAsignacion (102)
+    en la izquierda: 99 100, en la derecha: 19 95 96 100 136 137
+operAsignacion (103)
+    en la izquierda: 101, en la derecha: 100
+expConstante (104)
+    en la izquierda: 102, en la derecha: 46 83 104
+expConstanteOP (105)
+    en la izquierda: 103 104, en la derecha: 60 91
+expCondicional (106)
+    en la izquierda: 105, en la derecha: 99 102
+expOr (107)
+    en la izquierda: 106 107, en la derecha: 105 107
+expAnd (108)
+    en la izquierda: 108 109, en la derecha: 106 107 109
+expIgualdad (109)
+    en la izquierda: 110 111 112, en la derecha: 108 109 111 112
+expRelacional (110)
+    en la izquierda: 113 114, en la derecha: 110 111 112 114
+expAditiva (111)
+    en la izquierda: 115 116 117, en la derecha: 113 114 116 117
+expMultiplicativa (112)
+    en la izquierda: 118 119 120 121, en la derecha: 115 116 117 119
+    120 121
+expUnaria (113)
+    en la izquierda: 122 123 124 125, en la derecha: 100 118 119 120
+    121 123 124
+operUnario (114)
+    en la izquierda: 126 127 128 129 130, en la derecha: 124
+expPostfijo (115)
+    en la izquierda: 131 132 133, en la derecha: 122 132 133
+listaArgumentosOP (116)
+    en la izquierda: 134 135, en la derecha: 133
+listaArgumentos (117)
+    en la izquierda: 136 137, en la derecha: 135 137
+expPrimaria (118)
+    en la izquierda: 138 139 140 141 142 143, en la derecha: 131
+sentencia (119)
+    en la izquierda: 144 145 146 147 148 149, en la derecha: 4 155
+    156 160 161 162 163 164 165 166 167 168
+sentCompuesta (120)
+    en la izquierda: 150, en la derecha: 7 144
+listaDeclaraciones (121)
+    en la izquierda: 151 152, en la derecha: 152 154
+listaDeclaracionesOP (122)
+    en la izquierda: 153 154, en la derecha: 150
+listaSentencias (123)
+    en la izquierda: 155 156, en la derecha: 156 158
+listaSentenciasOP (124)
+    en la izquierda: 157 158, en la derecha: 150
+sentExpresion (125)
+    en la izquierda: 159, en la derecha: 145
+sentSeleccion (126)
+    en la izquierda: 160 161 162, en la derecha: 146
+sentIteracion (127)
+    en la izquierda: 163 164 165, en la derecha: 147
+sentEtiquetada (128)
+    en la izquierda: 166 167 168, en la derecha: 148
+sentSalto (129)
+    en la izquierda: 169 170 171 172, en la derecha: 149
 
 
 estado 0
@@ -519,7 +538,7 @@ estado 1
     '+'                           desplazar e ir al estado 34
     '-'                           desplazar e ir al estado 35
 
-    ';'  reduce usando la regla 94 (expresionOP)
+    ';'  reduce usando la regla 97 (expresionOP)
 
     line                              ir al estado 36
     declaracion                       ir al estado 37
@@ -562,66 +581,66 @@ estado 2
 
 estado 3
 
-  140 expPrimaria: error .
+  143 expPrimaria: error .
 
-    $default  reduce usando la regla 140 (expPrimaria)
+    $default  reduce usando la regla 143 (expPrimaria)
 
 
 estado 4
 
-  136 expPrimaria: NUM .
+  139 expPrimaria: NUM .
 
-    $default  reduce usando la regla 136 (expPrimaria)
+    $default  reduce usando la regla 139 (expPrimaria)
 
 
 estado 5
 
-  137 expPrimaria: CONS_REAL .
+  140 expPrimaria: CONS_REAL .
 
-    $default  reduce usando la regla 137 (expPrimaria)
+    $default  reduce usando la regla 140 (expPrimaria)
 
 
 estado 6
 
-  135 expPrimaria: IDENTIFICADOR .
-  165 sentEtiquetada: IDENTIFICADOR . ':' sentencia
+  138 expPrimaria: IDENTIFICADOR .
+  168 sentEtiquetada: IDENTIFICADOR . ':' sentencia
 
     ':'  desplazar e ir al estado 66
-
-    $default  reduce usando la regla 135 (expPrimaria)
-
-
-estado 7
-
-   24 especificadorTipo: ESPECIFICADOR_TIPO .
-
-    $default  reduce usando la regla 24 (especificadorTipo)
-
-
-estado 8
-
-  138 expPrimaria: LIT_CADENA .
 
     $default  reduce usando la regla 138 (expPrimaria)
 
 
+estado 7
+
+   25 especificadorTipo: ESPECIFICADOR_TIPO .
+
+    $default  reduce usando la regla 25 (especificadorTipo)
+
+
+estado 8
+
+  141 expPrimaria: LIT_CADENA .
+
+    $default  reduce usando la regla 141 (expPrimaria)
+
+
 estado 9
 
-  162 sentIteracion: FOR . '(' expresionOP ';' expresionOP ';' expresionOP ')' sentencia
+  165 sentIteracion: FOR . '(' expresionOP ';' expresionOP ';' expresionOP ')' sentencia
 
     '('  desplazar e ir al estado 67
 
 
 estado 10
 
-  160 sentIteracion: WHILE . '(' expresion ')' sentencia
+  163 sentIteracion: WHILE . '(' expresion ')' sentencia
 
     '('  desplazar e ir al estado 68
 
 
 estado 11
 
-  161 sentIteracion: DO . sentencia WHILE '(' expresion ')' ';'
+  164 sentIteracion: DO . sentencia WHILE '(' expresion ')' ';'
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -649,7 +668,7 @@ estado 11
     '+'             desplazar e ir al estado 34
     '-'             desplazar e ir al estado 35
 
-    ';'  reduce usando la regla 94 (expresionOP)
+    ';'  reduce usando la regla 97 (expresionOP)
 
     expresion          ir al estado 45
     expresionOP        ir al estado 46
@@ -676,35 +695,35 @@ estado 11
 
 estado 12
 
-  159 sentSeleccion: SWITCH . '(' expresion ')' sentencia
+  162 sentSeleccion: SWITCH . '(' expresion ')' sentencia
 
     '('  desplazar e ir al estado 70
 
 
 estado 13
 
-  169 sentSalto: GOTO . IDENTIFICADOR ';'
+  172 sentSalto: GOTO . IDENTIFICADOR ';'
 
     IDENTIFICADOR  desplazar e ir al estado 71
 
 
 estado 14
 
-  167 sentSalto: CONTINUE . ';'
+  170 sentSalto: CONTINUE . ';'
 
     ';'  desplazar e ir al estado 72
 
 
 estado 15
 
-  168 sentSalto: BREAK . ';'
+  171 sentSalto: BREAK . ';'
 
     ';'  desplazar e ir al estado 73
 
 
 estado 16
 
-  163 sentEtiquetada: CASE . expresion ':' sentencia
+  166 sentEtiquetada: CASE . expresion ':' sentencia
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -737,14 +756,14 @@ estado 16
 
 estado 17
 
-  164 sentEtiquetada: DEFAULT . ':' sentencia
+  167 sentEtiquetada: DEFAULT . ':' sentencia
 
     ':'  desplazar e ir al estado 76
 
 
 estado 18
 
-  166 sentSalto: RETURN . expresionOP ';'
+  169 sentSalto: RETURN . expresionOP ';'
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -760,7 +779,7 @@ estado 18
     '+'             desplazar e ir al estado 34
     '-'             desplazar e ir al estado 35
 
-    ';'  reduce usando la regla 94 (expresionOP)
+    ';'  reduce usando la regla 97 (expresionOP)
 
     expresion          ir al estado 45
     expresionOP        ir al estado 77
@@ -780,62 +799,62 @@ estado 18
 
 estado 19
 
-  157 sentSeleccion: IF . '(' expresion ')' sentencia
-  158              | IF . '(' expresion ')' sentencia ELSE sentencia
+  160 sentSeleccion: IF . '(' expresion ')' sentencia
+  161              | IF . '(' expresion ')' sentencia ELSE sentencia
 
     '('  desplazar e ir al estado 78
 
 
 estado 20
 
-  122 expUnaria: SIZEOF . '(' nombreTipo ')'
+  125 expUnaria: SIZEOF . '(' nombreTipo ')'
 
     '('  desplazar e ir al estado 79
 
 
 estado 21
 
-   33 structOUnion: STRUCT .
-
-    $default  reduce usando la regla 33 (structOUnion)
-
-
-estado 22
-
-   34 structOUnion: UNION .
+   34 structOUnion: STRUCT .
 
     $default  reduce usando la regla 34 (structOUnion)
 
 
+estado 22
+
+   35 structOUnion: UNION .
+
+    $default  reduce usando la regla 35 (structOUnion)
+
+
 estado 23
 
-   27 calificadorTipo: CONST .
-
-    $default  reduce usando la regla 27 (calificadorTipo)
-
-
-estado 24
-
-   28 calificadorTipo: VOLATILE .
+   28 calificadorTipo: CONST .
 
     $default  reduce usando la regla 28 (calificadorTipo)
 
 
+estado 24
+
+   29 calificadorTipo: VOLATILE .
+
+    $default  reduce usando la regla 29 (calificadorTipo)
+
+
 estado 25
 
-   75 especificadorEnum: ENUM . identificadorOP '{' listaEnumeradores '}'
-   76                  | ENUM . IDENTIFICADOR
+   78 especificadorEnum: ENUM . identificadorOP '{' listaEnumeradores '}'
+   79                  | ENUM . IDENTIFICADOR
 
     IDENTIFICADOR  desplazar e ir al estado 80
 
-    $default  reduce usando la regla 31 (identificadorOP)
+    $default  reduce usando la regla 32 (identificadorOP)
 
     identificadorOP  ir al estado 81
 
 
 estado 26
 
-  120 expUnaria: OPER_INC_DEC . expUnaria
+  123 expUnaria: OPER_INC_DEC . expUnaria
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -859,23 +878,23 @@ estado 26
 
 estado 27
 
-  127 operUnario: OPER_NEGACION .
+  130 operUnario: OPER_NEGACION .
 
-    $default  reduce usando la regla 127 (operUnario)
+    $default  reduce usando la regla 130 (operUnario)
 
 
 estado 28
 
-  123 operUnario: OPER_DIRECCION .
+  126 operUnario: OPER_DIRECCION .
 
-    $default  reduce usando la regla 123 (operUnario)
+    $default  reduce usando la regla 126 (operUnario)
 
 
 estado 29
 
-   23 especificadorClaseAlmacenamiento: ESPECIFICADOR_ALMACENAMIENTO .
+   24 especificadorClaseAlmacenamiento: ESPECIFICADOR_ALMACENAMIENTO .
 
-    $default  reduce usando la regla 23 (especificadorClaseAlmacenamiento)
+    $default  reduce usando la regla 24 (especificadorClaseAlmacenamiento)
 
 
 estado 30
@@ -887,7 +906,7 @@ estado 30
 
 estado 31
 
-  147 sentCompuesta: '{' . listaDeclaracionesOP listaSentenciasOP '}'
+  150 sentCompuesta: '{' . listaDeclaracionesOP listaSentenciasOP '}'
 
     ESPECIFICADOR_TIPO            desplazar e ir al estado 7
     STRUCT                        desplazar e ir al estado 21
@@ -897,7 +916,7 @@ estado 31
     ENUM                          desplazar e ir al estado 25
     ESPECIFICADOR_ALMACENAMIENTO  desplazar e ir al estado 29
 
-    $default  reduce usando la regla 150 (listaDeclaracionesOP)
+    $default  reduce usando la regla 153 (listaDeclaracionesOP)
 
     declaracion                       ir al estado 83
     especificadoresDeclaracion        ir al estado 38
@@ -913,14 +932,14 @@ estado 31
 
 estado 32
 
-  124 operUnario: '*' .
+  127 operUnario: '*' .
 
-    $default  reduce usando la regla 124 (operUnario)
+    $default  reduce usando la regla 127 (operUnario)
 
 
 estado 33
 
-  139 expPrimaria: '(' . expresion ')'
+  142 expPrimaria: '(' . expresion ')'
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -953,16 +972,16 @@ estado 33
 
 estado 34
 
-  126 operUnario: '+' .
+  129 operUnario: '+' .
 
-    $default  reduce usando la regla 126 (operUnario)
+    $default  reduce usando la regla 129 (operUnario)
 
 
 estado 35
 
-  125 operUnario: '-' .
+  128 operUnario: '-' .
 
-    $default  reduce usando la regla 125 (operUnario)
+    $default  reduce usando la regla 128 (operUnario)
 
 
 estado 36
@@ -982,11 +1001,13 @@ estado 37
 estado 38
 
     6 declaracion: especificadoresDeclaracion . listaDeclaradoresOP ';'
+    7            | especificadoresDeclaracion . listaDeclaradoresOP sentCompuesta
 
     '*'  desplazar e ir al estado 88
 
     ';'       reduce usando la regla 8 (listaDeclaradoresOP)
-    $default  reduce usando la regla 51 (punteroOP)
+    '{'       reduce usando la regla 8 (listaDeclaradoresOP)
+    $default  reduce usando la regla 52 (punteroOP)
 
     listaDeclaradoresOP  ir al estado 89
     listaDeclaradores    ir al estado 90
@@ -998,7 +1019,7 @@ estado 38
 
 estado 39
 
-    9 especificadoresDeclaracion: especificadorClaseAlmacenamiento . especificadoresDeclaracionOP
+   10 especificadoresDeclaracion: especificadorClaseAlmacenamiento . especificadoresDeclaracionOP
 
     ESPECIFICADOR_TIPO            desplazar e ir al estado 7
     STRUCT                        desplazar e ir al estado 21
@@ -1008,7 +1029,7 @@ estado 39
     ENUM                          desplazar e ir al estado 25
     ESPECIFICADOR_ALMACENAMIENTO  desplazar e ir al estado 29
 
-    $default  reduce usando la regla 12 (especificadoresDeclaracionOP)
+    $default  reduce usando la regla 13 (especificadoresDeclaracionOP)
 
     especificadoresDeclaracion        ir al estado 95
     especificadoresDeclaracionOP      ir al estado 96
@@ -1022,7 +1043,7 @@ estado 39
 
 estado 40
 
-   10 especificadoresDeclaracion: especificadorTipo . especificadoresDeclaracionOP
+   11 especificadoresDeclaracion: especificadorTipo . especificadoresDeclaracionOP
 
     ESPECIFICADOR_TIPO            desplazar e ir al estado 7
     STRUCT                        desplazar e ir al estado 21
@@ -1032,7 +1053,7 @@ estado 40
     ENUM                          desplazar e ir al estado 25
     ESPECIFICADOR_ALMACENAMIENTO  desplazar e ir al estado 29
 
-    $default  reduce usando la regla 12 (especificadoresDeclaracionOP)
+    $default  reduce usando la regla 13 (especificadoresDeclaracionOP)
 
     especificadoresDeclaracion        ir al estado 95
     especificadoresDeclaracionOP      ir al estado 97
@@ -1046,7 +1067,7 @@ estado 40
 
 estado 41
 
-   11 especificadoresDeclaracion: calificadorTipo . especificadoresDeclaracionOP
+   12 especificadoresDeclaracion: calificadorTipo . especificadoresDeclaracionOP
 
     ESPECIFICADOR_TIPO            desplazar e ir al estado 7
     STRUCT                        desplazar e ir al estado 21
@@ -1056,7 +1077,7 @@ estado 41
     ENUM                          desplazar e ir al estado 25
     ESPECIFICADOR_ALMACENAMIENTO  desplazar e ir al estado 29
 
-    $default  reduce usando la regla 12 (especificadoresDeclaracionOP)
+    $default  reduce usando la regla 13 (especificadoresDeclaracionOP)
 
     especificadoresDeclaracion        ir al estado 95
     especificadoresDeclaracionOP      ir al estado 98
@@ -1070,144 +1091,144 @@ estado 41
 
 estado 42
 
-   25 especificadorTipo: especificadorStructOUnion .
+   26 especificadorTipo: especificadorStructOUnion .
 
-    $default  reduce usando la regla 25 (especificadorTipo)
+    $default  reduce usando la regla 26 (especificadorTipo)
 
 
 estado 43
 
-   29 especificadorStructOUnion: structOUnion . identificadorOP '{' listaDeclaracionesStruct '}'
-   30                          | structOUnion . IDENTIFICADOR
+   30 especificadorStructOUnion: structOUnion . identificadorOP '{' listaDeclaracionesStruct '}'
+   31                          | structOUnion . IDENTIFICADOR
 
     IDENTIFICADOR  desplazar e ir al estado 99
 
-    $default  reduce usando la regla 31 (identificadorOP)
+    $default  reduce usando la regla 32 (identificadorOP)
 
     identificadorOP  ir al estado 100
 
 
 estado 44
 
-   26 especificadorTipo: especificadorEnum .
+   27 especificadorTipo: especificadorEnum .
 
-    $default  reduce usando la regla 26 (especificadorTipo)
+    $default  reduce usando la regla 27 (especificadorTipo)
 
 
 estado 45
 
-   93 expresion: expresion . ',' expAsignacion
-   95 expresionOP: expresion .
+   96 expresion: expresion . ',' expAsignacion
+   98 expresionOP: expresion .
 
     ','  desplazar e ir al estado 101
 
-    $default  reduce usando la regla 95 (expresionOP)
+    $default  reduce usando la regla 98 (expresionOP)
 
 
 estado 46
 
-  156 sentExpresion: expresionOP . ';'
+  159 sentExpresion: expresionOP . ';'
 
     ';'  desplazar e ir al estado 102
 
 
 estado 47
 
-   92 expresion: expAsignacion .
+   95 expresion: expAsignacion .
 
-    $default  reduce usando la regla 92 (expresion)
+    $default  reduce usando la regla 95 (expresion)
 
 
 estado 48
 
-   96 expAsignacion: expCondicional .
+   99 expAsignacion: expCondicional .
 
-    $default  reduce usando la regla 96 (expAsignacion)
+    $default  reduce usando la regla 99 (expAsignacion)
 
 
 estado 49
 
-  102 expCondicional: expOr .
-  104 expOr: expOr . OPER_OR expAnd
+  105 expCondicional: expOr .
+  107 expOr: expOr . OPER_OR expAnd
 
     OPER_OR  desplazar e ir al estado 103
 
-    $default  reduce usando la regla 102 (expCondicional)
+    $default  reduce usando la regla 105 (expCondicional)
 
 
 estado 50
 
-  103 expOr: expAnd .
-  106 expAnd: expAnd . OPER_AND expIgualdad
+  106 expOr: expAnd .
+  109 expAnd: expAnd . OPER_AND expIgualdad
 
     OPER_AND  desplazar e ir al estado 104
 
-    $default  reduce usando la regla 103 (expOr)
+    $default  reduce usando la regla 106 (expOr)
 
 
 estado 51
 
-  105 expAnd: expIgualdad .
-  108 expIgualdad: expIgualdad . OPER_IGUALDAD expRelacional
-  109            | expIgualdad . OPER_DIFERENCIA expRelacional
+  108 expAnd: expIgualdad .
+  111 expIgualdad: expIgualdad . OPER_IGUALDAD expRelacional
+  112            | expIgualdad . OPER_DIFERENCIA expRelacional
 
     OPER_IGUALDAD    desplazar e ir al estado 105
     OPER_DIFERENCIA  desplazar e ir al estado 106
 
-    $default  reduce usando la regla 105 (expAnd)
+    $default  reduce usando la regla 108 (expAnd)
 
 
 estado 52
 
-  107 expIgualdad: expRelacional .
-  111 expRelacional: expRelacional . OPER_RELACIONAL expAditiva
+  110 expIgualdad: expRelacional .
+  114 expRelacional: expRelacional . OPER_RELACIONAL expAditiva
 
     OPER_RELACIONAL  desplazar e ir al estado 107
 
-    $default  reduce usando la regla 107 (expIgualdad)
+    $default  reduce usando la regla 110 (expIgualdad)
 
 
 estado 53
 
-  110 expRelacional: expAditiva .
-  113 expAditiva: expAditiva . '+' expMultiplicativa
-  114           | expAditiva . '-' expMultiplicativa
+  113 expRelacional: expAditiva .
+  116 expAditiva: expAditiva . '+' expMultiplicativa
+  117           | expAditiva . '-' expMultiplicativa
 
     '+'  desplazar e ir al estado 108
     '-'  desplazar e ir al estado 109
 
-    $default  reduce usando la regla 110 (expRelacional)
+    $default  reduce usando la regla 113 (expRelacional)
 
 
 estado 54
 
-  112 expAditiva: expMultiplicativa .
-  116 expMultiplicativa: expMultiplicativa . '*' expUnaria
-  117                  | expMultiplicativa . '/' expUnaria
-  118                  | expMultiplicativa . '%' expUnaria
+  115 expAditiva: expMultiplicativa .
+  119 expMultiplicativa: expMultiplicativa . '*' expUnaria
+  120                  | expMultiplicativa . '/' expUnaria
+  121                  | expMultiplicativa . '%' expUnaria
 
     '*'  desplazar e ir al estado 110
     '/'  desplazar e ir al estado 111
     '%'  desplazar e ir al estado 112
 
-    $default  reduce usando la regla 112 (expAditiva)
+    $default  reduce usando la regla 115 (expAditiva)
 
 
 estado 55
 
-   97 expAsignacion: expUnaria . operAsignacion expAsignacion
-  115 expMultiplicativa: expUnaria .
+  100 expAsignacion: expUnaria . operAsignacion expAsignacion
+  118 expMultiplicativa: expUnaria .
 
     OPER_ASIGNACION  desplazar e ir al estado 113
 
-    $default  reduce usando la regla 115 (expMultiplicativa)
+    $default  reduce usando la regla 118 (expMultiplicativa)
 
     operAsignacion  ir al estado 114
 
 
 estado 56
 
-  121 expUnaria: operUnario . expUnaria
+  124 expUnaria: operUnario . expUnaria
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -1231,21 +1252,21 @@ estado 56
 
 estado 57
 
-  119 expUnaria: expPostfijo .
-  129 expPostfijo: expPostfijo . '[' expresion ']'
-  130            | expPostfijo . '(' listaArgumentosOP ')'
+  122 expUnaria: expPostfijo .
+  132 expPostfijo: expPostfijo . '[' expresion ']'
+  133            | expPostfijo . '(' listaArgumentosOP ')'
 
     '('  desplazar e ir al estado 116
     '['  desplazar e ir al estado 117
 
-    $default  reduce usando la regla 119 (expUnaria)
+    $default  reduce usando la regla 122 (expUnaria)
 
 
 estado 58
 
-  128 expPostfijo: expPrimaria .
+  131 expPostfijo: expPrimaria .
 
-    $default  reduce usando la regla 128 (expPostfijo)
+    $default  reduce usando la regla 131 (expPostfijo)
 
 
 estado 59
@@ -1257,49 +1278,49 @@ estado 59
 
 estado 60
 
-  141 sentencia: sentCompuesta .
-
-    $default  reduce usando la regla 141 (sentencia)
-
-
-estado 61
-
-  142 sentencia: sentExpresion .
-
-    $default  reduce usando la regla 142 (sentencia)
-
-
-estado 62
-
-  143 sentencia: sentSeleccion .
-
-    $default  reduce usando la regla 143 (sentencia)
-
-
-estado 63
-
-  144 sentencia: sentIteracion .
+  144 sentencia: sentCompuesta .
 
     $default  reduce usando la regla 144 (sentencia)
 
 
-estado 64
+estado 61
 
-  145 sentencia: sentEtiquetada .
+  145 sentencia: sentExpresion .
 
     $default  reduce usando la regla 145 (sentencia)
 
 
-estado 65
+estado 62
 
-  146 sentencia: sentSalto .
+  146 sentencia: sentSeleccion .
 
     $default  reduce usando la regla 146 (sentencia)
 
 
+estado 63
+
+  147 sentencia: sentIteracion .
+
+    $default  reduce usando la regla 147 (sentencia)
+
+
+estado 64
+
+  148 sentencia: sentEtiquetada .
+
+    $default  reduce usando la regla 148 (sentencia)
+
+
+estado 65
+
+  149 sentencia: sentSalto .
+
+    $default  reduce usando la regla 149 (sentencia)
+
+
 estado 66
 
-  165 sentEtiquetada: IDENTIFICADOR ':' . sentencia
+  168 sentEtiquetada: IDENTIFICADOR ':' . sentencia
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -1327,7 +1348,7 @@ estado 66
     '+'             desplazar e ir al estado 34
     '-'             desplazar e ir al estado 35
 
-    ';'  reduce usando la regla 94 (expresionOP)
+    ';'  reduce usando la regla 97 (expresionOP)
 
     expresion          ir al estado 45
     expresionOP        ir al estado 46
@@ -1354,7 +1375,7 @@ estado 66
 
 estado 67
 
-  162 sentIteracion: FOR '(' . expresionOP ';' expresionOP ';' expresionOP ')' sentencia
+  165 sentIteracion: FOR '(' . expresionOP ';' expresionOP ';' expresionOP ')' sentencia
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -1370,7 +1391,7 @@ estado 67
     '+'             desplazar e ir al estado 34
     '-'             desplazar e ir al estado 35
 
-    ';'  reduce usando la regla 94 (expresionOP)
+    ';'  reduce usando la regla 97 (expresionOP)
 
     expresion          ir al estado 45
     expresionOP        ir al estado 120
@@ -1390,7 +1411,7 @@ estado 67
 
 estado 68
 
-  160 sentIteracion: WHILE '(' . expresion ')' sentencia
+  163 sentIteracion: WHILE '(' . expresion ')' sentencia
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -1423,14 +1444,14 @@ estado 68
 
 estado 69
 
-  161 sentIteracion: DO sentencia . WHILE '(' expresion ')' ';'
+  164 sentIteracion: DO sentencia . WHILE '(' expresion ')' ';'
 
     WHILE  desplazar e ir al estado 122
 
 
 estado 70
 
-  159 sentSeleccion: SWITCH '(' . expresion ')' sentencia
+  162 sentSeleccion: SWITCH '(' . expresion ')' sentencia
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -1463,36 +1484,36 @@ estado 70
 
 estado 71
 
-  169 sentSalto: GOTO IDENTIFICADOR . ';'
+  172 sentSalto: GOTO IDENTIFICADOR . ';'
 
     ';'  desplazar e ir al estado 124
 
 
 estado 72
 
-  167 sentSalto: CONTINUE ';' .
+  170 sentSalto: CONTINUE ';' .
 
-    $default  reduce usando la regla 167 (sentSalto)
+    $default  reduce usando la regla 170 (sentSalto)
 
 
 estado 73
 
-  168 sentSalto: BREAK ';' .
+  171 sentSalto: BREAK ';' .
 
-    $default  reduce usando la regla 168 (sentSalto)
+    $default  reduce usando la regla 171 (sentSalto)
 
 
 estado 74
 
-  135 expPrimaria: IDENTIFICADOR .
+  138 expPrimaria: IDENTIFICADOR .
 
-    $default  reduce usando la regla 135 (expPrimaria)
+    $default  reduce usando la regla 138 (expPrimaria)
 
 
 estado 75
 
-   93 expresion: expresion . ',' expAsignacion
-  163 sentEtiquetada: CASE expresion . ':' sentencia
+   96 expresion: expresion . ',' expAsignacion
+  166 sentEtiquetada: CASE expresion . ':' sentencia
 
     ','  desplazar e ir al estado 101
     ':'  desplazar e ir al estado 125
@@ -1500,7 +1521,7 @@ estado 75
 
 estado 76
 
-  164 sentEtiquetada: DEFAULT ':' . sentencia
+  167 sentEtiquetada: DEFAULT ':' . sentencia
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -1528,7 +1549,7 @@ estado 76
     '+'             desplazar e ir al estado 34
     '-'             desplazar e ir al estado 35
 
-    ';'  reduce usando la regla 94 (expresionOP)
+    ';'  reduce usando la regla 97 (expresionOP)
 
     expresion          ir al estado 45
     expresionOP        ir al estado 46
@@ -1555,15 +1576,15 @@ estado 76
 
 estado 77
 
-  166 sentSalto: RETURN expresionOP . ';'
+  169 sentSalto: RETURN expresionOP . ';'
 
     ';'  desplazar e ir al estado 127
 
 
 estado 78
 
-  157 sentSeleccion: IF '(' . expresion ')' sentencia
-  158              | IF '(' . expresion ')' sentencia ELSE sentencia
+  160 sentSeleccion: IF '(' . expresion ')' sentencia
+  161              | IF '(' . expresion ')' sentencia ELSE sentencia
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -1596,7 +1617,7 @@ estado 78
 
 estado 79
 
-  122 expUnaria: SIZEOF '(' . nombreTipo ')'
+  125 expUnaria: SIZEOF '(' . nombreTipo ')'
 
     ESPECIFICADOR_TIPO  desplazar e ir al estado 7
     STRUCT              desplazar e ir al estado 21
@@ -1616,38 +1637,39 @@ estado 79
 
 estado 80
 
-   32 identificadorOP: IDENTIFICADOR .
-   76 especificadorEnum: ENUM IDENTIFICADOR .
+   33 identificadorOP: IDENTIFICADOR .
+   79 especificadorEnum: ENUM IDENTIFICADOR .
 
-    '{'       reduce usando la regla 32 (identificadorOP)
-    $default  reduce usando la regla 76 (especificadorEnum)
+    '{'       reduce usando la regla 33 (identificadorOP)
+    '{'       [reduce usando la regla 79 (especificadorEnum)]
+    $default  reduce usando la regla 79 (especificadorEnum)
 
 
 estado 81
 
-   75 especificadorEnum: ENUM identificadorOP . '{' listaEnumeradores '}'
+   78 especificadorEnum: ENUM identificadorOP . '{' listaEnumeradores '}'
 
     '{'  desplazar e ir al estado 133
 
 
 estado 82
 
-  120 expUnaria: OPER_INC_DEC expUnaria .
+  123 expUnaria: OPER_INC_DEC expUnaria .
 
-    $default  reduce usando la regla 120 (expUnaria)
+    $default  reduce usando la regla 123 (expUnaria)
 
 
 estado 83
 
-  148 listaDeclaraciones: declaracion .
+  151 listaDeclaraciones: declaracion .
 
-    $default  reduce usando la regla 148 (listaDeclaraciones)
+    $default  reduce usando la regla 151 (listaDeclaraciones)
 
 
 estado 84
 
-  149 listaDeclaraciones: listaDeclaraciones . declaracion
-  151 listaDeclaracionesOP: listaDeclaraciones .
+  152 listaDeclaraciones: listaDeclaraciones . declaracion
+  154 listaDeclaracionesOP: listaDeclaraciones .
 
     ESPECIFICADOR_TIPO            desplazar e ir al estado 7
     STRUCT                        desplazar e ir al estado 21
@@ -1657,7 +1679,7 @@ estado 84
     ENUM                          desplazar e ir al estado 25
     ESPECIFICADOR_ALMACENAMIENTO  desplazar e ir al estado 29
 
-    $default  reduce usando la regla 151 (listaDeclaracionesOP)
+    $default  reduce usando la regla 154 (listaDeclaracionesOP)
 
     declaracion                       ir al estado 134
     especificadoresDeclaracion        ir al estado 38
@@ -1671,7 +1693,7 @@ estado 84
 
 estado 85
 
-  147 sentCompuesta: '{' listaDeclaracionesOP . listaSentenciasOP '}'
+  150 sentCompuesta: '{' listaDeclaracionesOP . listaSentenciasOP '}'
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -1699,8 +1721,8 @@ estado 85
     '+'             desplazar e ir al estado 34
     '-'             desplazar e ir al estado 35
 
-    ';'  reduce usando la regla 94 (expresionOP)
-    '}'  reduce usando la regla 154 (listaSentenciasOP)
+    ';'  reduce usando la regla 97 (expresionOP)
+    '}'  reduce usando la regla 157 (listaSentenciasOP)
 
     expresion          ir al estado 45
     expresionOP        ir al estado 46
@@ -1729,8 +1751,8 @@ estado 85
 
 estado 86
 
-   93 expresion: expresion . ',' expAsignacion
-  139 expPrimaria: '(' expresion . ')'
+   96 expresion: expresion . ',' expAsignacion
+  142 expPrimaria: '(' expresion . ')'
 
     ','  desplazar e ir al estado 101
     ')'  desplazar e ir al estado 138
@@ -1745,13 +1767,13 @@ estado 87
 
 estado 88
 
-   49 puntero: '*' . listaCalificadoresTiposOP
-   50        | '*' . listaCalificadoresTiposOP puntero
+   50 puntero: '*' . listaCalificadoresTiposOP
+   51        | '*' . listaCalificadoresTiposOP puntero
 
     CONST     desplazar e ir al estado 23
     VOLATILE  desplazar e ir al estado 24
 
-    $default  reduce usando la regla 55 (listaCalificadoresTiposOP)
+    $default  reduce usando la regla 56 (listaCalificadoresTiposOP)
 
     calificadorTipo            ir al estado 139
     listaCalificadoresTipos    ir al estado 140
@@ -1761,102 +1783,107 @@ estado 88
 estado 89
 
     6 declaracion: especificadoresDeclaracion listaDeclaradoresOP . ';'
+    7            | especificadoresDeclaracion listaDeclaradoresOP . sentCompuesta
 
     ';'  desplazar e ir al estado 142
+    '{'  desplazar e ir al estado 31
+
+    sentCompuesta  ir al estado 143
 
 
 estado 90
 
-    7 listaDeclaradoresOP: listaDeclaradores .
-   15 listaDeclaradores: listaDeclaradores . ',' declarador
+    9 listaDeclaradoresOP: listaDeclaradores .
+   16 listaDeclaradores: listaDeclaradores . ',' declarador
 
-    ','  desplazar e ir al estado 143
+    ','  desplazar e ir al estado 144
 
-    $default  reduce usando la regla 7 (listaDeclaradoresOP)
+    $default  reduce usando la regla 9 (listaDeclaradoresOP)
 
 
 estado 91
 
-   14 listaDeclaradores: declarador .
+   15 listaDeclaradores: declarador .
 
-    $default  reduce usando la regla 14 (listaDeclaradores)
+    $default  reduce usando la regla 15 (listaDeclaradores)
 
 
 estado 92
 
-   16 declarador: decla .
-   17           | decla . OPER_ASIGNACION inicializador
+   17 declarador: decla .
+   18           | decla . OPER_ASIGNACION inicializador
 
-    OPER_ASIGNACION  desplazar e ir al estado 144
+    OPER_ASIGNACION  desplazar e ir al estado 145
 
-    $default  reduce usando la regla 16 (declarador)
+    $default  reduce usando la regla 17 (declarador)
 
 
 estado 93
 
-   52 punteroOP: puntero .
+   53 punteroOP: puntero .
 
-    $default  reduce usando la regla 52 (punteroOP)
+    $default  reduce usando la regla 53 (punteroOP)
 
 
 estado 94
 
-   46 decla: punteroOP . declaradorDirecto
+   47 decla: punteroOP . declaradorDirecto
 
-    error          desplazar e ir al estado 145
-    IDENTIFICADOR  desplazar e ir al estado 146
-    '('            desplazar e ir al estado 147
+    error          desplazar e ir al estado 146
+    IDENTIFICADOR  desplazar e ir al estado 147
+    '('            desplazar e ir al estado 148
 
-    declaradorDirecto  ir al estado 148
+    declaradorDirecto  ir al estado 149
 
 
 estado 95
 
-   13 especificadoresDeclaracionOP: especificadoresDeclaracion .
+   14 especificadoresDeclaracionOP: especificadoresDeclaracion .
 
-    $default  reduce usando la regla 13 (especificadoresDeclaracionOP)
+    $default  reduce usando la regla 14 (especificadoresDeclaracionOP)
 
 
 estado 96
 
-    9 especificadoresDeclaracion: especificadorClaseAlmacenamiento especificadoresDeclaracionOP .
-
-    $default  reduce usando la regla 9 (especificadoresDeclaracion)
-
-
-estado 97
-
-   10 especificadoresDeclaracion: especificadorTipo especificadoresDeclaracionOP .
+   10 especificadoresDeclaracion: especificadorClaseAlmacenamiento especificadoresDeclaracionOP .
 
     $default  reduce usando la regla 10 (especificadoresDeclaracion)
 
 
-estado 98
+estado 97
 
-   11 especificadoresDeclaracion: calificadorTipo especificadoresDeclaracionOP .
+   11 especificadoresDeclaracion: especificadorTipo especificadoresDeclaracionOP .
 
     $default  reduce usando la regla 11 (especificadoresDeclaracion)
 
 
+estado 98
+
+   12 especificadoresDeclaracion: calificadorTipo especificadoresDeclaracionOP .
+
+    $default  reduce usando la regla 12 (especificadoresDeclaracion)
+
+
 estado 99
 
-   30 especificadorStructOUnion: structOUnion IDENTIFICADOR .
-   32 identificadorOP: IDENTIFICADOR .
+   31 especificadorStructOUnion: structOUnion IDENTIFICADOR .
+   33 identificadorOP: IDENTIFICADOR .
 
-    '{'       reduce usando la regla 32 (identificadorOP)
-    $default  reduce usando la regla 30 (especificadorStructOUnion)
+    '{'       reduce usando la regla 31 (especificadorStructOUnion)
+    '{'       [reduce usando la regla 33 (identificadorOP)]
+    $default  reduce usando la regla 31 (especificadorStructOUnion)
 
 
 estado 100
 
-   29 especificadorStructOUnion: structOUnion identificadorOP . '{' listaDeclaracionesStruct '}'
+   30 especificadorStructOUnion: structOUnion identificadorOP . '{' listaDeclaracionesStruct '}'
 
-    '{'  desplazar e ir al estado 149
+    '{'  desplazar e ir al estado 150
 
 
 estado 101
 
-   93 expresion: expresion ',' . expAsignacion
+   96 expresion: expresion ',' . expAsignacion
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -1872,7 +1899,7 @@ estado 101
     '+'             desplazar e ir al estado 34
     '-'             desplazar e ir al estado 35
 
-    expAsignacion      ir al estado 150
+    expAsignacion      ir al estado 151
     expCondicional     ir al estado 48
     expOr              ir al estado 49
     expAnd             ir al estado 50
@@ -1888,14 +1915,14 @@ estado 101
 
 estado 102
 
-  156 sentExpresion: expresionOP ';' .
+  159 sentExpresion: expresionOP ';' .
 
-    $default  reduce usando la regla 156 (sentExpresion)
+    $default  reduce usando la regla 159 (sentExpresion)
 
 
 estado 103
 
-  104 expOr: expOr OPER_OR . expAnd
+  107 expOr: expOr OPER_OR . expAnd
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -1911,12 +1938,12 @@ estado 103
     '+'             desplazar e ir al estado 34
     '-'             desplazar e ir al estado 35
 
-    expAnd             ir al estado 151
+    expAnd             ir al estado 152
     expIgualdad        ir al estado 51
     expRelacional      ir al estado 52
     expAditiva         ir al estado 53
     expMultiplicativa  ir al estado 54
-    expUnaria          ir al estado 152
+    expUnaria          ir al estado 153
     operUnario         ir al estado 56
     expPostfijo        ir al estado 57
     expPrimaria        ir al estado 58
@@ -1924,7 +1951,7 @@ estado 103
 
 estado 104
 
-  106 expAnd: expAnd OPER_AND . expIgualdad
+  109 expAnd: expAnd OPER_AND . expIgualdad
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -1940,11 +1967,11 @@ estado 104
     '+'             desplazar e ir al estado 34
     '-'             desplazar e ir al estado 35
 
-    expIgualdad        ir al estado 153
+    expIgualdad        ir al estado 154
     expRelacional      ir al estado 52
     expAditiva         ir al estado 53
     expMultiplicativa  ir al estado 54
-    expUnaria          ir al estado 152
+    expUnaria          ir al estado 153
     operUnario         ir al estado 56
     expPostfijo        ir al estado 57
     expPrimaria        ir al estado 58
@@ -1952,34 +1979,7 @@ estado 104
 
 estado 105
 
-  108 expIgualdad: expIgualdad OPER_IGUALDAD . expRelacional
-
-    error           desplazar e ir al estado 3
-    NUM             desplazar e ir al estado 4
-    CONS_REAL       desplazar e ir al estado 5
-    IDENTIFICADOR   desplazar e ir al estado 74
-    LIT_CADENA      desplazar e ir al estado 8
-    SIZEOF          desplazar e ir al estado 20
-    OPER_INC_DEC    desplazar e ir al estado 26
-    OPER_NEGACION   desplazar e ir al estado 27
-    OPER_DIRECCION  desplazar e ir al estado 28
-    '*'             desplazar e ir al estado 32
-    '('             desplazar e ir al estado 33
-    '+'             desplazar e ir al estado 34
-    '-'             desplazar e ir al estado 35
-
-    expRelacional      ir al estado 154
-    expAditiva         ir al estado 53
-    expMultiplicativa  ir al estado 54
-    expUnaria          ir al estado 152
-    operUnario         ir al estado 56
-    expPostfijo        ir al estado 57
-    expPrimaria        ir al estado 58
-
-
-estado 106
-
-  109 expIgualdad: expIgualdad OPER_DIFERENCIA . expRelacional
+  111 expIgualdad: expIgualdad OPER_IGUALDAD . expRelacional
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -1998,7 +1998,34 @@ estado 106
     expRelacional      ir al estado 155
     expAditiva         ir al estado 53
     expMultiplicativa  ir al estado 54
-    expUnaria          ir al estado 152
+    expUnaria          ir al estado 153
+    operUnario         ir al estado 56
+    expPostfijo        ir al estado 57
+    expPrimaria        ir al estado 58
+
+
+estado 106
+
+  112 expIgualdad: expIgualdad OPER_DIFERENCIA . expRelacional
+
+    error           desplazar e ir al estado 3
+    NUM             desplazar e ir al estado 4
+    CONS_REAL       desplazar e ir al estado 5
+    IDENTIFICADOR   desplazar e ir al estado 74
+    LIT_CADENA      desplazar e ir al estado 8
+    SIZEOF          desplazar e ir al estado 20
+    OPER_INC_DEC    desplazar e ir al estado 26
+    OPER_NEGACION   desplazar e ir al estado 27
+    OPER_DIRECCION  desplazar e ir al estado 28
+    '*'             desplazar e ir al estado 32
+    '('             desplazar e ir al estado 33
+    '+'             desplazar e ir al estado 34
+    '-'             desplazar e ir al estado 35
+
+    expRelacional      ir al estado 156
+    expAditiva         ir al estado 53
+    expMultiplicativa  ir al estado 54
+    expUnaria          ir al estado 153
     operUnario         ir al estado 56
     expPostfijo        ir al estado 57
     expPrimaria        ir al estado 58
@@ -2006,7 +2033,7 @@ estado 106
 
 estado 107
 
-  111 expRelacional: expRelacional OPER_RELACIONAL . expAditiva
+  114 expRelacional: expRelacional OPER_RELACIONAL . expAditiva
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -2022,9 +2049,9 @@ estado 107
     '+'             desplazar e ir al estado 34
     '-'             desplazar e ir al estado 35
 
-    expAditiva         ir al estado 156
+    expAditiva         ir al estado 157
     expMultiplicativa  ir al estado 54
-    expUnaria          ir al estado 152
+    expUnaria          ir al estado 153
     operUnario         ir al estado 56
     expPostfijo        ir al estado 57
     expPrimaria        ir al estado 58
@@ -2032,32 +2059,7 @@ estado 107
 
 estado 108
 
-  113 expAditiva: expAditiva '+' . expMultiplicativa
-
-    error           desplazar e ir al estado 3
-    NUM             desplazar e ir al estado 4
-    CONS_REAL       desplazar e ir al estado 5
-    IDENTIFICADOR   desplazar e ir al estado 74
-    LIT_CADENA      desplazar e ir al estado 8
-    SIZEOF          desplazar e ir al estado 20
-    OPER_INC_DEC    desplazar e ir al estado 26
-    OPER_NEGACION   desplazar e ir al estado 27
-    OPER_DIRECCION  desplazar e ir al estado 28
-    '*'             desplazar e ir al estado 32
-    '('             desplazar e ir al estado 33
-    '+'             desplazar e ir al estado 34
-    '-'             desplazar e ir al estado 35
-
-    expMultiplicativa  ir al estado 157
-    expUnaria          ir al estado 152
-    operUnario         ir al estado 56
-    expPostfijo        ir al estado 57
-    expPrimaria        ir al estado 58
-
-
-estado 109
-
-  114 expAditiva: expAditiva '-' . expMultiplicativa
+  116 expAditiva: expAditiva '+' . expMultiplicativa
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -2074,15 +2076,15 @@ estado 109
     '-'             desplazar e ir al estado 35
 
     expMultiplicativa  ir al estado 158
-    expUnaria          ir al estado 152
+    expUnaria          ir al estado 153
     operUnario         ir al estado 56
     expPostfijo        ir al estado 57
     expPrimaria        ir al estado 58
 
 
-estado 110
+estado 109
 
-  116 expMultiplicativa: expMultiplicativa '*' . expUnaria
+  117 expAditiva: expAditiva '-' . expMultiplicativa
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -2098,15 +2100,16 @@ estado 110
     '+'             desplazar e ir al estado 34
     '-'             desplazar e ir al estado 35
 
-    expUnaria    ir al estado 159
-    operUnario   ir al estado 56
-    expPostfijo  ir al estado 57
-    expPrimaria  ir al estado 58
+    expMultiplicativa  ir al estado 159
+    expUnaria          ir al estado 153
+    operUnario         ir al estado 56
+    expPostfijo        ir al estado 57
+    expPrimaria        ir al estado 58
 
 
-estado 111
+estado 110
 
-  117 expMultiplicativa: expMultiplicativa '/' . expUnaria
+  119 expMultiplicativa: expMultiplicativa '*' . expUnaria
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -2128,9 +2131,9 @@ estado 111
     expPrimaria  ir al estado 58
 
 
-estado 112
+estado 111
 
-  118 expMultiplicativa: expMultiplicativa '%' . expUnaria
+  120 expMultiplicativa: expMultiplicativa '/' . expUnaria
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -2152,16 +2155,9 @@ estado 112
     expPrimaria  ir al estado 58
 
 
-estado 113
+estado 112
 
-   98 operAsignacion: OPER_ASIGNACION .
-
-    $default  reduce usando la regla 98 (operAsignacion)
-
-
-estado 114
-
-   97 expAsignacion: expUnaria operAsignacion . expAsignacion
+  121 expMultiplicativa: expMultiplicativa '%' . expUnaria
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -2177,7 +2173,38 @@ estado 114
     '+'             desplazar e ir al estado 34
     '-'             desplazar e ir al estado 35
 
-    expAsignacion      ir al estado 162
+    expUnaria    ir al estado 162
+    operUnario   ir al estado 56
+    expPostfijo  ir al estado 57
+    expPrimaria  ir al estado 58
+
+
+estado 113
+
+  101 operAsignacion: OPER_ASIGNACION .
+
+    $default  reduce usando la regla 101 (operAsignacion)
+
+
+estado 114
+
+  100 expAsignacion: expUnaria operAsignacion . expAsignacion
+
+    error           desplazar e ir al estado 3
+    NUM             desplazar e ir al estado 4
+    CONS_REAL       desplazar e ir al estado 5
+    IDENTIFICADOR   desplazar e ir al estado 74
+    LIT_CADENA      desplazar e ir al estado 8
+    SIZEOF          desplazar e ir al estado 20
+    OPER_INC_DEC    desplazar e ir al estado 26
+    OPER_NEGACION   desplazar e ir al estado 27
+    OPER_DIRECCION  desplazar e ir al estado 28
+    '*'             desplazar e ir al estado 32
+    '('             desplazar e ir al estado 33
+    '+'             desplazar e ir al estado 34
+    '-'             desplazar e ir al estado 35
+
+    expAsignacion      ir al estado 163
     expCondicional     ir al estado 48
     expOr              ir al estado 49
     expAnd             ir al estado 50
@@ -2193,14 +2220,14 @@ estado 114
 
 estado 115
 
-  121 expUnaria: operUnario expUnaria .
+  124 expUnaria: operUnario expUnaria .
 
-    $default  reduce usando la regla 121 (expUnaria)
+    $default  reduce usando la regla 124 (expUnaria)
 
 
 estado 116
 
-  130 expPostfijo: expPostfijo '(' . listaArgumentosOP ')'
+  133 expPostfijo: expPostfijo '(' . listaArgumentosOP ')'
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -2216,9 +2243,9 @@ estado 116
     '+'             desplazar e ir al estado 34
     '-'             desplazar e ir al estado 35
 
-    ')'  reduce usando la regla 131 (listaArgumentosOP)
+    ')'  reduce usando la regla 134 (listaArgumentosOP)
 
-    expAsignacion      ir al estado 163
+    expAsignacion      ir al estado 164
     expCondicional     ir al estado 48
     expOr              ir al estado 49
     expAnd             ir al estado 50
@@ -2229,14 +2256,14 @@ estado 116
     expUnaria          ir al estado 55
     operUnario         ir al estado 56
     expPostfijo        ir al estado 57
-    listaArgumentosOP  ir al estado 164
-    listaArgumentos    ir al estado 165
+    listaArgumentosOP  ir al estado 165
+    listaArgumentos    ir al estado 166
     expPrimaria        ir al estado 58
 
 
 estado 117
 
-  129 expPostfijo: expPostfijo '[' . expresion ']'
+  132 expPostfijo: expPostfijo '[' . expresion ']'
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -2252,7 +2279,7 @@ estado 117
     '+'             desplazar e ir al estado 34
     '-'             desplazar e ir al estado 35
 
-    expresion          ir al estado 166
+    expresion          ir al estado 167
     expAsignacion      ir al estado 47
     expCondicional     ir al estado 48
     expOr              ir al estado 49
@@ -2276,53 +2303,53 @@ estado 118
 
 estado 119
 
-  165 sentEtiquetada: IDENTIFICADOR ':' sentencia .
+  168 sentEtiquetada: IDENTIFICADOR ':' sentencia .
 
-    $default  reduce usando la regla 165 (sentEtiquetada)
+    $default  reduce usando la regla 168 (sentEtiquetada)
 
 
 estado 120
 
-  162 sentIteracion: FOR '(' expresionOP . ';' expresionOP ';' expresionOP ')' sentencia
+  165 sentIteracion: FOR '(' expresionOP . ';' expresionOP ';' expresionOP ')' sentencia
 
-    ';'  desplazar e ir al estado 167
+    ';'  desplazar e ir al estado 168
 
 
 estado 121
 
-   93 expresion: expresion . ',' expAsignacion
-  160 sentIteracion: WHILE '(' expresion . ')' sentencia
+   96 expresion: expresion . ',' expAsignacion
+  163 sentIteracion: WHILE '(' expresion . ')' sentencia
 
     ','  desplazar e ir al estado 101
-    ')'  desplazar e ir al estado 168
+    ')'  desplazar e ir al estado 169
 
 
 estado 122
 
-  161 sentIteracion: DO sentencia WHILE . '(' expresion ')' ';'
+  164 sentIteracion: DO sentencia WHILE . '(' expresion ')' ';'
 
-    '('  desplazar e ir al estado 169
+    '('  desplazar e ir al estado 170
 
 
 estado 123
 
-   93 expresion: expresion . ',' expAsignacion
-  159 sentSeleccion: SWITCH '(' expresion . ')' sentencia
+   96 expresion: expresion . ',' expAsignacion
+  162 sentSeleccion: SWITCH '(' expresion . ')' sentencia
 
     ','  desplazar e ir al estado 101
-    ')'  desplazar e ir al estado 170
+    ')'  desplazar e ir al estado 171
 
 
 estado 124
 
-  169 sentSalto: GOTO IDENTIFICADOR ';' .
+  172 sentSalto: GOTO IDENTIFICADOR ';' .
 
-    $default  reduce usando la regla 169 (sentSalto)
+    $default  reduce usando la regla 172 (sentSalto)
 
 
 estado 125
 
-  163 sentEtiquetada: CASE expresion ':' . sentencia
+  166 sentEtiquetada: CASE expresion ':' . sentencia
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -2350,7 +2377,7 @@ estado 125
     '+'             desplazar e ir al estado 34
     '-'             desplazar e ir al estado 35
 
-    ';'  reduce usando la regla 94 (expresionOP)
+    ';'  reduce usando la regla 97 (expresionOP)
 
     expresion          ir al estado 45
     expresionOP        ir al estado 46
@@ -2366,7 +2393,7 @@ estado 125
     operUnario         ir al estado 56
     expPostfijo        ir al estado 57
     expPrimaria        ir al estado 58
-    sentencia          ir al estado 171
+    sentencia          ir al estado 172
     sentCompuesta      ir al estado 60
     sentExpresion      ir al estado 61
     sentSeleccion      ir al estado 62
@@ -2377,31 +2404,31 @@ estado 125
 
 estado 126
 
-  164 sentEtiquetada: DEFAULT ':' sentencia .
+  167 sentEtiquetada: DEFAULT ':' sentencia .
 
-    $default  reduce usando la regla 164 (sentEtiquetada)
+    $default  reduce usando la regla 167 (sentEtiquetada)
 
 
 estado 127
 
-  166 sentSalto: RETURN expresionOP ';' .
+  169 sentSalto: RETURN expresionOP ';' .
 
-    $default  reduce usando la regla 166 (sentSalto)
+    $default  reduce usando la regla 169 (sentSalto)
 
 
 estado 128
 
-   93 expresion: expresion . ',' expAsignacion
-  157 sentSeleccion: IF '(' expresion . ')' sentencia
-  158              | IF '(' expresion . ')' sentencia ELSE sentencia
+   96 expresion: expresion . ',' expAsignacion
+  160 sentSeleccion: IF '(' expresion . ')' sentencia
+  161              | IF '(' expresion . ')' sentencia ELSE sentencia
 
     ','  desplazar e ir al estado 101
-    ')'  desplazar e ir al estado 172
+    ')'  desplazar e ir al estado 173
 
 
 estado 129
 
-   38 listaCalificadores: especificadorTipo . listaCalificadoresOP
+   39 listaCalificadores: especificadorTipo . listaCalificadoresOP
 
     ESPECIFICADOR_TIPO  desplazar e ir al estado 7
     STRUCT              desplazar e ir al estado 21
@@ -2410,20 +2437,20 @@ estado 129
     VOLATILE            desplazar e ir al estado 24
     ENUM                desplazar e ir al estado 25
 
-    $default  reduce usando la regla 40 (listaCalificadoresOP)
+    $default  reduce usando la regla 41 (listaCalificadoresOP)
 
     especificadorTipo          ir al estado 129
     calificadorTipo            ir al estado 130
     especificadorStructOUnion  ir al estado 42
     structOUnion               ir al estado 43
-    listaCalificadores         ir al estado 173
-    listaCalificadoresOP       ir al estado 174
+    listaCalificadores         ir al estado 174
+    listaCalificadoresOP       ir al estado 175
     especificadorEnum          ir al estado 44
 
 
 estado 130
 
-   39 listaCalificadores: calificadorTipo . listaCalificadoresOP
+   40 listaCalificadores: calificadorTipo . listaCalificadoresOP
 
     ESPECIFICADOR_TIPO  desplazar e ir al estado 7
     STRUCT              desplazar e ir al estado 21
@@ -2432,68 +2459,68 @@ estado 130
     VOLATILE            desplazar e ir al estado 24
     ENUM                desplazar e ir al estado 25
 
-    $default  reduce usando la regla 40 (listaCalificadoresOP)
+    $default  reduce usando la regla 41 (listaCalificadoresOP)
 
     especificadorTipo          ir al estado 129
     calificadorTipo            ir al estado 130
     especificadorStructOUnion  ir al estado 42
     structOUnion               ir al estado 43
-    listaCalificadores         ir al estado 173
-    listaCalificadoresOP       ir al estado 175
+    listaCalificadores         ir al estado 174
+    listaCalificadoresOP       ir al estado 176
     especificadorEnum          ir al estado 44
 
 
 estado 131
 
-   82 nombreTipo: listaCalificadores . declaradorAbstractoOP
+   85 nombreTipo: listaCalificadores . declaradorAbstractoOP
 
     '*'  desplazar e ir al estado 88
 
-    ')'       reduce usando la regla 85 (declaradorAbstractoOP)
-    $default  reduce usando la regla 51 (punteroOP)
+    ')'       reduce usando la regla 88 (declaradorAbstractoOP)
+    $default  reduce usando la regla 52 (punteroOP)
 
-    puntero                ir al estado 176
-    punteroOP              ir al estado 177
-    declaradorAbstracto    ir al estado 178
-    declaradorAbstractoOP  ir al estado 179
+    puntero                ir al estado 177
+    punteroOP              ir al estado 178
+    declaradorAbstracto    ir al estado 179
+    declaradorAbstractoOP  ir al estado 180
 
 
 estado 132
 
-  122 expUnaria: SIZEOF '(' nombreTipo . ')'
+  125 expUnaria: SIZEOF '(' nombreTipo . ')'
 
-    ')'  desplazar e ir al estado 180
+    ')'  desplazar e ir al estado 181
 
 
 estado 133
 
-   75 especificadorEnum: ENUM identificadorOP '{' . listaEnumeradores '}'
+   78 especificadorEnum: ENUM identificadorOP '{' . listaEnumeradores '}'
 
-    IDENTIFICADOR  desplazar e ir al estado 181
+    IDENTIFICADOR  desplazar e ir al estado 182
 
-    listaEnumeradores     ir al estado 182
-    enumerador            ir al estado 183
-    constanteEnumeracion  ir al estado 184
+    listaEnumeradores     ir al estado 183
+    enumerador            ir al estado 184
+    constanteEnumeracion  ir al estado 185
 
 
 estado 134
 
-  149 listaDeclaraciones: listaDeclaraciones declaracion .
+  152 listaDeclaraciones: listaDeclaraciones declaracion .
 
-    $default  reduce usando la regla 149 (listaDeclaraciones)
+    $default  reduce usando la regla 152 (listaDeclaraciones)
 
 
 estado 135
 
-  152 listaSentencias: sentencia .
+  155 listaSentencias: sentencia .
 
-    $default  reduce usando la regla 152 (listaSentencias)
+    $default  reduce usando la regla 155 (listaSentencias)
 
 
 estado 136
 
-  153 listaSentencias: listaSentencias . sentencia
-  155 listaSentenciasOP: listaSentencias .
+  156 listaSentencias: listaSentencias . sentencia
+  158 listaSentenciasOP: listaSentencias .
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -2521,8 +2548,8 @@ estado 136
     '+'             desplazar e ir al estado 34
     '-'             desplazar e ir al estado 35
 
-    ';'  reduce usando la regla 94 (expresionOP)
-    '}'  reduce usando la regla 155 (listaSentenciasOP)
+    ';'  reduce usando la regla 97 (expresionOP)
+    '}'  reduce usando la regla 158 (listaSentenciasOP)
 
     expresion          ir al estado 45
     expresionOP        ir al estado 46
@@ -2538,7 +2565,7 @@ estado 136
     operUnario         ir al estado 56
     expPostfijo        ir al estado 57
     expPrimaria        ir al estado 58
-    sentencia          ir al estado 185
+    sentencia          ir al estado 186
     sentCompuesta      ir al estado 60
     sentExpresion      ir al estado 61
     sentSeleccion      ir al estado 62
@@ -2549,48 +2576,48 @@ estado 136
 
 estado 137
 
-  147 sentCompuesta: '{' listaDeclaracionesOP listaSentenciasOP . '}'
+  150 sentCompuesta: '{' listaDeclaracionesOP listaSentenciasOP . '}'
 
-    '}'  desplazar e ir al estado 186
+    '}'  desplazar e ir al estado 187
 
 
 estado 138
 
-  139 expPrimaria: '(' expresion ')' .
+  142 expPrimaria: '(' expresion ')' .
 
-    $default  reduce usando la regla 139 (expPrimaria)
+    $default  reduce usando la regla 142 (expPrimaria)
 
 
 estado 139
 
-   53 listaCalificadoresTipos: calificadorTipo .
+   54 listaCalificadoresTipos: calificadorTipo .
 
-    $default  reduce usando la regla 53 (listaCalificadoresTipos)
+    $default  reduce usando la regla 54 (listaCalificadoresTipos)
 
 
 estado 140
 
-   54 listaCalificadoresTipos: listaCalificadoresTipos . calificadorTipo
-   56 listaCalificadoresTiposOP: listaCalificadoresTipos .
+   55 listaCalificadoresTipos: listaCalificadoresTipos . calificadorTipo
+   57 listaCalificadoresTiposOP: listaCalificadoresTipos .
 
     CONST     desplazar e ir al estado 23
     VOLATILE  desplazar e ir al estado 24
 
-    $default  reduce usando la regla 56 (listaCalificadoresTiposOP)
+    $default  reduce usando la regla 57 (listaCalificadoresTiposOP)
 
-    calificadorTipo  ir al estado 187
+    calificadorTipo  ir al estado 188
 
 
 estado 141
 
-   49 puntero: '*' listaCalificadoresTiposOP .
-   50        | '*' listaCalificadoresTiposOP . puntero
+   50 puntero: '*' listaCalificadoresTiposOP .
+   51        | '*' listaCalificadoresTiposOP . puntero
 
     '*'  desplazar e ir al estado 88
 
-    $default  reduce usando la regla 49 (puntero)
+    $default  reduce usando la regla 50 (puntero)
 
-    puntero  ir al estado 188
+    puntero  ir al estado 189
 
 
 estado 142
@@ -2602,21 +2629,28 @@ estado 142
 
 estado 143
 
-   15 listaDeclaradores: listaDeclaradores ',' . declarador
+    7 declaracion: especificadoresDeclaracion listaDeclaradoresOP sentCompuesta .
+
+    $default  reduce usando la regla 7 (declaracion)
+
+
+estado 144
+
+   16 listaDeclaradores: listaDeclaradores ',' . declarador
 
     '*'  desplazar e ir al estado 88
 
-    $default  reduce usando la regla 51 (punteroOP)
+    $default  reduce usando la regla 52 (punteroOP)
 
-    declarador  ir al estado 189
+    declarador  ir al estado 190
     decla       ir al estado 92
     puntero     ir al estado 93
     punteroOP   ir al estado 94
 
 
-estado 144
+estado 145
 
-   17 declarador: decla OPER_ASIGNACION . inicializador
+   18 declarador: decla OPER_ASIGNACION . inicializador
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -2627,14 +2661,14 @@ estado 144
     OPER_INC_DEC    desplazar e ir al estado 26
     OPER_NEGACION   desplazar e ir al estado 27
     OPER_DIRECCION  desplazar e ir al estado 28
-    '{'             desplazar e ir al estado 190
+    '{'             desplazar e ir al estado 191
     '*'             desplazar e ir al estado 32
     '('             desplazar e ir al estado 33
     '+'             desplazar e ir al estado 34
     '-'             desplazar e ir al estado 35
 
-    inicializador      ir al estado 191
-    expAsignacion      ir al estado 192
+    inicializador      ir al estado 192
+    expAsignacion      ir al estado 193
     expCondicional     ir al estado 48
     expOr              ir al estado 49
     expAnd             ir al estado 50
@@ -2648,49 +2682,53 @@ estado 144
     expPrimaria        ir al estado 58
 
 
-estado 145
-
-   62 declaradorDirecto: error .
-
-    $default  reduce usando la regla 62 (declaradorDirecto)
-
-
 estado 146
 
-   57 declaradorDirecto: IDENTIFICADOR .
+   65 declaradorDirecto: error .
 
-    $default  reduce usando la regla 57 (declaradorDirecto)
+    $default  reduce usando la regla 65 (declaradorDirecto)
 
 
 estado 147
 
-   58 declaradorDirecto: '(' . decla ')'
+   58 declaradorDirecto: IDENTIFICADOR .
 
-    '*'  desplazar e ir al estado 88
-
-    $default  reduce usando la regla 51 (punteroOP)
-
-    decla      ir al estado 193
-    puntero    ir al estado 93
-    punteroOP  ir al estado 94
+    $default  reduce usando la regla 58 (declaradorDirecto)
 
 
 estado 148
 
-   46 decla: punteroOP declaradorDirecto .
-   59 declaradorDirecto: declaradorDirecto . '[' expConstanteOP ']'
-   60                  | declaradorDirecto . '(' listaTiposParametros ')'
-   61                  | declaradorDirecto . '(' listaIdentificadoresOP ')'
+   59 declaradorDirecto: '(' . decla ')'
 
-    '('  desplazar e ir al estado 194
-    '['  desplazar e ir al estado 195
+    '*'  desplazar e ir al estado 88
 
-    $default  reduce usando la regla 46 (decla)
+    $default  reduce usando la regla 52 (punteroOP)
+
+    decla      ir al estado 194
+    puntero    ir al estado 93
+    punteroOP  ir al estado 94
 
 
 estado 149
 
-   29 especificadorStructOUnion: structOUnion identificadorOP '{' . listaDeclaracionesStruct '}'
+   47 decla: punteroOP declaradorDirecto .
+   60 declaradorDirecto: declaradorDirecto . '[' expConstanteOP ']'
+   62                  | declaradorDirecto . $@1 '(' listaTiposParametros ')'
+   64                  | declaradorDirecto . $@2 '(' listaIdentificadoresOP ')'
+
+    '['  desplazar e ir al estado 195
+
+    '('       reduce usando la regla 61 ($@1)
+    '('       [reduce usando la regla 63 ($@2)]
+    $default  reduce usando la regla 47 (decla)
+
+    $@1  ir al estado 196
+    $@2  ir al estado 197
+
+
+estado 150
+
+   30 especificadorStructOUnion: structOUnion identificadorOP '{' . listaDeclaracionesStruct '}'
 
     ESPECIFICADOR_TIPO  desplazar e ir al estado 7
     STRUCT              desplazar e ir al estado 21
@@ -2703,263 +2741,172 @@ estado 149
     calificadorTipo            ir al estado 130
     especificadorStructOUnion  ir al estado 42
     structOUnion               ir al estado 43
-    listaDeclaracionesStruct   ir al estado 196
-    declaracionStruct          ir al estado 197
-    listaCalificadores         ir al estado 198
+    listaDeclaracionesStruct   ir al estado 198
+    declaracionStruct          ir al estado 199
+    listaCalificadores         ir al estado 200
     especificadorEnum          ir al estado 44
-
-
-estado 150
-
-   93 expresion: expresion ',' expAsignacion .
-
-    $default  reduce usando la regla 93 (expresion)
 
 
 estado 151
 
-  104 expOr: expOr OPER_OR expAnd .
-  106 expAnd: expAnd . OPER_AND expIgualdad
+   96 expresion: expresion ',' expAsignacion .
 
-    OPER_AND  desplazar e ir al estado 104
-
-    $default  reduce usando la regla 104 (expOr)
+    $default  reduce usando la regla 96 (expresion)
 
 
 estado 152
 
-  115 expMultiplicativa: expUnaria .
+  107 expOr: expOr OPER_OR expAnd .
+  109 expAnd: expAnd . OPER_AND expIgualdad
 
-    $default  reduce usando la regla 115 (expMultiplicativa)
+    OPER_AND  desplazar e ir al estado 104
+
+    $default  reduce usando la regla 107 (expOr)
 
 
 estado 153
 
-  106 expAnd: expAnd OPER_AND expIgualdad .
-  108 expIgualdad: expIgualdad . OPER_IGUALDAD expRelacional
-  109            | expIgualdad . OPER_DIFERENCIA expRelacional
-
-    OPER_IGUALDAD    desplazar e ir al estado 105
-    OPER_DIFERENCIA  desplazar e ir al estado 106
-
-    $default  reduce usando la regla 106 (expAnd)
-
-
-estado 154
-
-  108 expIgualdad: expIgualdad OPER_IGUALDAD expRelacional .
-  111 expRelacional: expRelacional . OPER_RELACIONAL expAditiva
-
-    OPER_RELACIONAL  desplazar e ir al estado 107
-
-    $default  reduce usando la regla 108 (expIgualdad)
-
-
-estado 155
-
-  109 expIgualdad: expIgualdad OPER_DIFERENCIA expRelacional .
-  111 expRelacional: expRelacional . OPER_RELACIONAL expAditiva
-
-    OPER_RELACIONAL  desplazar e ir al estado 107
-
-    $default  reduce usando la regla 109 (expIgualdad)
-
-
-estado 156
-
-  111 expRelacional: expRelacional OPER_RELACIONAL expAditiva .
-  113 expAditiva: expAditiva . '+' expMultiplicativa
-  114           | expAditiva . '-' expMultiplicativa
-
-    '+'  desplazar e ir al estado 108
-    '-'  desplazar e ir al estado 109
-
-    $default  reduce usando la regla 111 (expRelacional)
-
-
-estado 157
-
-  113 expAditiva: expAditiva '+' expMultiplicativa .
-  116 expMultiplicativa: expMultiplicativa . '*' expUnaria
-  117                  | expMultiplicativa . '/' expUnaria
-  118                  | expMultiplicativa . '%' expUnaria
-
-    '*'  desplazar e ir al estado 110
-    '/'  desplazar e ir al estado 111
-    '%'  desplazar e ir al estado 112
-
-    $default  reduce usando la regla 113 (expAditiva)
-
-
-estado 158
-
-  114 expAditiva: expAditiva '-' expMultiplicativa .
-  116 expMultiplicativa: expMultiplicativa . '*' expUnaria
-  117                  | expMultiplicativa . '/' expUnaria
-  118                  | expMultiplicativa . '%' expUnaria
-
-    '*'  desplazar e ir al estado 110
-    '/'  desplazar e ir al estado 111
-    '%'  desplazar e ir al estado 112
-
-    $default  reduce usando la regla 114 (expAditiva)
-
-
-estado 159
-
-  116 expMultiplicativa: expMultiplicativa '*' expUnaria .
-
-    $default  reduce usando la regla 116 (expMultiplicativa)
-
-
-estado 160
-
-  117 expMultiplicativa: expMultiplicativa '/' expUnaria .
-
-    $default  reduce usando la regla 117 (expMultiplicativa)
-
-
-estado 161
-
-  118 expMultiplicativa: expMultiplicativa '%' expUnaria .
+  118 expMultiplicativa: expUnaria .
 
     $default  reduce usando la regla 118 (expMultiplicativa)
 
 
+estado 154
+
+  109 expAnd: expAnd OPER_AND expIgualdad .
+  111 expIgualdad: expIgualdad . OPER_IGUALDAD expRelacional
+  112            | expIgualdad . OPER_DIFERENCIA expRelacional
+
+    OPER_IGUALDAD    desplazar e ir al estado 105
+    OPER_DIFERENCIA  desplazar e ir al estado 106
+
+    $default  reduce usando la regla 109 (expAnd)
+
+
+estado 155
+
+  111 expIgualdad: expIgualdad OPER_IGUALDAD expRelacional .
+  114 expRelacional: expRelacional . OPER_RELACIONAL expAditiva
+
+    OPER_RELACIONAL  desplazar e ir al estado 107
+
+    $default  reduce usando la regla 111 (expIgualdad)
+
+
+estado 156
+
+  112 expIgualdad: expIgualdad OPER_DIFERENCIA expRelacional .
+  114 expRelacional: expRelacional . OPER_RELACIONAL expAditiva
+
+    OPER_RELACIONAL  desplazar e ir al estado 107
+
+    $default  reduce usando la regla 112 (expIgualdad)
+
+
+estado 157
+
+  114 expRelacional: expRelacional OPER_RELACIONAL expAditiva .
+  116 expAditiva: expAditiva . '+' expMultiplicativa
+  117           | expAditiva . '-' expMultiplicativa
+
+    '+'  desplazar e ir al estado 108
+    '-'  desplazar e ir al estado 109
+
+    $default  reduce usando la regla 114 (expRelacional)
+
+
+estado 158
+
+  116 expAditiva: expAditiva '+' expMultiplicativa .
+  119 expMultiplicativa: expMultiplicativa . '*' expUnaria
+  120                  | expMultiplicativa . '/' expUnaria
+  121                  | expMultiplicativa . '%' expUnaria
+
+    '*'  desplazar e ir al estado 110
+    '/'  desplazar e ir al estado 111
+    '%'  desplazar e ir al estado 112
+
+    $default  reduce usando la regla 116 (expAditiva)
+
+
+estado 159
+
+  117 expAditiva: expAditiva '-' expMultiplicativa .
+  119 expMultiplicativa: expMultiplicativa . '*' expUnaria
+  120                  | expMultiplicativa . '/' expUnaria
+  121                  | expMultiplicativa . '%' expUnaria
+
+    '*'  desplazar e ir al estado 110
+    '/'  desplazar e ir al estado 111
+    '%'  desplazar e ir al estado 112
+
+    $default  reduce usando la regla 117 (expAditiva)
+
+
+estado 160
+
+  119 expMultiplicativa: expMultiplicativa '*' expUnaria .
+
+    $default  reduce usando la regla 119 (expMultiplicativa)
+
+
+estado 161
+
+  120 expMultiplicativa: expMultiplicativa '/' expUnaria .
+
+    $default  reduce usando la regla 120 (expMultiplicativa)
+
+
 estado 162
 
-   97 expAsignacion: expUnaria operAsignacion expAsignacion .
+  121 expMultiplicativa: expMultiplicativa '%' expUnaria .
 
-    $default  reduce usando la regla 97 (expAsignacion)
+    $default  reduce usando la regla 121 (expMultiplicativa)
 
 
 estado 163
 
-  133 listaArgumentos: expAsignacion .
+  100 expAsignacion: expUnaria operAsignacion expAsignacion .
 
-    $default  reduce usando la regla 133 (listaArgumentos)
+    $default  reduce usando la regla 100 (expAsignacion)
 
 
 estado 164
 
-  130 expPostfijo: expPostfijo '(' listaArgumentosOP . ')'
+  136 listaArgumentos: expAsignacion .
 
-    ')'  desplazar e ir al estado 199
+    $default  reduce usando la regla 136 (listaArgumentos)
 
 
 estado 165
 
-  132 listaArgumentosOP: listaArgumentos .
-  134 listaArgumentos: listaArgumentos . ',' expAsignacion
+  133 expPostfijo: expPostfijo '(' listaArgumentosOP . ')'
 
-    ','  desplazar e ir al estado 200
-
-    $default  reduce usando la regla 132 (listaArgumentosOP)
+    ')'  desplazar e ir al estado 201
 
 
 estado 166
 
-   93 expresion: expresion . ',' expAsignacion
-  129 expPostfijo: expPostfijo '[' expresion . ']'
+  135 listaArgumentosOP: listaArgumentos .
+  137 listaArgumentos: listaArgumentos . ',' expAsignacion
 
-    ','  desplazar e ir al estado 101
-    ']'  desplazar e ir al estado 201
+    ','  desplazar e ir al estado 202
+
+    $default  reduce usando la regla 135 (listaArgumentosOP)
 
 
 estado 167
 
-  162 sentIteracion: FOR '(' expresionOP ';' . expresionOP ';' expresionOP ')' sentencia
+   96 expresion: expresion . ',' expAsignacion
+  132 expPostfijo: expPostfijo '[' expresion . ']'
 
-    error           desplazar e ir al estado 3
-    NUM             desplazar e ir al estado 4
-    CONS_REAL       desplazar e ir al estado 5
-    IDENTIFICADOR   desplazar e ir al estado 74
-    LIT_CADENA      desplazar e ir al estado 8
-    SIZEOF          desplazar e ir al estado 20
-    OPER_INC_DEC    desplazar e ir al estado 26
-    OPER_NEGACION   desplazar e ir al estado 27
-    OPER_DIRECCION  desplazar e ir al estado 28
-    '*'             desplazar e ir al estado 32
-    '('             desplazar e ir al estado 33
-    '+'             desplazar e ir al estado 34
-    '-'             desplazar e ir al estado 35
-
-    ';'  reduce usando la regla 94 (expresionOP)
-
-    expresion          ir al estado 45
-    expresionOP        ir al estado 202
-    expAsignacion      ir al estado 47
-    expCondicional     ir al estado 48
-    expOr              ir al estado 49
-    expAnd             ir al estado 50
-    expIgualdad        ir al estado 51
-    expRelacional      ir al estado 52
-    expAditiva         ir al estado 53
-    expMultiplicativa  ir al estado 54
-    expUnaria          ir al estado 55
-    operUnario         ir al estado 56
-    expPostfijo        ir al estado 57
-    expPrimaria        ir al estado 58
+    ','  desplazar e ir al estado 101
+    ']'  desplazar e ir al estado 203
 
 
 estado 168
 
-  160 sentIteracion: WHILE '(' expresion ')' . sentencia
-
-    error           desplazar e ir al estado 3
-    NUM             desplazar e ir al estado 4
-    CONS_REAL       desplazar e ir al estado 5
-    IDENTIFICADOR   desplazar e ir al estado 6
-    LIT_CADENA      desplazar e ir al estado 8
-    FOR             desplazar e ir al estado 9
-    WHILE           desplazar e ir al estado 10
-    DO              desplazar e ir al estado 11
-    SWITCH          desplazar e ir al estado 12
-    GOTO            desplazar e ir al estado 13
-    CONTINUE        desplazar e ir al estado 14
-    BREAK           desplazar e ir al estado 15
-    CASE            desplazar e ir al estado 16
-    DEFAULT         desplazar e ir al estado 17
-    RETURN          desplazar e ir al estado 18
-    IF              desplazar e ir al estado 19
-    SIZEOF          desplazar e ir al estado 20
-    OPER_INC_DEC    desplazar e ir al estado 26
-    OPER_NEGACION   desplazar e ir al estado 27
-    OPER_DIRECCION  desplazar e ir al estado 28
-    '{'             desplazar e ir al estado 31
-    '*'             desplazar e ir al estado 32
-    '('             desplazar e ir al estado 33
-    '+'             desplazar e ir al estado 34
-    '-'             desplazar e ir al estado 35
-
-    ';'  reduce usando la regla 94 (expresionOP)
-
-    expresion          ir al estado 45
-    expresionOP        ir al estado 46
-    expAsignacion      ir al estado 47
-    expCondicional     ir al estado 48
-    expOr              ir al estado 49
-    expAnd             ir al estado 50
-    expIgualdad        ir al estado 51
-    expRelacional      ir al estado 52
-    expAditiva         ir al estado 53
-    expMultiplicativa  ir al estado 54
-    expUnaria          ir al estado 55
-    operUnario         ir al estado 56
-    expPostfijo        ir al estado 57
-    expPrimaria        ir al estado 58
-    sentencia          ir al estado 203
-    sentCompuesta      ir al estado 60
-    sentExpresion      ir al estado 61
-    sentSeleccion      ir al estado 62
-    sentIteracion      ir al estado 63
-    sentEtiquetada     ir al estado 64
-    sentSalto          ir al estado 65
-
-
-estado 169
-
-  161 sentIteracion: DO sentencia WHILE '(' . expresion ')' ';'
+  165 sentIteracion: FOR '(' expresionOP ';' . expresionOP ';' expresionOP ')' sentencia
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -2975,7 +2922,10 @@ estado 169
     '+'             desplazar e ir al estado 34
     '-'             desplazar e ir al estado 35
 
-    expresion          ir al estado 204
+    ';'  reduce usando la regla 97 (expresionOP)
+
+    expresion          ir al estado 45
+    expresionOP        ir al estado 204
     expAsignacion      ir al estado 47
     expCondicional     ir al estado 48
     expOr              ir al estado 49
@@ -2990,9 +2940,9 @@ estado 169
     expPrimaria        ir al estado 58
 
 
-estado 170
+estado 169
 
-  159 sentSeleccion: SWITCH '(' expresion ')' . sentencia
+  163 sentIteracion: WHILE '(' expresion ')' . sentencia
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -3020,7 +2970,7 @@ estado 170
     '+'             desplazar e ir al estado 34
     '-'             desplazar e ir al estado 35
 
-    ';'  reduce usando la regla 94 (expresionOP)
+    ';'  reduce usando la regla 97 (expresionOP)
 
     expresion          ir al estado 45
     expresionOP        ir al estado 46
@@ -3045,17 +2995,42 @@ estado 170
     sentSalto          ir al estado 65
 
 
+estado 170
+
+  164 sentIteracion: DO sentencia WHILE '(' . expresion ')' ';'
+
+    error           desplazar e ir al estado 3
+    NUM             desplazar e ir al estado 4
+    CONS_REAL       desplazar e ir al estado 5
+    IDENTIFICADOR   desplazar e ir al estado 74
+    LIT_CADENA      desplazar e ir al estado 8
+    SIZEOF          desplazar e ir al estado 20
+    OPER_INC_DEC    desplazar e ir al estado 26
+    OPER_NEGACION   desplazar e ir al estado 27
+    OPER_DIRECCION  desplazar e ir al estado 28
+    '*'             desplazar e ir al estado 32
+    '('             desplazar e ir al estado 33
+    '+'             desplazar e ir al estado 34
+    '-'             desplazar e ir al estado 35
+
+    expresion          ir al estado 206
+    expAsignacion      ir al estado 47
+    expCondicional     ir al estado 48
+    expOr              ir al estado 49
+    expAnd             ir al estado 50
+    expIgualdad        ir al estado 51
+    expRelacional      ir al estado 52
+    expAditiva         ir al estado 53
+    expMultiplicativa  ir al estado 54
+    expUnaria          ir al estado 55
+    operUnario         ir al estado 56
+    expPostfijo        ir al estado 57
+    expPrimaria        ir al estado 58
+
+
 estado 171
 
-  163 sentEtiquetada: CASE expresion ':' sentencia .
-
-    $default  reduce usando la regla 163 (sentEtiquetada)
-
-
-estado 172
-
-  157 sentSeleccion: IF '(' expresion ')' . sentencia
-  158              | IF '(' expresion ')' . sentencia ELSE sentencia
+  162 sentSeleccion: SWITCH '(' expresion ')' . sentencia
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -3083,7 +3058,7 @@ estado 172
     '+'             desplazar e ir al estado 34
     '-'             desplazar e ir al estado 35
 
-    ';'  reduce usando la regla 94 (expresionOP)
+    ';'  reduce usando la regla 97 (expresionOP)
 
     expresion          ir al estado 45
     expresionOP        ir al estado 46
@@ -3099,7 +3074,7 @@ estado 172
     operUnario         ir al estado 56
     expPostfijo        ir al estado 57
     expPrimaria        ir al estado 58
-    sentencia          ir al estado 206
+    sentencia          ir al estado 207
     sentCompuesta      ir al estado 60
     sentExpresion      ir al estado 61
     sentSeleccion      ir al estado 62
@@ -3108,143 +3083,206 @@ estado 172
     sentSalto          ir al estado 65
 
 
+estado 172
+
+  166 sentEtiquetada: CASE expresion ':' sentencia .
+
+    $default  reduce usando la regla 166 (sentEtiquetada)
+
+
 estado 173
 
-   41 listaCalificadoresOP: listaCalificadores .
+  160 sentSeleccion: IF '(' expresion ')' . sentencia
+  161              | IF '(' expresion ')' . sentencia ELSE sentencia
 
-    $default  reduce usando la regla 41 (listaCalificadoresOP)
+    error           desplazar e ir al estado 3
+    NUM             desplazar e ir al estado 4
+    CONS_REAL       desplazar e ir al estado 5
+    IDENTIFICADOR   desplazar e ir al estado 6
+    LIT_CADENA      desplazar e ir al estado 8
+    FOR             desplazar e ir al estado 9
+    WHILE           desplazar e ir al estado 10
+    DO              desplazar e ir al estado 11
+    SWITCH          desplazar e ir al estado 12
+    GOTO            desplazar e ir al estado 13
+    CONTINUE        desplazar e ir al estado 14
+    BREAK           desplazar e ir al estado 15
+    CASE            desplazar e ir al estado 16
+    DEFAULT         desplazar e ir al estado 17
+    RETURN          desplazar e ir al estado 18
+    IF              desplazar e ir al estado 19
+    SIZEOF          desplazar e ir al estado 20
+    OPER_INC_DEC    desplazar e ir al estado 26
+    OPER_NEGACION   desplazar e ir al estado 27
+    OPER_DIRECCION  desplazar e ir al estado 28
+    '{'             desplazar e ir al estado 31
+    '*'             desplazar e ir al estado 32
+    '('             desplazar e ir al estado 33
+    '+'             desplazar e ir al estado 34
+    '-'             desplazar e ir al estado 35
+
+    ';'  reduce usando la regla 97 (expresionOP)
+
+    expresion          ir al estado 45
+    expresionOP        ir al estado 46
+    expAsignacion      ir al estado 47
+    expCondicional     ir al estado 48
+    expOr              ir al estado 49
+    expAnd             ir al estado 50
+    expIgualdad        ir al estado 51
+    expRelacional      ir al estado 52
+    expAditiva         ir al estado 53
+    expMultiplicativa  ir al estado 54
+    expUnaria          ir al estado 55
+    operUnario         ir al estado 56
+    expPostfijo        ir al estado 57
+    expPrimaria        ir al estado 58
+    sentencia          ir al estado 208
+    sentCompuesta      ir al estado 60
+    sentExpresion      ir al estado 61
+    sentSeleccion      ir al estado 62
+    sentIteracion      ir al estado 63
+    sentEtiquetada     ir al estado 64
+    sentSalto          ir al estado 65
 
 
 estado 174
 
-   38 listaCalificadores: especificadorTipo listaCalificadoresOP .
+   42 listaCalificadoresOP: listaCalificadores .
 
-    $default  reduce usando la regla 38 (listaCalificadores)
+    $default  reduce usando la regla 42 (listaCalificadoresOP)
 
 
 estado 175
 
-   39 listaCalificadores: calificadorTipo listaCalificadoresOP .
+   39 listaCalificadores: especificadorTipo listaCalificadoresOP .
 
     $default  reduce usando la regla 39 (listaCalificadores)
 
 
 estado 176
 
-   52 punteroOP: puntero .
-   83 declaradorAbstracto: puntero .
+   40 listaCalificadores: calificadorTipo listaCalificadoresOP .
 
-    ','       reduce usando la regla 83 (declaradorAbstracto)
-    ')'       reduce usando la regla 83 (declaradorAbstracto)
-    $default  reduce usando la regla 52 (punteroOP)
+    $default  reduce usando la regla 40 (listaCalificadores)
 
 
 estado 177
 
-   84 declaradorAbstracto: punteroOP . declaradorAbstractoDirecto
+   53 punteroOP: puntero .
+   86 declaradorAbstracto: puntero .
 
-    '('  desplazar e ir al estado 207
-
-    '('       [reduce usando la regla 90 (declaradorAbstractoDirectoOP)]
-    $default  reduce usando la regla 90 (declaradorAbstractoDirectoOP)
-
-    declaradorAbstractoDirecto    ir al estado 208
-    declaradorAbstractoDirectoOP  ir al estado 209
+    ','       reduce usando la regla 86 (declaradorAbstracto)
+    ')'       reduce usando la regla 86 (declaradorAbstracto)
+    $default  reduce usando la regla 53 (punteroOP)
 
 
 estado 178
 
-   86 declaradorAbstractoOP: declaradorAbstracto .
+   87 declaradorAbstracto: punteroOP . declaradorAbstractoDirecto
 
-    $default  reduce usando la regla 86 (declaradorAbstractoOP)
+    '('  desplazar e ir al estado 209
+
+    '('       [reduce usando la regla 93 (declaradorAbstractoDirectoOP)]
+    $default  reduce usando la regla 93 (declaradorAbstractoDirectoOP)
+
+    declaradorAbstractoDirecto    ir al estado 210
+    declaradorAbstractoDirectoOP  ir al estado 211
 
 
 estado 179
 
-   82 nombreTipo: listaCalificadores declaradorAbstractoOP .
+   89 declaradorAbstractoOP: declaradorAbstracto .
 
-    $default  reduce usando la regla 82 (nombreTipo)
+    $default  reduce usando la regla 89 (declaradorAbstractoOP)
 
 
 estado 180
 
-  122 expUnaria: SIZEOF '(' nombreTipo ')' .
+   85 nombreTipo: listaCalificadores declaradorAbstractoOP .
 
-    $default  reduce usando la regla 122 (expUnaria)
+    $default  reduce usando la regla 85 (nombreTipo)
 
 
 estado 181
 
-   81 constanteEnumeracion: IDENTIFICADOR .
+  125 expUnaria: SIZEOF '(' nombreTipo ')' .
 
-    $default  reduce usando la regla 81 (constanteEnumeracion)
+    $default  reduce usando la regla 125 (expUnaria)
 
 
 estado 182
 
-   75 especificadorEnum: ENUM identificadorOP '{' listaEnumeradores . '}'
-   78 listaEnumeradores: listaEnumeradores . ',' enumerador
+   84 constanteEnumeracion: IDENTIFICADOR .
 
-    ','  desplazar e ir al estado 210
-    '}'  desplazar e ir al estado 211
+    $default  reduce usando la regla 84 (constanteEnumeracion)
 
 
 estado 183
 
-   77 listaEnumeradores: enumerador .
+   78 especificadorEnum: ENUM identificadorOP '{' listaEnumeradores . '}'
+   81 listaEnumeradores: listaEnumeradores . ',' enumerador
 
-    $default  reduce usando la regla 77 (listaEnumeradores)
+    ','  desplazar e ir al estado 212
+    '}'  desplazar e ir al estado 213
 
 
 estado 184
 
-   79 enumerador: constanteEnumeracion .
-   80           | constanteEnumeracion . OPER_ASIGNACION expConstante
+   80 listaEnumeradores: enumerador .
 
-    OPER_ASIGNACION  desplazar e ir al estado 212
-
-    $default  reduce usando la regla 79 (enumerador)
+    $default  reduce usando la regla 80 (listaEnumeradores)
 
 
 estado 185
 
-  153 listaSentencias: listaSentencias sentencia .
+   82 enumerador: constanteEnumeracion .
+   83           | constanteEnumeracion . OPER_ASIGNACION expConstante
 
-    $default  reduce usando la regla 153 (listaSentencias)
+    OPER_ASIGNACION  desplazar e ir al estado 214
+
+    $default  reduce usando la regla 82 (enumerador)
 
 
 estado 186
 
-  147 sentCompuesta: '{' listaDeclaracionesOP listaSentenciasOP '}' .
+  156 listaSentencias: listaSentencias sentencia .
 
-    $default  reduce usando la regla 147 (sentCompuesta)
+    $default  reduce usando la regla 156 (listaSentencias)
 
 
 estado 187
 
-   54 listaCalificadoresTipos: listaCalificadoresTipos calificadorTipo .
+  150 sentCompuesta: '{' listaDeclaracionesOP listaSentenciasOP '}' .
 
-    $default  reduce usando la regla 54 (listaCalificadoresTipos)
+    $default  reduce usando la regla 150 (sentCompuesta)
 
 
 estado 188
 
-   50 puntero: '*' listaCalificadoresTiposOP puntero .
+   55 listaCalificadoresTipos: listaCalificadoresTipos calificadorTipo .
 
-    $default  reduce usando la regla 50 (puntero)
+    $default  reduce usando la regla 55 (listaCalificadoresTipos)
 
 
 estado 189
 
-   15 listaDeclaradores: listaDeclaradores ',' declarador .
+   51 puntero: '*' listaCalificadoresTiposOP puntero .
 
-    $default  reduce usando la regla 15 (listaDeclaradores)
+    $default  reduce usando la regla 51 (puntero)
 
 
 estado 190
 
-   19 inicializador: '{' . listaInicializadores '}'
-   20              | '{' . listaInicializadores ',' '}'
+   16 listaDeclaradores: listaDeclaradores ',' declarador .
+
+    $default  reduce usando la regla 16 (listaDeclaradores)
+
+
+estado 191
+
+   20 inicializador: '{' . listaInicializadores '}'
+   21              | '{' . listaInicializadores ',' '}'
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -3255,15 +3293,15 @@ estado 190
     OPER_INC_DEC    desplazar e ir al estado 26
     OPER_NEGACION   desplazar e ir al estado 27
     OPER_DIRECCION  desplazar e ir al estado 28
-    '{'             desplazar e ir al estado 190
+    '{'             desplazar e ir al estado 191
     '*'             desplazar e ir al estado 32
     '('             desplazar e ir al estado 33
     '+'             desplazar e ir al estado 34
     '-'             desplazar e ir al estado 35
 
-    inicializador         ir al estado 213
-    listaInicializadores  ir al estado 214
-    expAsignacion         ir al estado 192
+    inicializador         ir al estado 215
+    listaInicializadores  ir al estado 216
+    expAsignacion         ir al estado 193
     expCondicional        ir al estado 48
     expOr                 ir al estado 49
     expAnd                ir al estado 50
@@ -3277,60 +3315,30 @@ estado 190
     expPrimaria           ir al estado 58
 
 
-estado 191
-
-   17 declarador: decla OPER_ASIGNACION inicializador .
-
-    $default  reduce usando la regla 17 (declarador)
-
-
 estado 192
 
-   18 inicializador: expAsignacion .
+   18 declarador: decla OPER_ASIGNACION inicializador .
 
-    $default  reduce usando la regla 18 (inicializador)
+    $default  reduce usando la regla 18 (declarador)
 
 
 estado 193
 
-   58 declaradorDirecto: '(' decla . ')'
+   19 inicializador: expAsignacion .
 
-    ')'  desplazar e ir al estado 215
+    $default  reduce usando la regla 19 (inicializador)
 
 
 estado 194
 
-   60 declaradorDirecto: declaradorDirecto '(' . listaTiposParametros ')'
-   61                  | declaradorDirecto '(' . listaIdentificadoresOP ')'
+   59 declaradorDirecto: '(' decla . ')'
 
-    IDENTIFICADOR                 desplazar e ir al estado 216
-    ESPECIFICADOR_TIPO            desplazar e ir al estado 7
-    STRUCT                        desplazar e ir al estado 21
-    UNION                         desplazar e ir al estado 22
-    CONST                         desplazar e ir al estado 23
-    VOLATILE                      desplazar e ir al estado 24
-    ENUM                          desplazar e ir al estado 25
-    ESPECIFICADOR_ALMACENAMIENTO  desplazar e ir al estado 29
-
-    $default  reduce usando la regla 73 (listaIdentificadoresOP)
-
-    especificadoresDeclaracion        ir al estado 217
-    especificadorClaseAlmacenamiento  ir al estado 39
-    especificadorTipo                 ir al estado 40
-    calificadorTipo                   ir al estado 41
-    especificadorStructOUnion         ir al estado 42
-    structOUnion                      ir al estado 43
-    listaTiposParametros              ir al estado 218
-    listaParametros                   ir al estado 219
-    declaracionParametro              ir al estado 220
-    listaIdentificadores              ir al estado 221
-    listaIdentificadoresOP            ir al estado 222
-    especificadorEnum                 ir al estado 44
+    ')'  desplazar e ir al estado 217
 
 
 estado 195
 
-   59 declaradorDirecto: declaradorDirecto '[' . expConstanteOP ']'
+   60 declaradorDirecto: declaradorDirecto '[' . expConstanteOP ']'
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -3346,18 +3354,18 @@ estado 195
     '+'             desplazar e ir al estado 34
     '-'             desplazar e ir al estado 35
 
-    ']'  reduce usando la regla 100 (expConstanteOP)
+    ']'  reduce usando la regla 103 (expConstanteOP)
 
-    expConstante       ir al estado 223
-    expConstanteOP     ir al estado 224
-    expCondicional     ir al estado 225
+    expConstante       ir al estado 218
+    expConstanteOP     ir al estado 219
+    expCondicional     ir al estado 220
     expOr              ir al estado 49
     expAnd             ir al estado 50
     expIgualdad        ir al estado 51
     expRelacional      ir al estado 52
     expAditiva         ir al estado 53
     expMultiplicativa  ir al estado 54
-    expUnaria          ir al estado 152
+    expUnaria          ir al estado 153
     operUnario         ir al estado 56
     expPostfijo        ir al estado 57
     expPrimaria        ir al estado 58
@@ -3365,8 +3373,22 @@ estado 195
 
 estado 196
 
-   29 especificadorStructOUnion: structOUnion identificadorOP '{' listaDeclaracionesStruct . '}'
-   36 listaDeclaracionesStruct: listaDeclaracionesStruct . declaracionStruct
+   62 declaradorDirecto: declaradorDirecto $@1 . '(' listaTiposParametros ')'
+
+    '('  desplazar e ir al estado 221
+
+
+estado 197
+
+   64 declaradorDirecto: declaradorDirecto $@2 . '(' listaIdentificadoresOP ')'
+
+    '('  desplazar e ir al estado 222
+
+
+estado 198
+
+   30 especificadorStructOUnion: structOUnion identificadorOP '{' listaDeclaracionesStruct . '}'
+   37 listaDeclaracionesStruct: listaDeclaracionesStruct . declaracionStruct
 
     ESPECIFICADOR_TIPO  desplazar e ir al estado 7
     STRUCT              desplazar e ir al estado 21
@@ -3374,51 +3396,51 @@ estado 196
     CONST               desplazar e ir al estado 23
     VOLATILE            desplazar e ir al estado 24
     ENUM                desplazar e ir al estado 25
-    '}'                 desplazar e ir al estado 226
+    '}'                 desplazar e ir al estado 223
 
     especificadorTipo          ir al estado 129
     calificadorTipo            ir al estado 130
     especificadorStructOUnion  ir al estado 42
     structOUnion               ir al estado 43
-    declaracionStruct          ir al estado 227
-    listaCalificadores         ir al estado 198
+    declaracionStruct          ir al estado 224
+    listaCalificadores         ir al estado 200
     especificadorEnum          ir al estado 44
-
-
-estado 197
-
-   35 listaDeclaracionesStruct: declaracionStruct . ';'
-
-    ';'  desplazar e ir al estado 228
-
-
-estado 198
-
-   37 declaracionStruct: listaCalificadores . declaradoresStruct ';'
-
-    '*'  desplazar e ir al estado 88
-
-    ':'       reduce usando la regla 47 (declaOP)
-    $default  reduce usando la regla 51 (punteroOP)
-
-    declaradoresStruct  ir al estado 229
-    declaStruct         ir al estado 230
-    decla               ir al estado 231
-    declaOP             ir al estado 232
-    puntero             ir al estado 93
-    punteroOP           ir al estado 94
 
 
 estado 199
 
-  130 expPostfijo: expPostfijo '(' listaArgumentosOP ')' .
+   36 listaDeclaracionesStruct: declaracionStruct . ';'
 
-    $default  reduce usando la regla 130 (expPostfijo)
+    ';'  desplazar e ir al estado 225
 
 
 estado 200
 
-  134 listaArgumentos: listaArgumentos ',' . expAsignacion
+   38 declaracionStruct: listaCalificadores . declaradoresStruct ';'
+
+    '*'  desplazar e ir al estado 88
+
+    ':'       reduce usando la regla 48 (declaOP)
+    $default  reduce usando la regla 52 (punteroOP)
+
+    declaradoresStruct  ir al estado 226
+    declaStruct         ir al estado 227
+    decla               ir al estado 228
+    declaOP             ir al estado 229
+    puntero             ir al estado 93
+    punteroOP           ir al estado 94
+
+
+estado 201
+
+  133 expPostfijo: expPostfijo '(' listaArgumentosOP ')' .
+
+    $default  reduce usando la regla 133 (expPostfijo)
+
+
+estado 202
+
+  137 listaArgumentos: listaArgumentos ',' . expAsignacion
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -3434,7 +3456,7 @@ estado 200
     '+'             desplazar e ir al estado 34
     '-'             desplazar e ir al estado 35
 
-    expAsignacion      ir al estado 233
+    expAsignacion      ir al estado 230
     expCondicional     ir al estado 48
     expOr              ir al estado 49
     expAnd             ir al estado 50
@@ -3448,106 +3470,106 @@ estado 200
     expPrimaria        ir al estado 58
 
 
-estado 201
-
-  129 expPostfijo: expPostfijo '[' expresion ']' .
-
-    $default  reduce usando la regla 129 (expPostfijo)
-
-
-estado 202
-
-  162 sentIteracion: FOR '(' expresionOP ';' expresionOP . ';' expresionOP ')' sentencia
-
-    ';'  desplazar e ir al estado 234
-
-
 estado 203
 
-  160 sentIteracion: WHILE '(' expresion ')' sentencia .
+  132 expPostfijo: expPostfijo '[' expresion ']' .
 
-    $default  reduce usando la regla 160 (sentIteracion)
+    $default  reduce usando la regla 132 (expPostfijo)
 
 
 estado 204
 
-   93 expresion: expresion . ',' expAsignacion
-  161 sentIteracion: DO sentencia WHILE '(' expresion . ')' ';'
+  165 sentIteracion: FOR '(' expresionOP ';' expresionOP . ';' expresionOP ')' sentencia
 
-    ','  desplazar e ir al estado 101
-    ')'  desplazar e ir al estado 235
+    ';'  desplazar e ir al estado 231
 
 
 estado 205
 
-  159 sentSeleccion: SWITCH '(' expresion ')' sentencia .
+  163 sentIteracion: WHILE '(' expresion ')' sentencia .
 
-    $default  reduce usando la regla 159 (sentSeleccion)
+    $default  reduce usando la regla 163 (sentIteracion)
 
 
 estado 206
 
-  157 sentSeleccion: IF '(' expresion ')' sentencia .
-  158              | IF '(' expresion ')' sentencia . ELSE sentencia
+   96 expresion: expresion . ',' expAsignacion
+  164 sentIteracion: DO sentencia WHILE '(' expresion . ')' ';'
 
-    ELSE  desplazar e ir al estado 236
-
-    ELSE      [reduce usando la regla 157 (sentSeleccion)]
-    $default  reduce usando la regla 157 (sentSeleccion)
+    ','  desplazar e ir al estado 101
+    ')'  desplazar e ir al estado 232
 
 
 estado 207
 
-   87 declaradorAbstractoDirecto: '(' . declaradorAbstracto ')'
+  162 sentSeleccion: SWITCH '(' expresion ')' sentencia .
 
-    '*'  desplazar e ir al estado 88
-
-    $default  reduce usando la regla 51 (punteroOP)
-
-    puntero              ir al estado 176
-    punteroOP            ir al estado 177
-    declaradorAbstracto  ir al estado 237
+    $default  reduce usando la regla 162 (sentSeleccion)
 
 
 estado 208
 
-   84 declaradorAbstracto: punteroOP declaradorAbstractoDirecto .
-   91 declaradorAbstractoDirectoOP: declaradorAbstractoDirecto .
+  160 sentSeleccion: IF '(' expresion ')' sentencia .
+  161              | IF '(' expresion ')' sentencia . ELSE sentencia
 
-    '('       reduce usando la regla 91 (declaradorAbstractoDirectoOP)
-    '['       reduce usando la regla 91 (declaradorAbstractoDirectoOP)
-    $default  reduce usando la regla 84 (declaradorAbstracto)
+    ELSE  desplazar e ir al estado 233
+
+    ELSE      [reduce usando la regla 160 (sentSeleccion)]
+    $default  reduce usando la regla 160 (sentSeleccion)
 
 
 estado 209
 
-   88 declaradorAbstractoDirecto: declaradorAbstractoDirectoOP . '[' expConstanteOP ']'
-   89                           | declaradorAbstractoDirectoOP . '(' listaTiposParametrosOP ')'
+   90 declaradorAbstractoDirecto: '(' . declaradorAbstracto ')'
 
-    '('  desplazar e ir al estado 238
-    '['  desplazar e ir al estado 239
+    '*'  desplazar e ir al estado 88
+
+    $default  reduce usando la regla 52 (punteroOP)
+
+    puntero              ir al estado 177
+    punteroOP            ir al estado 178
+    declaradorAbstracto  ir al estado 234
 
 
 estado 210
 
-   78 listaEnumeradores: listaEnumeradores ',' . enumerador
+   87 declaradorAbstracto: punteroOP declaradorAbstractoDirecto .
+   94 declaradorAbstractoDirectoOP: declaradorAbstractoDirecto .
 
-    IDENTIFICADOR  desplazar e ir al estado 181
-
-    enumerador            ir al estado 240
-    constanteEnumeracion  ir al estado 184
+    '('       reduce usando la regla 94 (declaradorAbstractoDirectoOP)
+    '['       reduce usando la regla 94 (declaradorAbstractoDirectoOP)
+    $default  reduce usando la regla 87 (declaradorAbstracto)
 
 
 estado 211
 
-   75 especificadorEnum: ENUM identificadorOP '{' listaEnumeradores '}' .
+   91 declaradorAbstractoDirecto: declaradorAbstractoDirectoOP . '[' expConstanteOP ']'
+   92                           | declaradorAbstractoDirectoOP . '(' listaTiposParametrosOP ')'
 
-    $default  reduce usando la regla 75 (especificadorEnum)
+    '('  desplazar e ir al estado 235
+    '['  desplazar e ir al estado 236
 
 
 estado 212
 
-   80 enumerador: constanteEnumeracion OPER_ASIGNACION . expConstante
+   81 listaEnumeradores: listaEnumeradores ',' . enumerador
+
+    IDENTIFICADOR  desplazar e ir al estado 182
+
+    enumerador            ir al estado 237
+    constanteEnumeracion  ir al estado 185
+
+
+estado 213
+
+   78 especificadorEnum: ENUM identificadorOP '{' listaEnumeradores '}' .
+
+    $default  reduce usando la regla 78 (especificadorEnum)
+
+
+estado 214
+
+   83 enumerador: constanteEnumeracion OPER_ASIGNACION . expConstante
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -3563,195 +3585,164 @@ estado 212
     '+'             desplazar e ir al estado 34
     '-'             desplazar e ir al estado 35
 
-    expConstante       ir al estado 241
-    expCondicional     ir al estado 225
+    expConstante       ir al estado 238
+    expCondicional     ir al estado 220
     expOr              ir al estado 49
     expAnd             ir al estado 50
     expIgualdad        ir al estado 51
     expRelacional      ir al estado 52
     expAditiva         ir al estado 53
     expMultiplicativa  ir al estado 54
-    expUnaria          ir al estado 152
+    expUnaria          ir al estado 153
     operUnario         ir al estado 56
     expPostfijo        ir al estado 57
     expPrimaria        ir al estado 58
 
 
-estado 213
-
-   21 listaInicializadores: inicializador .
-
-    $default  reduce usando la regla 21 (listaInicializadores)
-
-
-estado 214
-
-   19 inicializador: '{' listaInicializadores . '}'
-   20              | '{' listaInicializadores . ',' '}'
-   22 listaInicializadores: listaInicializadores . ',' inicializador
-
-    ','  desplazar e ir al estado 242
-    '}'  desplazar e ir al estado 243
-
-
 estado 215
 
-   58 declaradorDirecto: '(' decla ')' .
+   22 listaInicializadores: inicializador .
 
-    $default  reduce usando la regla 58 (declaradorDirecto)
+    $default  reduce usando la regla 22 (listaInicializadores)
 
 
 estado 216
 
-   71 listaIdentificadores: IDENTIFICADOR .
+   20 inicializador: '{' listaInicializadores . '}'
+   21              | '{' listaInicializadores . ',' '}'
+   23 listaInicializadores: listaInicializadores . ',' inicializador
 
-    $default  reduce usando la regla 71 (listaIdentificadores)
+    ','  desplazar e ir al estado 239
+    '}'  desplazar e ir al estado 240
 
 
 estado 217
 
-   69 declaracionParametro: especificadoresDeclaracion . decla
-   70                     | especificadoresDeclaracion . declaradorAbstractoOP
+   59 declaradorDirecto: '(' decla ')' .
 
-    '*'  desplazar e ir al estado 88
-
-    ','       reduce usando la regla 85 (declaradorAbstractoOP)
-    ')'       reduce usando la regla 85 (declaradorAbstractoOP)
-    $default  reduce usando la regla 51 (punteroOP)
-
-    decla                  ir al estado 244
-    puntero                ir al estado 176
-    punteroOP              ir al estado 245
-    declaradorAbstracto    ir al estado 178
-    declaradorAbstractoOP  ir al estado 246
+    $default  reduce usando la regla 59 (declaradorDirecto)
 
 
 estado 218
 
-   60 declaradorDirecto: declaradorDirecto '(' listaTiposParametros . ')'
+  104 expConstanteOP: expConstante .
 
-    ')'  desplazar e ir al estado 247
+    $default  reduce usando la regla 104 (expConstanteOP)
 
 
 estado 219
 
-   63 listaTiposParametros: listaParametros .
-   64                     | listaParametros . ',' '.' '.' '.'
-   68 listaParametros: listaParametros . ',' declaracionParametro
+   60 declaradorDirecto: declaradorDirecto '[' expConstanteOP . ']'
 
-    ','  desplazar e ir al estado 248
-
-    $default  reduce usando la regla 63 (listaTiposParametros)
+    ']'  desplazar e ir al estado 241
 
 
 estado 220
 
-   67 listaParametros: declaracionParametro .
+  102 expConstante: expCondicional .
 
-    $default  reduce usando la regla 67 (listaParametros)
+    $default  reduce usando la regla 102 (expConstante)
 
 
 estado 221
 
-   72 listaIdentificadores: listaIdentificadores . ',' IDENTIFICADOR
-   74 listaIdentificadoresOP: listaIdentificadores .
+   62 declaradorDirecto: declaradorDirecto $@1 '(' . listaTiposParametros ')'
 
-    ','  desplazar e ir al estado 249
+    ESPECIFICADOR_TIPO            desplazar e ir al estado 7
+    STRUCT                        desplazar e ir al estado 21
+    UNION                         desplazar e ir al estado 22
+    CONST                         desplazar e ir al estado 23
+    VOLATILE                      desplazar e ir al estado 24
+    ENUM                          desplazar e ir al estado 25
+    ESPECIFICADOR_ALMACENAMIENTO  desplazar e ir al estado 29
 
-    $default  reduce usando la regla 74 (listaIdentificadoresOP)
+    especificadoresDeclaracion        ir al estado 242
+    especificadorClaseAlmacenamiento  ir al estado 39
+    especificadorTipo                 ir al estado 40
+    calificadorTipo                   ir al estado 41
+    especificadorStructOUnion         ir al estado 42
+    structOUnion                      ir al estado 43
+    listaTiposParametros              ir al estado 243
+    listaParametros                   ir al estado 244
+    declaracionParametro              ir al estado 245
+    especificadorEnum                 ir al estado 44
 
 
 estado 222
 
-   61 declaradorDirecto: declaradorDirecto '(' listaIdentificadoresOP . ')'
+   64 declaradorDirecto: declaradorDirecto $@2 '(' . listaIdentificadoresOP ')'
 
-    ')'  desplazar e ir al estado 250
+    IDENTIFICADOR  desplazar e ir al estado 246
+
+    $default  reduce usando la regla 76 (listaIdentificadoresOP)
+
+    listaIdentificadores    ir al estado 247
+    listaIdentificadoresOP  ir al estado 248
 
 
 estado 223
 
-  101 expConstanteOP: expConstante .
+   30 especificadorStructOUnion: structOUnion identificadorOP '{' listaDeclaracionesStruct '}' .
 
-    $default  reduce usando la regla 101 (expConstanteOP)
+    $default  reduce usando la regla 30 (especificadorStructOUnion)
 
 
 estado 224
 
-   59 declaradorDirecto: declaradorDirecto '[' expConstanteOP . ']'
+   37 listaDeclaracionesStruct: listaDeclaracionesStruct declaracionStruct .
 
-    ']'  desplazar e ir al estado 251
+    $default  reduce usando la regla 37 (listaDeclaracionesStruct)
 
 
 estado 225
 
-   99 expConstante: expCondicional .
-
-    $default  reduce usando la regla 99 (expConstante)
-
-
-estado 226
-
-   29 especificadorStructOUnion: structOUnion identificadorOP '{' listaDeclaracionesStruct '}' .
-
-    $default  reduce usando la regla 29 (especificadorStructOUnion)
-
-
-estado 227
-
-   36 listaDeclaracionesStruct: listaDeclaracionesStruct declaracionStruct .
+   36 listaDeclaracionesStruct: declaracionStruct ';' .
 
     $default  reduce usando la regla 36 (listaDeclaracionesStruct)
 
 
+estado 226
+
+   38 declaracionStruct: listaCalificadores declaradoresStruct . ';'
+   44 declaradoresStruct: declaradoresStruct . ',' declaStruct
+
+    ';'  desplazar e ir al estado 249
+    ','  desplazar e ir al estado 250
+
+
+estado 227
+
+   43 declaradoresStruct: declaStruct .
+
+    $default  reduce usando la regla 43 (declaradoresStruct)
+
+
 estado 228
 
-   35 listaDeclaracionesStruct: declaracionStruct ';' .
+   45 declaStruct: decla .
+   49 declaOP: decla .
 
-    $default  reduce usando la regla 35 (listaDeclaracionesStruct)
+    ':'       reduce usando la regla 49 (declaOP)
+    $default  reduce usando la regla 45 (declaStruct)
 
 
 estado 229
 
-   37 declaracionStruct: listaCalificadores declaradoresStruct . ';'
-   43 declaradoresStruct: declaradoresStruct . ',' declaStruct
+   46 declaStruct: declaOP . ':' expConstante
 
-    ';'  desplazar e ir al estado 252
-    ','  desplazar e ir al estado 253
+    ':'  desplazar e ir al estado 251
 
 
 estado 230
 
-   42 declaradoresStruct: declaStruct .
+  137 listaArgumentos: listaArgumentos ',' expAsignacion .
 
-    $default  reduce usando la regla 42 (declaradoresStruct)
+    $default  reduce usando la regla 137 (listaArgumentos)
 
 
 estado 231
 
-   44 declaStruct: decla .
-   48 declaOP: decla .
-
-    ':'       reduce usando la regla 48 (declaOP)
-    $default  reduce usando la regla 44 (declaStruct)
-
-
-estado 232
-
-   45 declaStruct: declaOP . ':' expConstante
-
-    ':'  desplazar e ir al estado 254
-
-
-estado 233
-
-  134 listaArgumentos: listaArgumentos ',' expAsignacion .
-
-    $default  reduce usando la regla 134 (listaArgumentos)
-
-
-estado 234
-
-  162 sentIteracion: FOR '(' expresionOP ';' expresionOP ';' . expresionOP ')' sentencia
+  165 sentIteracion: FOR '(' expresionOP ';' expresionOP ';' . expresionOP ')' sentencia
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -3767,10 +3758,10 @@ estado 234
     '+'             desplazar e ir al estado 34
     '-'             desplazar e ir al estado 35
 
-    ')'  reduce usando la regla 94 (expresionOP)
+    ')'  reduce usando la regla 97 (expresionOP)
 
     expresion          ir al estado 45
-    expresionOP        ir al estado 255
+    expresionOP        ir al estado 252
     expAsignacion      ir al estado 47
     expCondicional     ir al estado 48
     expOr              ir al estado 49
@@ -3785,16 +3776,16 @@ estado 234
     expPrimaria        ir al estado 58
 
 
-estado 235
+estado 232
 
-  161 sentIteracion: DO sentencia WHILE '(' expresion ')' . ';'
+  164 sentIteracion: DO sentencia WHILE '(' expresion ')' . ';'
 
-    ';'  desplazar e ir al estado 256
+    ';'  desplazar e ir al estado 253
 
 
-estado 236
+estado 233
 
-  158 sentSeleccion: IF '(' expresion ')' sentencia ELSE . sentencia
+  161 sentSeleccion: IF '(' expresion ')' sentencia ELSE . sentencia
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -3822,7 +3813,7 @@ estado 236
     '+'             desplazar e ir al estado 34
     '-'             desplazar e ir al estado 35
 
-    ';'  reduce usando la regla 94 (expresionOP)
+    ';'  reduce usando la regla 97 (expresionOP)
 
     expresion          ir al estado 45
     expresionOP        ir al estado 46
@@ -3838,7 +3829,7 @@ estado 236
     operUnario         ir al estado 56
     expPostfijo        ir al estado 57
     expPrimaria        ir al estado 58
-    sentencia          ir al estado 257
+    sentencia          ir al estado 254
     sentCompuesta      ir al estado 60
     sentExpresion      ir al estado 61
     sentSeleccion      ir al estado 62
@@ -3847,16 +3838,16 @@ estado 236
     sentSalto          ir al estado 65
 
 
-estado 237
+estado 234
 
-   87 declaradorAbstractoDirecto: '(' declaradorAbstracto . ')'
+   90 declaradorAbstractoDirecto: '(' declaradorAbstracto . ')'
 
-    ')'  desplazar e ir al estado 258
+    ')'  desplazar e ir al estado 255
 
 
-estado 238
+estado 235
 
-   89 declaradorAbstractoDirecto: declaradorAbstractoDirectoOP '(' . listaTiposParametrosOP ')'
+   92 declaradorAbstractoDirecto: declaradorAbstractoDirectoOP '(' . listaTiposParametrosOP ')'
 
     ESPECIFICADOR_TIPO            desplazar e ir al estado 7
     STRUCT                        desplazar e ir al estado 21
@@ -3866,24 +3857,24 @@ estado 238
     ENUM                          desplazar e ir al estado 25
     ESPECIFICADOR_ALMACENAMIENTO  desplazar e ir al estado 29
 
-    $default  reduce usando la regla 65 (listaTiposParametrosOP)
+    $default  reduce usando la regla 68 (listaTiposParametrosOP)
 
-    especificadoresDeclaracion        ir al estado 217
+    especificadoresDeclaracion        ir al estado 242
     especificadorClaseAlmacenamiento  ir al estado 39
     especificadorTipo                 ir al estado 40
     calificadorTipo                   ir al estado 41
     especificadorStructOUnion         ir al estado 42
     structOUnion                      ir al estado 43
-    listaTiposParametros              ir al estado 259
-    listaTiposParametrosOP            ir al estado 260
-    listaParametros                   ir al estado 219
-    declaracionParametro              ir al estado 220
+    listaTiposParametros              ir al estado 256
+    listaTiposParametrosOP            ir al estado 257
+    listaParametros                   ir al estado 244
+    declaracionParametro              ir al estado 245
     especificadorEnum                 ir al estado 44
 
 
-estado 239
+estado 236
 
-   88 declaradorAbstractoDirecto: declaradorAbstractoDirectoOP '[' . expConstanteOP ']'
+   91 declaradorAbstractoDirecto: declaradorAbstractoDirectoOP '[' . expConstanteOP ']'
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -3899,41 +3890,41 @@ estado 239
     '+'             desplazar e ir al estado 34
     '-'             desplazar e ir al estado 35
 
-    ']'  reduce usando la regla 100 (expConstanteOP)
+    ']'  reduce usando la regla 103 (expConstanteOP)
 
-    expConstante       ir al estado 223
-    expConstanteOP     ir al estado 261
-    expCondicional     ir al estado 225
+    expConstante       ir al estado 218
+    expConstanteOP     ir al estado 258
+    expCondicional     ir al estado 220
     expOr              ir al estado 49
     expAnd             ir al estado 50
     expIgualdad        ir al estado 51
     expRelacional      ir al estado 52
     expAditiva         ir al estado 53
     expMultiplicativa  ir al estado 54
-    expUnaria          ir al estado 152
+    expUnaria          ir al estado 153
     operUnario         ir al estado 56
     expPostfijo        ir al estado 57
     expPrimaria        ir al estado 58
 
 
-estado 240
+estado 237
 
-   78 listaEnumeradores: listaEnumeradores ',' enumerador .
+   81 listaEnumeradores: listaEnumeradores ',' enumerador .
 
-    $default  reduce usando la regla 78 (listaEnumeradores)
-
-
-estado 241
-
-   80 enumerador: constanteEnumeracion OPER_ASIGNACION expConstante .
-
-    $default  reduce usando la regla 80 (enumerador)
+    $default  reduce usando la regla 81 (listaEnumeradores)
 
 
-estado 242
+estado 238
 
-   20 inicializador: '{' listaInicializadores ',' . '}'
-   22 listaInicializadores: listaInicializadores ',' . inicializador
+   83 enumerador: constanteEnumeracion OPER_ASIGNACION expConstante .
+
+    $default  reduce usando la regla 83 (enumerador)
+
+
+estado 239
+
+   21 inicializador: '{' listaInicializadores ',' . '}'
+   23 listaInicializadores: listaInicializadores ',' . inicializador
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -3944,15 +3935,15 @@ estado 242
     OPER_INC_DEC    desplazar e ir al estado 26
     OPER_NEGACION   desplazar e ir al estado 27
     OPER_DIRECCION  desplazar e ir al estado 28
-    '{'             desplazar e ir al estado 190
-    '}'             desplazar e ir al estado 262
+    '{'             desplazar e ir al estado 191
+    '}'             desplazar e ir al estado 259
     '*'             desplazar e ir al estado 32
     '('             desplazar e ir al estado 33
     '+'             desplazar e ir al estado 34
     '-'             desplazar e ir al estado 35
 
-    inicializador      ir al estado 263
-    expAsignacion      ir al estado 192
+    inicializador      ir al estado 260
+    expAsignacion      ir al estado 193
     expCondicional     ir al estado 48
     expOr              ir al estado 49
     expAnd             ir al estado 50
@@ -3966,122 +3957,113 @@ estado 242
     expPrimaria        ir al estado 58
 
 
-estado 243
+estado 240
 
-   19 inicializador: '{' listaInicializadores '}' .
+   20 inicializador: '{' listaInicializadores '}' .
 
-    $default  reduce usando la regla 19 (inicializador)
-
-
-estado 244
-
-   69 declaracionParametro: especificadoresDeclaracion decla .
-
-    $default  reduce usando la regla 69 (declaracionParametro)
+    $default  reduce usando la regla 20 (inicializador)
 
 
-estado 245
+estado 241
 
-   46 decla: punteroOP . declaradorDirecto
-   84 declaradorAbstracto: punteroOP . declaradorAbstractoDirecto
-
-    error          desplazar e ir al estado 145
-    IDENTIFICADOR  desplazar e ir al estado 146
-    '('            desplazar e ir al estado 264
-
-    '('  [reduce usando la regla 90 (declaradorAbstractoDirectoOP)]
-    '['  reduce usando la regla 90 (declaradorAbstractoDirectoOP)
-
-    declaradorDirecto             ir al estado 148
-    declaradorAbstractoDirecto    ir al estado 208
-    declaradorAbstractoDirectoOP  ir al estado 209
-
-
-estado 246
-
-   70 declaracionParametro: especificadoresDeclaracion declaradorAbstractoOP .
-
-    $default  reduce usando la regla 70 (declaracionParametro)
-
-
-estado 247
-
-   60 declaradorDirecto: declaradorDirecto '(' listaTiposParametros ')' .
+   60 declaradorDirecto: declaradorDirecto '[' expConstanteOP ']' .
 
     $default  reduce usando la regla 60 (declaradorDirecto)
 
 
+estado 242
+
+   72 declaracionParametro: especificadoresDeclaracion . decla
+   73                     | especificadoresDeclaracion . declaradorAbstractoOP
+
+    '*'  desplazar e ir al estado 88
+
+    ','       reduce usando la regla 88 (declaradorAbstractoOP)
+    ')'       reduce usando la regla 88 (declaradorAbstractoOP)
+    $default  reduce usando la regla 52 (punteroOP)
+
+    decla                  ir al estado 261
+    puntero                ir al estado 177
+    punteroOP              ir al estado 262
+    declaradorAbstracto    ir al estado 179
+    declaradorAbstractoOP  ir al estado 263
+
+
+estado 243
+
+   62 declaradorDirecto: declaradorDirecto $@1 '(' listaTiposParametros . ')'
+
+    ')'  desplazar e ir al estado 264
+
+
+estado 244
+
+   66 listaTiposParametros: listaParametros .
+   67                     | listaParametros . ',' '.' '.' '.'
+   71 listaParametros: listaParametros . ',' declaracionParametro
+
+    ','  desplazar e ir al estado 265
+
+    $default  reduce usando la regla 66 (listaTiposParametros)
+
+
+estado 245
+
+   70 listaParametros: declaracionParametro .
+
+    $default  reduce usando la regla 70 (listaParametros)
+
+
+estado 246
+
+   74 listaIdentificadores: IDENTIFICADOR .
+
+    $default  reduce usando la regla 74 (listaIdentificadores)
+
+
+estado 247
+
+   75 listaIdentificadores: listaIdentificadores . ',' IDENTIFICADOR
+   77 listaIdentificadoresOP: listaIdentificadores .
+
+    ','  desplazar e ir al estado 266
+
+    $default  reduce usando la regla 77 (listaIdentificadoresOP)
+
+
 estado 248
 
-   64 listaTiposParametros: listaParametros ',' . '.' '.' '.'
-   68 listaParametros: listaParametros ',' . declaracionParametro
+   64 declaradorDirecto: declaradorDirecto $@2 '(' listaIdentificadoresOP . ')'
 
-    ESPECIFICADOR_TIPO            desplazar e ir al estado 7
-    STRUCT                        desplazar e ir al estado 21
-    UNION                         desplazar e ir al estado 22
-    CONST                         desplazar e ir al estado 23
-    VOLATILE                      desplazar e ir al estado 24
-    ENUM                          desplazar e ir al estado 25
-    ESPECIFICADOR_ALMACENAMIENTO  desplazar e ir al estado 29
-    '.'                           desplazar e ir al estado 265
-
-    especificadoresDeclaracion        ir al estado 217
-    especificadorClaseAlmacenamiento  ir al estado 39
-    especificadorTipo                 ir al estado 40
-    calificadorTipo                   ir al estado 41
-    especificadorStructOUnion         ir al estado 42
-    structOUnion                      ir al estado 43
-    declaracionParametro              ir al estado 266
-    especificadorEnum                 ir al estado 44
+    ')'  desplazar e ir al estado 267
 
 
 estado 249
 
-   72 listaIdentificadores: listaIdentificadores ',' . IDENTIFICADOR
+   38 declaracionStruct: listaCalificadores declaradoresStruct ';' .
 
-    IDENTIFICADOR  desplazar e ir al estado 267
+    $default  reduce usando la regla 38 (declaracionStruct)
 
 
 estado 250
 
-   61 declaradorDirecto: declaradorDirecto '(' listaIdentificadoresOP ')' .
-
-    $default  reduce usando la regla 61 (declaradorDirecto)
-
-
-estado 251
-
-   59 declaradorDirecto: declaradorDirecto '[' expConstanteOP ']' .
-
-    $default  reduce usando la regla 59 (declaradorDirecto)
-
-
-estado 252
-
-   37 declaracionStruct: listaCalificadores declaradoresStruct ';' .
-
-    $default  reduce usando la regla 37 (declaracionStruct)
-
-
-estado 253
-
-   43 declaradoresStruct: declaradoresStruct ',' . declaStruct
+   44 declaradoresStruct: declaradoresStruct ',' . declaStruct
 
     '*'  desplazar e ir al estado 88
 
-    ':'       reduce usando la regla 47 (declaOP)
-    $default  reduce usando la regla 51 (punteroOP)
+    ':'       reduce usando la regla 48 (declaOP)
+    $default  reduce usando la regla 52 (punteroOP)
 
     declaStruct  ir al estado 268
-    decla        ir al estado 231
-    declaOP      ir al estado 232
+    decla        ir al estado 228
+    declaOP      ir al estado 229
     puntero      ir al estado 93
     punteroOP    ir al estado 94
 
 
-estado 254
+estado 251
 
-   45 declaStruct: declaOP ':' . expConstante
+   46 declaStruct: declaOP ':' . expConstante
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -4098,135 +4080,175 @@ estado 254
     '-'             desplazar e ir al estado 35
 
     expConstante       ir al estado 269
-    expCondicional     ir al estado 225
+    expCondicional     ir al estado 220
     expOr              ir al estado 49
     expAnd             ir al estado 50
     expIgualdad        ir al estado 51
     expRelacional      ir al estado 52
     expAditiva         ir al estado 53
     expMultiplicativa  ir al estado 54
-    expUnaria          ir al estado 152
+    expUnaria          ir al estado 153
     operUnario         ir al estado 56
     expPostfijo        ir al estado 57
     expPrimaria        ir al estado 58
 
 
-estado 255
+estado 252
 
-  162 sentIteracion: FOR '(' expresionOP ';' expresionOP ';' expresionOP . ')' sentencia
+  165 sentIteracion: FOR '(' expresionOP ';' expresionOP ';' expresionOP . ')' sentencia
 
     ')'  desplazar e ir al estado 270
 
 
+estado 253
+
+  164 sentIteracion: DO sentencia WHILE '(' expresion ')' ';' .
+
+    $default  reduce usando la regla 164 (sentIteracion)
+
+
+estado 254
+
+  161 sentSeleccion: IF '(' expresion ')' sentencia ELSE sentencia .
+
+    $default  reduce usando la regla 161 (sentSeleccion)
+
+
+estado 255
+
+   90 declaradorAbstractoDirecto: '(' declaradorAbstracto ')' .
+
+    $default  reduce usando la regla 90 (declaradorAbstractoDirecto)
+
+
 estado 256
 
-  161 sentIteracion: DO sentencia WHILE '(' expresion ')' ';' .
+   69 listaTiposParametrosOP: listaTiposParametros .
 
-    $default  reduce usando la regla 161 (sentIteracion)
+    $default  reduce usando la regla 69 (listaTiposParametrosOP)
 
 
 estado 257
 
-  158 sentSeleccion: IF '(' expresion ')' sentencia ELSE sentencia .
-
-    $default  reduce usando la regla 158 (sentSeleccion)
-
-
-estado 258
-
-   87 declaradorAbstractoDirecto: '(' declaradorAbstracto ')' .
-
-    $default  reduce usando la regla 87 (declaradorAbstractoDirecto)
-
-
-estado 259
-
-   66 listaTiposParametrosOP: listaTiposParametros .
-
-    $default  reduce usando la regla 66 (listaTiposParametrosOP)
-
-
-estado 260
-
-   89 declaradorAbstractoDirecto: declaradorAbstractoDirectoOP '(' listaTiposParametrosOP . ')'
+   92 declaradorAbstractoDirecto: declaradorAbstractoDirectoOP '(' listaTiposParametrosOP . ')'
 
     ')'  desplazar e ir al estado 271
 
 
-estado 261
+estado 258
 
-   88 declaradorAbstractoDirecto: declaradorAbstractoDirectoOP '[' expConstanteOP . ']'
+   91 declaradorAbstractoDirecto: declaradorAbstractoDirectoOP '[' expConstanteOP . ']'
 
     ']'  desplazar e ir al estado 272
 
 
+estado 259
+
+   21 inicializador: '{' listaInicializadores ',' '}' .
+
+    $default  reduce usando la regla 21 (inicializador)
+
+
+estado 260
+
+   23 listaInicializadores: listaInicializadores ',' inicializador .
+
+    $default  reduce usando la regla 23 (listaInicializadores)
+
+
+estado 261
+
+   72 declaracionParametro: especificadoresDeclaracion decla .
+
+    $default  reduce usando la regla 72 (declaracionParametro)
+
+
 estado 262
 
-   20 inicializador: '{' listaInicializadores ',' '}' .
+   47 decla: punteroOP . declaradorDirecto
+   87 declaradorAbstracto: punteroOP . declaradorAbstractoDirecto
 
-    $default  reduce usando la regla 20 (inicializador)
+    error          desplazar e ir al estado 146
+    IDENTIFICADOR  desplazar e ir al estado 147
+    '('            desplazar e ir al estado 273
+
+    '('  [reduce usando la regla 93 (declaradorAbstractoDirectoOP)]
+    '['  reduce usando la regla 93 (declaradorAbstractoDirectoOP)
+
+    declaradorDirecto             ir al estado 149
+    declaradorAbstractoDirecto    ir al estado 210
+    declaradorAbstractoDirectoOP  ir al estado 211
 
 
 estado 263
 
-   22 listaInicializadores: listaInicializadores ',' inicializador .
+   73 declaracionParametro: especificadoresDeclaracion declaradorAbstractoOP .
 
-    $default  reduce usando la regla 22 (listaInicializadores)
+    $default  reduce usando la regla 73 (declaracionParametro)
 
 
 estado 264
 
-   58 declaradorDirecto: '(' . decla ')'
-   87 declaradorAbstractoDirecto: '(' . declaradorAbstracto ')'
+   62 declaradorDirecto: declaradorDirecto $@1 '(' listaTiposParametros ')' .
 
-    '*'  desplazar e ir al estado 88
-
-    $default  reduce usando la regla 51 (punteroOP)
-
-    decla                ir al estado 193
-    puntero              ir al estado 176
-    punteroOP            ir al estado 245
-    declaradorAbstracto  ir al estado 237
+    $default  reduce usando la regla 62 (declaradorDirecto)
 
 
 estado 265
 
-   64 listaTiposParametros: listaParametros ',' '.' . '.' '.'
+   67 listaTiposParametros: listaParametros ',' . '.' '.' '.'
+   71 listaParametros: listaParametros ',' . declaracionParametro
 
-    '.'  desplazar e ir al estado 273
+    ESPECIFICADOR_TIPO            desplazar e ir al estado 7
+    STRUCT                        desplazar e ir al estado 21
+    UNION                         desplazar e ir al estado 22
+    CONST                         desplazar e ir al estado 23
+    VOLATILE                      desplazar e ir al estado 24
+    ENUM                          desplazar e ir al estado 25
+    ESPECIFICADOR_ALMACENAMIENTO  desplazar e ir al estado 29
+    '.'                           desplazar e ir al estado 274
+
+    especificadoresDeclaracion        ir al estado 242
+    especificadorClaseAlmacenamiento  ir al estado 39
+    especificadorTipo                 ir al estado 40
+    calificadorTipo                   ir al estado 41
+    especificadorStructOUnion         ir al estado 42
+    structOUnion                      ir al estado 43
+    declaracionParametro              ir al estado 275
+    especificadorEnum                 ir al estado 44
 
 
 estado 266
 
-   68 listaParametros: listaParametros ',' declaracionParametro .
+   75 listaIdentificadores: listaIdentificadores ',' . IDENTIFICADOR
 
-    $default  reduce usando la regla 68 (listaParametros)
+    IDENTIFICADOR  desplazar e ir al estado 276
 
 
 estado 267
 
-   72 listaIdentificadores: listaIdentificadores ',' IDENTIFICADOR .
+   64 declaradorDirecto: declaradorDirecto $@2 '(' listaIdentificadoresOP ')' .
 
-    $default  reduce usando la regla 72 (listaIdentificadores)
+    $default  reduce usando la regla 64 (declaradorDirecto)
 
 
 estado 268
 
-   43 declaradoresStruct: declaradoresStruct ',' declaStruct .
+   44 declaradoresStruct: declaradoresStruct ',' declaStruct .
 
-    $default  reduce usando la regla 43 (declaradoresStruct)
+    $default  reduce usando la regla 44 (declaradoresStruct)
 
 
 estado 269
 
-   45 declaStruct: declaOP ':' expConstante .
+   46 declaStruct: declaOP ':' expConstante .
 
-    $default  reduce usando la regla 45 (declaStruct)
+    $default  reduce usando la regla 46 (declaStruct)
 
 
 estado 270
 
-  162 sentIteracion: FOR '(' expresionOP ';' expresionOP ';' expresionOP ')' . sentencia
+  165 sentIteracion: FOR '(' expresionOP ';' expresionOP ';' expresionOP ')' . sentencia
 
     error           desplazar e ir al estado 3
     NUM             desplazar e ir al estado 4
@@ -4254,7 +4276,7 @@ estado 270
     '+'             desplazar e ir al estado 34
     '-'             desplazar e ir al estado 35
 
-    ';'  reduce usando la regla 94 (expresionOP)
+    ';'  reduce usando la regla 97 (expresionOP)
 
     expresion          ir al estado 45
     expresionOP        ir al estado 46
@@ -4270,7 +4292,7 @@ estado 270
     operUnario         ir al estado 56
     expPostfijo        ir al estado 57
     expPrimaria        ir al estado 58
-    sentencia          ir al estado 274
+    sentencia          ir al estado 277
     sentCompuesta      ir al estado 60
     sentExpresion      ir al estado 61
     sentSeleccion      ir al estado 62
@@ -4281,34 +4303,70 @@ estado 270
 
 estado 271
 
-   89 declaradorAbstractoDirecto: declaradorAbstractoDirectoOP '(' listaTiposParametrosOP ')' .
+   92 declaradorAbstractoDirecto: declaradorAbstractoDirectoOP '(' listaTiposParametrosOP ')' .
 
-    $default  reduce usando la regla 89 (declaradorAbstractoDirecto)
+    $default  reduce usando la regla 92 (declaradorAbstractoDirecto)
 
 
 estado 272
 
-   88 declaradorAbstractoDirecto: declaradorAbstractoDirectoOP '[' expConstanteOP ']' .
+   91 declaradorAbstractoDirecto: declaradorAbstractoDirectoOP '[' expConstanteOP ']' .
 
-    $default  reduce usando la regla 88 (declaradorAbstractoDirecto)
+    $default  reduce usando la regla 91 (declaradorAbstractoDirecto)
 
 
 estado 273
 
-   64 listaTiposParametros: listaParametros ',' '.' '.' . '.'
+   59 declaradorDirecto: '(' . decla ')'
+   90 declaradorAbstractoDirecto: '(' . declaradorAbstracto ')'
 
-    '.'  desplazar e ir al estado 275
+    '*'  desplazar e ir al estado 88
+
+    $default  reduce usando la regla 52 (punteroOP)
+
+    decla                ir al estado 194
+    puntero              ir al estado 177
+    punteroOP            ir al estado 262
+    declaradorAbstracto  ir al estado 234
 
 
 estado 274
 
-  162 sentIteracion: FOR '(' expresionOP ';' expresionOP ';' expresionOP ')' sentencia .
+   67 listaTiposParametros: listaParametros ',' '.' . '.' '.'
 
-    $default  reduce usando la regla 162 (sentIteracion)
+    '.'  desplazar e ir al estado 278
 
 
 estado 275
 
-   64 listaTiposParametros: listaParametros ',' '.' '.' '.' .
+   71 listaParametros: listaParametros ',' declaracionParametro .
 
-    $default  reduce usando la regla 64 (listaTiposParametros)
+    $default  reduce usando la regla 71 (listaParametros)
+
+
+estado 276
+
+   75 listaIdentificadores: listaIdentificadores ',' IDENTIFICADOR .
+
+    $default  reduce usando la regla 75 (listaIdentificadores)
+
+
+estado 277
+
+  165 sentIteracion: FOR '(' expresionOP ';' expresionOP ';' expresionOP ')' sentencia .
+
+    $default  reduce usando la regla 165 (sentIteracion)
+
+
+estado 278
+
+   67 listaTiposParametros: listaParametros ',' '.' '.' . '.'
+
+    '.'  desplazar e ir al estado 279
+
+
+estado 279
+
+   67 listaTiposParametros: listaParametros ',' '.' '.' '.' .
+
+    $default  reduce usando la regla 67 (listaTiposParametros)

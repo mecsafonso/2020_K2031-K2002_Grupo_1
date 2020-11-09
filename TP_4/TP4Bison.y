@@ -20,7 +20,6 @@ FILE* archivoFinal;
 nodoVariables* listaVariables = NULL;
 nodoFuncion* listaFunciones = NULL;
 nodoError* listaErroresLexicos = NULL;
-nodoError* dobleDeclaracion = NULL;
 nodoVariable* listaParametros = NULL;
 
 
@@ -187,7 +186,7 @@ declaOP:
   | decla
 ;
 
-puntero: '*' listaCalificadoresTiposOP
+puntero: '*' listaCalificadoresTiposOP {strcat(tipo, "*");}
   | '*' listaCalificadoresTiposOP puntero
 ;
 
@@ -206,7 +205,7 @@ listaCalificadoresTiposOP:
 declaradorDirecto: IDENTIFICADOR {gestionar_identificador(listaFunciones, listaVariables, $<cadena>1, tipo, modo_funcion, listaParametros, archivoFinal);}
   | '(' decla ')'
   | declaradorDirecto '[' expConstanteOP ']'
-  | declaradorDirecto {modo_funcion = 1; pasar_a_lista_parametros(listaParametros, listavariables, contador_parametrosint cantidad);} '(' listaTiposParametros ')' {contador_parametros = 0; modo_funcion = 0; vaciar_parametros(listaParametros); fprintf(archivoFinal,"se encontró una firma de función")}
+  | declaradorDirecto {modo_funcion = 1; pasar_a_lista_parametros(listaParametros, listaVariables, contador_parametrosint cantidad);} '(' listaTiposParametros ')' {contador_parametros = 0; modo_funcion = 0; vaciar_parametros(listaParametros); fprintf(archivoFinal,"se encontró una firma de función")}
   | declaradorDirecto {modo_funcion = 1;}'(' listaIdentificadoresOP ')' {modo_funcion = 0; vaciar_parametros(listaParametros);}
 	| error {flag_error=1;fprintf(archivoFinal,"error xd \n");}
 ;
@@ -279,7 +278,7 @@ declaradorAbstractoDirectoOP:
 
 
 
-expresion: expAsignacion
+expresion: expAsignacion {tipo = NULL;}
   | expresion ',' expAsignacion
 ;
 
@@ -359,10 +358,10 @@ listaArgumentos: expAsignacion
   | listaArgumentos ',' expAsignacion
 ;
 
-expPrimaria: IDENTIFICADOR {fprintf(archivoFinal,"se encontro el identificador %s \n", $<cadena>1);}
-  | NUM {fprintf(archivoFinal,"se encontro el valor %i \n", $<entero>1);}
-  | CONS_REAL
-  | LIT_CADENA
+expPrimaria: IDENTIFICADOR {char* comparar_tipo = tipo_variable(listaVariables, &<cadena>1, archivoFinal);if(strcmp(comparar_tipo, "error")){if(tipo == NULL){strcpy(tipo, comparar_tipo);}else if(!control_tipos(tipo, comparar_tipo)){fprintf(archivoFinal, "No se puede realizar la operacion requerida entre un %s y un %s", comparar_tipo, $<cadena>1);}}}
+  | NUM {if(tipo == NULL){strcpy(tipo, "int");}else if(!control_tipos(tipo, "int")){fprintf(archivoFinal, "No se puede realizar la operacion requerida entre un int y un %s", $<cadena>1);}}
+  | CONS_REAL {if(tipo == NULL){strcpy(tipo, "char");}else if(!control_tipos(tipo, "char")){fprintf(archivoFinal, "No se puede realizar la operacion requerida entre un char y un %s", $<cadena>1);}}
+  | LIT_CADENA {if(tipo == NULL){strcpy(tipo, "char*");}else if(!control_tipos(tipo, "char*")){fprintf(archivoFinal, "No se puede realizar la operacion requerida entre un char* y un %s", $<cadena>1);}}
   | '(' expresion ')'
   | error {flag_error=1;fprintf(archivoFinal,"Expresion unaria no valida \n");}
 ;
@@ -454,7 +453,9 @@ int main ()
   yyparse();
   yylex();
 
-
+  imprimir_lista_variables(listaVariables, archivoFinal);
+  imprimir_funciones(listaFunciones, archivoFinal);
+  imprimir_errores(listaErroresLexicos, archivoFinal);
 
   fclose(archivoFinal);
   return 0;
