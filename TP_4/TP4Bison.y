@@ -206,7 +206,7 @@ declaradorDirecto: IDENTIFICADOR {gestionar_identificador(listaFunciones, listaV
   | '(' decla ')'
   | declaradorDirecto '[' expConstanteOP ']'
   | declaradorDirecto {modo_funcion = 1; pasar_a_lista_parametros(listaParametros, listaVariables, contador_parametrosint cantidad);} '(' listaTiposParametros ')' {contador_parametros = 0; modo_funcion = 0; vaciar_parametros(listaParametros); fprintf(archivoFinal,"se encontró una firma de función")}
-  | declaradorDirecto {modo_funcion = 1;}'(' listaIdentificadoresOP ')' {modo_funcion = 0; vaciar_parametros(listaParametros);}
+  | declaradorDirecto {modo_funcion = 1;} '(' listaIdentificadoresOP ')' {modo_funcion = 0; vaciar_parametros(listaParametros);}
 	| error {flag_error=1;fprintf(archivoFinal,"error xd \n");}
 ;
 

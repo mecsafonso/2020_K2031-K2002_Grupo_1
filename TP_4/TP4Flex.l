@@ -92,7 +92,6 @@ OPERADOR [\+\-\*\/\%]|\+\+|\-\-
 
 .+                              {strcpy(yylval.cadena,yytext); return ERROR_LEXICO;} 
 
-//int 3adas = 4;
 
 %%
 
