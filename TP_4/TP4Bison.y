@@ -77,6 +77,7 @@ float real;
 %token <cadena> OPER_NEGACION
 %token <cadena> OPER_DIRECCION
 %token <cadena> ESPECIFICADOR_ALMACENAMIENTO
+%token <cadena> ERROR_LEXICO
 
 
 %% 
@@ -204,9 +205,9 @@ listaCalificadoresTiposOP:
 
 declaradorDirecto: IDENTIFICADOR {gestionar_identificador(listaFunciones, listaVariables, $<cadena>1, tipo, modo_funcion, listaParametros, archivoFinal);}
   | '(' decla ')'
-  | declaradorDirecto '[' expConstanteOP ']'
-  | declaradorDirecto {modo_funcion = 1; pasar_a_lista_parametros(listaParametros, listaVariables, contador_parametrosint cantidad);} '(' listaTiposParametros ')' {contador_parametros = 0; modo_funcion = 0; vaciar_parametros(listaParametros); fprintf(archivoFinal,"se encontró una firma de función")}
-  | declaradorDirecto {modo_funcion = 1;} '(' listaIdentificadoresOP ')' {modo_funcion = 0; vaciar_parametros(listaParametros);}
+  | IDENTIFICADOR '[' expConstanteOP ']'
+  | IDENTIFICADOR '(' listaTiposParametros ')'
+  | IDENTIFICADOR '(' listaIdentificadoresOP ')'
 	| error {flag_error=1;fprintf(archivoFinal,"error xd \n");}
 ;
 
