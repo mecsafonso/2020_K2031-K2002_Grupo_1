@@ -1796,7 +1796,7 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 134 "TP4Bison.y"
-    {if(tipo == NULL){strcpy(tipo, (yyvsp[(1) - (1)].cadena))};}
+    {if(tipo == NULL){strcpy(tipo, (yyvsp[(1) - (1)].cadena));};;}
     break;
 
   case 26:
@@ -1810,14 +1810,14 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 144 "TP4Bison.y"
-    {if(tipo == NULL){strcpy(tipo, (yyvsp[(1) - (1)].cadena))};}
+    {if(tipo == NULL){strcpy(tipo, (yyvsp[(1) - (1)].cadena));};;}
     break;
 
   case 30:
 
 /* Line 1455 of yacc.c  */
 #line 145 "TP4Bison.y"
-    {if(tipo == NULL){strcpy(tipo, (yyvsp[(1) - (1)].cadena))};}
+    {if(tipo == NULL){strcpy(tipo, (yyvsp[(1) - (1)].cadena));};;}
     break;
 
   case 32:

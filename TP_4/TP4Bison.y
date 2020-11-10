@@ -131,7 +131,7 @@ listaInicializadores: inicializador
   | listaInicializadores ',' inicializador
 ;
 
-especificadorClaseAlmacenamiento: ESPECIFICADOR_ALMACENAMIENTO {if(tipo == NULL){strcpy(tipo, $<cadena>1)}}
+especificadorClaseAlmacenamiento: ESPECIFICADOR_ALMACENAMIENTO {if(tipo == NULL){strcpy(tipo, $<cadena>1);};}
 ;
 
 especificadorTipo: ESPECIFICADOR_TIPO {strcpy(tipo, $<cadena>1) ; fprintf(archivoFinal, "se encontro el tipo de dato %s \n", $<cadena>1);}
@@ -141,8 +141,8 @@ especificadorTipo: ESPECIFICADOR_TIPO {strcpy(tipo, $<cadena>1) ; fprintf(archiv
 
 
 
-calificadorTipo: CONST {if(tipo == NULL){strcpy(tipo, $<cadena>1)}}
-  | VOLATILE {if(tipo == NULL){strcpy(tipo, $<cadena>1)}}
+calificadorTipo: CONST {if(tipo == NULL){strcpy(tipo, $<cadena>1);};}
+  | VOLATILE {if(tipo == NULL){strcpy(tipo, $<cadena>1);};}
 ;
 
 especificadorStructOUnion: structOUnion identificadorOP '{' listaDeclaracionesStruct '}'
