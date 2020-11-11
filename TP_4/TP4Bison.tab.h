@@ -72,8 +72,7 @@
      OPER_INC_DEC = 288,
      OPER_NEGACION = 289,
      OPER_DIRECCION = 290,
-     ESPECIFICADOR_ALMACENAMIENTO = 291,
-     ERROR_LEXICO = 292
+     ESPECIFICADOR_ALMACENAMIENTO = 291
    };
 #endif
 
@@ -84,7 +83,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 38 "TP4Bison.y"
+#line 75 "TP4Bison.y"
 
 char cadena[30];
 int entero;
@@ -94,7 +93,7 @@ float real;
 
 
 /* Line 1676 of yacc.c  */
-#line 98 "TP4Bison.tab.h"
+#line 97 "TP4Bison.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

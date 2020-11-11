@@ -90,7 +90,6 @@ OPERADOR [\+\-\*\/\%]|\+\+|\-\-
 
 {IDENTIFICADOR}                 {strcpy(yylval.cadena,yytext); return IDENTIFICADOR;} 
 
-.+                              {strcpy(yylval.cadena,yytext); return ERROR_LEXICO;} 
 
 
 %%

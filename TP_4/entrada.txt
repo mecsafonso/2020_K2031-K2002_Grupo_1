@@ -1,3 +1,10 @@
-int a = 1 + 1;
-int b = 3 - 1;
-                                        
+int a = 1;
+a + c;
+void* b;
+4 * b;
+char joota(char m);
+char* a;
+int zeta(hola,mil);
+zeta(1,2);
+joota(a);
+zeta(1);
