@@ -98,16 +98,13 @@ typedef struct nodo{
 int control_tipos(char palabra[], char tipo[]);
 nodo* existe_variable(nodo* lista, char nombre[]);
 char* tipo_variable(nodo* lista, char nombre[], FILE* arcFinal);
-void agregar_parametro(nodoInfo** listaParametros, char tipo[]);
+void agregar_info(nodoInfo** listaParametros, char tipo[]);
 int agregar_variable(nodo** lista, char nombre[], char tipo[]);
 void agregar_funcion(nodo** lista, char nombre[], char tipo[], nodoInfo* listaParametros);
-void agregar_error(nodoInfo* lista, char error[]);
 void gestionar_identificador(nodo** listaVariables, char nombre[], char tipo[], FILE* archivoFinal);
 void gestionar_funcion(nodo** lista, nodoInfo* listaParametros, char identificador[], char tipo[], FILE* archivoFinal);
 void sentencia_funcion(nodo** lista, nodoInfo* listaParametros, char identificador[], FILE* archivoFinal);
 int parametros_contra_funcion(nodo* funcion, nodoInfo* listaParametros, FILE* archivoFinal);
-//void eliminar_ultimo(nodoVariable* listavariables);
-//void pasar_a_lista_parametros(nodoVariable* listaParametros, nodoVariable* listavariables, int cantidad);
 
 void imprimir_parametros(nodoInfo* lista, FILE* archivoFinal);
 void imprimir_lista_variables(nodo* lista, FILE* archivoFinal);
@@ -144,7 +141,7 @@ void yyerror (char const *s) {
 
 
 /* Line 189 of yacc.c  */
-#line 148 "TP4Bison.tab.c"
+#line 145 "TP4Bison.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -215,17 +212,16 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 75 "TP4Bison.y"
+#line 72 "TP4Bison.y"
 
 char cadena[30];
 int entero;
-int tipo;
 float real;
 
 
 
 /* Line 214 of yacc.c  */
-#line 229 "TP4Bison.tab.c"
+#line 225 "TP4Bison.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -237,7 +233,7 @@ float real;
 
 
 /* Line 264 of yacc.c  */
-#line 241 "TP4Bison.tab.c"
+#line 237 "TP4Bison.tab.c"
 
 #ifdef short
 # undef short
@@ -592,25 +588,25 @@ static const yytype_int16 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   121,   121,   122,   125,   126,   127,   133,   134,   140,
-     141,   144,   145,   146,   149,   150,   153,   154,   157,   158,
-     161,   162,   163,   166,   167,   170,   173,   174,   175,   180,
-     181,   184,   185,   188,   189,   192,   193,   196,   197,   200,
-     203,   204,   207,   208,   211,   212,   215,   216,   219,   222,
-     223,   226,   227,   230,   231,   234,   235,   238,   239,   242,
-     243,   244,   245,   246,   247,   250,   251,   254,   255,   258,
-     259,   262,   263,   266,   267,   268,   271,   272,   275,   276,
-     279,   280,   281,   282,   285,   286,   289,   290,   293,   294,
-     297,   298,   301,   302,   305,   308,   311,   312,   313,   316,
-     317,   329,   330,   333,   334,   337,   338,   341,   344,   347,
-     348,   351,   355,   356,   359,   360,   363,   364,   365,   368,
-     369,   372,   373,   374,   377,   378,   379,   380,   383,   384,
-     385,   386,   389,   390,   391,   392,   393,   396,   397,   398,
-     401,   402,   406,   407,   410,   411,   412,   413,   416,   417,
-     418,   419,   420,   421,   442,   443,   444,   445,   446,   447,
-     450,   453,   454,   457,   458,   462,   463,   466,   467,   470,
-     473,   474,   475,   478,   479,   480,   483,   484,   485,   488,
-     489,   490,   491
+       0,   117,   117,   118,   121,   122,   123,   129,   130,   136,
+     137,   140,   141,   142,   145,   146,   149,   150,   153,   154,
+     157,   158,   159,   162,   163,   166,   169,   170,   171,   176,
+     177,   180,   181,   184,   185,   188,   189,   192,   193,   196,
+     199,   200,   203,   204,   207,   208,   211,   212,   215,   218,
+     219,   222,   223,   226,   227,   230,   231,   234,   235,   238,
+     239,   240,   241,   242,   243,   246,   247,   250,   251,   254,
+     255,   258,   259,   262,   263,   264,   267,   268,   271,   272,
+     275,   276,   277,   278,   281,   282,   285,   286,   289,   290,
+     293,   294,   297,   298,   301,   304,   307,   308,   309,   312,
+     313,   325,   326,   329,   330,   333,   334,   337,   340,   343,
+     344,   347,   351,   352,   355,   356,   359,   360,   361,   364,
+     365,   368,   369,   370,   373,   374,   375,   376,   379,   380,
+     381,   382,   385,   386,   387,   388,   389,   392,   393,   394,
+     397,   398,   402,   403,   406,   407,   408,   409,   412,   413,
+     414,   415,   416,   417,   438,   439,   440,   441,   442,   443,
+     446,   449,   450,   453,   454,   458,   459,   462,   463,   466,
+     469,   470,   471,   474,   475,   476,   479,   480,   481,   484,
+     485,   486,   487
 };
 #endif
 
@@ -1782,406 +1778,406 @@ yyreduce:
         case 4:
 
 /* Line 1455 of yacc.c  */
-#line 125 "TP4Bison.y"
+#line 121 "TP4Bison.y"
     {fprintf(archivoFinal,"\n--------------------------------------- \n \n");;}
     break;
 
   case 5:
 
 /* Line 1455 of yacc.c  */
-#line 126 "TP4Bison.y"
+#line 122 "TP4Bison.y"
     {fprintf(archivoFinal,"\n-----------------SENTENCIA---------------- \n \n");;}
     break;
 
   case 6:
 
 /* Line 1455 of yacc.c  */
-#line 127 "TP4Bison.y"
+#line 123 "TP4Bison.y"
     {fprintf(archivoFinal,"\n-----------------DECLARACION---------------- \n \n");;}
     break;
 
   case 7:
 
 /* Line 1455 of yacc.c  */
-#line 133 "TP4Bison.y"
+#line 129 "TP4Bison.y"
     {fprintf(archivoFinal,"se encontro una declaracion \n");memset(tipo, 0, 30);;}
     break;
 
   case 8:
 
 /* Line 1455 of yacc.c  */
-#line 134 "TP4Bison.y"
+#line 130 "TP4Bison.y"
     {fprintf(archivoFinal,"se encontró una desarrollo de función");memset(tipo, 0, 30);;}
     break;
 
   case 9:
 
 /* Line 1455 of yacc.c  */
-#line 140 "TP4Bison.y"
+#line 136 "TP4Bison.y"
     {memset(tipo, 0, 30);;}
     break;
 
   case 17:
 
 /* Line 1455 of yacc.c  */
-#line 154 "TP4Bison.y"
+#line 150 "TP4Bison.y"
     {fprintf(archivoFinal,"se encontro mas de una declaracion \n");;}
     break;
 
   case 19:
 
 /* Line 1455 of yacc.c  */
-#line 158 "TP4Bison.y"
+#line 154 "TP4Bison.y"
     {fprintf(archivoFinal,"se encontro una asignacion \n");;}
     break;
 
   case 25:
 
 /* Line 1455 of yacc.c  */
-#line 170 "TP4Bison.y"
+#line 166 "TP4Bison.y"
     {if(tipo[0] == '\0'){strcpy(tipo, (yyvsp[(1) - (1)].cadena));};;}
     break;
 
   case 26:
 
 /* Line 1455 of yacc.c  */
-#line 173 "TP4Bison.y"
+#line 169 "TP4Bison.y"
     {strcpy(tipo, (yyvsp[(1) - (1)].cadena)) ;fprintf(archivoFinal, "se encontro el tipo de dato %s \n", tipo);;}
     break;
 
   case 29:
 
 /* Line 1455 of yacc.c  */
-#line 180 "TP4Bison.y"
+#line 176 "TP4Bison.y"
     {if(tipo[0] == '\0'){strcpy(tipo, (yyvsp[(1) - (1)].cadena));};;}
     break;
 
   case 30:
 
 /* Line 1455 of yacc.c  */
-#line 181 "TP4Bison.y"
+#line 177 "TP4Bison.y"
     {if(tipo[0] == '\0'){strcpy(tipo, (yyvsp[(1) - (1)].cadena));};;}
     break;
 
   case 32:
 
 /* Line 1455 of yacc.c  */
-#line 185 "TP4Bison.y"
+#line 181 "TP4Bison.y"
     {strcpy(tipo, (yyvsp[(2) - (2)].cadena));;}
     break;
 
   case 34:
 
 /* Line 1455 of yacc.c  */
-#line 189 "TP4Bison.y"
+#line 185 "TP4Bison.y"
     {strcpy(tipo, (yyvsp[(1) - (1)].cadena));;}
     break;
 
   case 51:
 
 /* Line 1455 of yacc.c  */
-#line 226 "TP4Bison.y"
+#line 222 "TP4Bison.y"
     {strcat(tipo, "*");;}
     break;
 
   case 59:
 
 /* Line 1455 of yacc.c  */
-#line 242 "TP4Bison.y"
+#line 238 "TP4Bison.y"
     {gestionar_identificador(&listaVariables, (yyvsp[(1) - (1)].cadena), tipo, archivoFinal);;}
     break;
 
   case 61:
 
 /* Line 1455 of yacc.c  */
-#line 244 "TP4Bison.y"
+#line 240 "TP4Bison.y"
     {gestionar_identificador(&listaVariables, (yyvsp[(1) - (4)].cadena), tipo, archivoFinal);;}
     break;
 
   case 62:
 
 /* Line 1455 of yacc.c  */
-#line 245 "TP4Bison.y"
+#line 241 "TP4Bison.y"
     {gestionar_funcion(&listaVariables, listaParametros,(yyvsp[(1) - (4)].cadena), tipo, archivoFinal);listaParametros = NULL;fprintf(archivoFinal, "se encontro una funcion \n");;}
     break;
 
   case 63:
 
 /* Line 1455 of yacc.c  */
-#line 246 "TP4Bison.y"
+#line 242 "TP4Bison.y"
     {gestionar_funcion(&listaVariables, listaParametros,(yyvsp[(1) - (4)].cadena), tipo, archivoFinal);listaParametros = NULL; fprintf(archivoFinal, "se encontro una funcion \n");;}
     break;
 
   case 64:
 
 /* Line 1455 of yacc.c  */
-#line 247 "TP4Bison.y"
+#line 243 "TP4Bison.y"
     {flag_error=1;fprintf(archivoFinal,"error xd \n");;}
     break;
 
   case 71:
 
 /* Line 1455 of yacc.c  */
-#line 262 "TP4Bison.y"
-    {agregar_parametro(&listaParametros, tipo_parametro); memset(tipo_parametro, 0, 30);;}
+#line 258 "TP4Bison.y"
+    {agregar_info(&listaParametros, tipo_parametro); memset(tipo_parametro, 0, 30);;}
     break;
 
   case 72:
 
 /* Line 1455 of yacc.c  */
-#line 263 "TP4Bison.y"
-    {agregar_parametro(&listaParametros, tipo_parametro); memset(tipo_parametro, 0, 30);;}
+#line 259 "TP4Bison.y"
+    {agregar_info(&listaParametros, tipo_parametro); memset(tipo_parametro, 0, 30);;}
     break;
 
   case 73:
 
 /* Line 1455 of yacc.c  */
-#line 266 "TP4Bison.y"
+#line 262 "TP4Bison.y"
     {strcpy(tipo_parametro, (yyvsp[(1) - (2)].cadena));;}
     break;
 
   case 74:
 
 /* Line 1455 of yacc.c  */
-#line 267 "TP4Bison.y"
+#line 263 "TP4Bison.y"
     {if(tipo_parametro[0] == '\0'){strcpy(tipo_parametro, (yyvsp[(1) - (2)].cadena));};;}
     break;
 
   case 75:
 
 /* Line 1455 of yacc.c  */
-#line 268 "TP4Bison.y"
+#line 264 "TP4Bison.y"
     {if(tipo_parametro[0] == '\0'){strcpy(tipo_parametro, (yyvsp[(1) - (2)].cadena));};;}
     break;
 
   case 79:
 
 /* Line 1455 of yacc.c  */
-#line 276 "TP4Bison.y"
+#line 272 "TP4Bison.y"
     {strcat(tipo_parametro, "*");;}
     break;
 
   case 83:
 
 /* Line 1455 of yacc.c  */
-#line 282 "TP4Bison.y"
+#line 278 "TP4Bison.y"
     {flag_error=1;fprintf(archivoFinal,"error xd \n");;}
     break;
 
   case 84:
 
 /* Line 1455 of yacc.c  */
-#line 285 "TP4Bison.y"
-    {agregar_parametro(&listaParametros, "int");;}
+#line 281 "TP4Bison.y"
+    {agregar_info(&listaParametros, "int");;}
     break;
 
   case 85:
 
 /* Line 1455 of yacc.c  */
-#line 286 "TP4Bison.y"
-    {agregar_parametro(&listaParametros, "int");;}
+#line 282 "TP4Bison.y"
+    {agregar_info(&listaParametros, "int");;}
     break;
 
   case 89:
 
 /* Line 1455 of yacc.c  */
-#line 294 "TP4Bison.y"
+#line 290 "TP4Bison.y"
     {strcpy(tipo, (yyvsp[(2) - (2)].cadena));;}
     break;
 
   case 101:
 
 /* Line 1455 of yacc.c  */
-#line 329 "TP4Bison.y"
+#line 325 "TP4Bison.y"
     {memset(tipo, 0, 30);;}
     break;
 
   case 113:
 
 /* Line 1455 of yacc.c  */
-#line 356 "TP4Bison.y"
+#line 352 "TP4Bison.y"
     {fprintf(archivoFinal,"se encontro una expresion OR \n");;}
     break;
 
   case 115:
 
 /* Line 1455 of yacc.c  */
-#line 360 "TP4Bison.y"
+#line 356 "TP4Bison.y"
     {fprintf(archivoFinal,"se encontro una expresion AND \n");;}
     break;
 
   case 117:
 
 /* Line 1455 of yacc.c  */
-#line 364 "TP4Bison.y"
+#line 360 "TP4Bison.y"
     {fprintf(archivoFinal,"se encontro una expresion de IGUALDAD \n");;}
     break;
 
   case 118:
 
 /* Line 1455 of yacc.c  */
-#line 365 "TP4Bison.y"
+#line 361 "TP4Bison.y"
     {fprintf(archivoFinal,"se encontro una expresion de DIFERENCIA \n");;}
     break;
 
   case 120:
 
 /* Line 1455 of yacc.c  */
-#line 369 "TP4Bison.y"
+#line 365 "TP4Bison.y"
     {fprintf(archivoFinal,"se encontro una expresion RELACIONAL \n");;}
     break;
 
   case 122:
 
 /* Line 1455 of yacc.c  */
-#line 373 "TP4Bison.y"
+#line 369 "TP4Bison.y"
     {fprintf(archivoFinal,"se encontro una expresion de SUMA \n");;}
     break;
 
   case 123:
 
 /* Line 1455 of yacc.c  */
-#line 374 "TP4Bison.y"
+#line 370 "TP4Bison.y"
     {fprintf(archivoFinal,"se encontro una expresion de RESTA \n");;}
     break;
 
   case 125:
 
 /* Line 1455 of yacc.c  */
-#line 378 "TP4Bison.y"
-    {fprintf(archivoFinal,"se encontro una expresion de MULTIPLICACION \n");;}
+#line 374 "TP4Bison.y"
+    {if(!control_tipos(tipo, "int") && !control_tipos(tipo, "int*")){fprintf(archivoFinal,"No se puede realizar la operación MULTIPLICACION con el tipo de dato %s \n", tipo);};}
     break;
 
   case 126:
 
 /* Line 1455 of yacc.c  */
-#line 379 "TP4Bison.y"
-    {fprintf(archivoFinal,"se encontro una expresion de DIVISION \n");;}
+#line 375 "TP4Bison.y"
+    {if(!control_tipos(tipo, "int") && !control_tipos(tipo, "int*")){fprintf(archivoFinal,"No se puede realizar la operación DIVISION con el tipo de dato %s \n", tipo);};}
     break;
 
   case 127:
 
 /* Line 1455 of yacc.c  */
-#line 380 "TP4Bison.y"
-    {fprintf(archivoFinal,"se encontro una expresion de RESTO \n");;}
+#line 376 "TP4Bison.y"
+    {if(!control_tipos(tipo, "int") && !control_tipos(tipo, "int*")){fprintf(archivoFinal,"No se puede realizar la operación RESTO con el tipo de dato %s \n", tipo);};}
     break;
 
   case 139:
 
 /* Line 1455 of yacc.c  */
-#line 398 "TP4Bison.y"
+#line 394 "TP4Bison.y"
     {sentencia_funcion(&listaVariables, listaParametros, (yyvsp[(1) - (4)].cadena), archivoFinal);;}
     break;
 
   case 144:
 
 /* Line 1455 of yacc.c  */
-#line 410 "TP4Bison.y"
-    {agregar_parametro(&listaParametros, tipo_variable(listaVariables, (yyvsp[(1) - (1)].cadena), archivoFinal));;}
+#line 406 "TP4Bison.y"
+    {agregar_info(&listaParametros, tipo_variable(listaVariables, (yyvsp[(1) - (1)].cadena), archivoFinal));;}
     break;
 
   case 145:
 
 /* Line 1455 of yacc.c  */
-#line 411 "TP4Bison.y"
-    {agregar_parametro(&listaParametros, "int");;}
+#line 407 "TP4Bison.y"
+    {agregar_info(&listaParametros, "int");;}
     break;
 
   case 146:
 
 /* Line 1455 of yacc.c  */
-#line 412 "TP4Bison.y"
-    {agregar_parametro(&listaParametros, "float");;}
+#line 408 "TP4Bison.y"
+    {agregar_info(&listaParametros, "float");;}
     break;
 
   case 147:
 
 /* Line 1455 of yacc.c  */
-#line 413 "TP4Bison.y"
-    {agregar_parametro(&listaParametros, "char*");;}
+#line 409 "TP4Bison.y"
+    {agregar_info(&listaParametros, "char*");;}
     break;
 
   case 148:
 
 /* Line 1455 of yacc.c  */
-#line 416 "TP4Bison.y"
+#line 412 "TP4Bison.y"
     {char* comparar_tipo = tipo_variable(listaVariables, (yyvsp[(1) - (1)].cadena), archivoFinal);if(strcmp(comparar_tipo, "error")){if(tipo[0] == '\0'){strcpy(tipo, comparar_tipo);}else if(!control_tipos(tipo, comparar_tipo)){fprintf(archivoFinal, "No se puede realizar la operacion requerida entre un %s y un %s\n", comparar_tipo, tipo);}};}
     break;
 
   case 149:
 
 /* Line 1455 of yacc.c  */
-#line 417 "TP4Bison.y"
+#line 413 "TP4Bison.y"
     {if(tipo[0] == '\0'){strcpy(tipo, "int");}else if(!control_tipos(tipo, "int")){fprintf(archivoFinal, "No se puede realizar la operacion requerida entre un int y un %s\n", tipo);};}
     break;
 
   case 150:
 
 /* Line 1455 of yacc.c  */
-#line 418 "TP4Bison.y"
+#line 414 "TP4Bison.y"
     {if(tipo[0] == '\0'){strcpy(tipo, "float");}else if(!control_tipos(tipo, "float")){fprintf(archivoFinal, "No se puede realizar la operacion requerida entre un float y un %s\n", tipo);};}
     break;
 
   case 151:
 
 /* Line 1455 of yacc.c  */
-#line 419 "TP4Bison.y"
+#line 415 "TP4Bison.y"
     {if(tipo[0] == '\0'){strcpy(tipo, "char*");}else if(!control_tipos(tipo, "char*")){fprintf(archivoFinal, "No se puede realizar la operacion requerida entre un char* y un %s\n", tipo);};}
     break;
 
   case 153:
 
 /* Line 1455 of yacc.c  */
-#line 421 "TP4Bison.y"
+#line 417 "TP4Bison.y"
     {flag_error=1;fprintf(archivoFinal,"Expresion unaria no valida \n");;}
     break;
 
   case 155:
 
 /* Line 1455 of yacc.c  */
-#line 443 "TP4Bison.y"
+#line 439 "TP4Bison.y"
     {fprintf(archivoFinal,"se encontro una expresion \n");;}
     break;
 
   case 156:
 
 /* Line 1455 of yacc.c  */
-#line 444 "TP4Bison.y"
+#line 440 "TP4Bison.y"
     {fprintf(archivoFinal,"se encontro un sentencia de seleccion \n");;}
     break;
 
   case 157:
 
 /* Line 1455 of yacc.c  */
-#line 445 "TP4Bison.y"
+#line 441 "TP4Bison.y"
     {fprintf(archivoFinal,"se encontro un sentencia de iteracion \n");;}
     break;
 
   case 158:
 
 /* Line 1455 of yacc.c  */
-#line 446 "TP4Bison.y"
+#line 442 "TP4Bison.y"
     {fprintf(archivoFinal,"se encontro un sentencia etiquetada \n");;}
     break;
 
   case 159:
 
 /* Line 1455 of yacc.c  */
-#line 447 "TP4Bison.y"
+#line 443 "TP4Bison.y"
     {fprintf(archivoFinal,"se encontro un sentencia de salto \n");;}
     break;
 
   case 160:
 
 /* Line 1455 of yacc.c  */
-#line 450 "TP4Bison.y"
+#line 446 "TP4Bison.y"
     {fprintf(archivoFinal,"se encontro una sentencia compuesta \n");;}
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 2185 "TP4Bison.tab.c"
+#line 2181 "TP4Bison.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2393,7 +2389,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 499 "TP4Bison.y"
+#line 495 "TP4Bison.y"
 
 
 int main ()
@@ -2417,19 +2413,22 @@ int main ()
 }
 
 int control_tipos(char palabra[], char tipo[]) {
-  if((!strcmp(tipo, "int") || !strcmp(tipo, "float")) && (!strcmp(palabra, "int") || !strcmp(palabra, "float") || !strcmp(palabra, "char"))){
+  if(!strcmp(palabra, tipo)){
     return 1;
   }
-  if(!strcmp(tipo, "char") && !strcmp(palabra, "char")){
+  if((!strcmp(tipo, "int") || !strcmp(tipo, "float") || !strcmp(palabra, "char")) && (!strcmp(palabra, "int") || !strcmp(palabra, "float") || !strcmp(palabra, "char"))){
     return 1;
   }
-  if(!strcmp(tipo, "char*") && !strcmp(palabra, "char*")){
+  if((!strcmp(tipo, "int*") || !strcmp(tipo, "float*")) && (!strcmp(palabra, "int*") || !strcmp(palabra, "float*"))){
     return 1;
   }
-  if(!strcmp(tipo, "void*") || !strcmp(tipo, "char*") || !strcmp(tipo, "int*") && !strcmp(palabra, "void*")){
+  if((!strcmp(tipo, "char*") || !strcmp(tipo, "int*") || !strcmp(tipo, "float*")) && (!strcmp(palabra, "void*"))){
     return 1;
   }
-  if((!strcmp(tipo, "const") || !strcmp(tipo, "volatile") || !strcmp(tipo, "typedef")) && (!strcmp(palabra, "int"))){
+  if((!strcmp(palabra, "char*") || !strcmp(palabra, "int*") || !strcmp(palabra, "float*")) && (!strcmp(tipo, "void*"))){
+    return 1;
+  }
+  if((!strcmp(tipo, "const") || !strcmp(tipo, "volatile") || !strcmp(tipo, "typedef") || !strcmp(tipo, "int")) && (!strcmp(palabra, "const") || !strcmp(palabra, "volatile") || !strcmp(palabra, "typedef") || !strcmp(palabra, "int"))){
     return 1;
   }
   return 0;
@@ -2455,7 +2454,7 @@ char* tipo_variable(nodo* lista, char nombre[], FILE* arcFinal){
   return variable->info.tipo;
 }
 
-void agregar_parametro(nodoInfo** listaParametros, char tipo[]){
+void agregar_info(nodoInfo** listaParametros, char tipo[]){
   nodoInfo* aux = (*listaParametros);
   while(aux != NULL && aux->sig != NULL){
       aux = aux->sig;
@@ -2520,16 +2519,6 @@ void agregar_funcion(nodo** lista, char nombre[], char tipo[], nodoInfo* listaPa
     aux->sig->sig = NULL;
 }
 
-void agregar_error(nodoInfo* lista, char error[]){
-    nodoInfo* aux = lista;
-    while(aux != NULL){
-        aux = aux->sig;
-    }
-    aux = malloc(sizeof(*aux));
-    strcpy(aux->info, error);
-    aux->sig = NULL;
-}
-
 void gestionar_identificador(nodo** listaVariables, char nombre[], char tipo[], FILE* archivoFinal){
     if(!agregar_variable(listaVariables, nombre, tipo)){
       fprintf(archivoFinal, "Doble declaración de la variable: %s \n", nombre);
@@ -2576,49 +2565,6 @@ int parametros_contra_funcion(nodo* funcion, nodoInfo* listaParametros, FILE* ar
   return 1;
 }
 
-/*void eliminar_ultimo(nodoVariable* listavariables){
-    nodoVariable* aux = listavariables;
-    while(aux->sig != NULL){
-        aux = aux->sig;
-    }
-    free(aux->info.identificador);
-    free(aux->info.tipo);
-    aux = NULL;
-}*/
-/*
-void pasar_a_lista_parametros(nodoVariable* listaParametros, nodoVariable* listavariables, int cantidad){
-  if(cantidad <= 0){
-      return;
-  }
-  nodoVariable* aux = listavariables;
-  while(aux->sig != NULL){
-    aux = aux->sig;
-  }
-  strcpy(listaParametros->info.identificador, aux->info.identificador);
-  strcpy(listaParametros->info.tipo, aux->info.tipo);
-  free(aux->info.identificador);
-  free(aux->info.tipo);
-  free(aux);
-
-  cantidad--;
-  nodoVariable* auxParam = NULL;
-  listaParametros->sig = auxParam; 
-  while(cantidad > 0){
-    auxParam = malloc(sizeof(*auxParam));
-    aux = listavariables;
-    while(aux->sig != NULL){
-        aux = aux->sig;
-    }
-    strcpy(auxParam->info.identificador, aux->info.identificador);
-    strcpy(auxParam->info.tipo, aux->info.tipo);
-    auxParam->sig = NULL;
-    auxParam = auxParam->sig;
-    free(aux->info.identificador);
-    free(aux->info.tipo);
-    aux = NULL;
-  }
-}*/
-
 void imprimir_parametros(nodoInfo* lista, FILE* archivoFinal){
   nodoInfo* aux = lista;
   int i = 0;
@@ -2634,7 +2580,7 @@ void imprimir_lista_variables(nodo* lista, FILE* archivoFinal){
   nodo* aux = lista;
   while(aux != NULL){
     if(aux->info.es_funcion == 0){
-      fprintf(archivoFinal, "Identificador: %s\t Tipo: %s\n", aux->info.identificador, aux->info.tipo);
+      fprintf(archivoFinal, "IDENTIFICADOR: %s\t Tipo: %s\n", aux->info.identificador, aux->info.tipo);
     }
     aux = aux->sig;
   }
@@ -2654,12 +2600,14 @@ void imprimir_funciones(nodo* lista, FILE* archivoFinal){
 
 void imprimir_errores(nodoInfo** lista, FILE* archivoFinal){
   nodoInfo* aux;
+  int i = 1;
   fprintf(archivoFinal, "---------------------------------- ERRORES LEXICOS ----------------------------------\n");
   while(*lista){
     aux = (*lista);
-    fprintf(archivoFinal, "%s\n", aux->info);
+    fprintf(archivoFinal, "Error %d: %s\n", i, aux->info);
     (*lista) = aux->sig;
     free(aux->info);
     free(aux);
+    i++;
   }
 }

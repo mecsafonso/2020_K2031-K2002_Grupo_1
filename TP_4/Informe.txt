@@ -1,66 +1,39 @@
 se encontro el tipo de dato int 
+se encontro una expresion de SUMA 
 se encontro una asignacion 
 se encontro una declaracion 
 
 -----------------DECLARACION---------------- 
  
-La variable c no fue declarada
+se encontro el tipo de dato char 
+se encontro una asignacion 
+se encontro una declaracion 
+
+-----------------DECLARACION---------------- 
+ 
+se encontro el tipo de dato char 
+se encontro una asignacion 
+se encontro una declaracion 
+
+-----------------DECLARACION---------------- 
+ 
+No se puede realizar la operacion requerida entre un char* y un int
 se encontro una expresion de SUMA 
 se encontro una expresion 
 
 -----------------SENTENCIA---------------- 
  
-se encontro el tipo de dato void 
-se encontro una declaracion 
-
------------------DECLARACION---------------- 
- 
-se encontro una expresion de MULTIPLICACION 
+No se puede realizar la operación DIVISION con el tipo de dato char* 
 se encontro una expresion 
 
 -----------------SENTENCIA---------------- 
  
-se encontro el tipo de dato char 
-se encontro una funcion 
-se encontro una declaracion 
 
------------------DECLARACION---------------- 
+--------------------------------------- 
  
-se encontro el tipo de dato char 
-Doble declaración de la variable: a 
-se encontro una declaracion 
-
------------------DECLARACION---------------- 
- 
-se encontro el tipo de dato int 
-se encontro una funcion 
-se encontro una declaracion 
-
------------------DECLARACION---------------- 
- 
-se encontro una expresion 
-
------------------SENTENCIA---------------- 
- 
-La funcion joota esperaba una variable de tipo char como parametro 0, pero recibio int
-se encontro una expresion 
-
------------------SENTENCIA---------------- 
- 
-La funcion zeta recibio menos parametros de los esperados
-se encontro una expresion 
-Expresion unaria no valida 
 ---------------------------------- VARIABLES ----------------------------------
-Identificador: a	 Tipo: int
-Identificador: b	 Tipo: void*
+IDENTIFICADOR: a	 Tipo: int
+IDENTIFICADOR: b	 Tipo: char*
+IDENTIFICADOR: c	 Tipo: char*
 ---------------------------------- FUNCIONES ----------------------------------
-IDENTIFICADOR: joota
-	 Tipo Retorno: char
-	 Parametros:
-			Identificador N°: 0	 Tipo: char
-IDENTIFICADOR: zeta
-	 Tipo Retorno: int
-	 Parametros:
-			Identificador N°: 0	 Tipo: int
-			Identificador N°: 1	 Tipo: int
 ---------------------------------- ERRORES LEXICOS ----------------------------------

@@ -1,19 +1,22 @@
 #include "TP4.h"
 
 int control_tipos(char palabra[], char tipo[]) {
-  if((!strcmp(tipo, "int") || !strcmp(tipo, "float")) && (!strcmp(palabra, "int") || !strcmp(palabra, "float") || !strcmp(palabra, "char"))){
+  if(!strcmp(palabra, tipo)){
     return 1;
   }
-  if(!strcmp(tipo, "char") && !strcmp(palabra, "char")){
+  if((!strcmp(tipo, "int") || !strcmp(tipo, "float") || !strcmp(palabra, "char")) && (!strcmp(palabra, "int") || !strcmp(palabra, "float") || !strcmp(palabra, "char"))){
     return 1;
   }
-  if(!strcmp(tipo, "char*") && !strcmp(palabra, "char*")){
+  if((!strcmp(tipo, "int*") || !strcmp(tipo, "float*")) && (!strcmp(palabra, "int*") || !strcmp(palabra, "float*"))){
     return 1;
   }
-  if((!strcmp(tipo, "void*") || !strcmp(tipo, "char*") || !strcmp(tipo, "int*")) && (!strcmp(palabra, "void*"))){
+  if((!strcmp(tipo, "char*") || !strcmp(tipo, "int*") || !strcmp(tipo, "float*")) && (!strcmp(palabra, "void*"))){
     return 1;
   }
-  if((!strcmp(tipo, "const") || !strcmp(tipo, "volatile") || !strcmp(tipo, "typedef")) && (!strcmp(palabra, "int"))){
+  if((!strcmp(palabra, "char*") || !strcmp(palabra, "int*") || !strcmp(palabra, "float*")) && (!strcmp(tipo, "void*"))){
+    return 1;
+  }
+  if((!strcmp(tipo, "const") || !strcmp(tipo, "volatile") || !strcmp(tipo, "typedef") || !strcmp(tipo, "int")) && (!strcmp(palabra, "const") || !strcmp(palabra, "volatile") || !strcmp(palabra, "typedef") || !strcmp(palabra, "int"))){
     return 1;
   }
   return 0;
@@ -33,44 +36,79 @@ nodo* existe_variable(nodo* lista, char nombre[]){
 char* tipo_variable(nodo* lista, char nombre[], FILE* arcFinal){
   nodo* variable = existe_variable(lista, nombre);
   if(variable == NULL){
-    fprintf(arcFinal, "La variable %s no fue declarada", nombre);
+    fprintf(arcFinal, "La variable %s no fue declarada\n", nombre);
     return "error";
   } 
   return variable->info.tipo;
 }
 
-int agregar_variable(nodo* lista, char nombre[], char tipo[]){
-    if(existe_variable(lista, nombre) != NULL){
+void agregar_parametro(nodoInfo** listaParametros, char tipo[]){
+  nodoInfo* aux = (*listaParametros);
+  while(aux != NULL && aux->sig != NULL){
+      aux = aux->sig;
+  }
+  if(aux == NULL){
+    (*listaParametros) = malloc(sizeof(nodoInfo));
+    strcpy((*listaParametros)->info, tipo);
+    (*listaParametros)->sig = NULL;
+    return;
+  }
+  aux->sig = malloc(sizeof(nodoInfo));
+  strcpy(aux->sig->info, tipo);
+  aux->sig->sig = NULL;
+  return;
+}
+
+int agregar_variable(nodo** lista, char nombre[], char tipo[]){
+    if(existe_variable(*lista, nombre) != NULL){
         return 0;
     }
-    nodo* aux = lista;
-    while(aux != NULL){
+    nodo* aux = (*lista);
+    while(aux != NULL && aux->sig != NULL){
         aux = aux->sig;
     }
-    aux = malloc(sizeof(*aux));
-    strcpy(aux->info.identificador, nombre);
-    strcpy(aux->info.tipo, tipo);
-    aux->info.es_funcion = 0;
-    aux->info.listaParametros = NULL;
-    aux->sig = NULL;
+    if(aux == NULL){
+      (*lista) = malloc(sizeof(nodo));
+      (*lista)->info.es_funcion = 0;
+      (*lista)->info.listaParametros = NULL;
+      strcpy((*lista)->info.identificador, nombre);
+      strcpy((*lista)->info.tipo, tipo);
+      (*lista)->sig = NULL;
+      return 1;
+    }
+    aux->sig = malloc(sizeof(nodo));
+    strcpy(aux->sig->info.identificador, nombre);
+    strcpy(aux->sig->info.tipo, tipo);
+    aux->sig->info.es_funcion = 0;
+    aux->sig->info.listaParametros = NULL;
+    aux->sig->sig = NULL;
     return 1;
 }
 
-int agregar_funcion(nodo* lista, char nombre[], char tipo[], nodo* listaParametros){
-    nodo* aux = lista;
-    while(aux != NULL){
+void agregar_funcion(nodo** lista, char nombre[], char tipo[], nodoInfo* listaParametros){
+    nodo* aux = (*lista);
+    while(aux != NULL && aux->sig != NULL){
         aux = aux->sig;
     }
-    aux = malloc(sizeof(*aux));
-    strcpy(aux->info.identificador, nombre);
-    strcpy(aux->info.tipo, tipo);
-    aux->info.es_funcion = 1;
-    aux->info.listaParametros = listaParametros;
-    aux->sig = NULL;
+    if(aux == NULL){
+      (*lista) = malloc(sizeof(nodo));
+      (*lista)->info.es_funcion = 1;
+      (*lista)->info.listaParametros = listaParametros;
+      strcpy((*lista)->info.identificador, nombre);
+      strcpy((*lista)->info.tipo, tipo);
+      (*lista)->sig = NULL;
+      return;
+    }
+    aux->sig = malloc(sizeof(nodo));
+    strcpy(aux->sig->info.identificador, nombre);
+    strcpy(aux->sig->info.tipo, tipo);
+    aux->sig->info.es_funcion = 1;
+    aux->sig->info.listaParametros = listaParametros;
+    aux->sig->sig = NULL;
 }
 
-void agregar_error(nodoError* lista, char error[]){
-    nodoError* aux = lista;
+void agregar_error(nodoInfo* lista, char error[]){
+    nodoInfo* aux = lista;
     while(aux != NULL){
         aux = aux->sig;
     }
@@ -79,14 +117,14 @@ void agregar_error(nodoError* lista, char error[]){
     aux->sig = NULL;
 }
 
-void gestionar_identificador(nodo* listaVariables, char nombre[], char tipo[], FILE* archivoFinal){
+void gestionar_identificador(nodo** listaVariables, char nombre[], char tipo[], FILE* archivoFinal){
     if(!agregar_variable(listaVariables, nombre, tipo)){
-      fprintf(archivoFinal, "Doble declaración de la variable: %s", nombre);
+      fprintf(archivoFinal, "Doble declaración de la variable: %s \n", nombre);
     }    
 }
 
-void gestionar_funcion(nodo* lista, nodo* listaParametros, char identificador[], char tipo[], FILE* archivoFinal){
-    nodo* aux = existe_funcion(lista, identificador);
+void gestionar_funcion(nodo** lista, nodoInfo* listaParametros, char identificador[], char tipo[], FILE* archivoFinal){
+    nodo* aux = existe_variable(*lista, identificador);
     if(aux == NULL){
         agregar_funcion(lista, identificador, tipo, listaParametros);
     } else {
@@ -94,91 +132,44 @@ void gestionar_funcion(nodo* lista, nodo* listaParametros, char identificador[],
     }
 }
 
-int parametros_contra_funcion(nodo* funcion, nodo* listaParametros, FILE* archivoFinal){
-  nodo* auxLista = funcion->info.listaParametros;
-  nodo* auxParam = listaParametros;
+void sentencia_funcion(nodo** lista, nodoInfo* listaParametros, char identificador[], FILE* archivoFinal){
+  nodo* aux = existe_variable(*lista, identificador);
+    if(aux == NULL){
+        fprintf(archivoFinal, "La funcion %s no fue declarada\n", identificador);
+    } else {
+        parametros_contra_funcion(aux, listaParametros, archivoFinal);           
+    }
+}
+
+int parametros_contra_funcion(nodo* funcion, nodoInfo* listaParametros, FILE* archivoFinal){
+  nodoInfo* auxLista = funcion->info.listaParametros;
+  nodoInfo* auxParam = listaParametros;
   int contador_parametros = 0;
   while(auxParam != NULL && auxLista != NULL){
-    if(!control_tipos(auxParam->info.tipo, auxLista->info.tipo)){
-      fprintf(archivoFinal, "La funcion %s esperaba una variable de tipo %s como parametro %d, pero recibio %s", funcion->info.identificador, auxLista->info.tipo, contador_parametros, auxParam->info.tipo);
+    if(!control_tipos(auxParam->info, auxLista->info)){
+      fprintf(archivoFinal, "La funcion %s esperaba una variable de tipo %s como parametro %d, pero recibio %s\n", funcion->info.identificador, auxLista->info, contador_parametros, auxParam->info);
       return 0;
     }
     auxLista = auxLista->sig;
     auxParam = auxParam->sig;
   }
   if(auxLista != NULL){
-    fprintf(archivoFinal, "La funcion %s esperaba mas parametros de los recibidos", funcion->info.identificador); 
+    fprintf(archivoFinal, "La funcion %s esperaba mas parametros de los recibidos\n", funcion->info.identificador); 
     return 0;
   } 
   if (auxParam != NULL){
-    fprintf(archivoFinal, "La funcion %s recibio mas parametros de los esperados", funcion->info.identificador);     
+    fprintf(archivoFinal, "La funcion %s recibio menos parametros de los esperados\n", funcion->info.identificador);     
   }
   return 1;
 }
 
-void vaciar_parametros(nodo* listaParametros){
-  nodo* aux;
-  while(listaParametros != NULL){
-    aux = listaParametros;
-    listaParametros = listaParametros->sig;
-    free(aux->info.identificador);
-    free(aux->info.tipo);
-    free(aux);
-  }
-}
-
-/*void eliminar_ultimo(nodoVariable* listavariables){
-    nodoVariable* aux = listavariables;
-    while(aux->sig != NULL){
-        aux = aux->sig;
-    }
-    free(aux->info.identificador);
-    free(aux->info.tipo);
-    aux = NULL;
-}*/
-/*
-void pasar_a_lista_parametros(nodoVariable* listaParametros, nodoVariable* listavariables, int cantidad){
-  if(cantidad <= 0){
-      return;
-  }
-  nodoVariable* aux = listavariables;
-  while(aux->sig != NULL){
+void imprimir_parametros(nodoInfo* lista, FILE* archivoFinal){
+  nodoInfo* aux = lista;
+  int i = 0;
+  while(aux != NULL){
+    fprintf(archivoFinal, "\t\t\tIdentificador N°: %d\t Tipo: %s\n", i, aux->info);
     aux = aux->sig;
-  }
-  strcpy(listaParametros->info.identificador, aux->info.identificador);
-  strcpy(listaParametros->info.tipo, aux->info.tipo);
-  free(aux->info.identificador);
-  free(aux->info.tipo);
-  free(aux);
-
-  cantidad--;
-  nodoVariable* auxParam = NULL;
-  listaParametros->sig = auxParam; 
-  while(cantidad > 0){
-    auxParam = malloc(sizeof(*auxParam));
-    aux = listavariables;
-    while(aux->sig != NULL){
-        aux = aux->sig;
-    }
-    strcpy(auxParam->info.identificador, aux->info.identificador);
-    strcpy(auxParam->info.tipo, aux->info.tipo);
-    auxParam->sig = NULL;
-    auxParam = auxParam->sig;
-    free(aux->info.identificador);
-    free(aux->info.tipo);
-    aux = NULL;
-  }
-}*/
-
-void imprimir_parametros(nodo* lista, FILE* archivoFinal){
-  nodo* aux;
-  while(lista != NULL){
-    fprintf(archivoFinal, "\t\t\tIdentificador: %s\t Tipo: %s\n", lista->info.identificador, lista->info.tipo);
-    aux = lista;
-    lista = lista->sig;
-    free(aux->info.identificador);
-    free(aux->info.tipo);
-    free(aux);
+    i++;
   }
 }
 
@@ -187,35 +178,31 @@ void imprimir_lista_variables(nodo* lista, FILE* archivoFinal){
   nodo* aux = lista;
   while(aux != NULL){
     if(aux->info.es_funcion == 0){
-      fprintf(archivoFinal, "Identificador: %s\t Tipo: %s\n", lista->info.identificador, lista->info.tipo);
+      fprintf(archivoFinal, "Identificador: %s\t Tipo: %s\n", aux->info.identificador, aux->info.tipo);
     }
-    aux = lista->sig;
+    aux = aux->sig;
   }
 }
 
 void imprimir_funciones(nodo* lista, FILE* archivoFinal){
-  nodo* aux;
+  nodo* aux = lista;
   fprintf(archivoFinal, "---------------------------------- FUNCIONES ----------------------------------\n");
-  while(lista){
+  while(aux != NULL){
     if(aux->info.es_funcion == 1){
-      fprintf(archivoFinal, "IDENTIFICADOR: %s\n\t Tipo Retorno: %s\n\t Parametros:\n", lista->info.identificador, lista->info.tipo);
-      imprimir_parametros(lista->info.listaParametros, archivoFinal);
+      fprintf(archivoFinal, "IDENTIFICADOR: %s\n\t Tipo Retorno: %s\n\t Parametros:\n", aux->info.identificador, aux->info.tipo);
+      imprimir_parametros(aux->info.listaParametros, archivoFinal);
     }    
-    aux = lista;
-    lista = lista->sig;
-    free(aux->info.identificador);
-    free(aux->info.tipo);
-    free(aux);
+    aux = aux->sig;
   }
 }
 
-void imprimir_errores(nodoError* lista, FILE* archivoFinal){
-  nodoError* aux;
+void imprimir_errores(nodoInfo** lista, FILE* archivoFinal){
+  nodoInfo* aux;
   fprintf(archivoFinal, "---------------------------------- ERRORES LEXICOS ----------------------------------\n");
-  while(lista){
-    fprintf(archivoFinal, "%s\n", lista->info);
-    aux = lista;
-    lista = lista->sig;
+  while(*lista){
+    aux = (*lista);
+    fprintf(archivoFinal, "%s\n", aux->info);
+    (*lista) = aux->sig;
     free(aux->info);
     free(aux);
   }

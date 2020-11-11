@@ -27,16 +27,13 @@ typedef struct nodo{
 int control_tipos(char palabra[], char tipo[]);
 nodo* existe_variable(nodo* lista, char nombre[]);
 char* tipo_variable(nodo* lista, char nombre[], FILE* arcFinal);
-void agregar_parametro(nodoInfo** listaParametros, char tipo[]);
+void agregar_info(nodoInfo** listaParametros, char tipo[]);
 int agregar_variable(nodo** lista, char nombre[], char tipo[]);
 void agregar_funcion(nodo** lista, char nombre[], char tipo[], nodoInfo* listaParametros);
-void agregar_error(nodoInfo* lista, char error[]);
 void gestionar_identificador(nodo** listaVariables, char nombre[], char tipo[], FILE* archivoFinal);
 void gestionar_funcion(nodo** lista, nodoInfo* listaParametros, char identificador[], char tipo[], FILE* archivoFinal);
 void sentencia_funcion(nodo** lista, nodoInfo* listaParametros, char identificador[], FILE* archivoFinal);
 int parametros_contra_funcion(nodo* funcion, nodoInfo* listaParametros, FILE* archivoFinal);
-//void eliminar_ultimo(nodoVariable* listavariables);
-//void pasar_a_lista_parametros(nodoVariable* listaParametros, nodoVariable* listavariables, int cantidad);
 
 void imprimir_parametros(nodoInfo* lista, FILE* archivoFinal);
 void imprimir_lista_variables(nodo* lista, FILE* archivoFinal);
@@ -75,7 +72,6 @@ void yyerror (char const *s) {
 %union {
 char cadena[30];
 int entero;
-int tipo;
 float real;
 }
 
@@ -259,8 +255,8 @@ listaParametros: declaracionParametro
   | listaParametros ',' declaracionParametro
 ;
 
-declaracionParametro: especificadoresDeclaracionParametro punteroParametroOp declaParametro {agregar_parametro(&listaParametros, tipo_parametro); memset(tipo_parametro, 0, 30);}
-  | especificadoresDeclaracionParametro punteroParametroOp declaradorAbstractoDirectoOP {agregar_parametro(&listaParametros, tipo_parametro); memset(tipo_parametro, 0, 30);}
+declaracionParametro: especificadoresDeclaracionParametro punteroParametroOp declaParametro {agregar_info(&listaParametros, tipo_parametro); memset(tipo_parametro, 0, 30);}
+  | especificadoresDeclaracionParametro punteroParametroOp declaradorAbstractoDirectoOP {agregar_info(&listaParametros, tipo_parametro); memset(tipo_parametro, 0, 30);}
 ;
 
 especificadoresDeclaracionParametro: ESPECIFICADOR_TIPO especificadoresDeclaracionParametroOp {strcpy(tipo_parametro, $<cadena>1);}
@@ -282,8 +278,8 @@ declaParametro: IDENTIFICADOR
 	| error {flag_error=1;fprintf(archivoFinal,"error xd \n");}
 ;
 
-listaIdentificadores: IDENTIFICADOR {agregar_parametro(&listaParametros, "int");}
-  | listaIdentificadores ',' IDENTIFICADOR {agregar_parametro(&listaParametros, "int");}
+listaIdentificadores: IDENTIFICADOR {agregar_info(&listaParametros, "int");}
+  | listaIdentificadores ',' IDENTIFICADOR {agregar_info(&listaParametros, "int");}
 ;
 
 listaIdentificadoresOP: 
@@ -375,9 +371,9 @@ expAditiva: expMultiplicativa
 ;
 
 expMultiplicativa: expUnaria
-  | expMultiplicativa '*' expUnaria     {fprintf(archivoFinal,"se encontro una expresion de MULTIPLICACION \n");}
-  | expMultiplicativa '/' expUnaria     {fprintf(archivoFinal,"se encontro una expresion de DIVISION \n");}
-  | expMultiplicativa '%' expUnaria     {fprintf(archivoFinal,"se encontro una expresion de RESTO \n");}
+  | expMultiplicativa '*' expUnaria     {if(!control_tipos(tipo, "int") && !control_tipos(tipo, "int*")){fprintf(archivoFinal,"No se puede realizar la operación MULTIPLICACION con el tipo de dato %s \n", tipo);}}
+  | expMultiplicativa '/' expUnaria     {if(!control_tipos(tipo, "int") && !control_tipos(tipo, "int*")){fprintf(archivoFinal,"No se puede realizar la operación DIVISION con el tipo de dato %s \n", tipo);}}
+  | expMultiplicativa '%' expUnaria     {if(!control_tipos(tipo, "int") && !control_tipos(tipo, "int*")){fprintf(archivoFinal,"No se puede realizar la operación RESTO con el tipo de dato %s \n", tipo);}}
 ;
 
 expUnaria: expPostfijo
@@ -407,10 +403,10 @@ listaArgumentos: argumento
   | listaArgumentos ',' argumento
 ;
 
-argumento: IDENTIFICADOR {agregar_parametro(&listaParametros, tipo_variable(listaVariables, $<cadena>1, archivoFinal));}
-  | NUM {agregar_parametro(&listaParametros, "int");}
-  | CONS_REAL {agregar_parametro(&listaParametros, "float");}
-  | LIT_CADENA {agregar_parametro(&listaParametros, "char*");}
+argumento: IDENTIFICADOR {agregar_info(&listaParametros, tipo_variable(listaVariables, $<cadena>1, archivoFinal));}
+  | NUM {agregar_info(&listaParametros, "int");}
+  | CONS_REAL {agregar_info(&listaParametros, "float");}
+  | LIT_CADENA {agregar_info(&listaParametros, "char*");}
 ;
 
 expPrimaria: IDENTIFICADOR {char* comparar_tipo = tipo_variable(listaVariables, $<cadena>1, archivoFinal);if(strcmp(comparar_tipo, "error")){if(tipo[0] == '\0'){strcpy(tipo, comparar_tipo);}else if(!control_tipos(tipo, comparar_tipo)){fprintf(archivoFinal, "No se puede realizar la operacion requerida entre un %s y un %s\n", comparar_tipo, tipo);}}}
@@ -519,19 +515,22 @@ int main ()
 }
 
 int control_tipos(char palabra[], char tipo[]) {
-  if((!strcmp(tipo, "int") || !strcmp(tipo, "float")) && (!strcmp(palabra, "int") || !strcmp(palabra, "float") || !strcmp(palabra, "char"))){
+  if(!strcmp(palabra, tipo)){
     return 1;
   }
-  if(!strcmp(tipo, "char") && !strcmp(palabra, "char")){
+  if((!strcmp(tipo, "int") || !strcmp(tipo, "float") || !strcmp(palabra, "char")) && (!strcmp(palabra, "int") || !strcmp(palabra, "float") || !strcmp(palabra, "char"))){
     return 1;
   }
-  if(!strcmp(tipo, "char*") && !strcmp(palabra, "char*")){
+  if((!strcmp(tipo, "int*") || !strcmp(tipo, "float*")) && (!strcmp(palabra, "int*") || !strcmp(palabra, "float*"))){
     return 1;
   }
-  if(!strcmp(tipo, "void*") || !strcmp(tipo, "char*") || !strcmp(tipo, "int*") && !strcmp(palabra, "void*")){
+  if((!strcmp(tipo, "char*") || !strcmp(tipo, "int*") || !strcmp(tipo, "float*")) && (!strcmp(palabra, "void*"))){
     return 1;
   }
-  if((!strcmp(tipo, "const") || !strcmp(tipo, "volatile") || !strcmp(tipo, "typedef")) && (!strcmp(palabra, "int"))){
+  if((!strcmp(palabra, "char*") || !strcmp(palabra, "int*") || !strcmp(palabra, "float*")) && (!strcmp(tipo, "void*"))){
+    return 1;
+  }
+  if((!strcmp(tipo, "const") || !strcmp(tipo, "volatile") || !strcmp(tipo, "typedef") || !strcmp(tipo, "int")) && (!strcmp(palabra, "const") || !strcmp(palabra, "volatile") || !strcmp(palabra, "typedef") || !strcmp(palabra, "int"))){
     return 1;
   }
   return 0;
@@ -557,7 +556,7 @@ char* tipo_variable(nodo* lista, char nombre[], FILE* arcFinal){
   return variable->info.tipo;
 }
 
-void agregar_parametro(nodoInfo** listaParametros, char tipo[]){
+void agregar_info(nodoInfo** listaParametros, char tipo[]){
   nodoInfo* aux = (*listaParametros);
   while(aux != NULL && aux->sig != NULL){
       aux = aux->sig;
@@ -622,16 +621,6 @@ void agregar_funcion(nodo** lista, char nombre[], char tipo[], nodoInfo* listaPa
     aux->sig->sig = NULL;
 }
 
-void agregar_error(nodoInfo* lista, char error[]){
-    nodoInfo* aux = lista;
-    while(aux != NULL){
-        aux = aux->sig;
-    }
-    aux = malloc(sizeof(*aux));
-    strcpy(aux->info, error);
-    aux->sig = NULL;
-}
-
 void gestionar_identificador(nodo** listaVariables, char nombre[], char tipo[], FILE* archivoFinal){
     if(!agregar_variable(listaVariables, nombre, tipo)){
       fprintf(archivoFinal, "Doble declaración de la variable: %s \n", nombre);
@@ -678,49 +667,6 @@ int parametros_contra_funcion(nodo* funcion, nodoInfo* listaParametros, FILE* ar
   return 1;
 }
 
-/*void eliminar_ultimo(nodoVariable* listavariables){
-    nodoVariable* aux = listavariables;
-    while(aux->sig != NULL){
-        aux = aux->sig;
-    }
-    free(aux->info.identificador);
-    free(aux->info.tipo);
-    aux = NULL;
-}*/
-/*
-void pasar_a_lista_parametros(nodoVariable* listaParametros, nodoVariable* listavariables, int cantidad){
-  if(cantidad <= 0){
-      return;
-  }
-  nodoVariable* aux = listavariables;
-  while(aux->sig != NULL){
-    aux = aux->sig;
-  }
-  strcpy(listaParametros->info.identificador, aux->info.identificador);
-  strcpy(listaParametros->info.tipo, aux->info.tipo);
-  free(aux->info.identificador);
-  free(aux->info.tipo);
-  free(aux);
-
-  cantidad--;
-  nodoVariable* auxParam = NULL;
-  listaParametros->sig = auxParam; 
-  while(cantidad > 0){
-    auxParam = malloc(sizeof(*auxParam));
-    aux = listavariables;
-    while(aux->sig != NULL){
-        aux = aux->sig;
-    }
-    strcpy(auxParam->info.identificador, aux->info.identificador);
-    strcpy(auxParam->info.tipo, aux->info.tipo);
-    auxParam->sig = NULL;
-    auxParam = auxParam->sig;
-    free(aux->info.identificador);
-    free(aux->info.tipo);
-    aux = NULL;
-  }
-}*/
-
 void imprimir_parametros(nodoInfo* lista, FILE* archivoFinal){
   nodoInfo* aux = lista;
   int i = 0;
@@ -736,7 +682,7 @@ void imprimir_lista_variables(nodo* lista, FILE* archivoFinal){
   nodo* aux = lista;
   while(aux != NULL){
     if(aux->info.es_funcion == 0){
-      fprintf(archivoFinal, "Identificador: %s\t Tipo: %s\n", aux->info.identificador, aux->info.tipo);
+      fprintf(archivoFinal, "IDENTIFICADOR: %s\t Tipo: %s\n", aux->info.identificador, aux->info.tipo);
     }
     aux = aux->sig;
   }
@@ -756,12 +702,14 @@ void imprimir_funciones(nodo* lista, FILE* archivoFinal){
 
 void imprimir_errores(nodoInfo** lista, FILE* archivoFinal){
   nodoInfo* aux;
+  int i = 1;
   fprintf(archivoFinal, "---------------------------------- ERRORES LEXICOS ----------------------------------\n");
   while(*lista){
     aux = (*lista);
-    fprintf(archivoFinal, "%s\n", aux->info);
+    fprintf(archivoFinal, "Error %d: %s\n", i, aux->info);
     (*lista) = aux->sig;
     free(aux->info);
     free(aux);
+    i++;
   }
 }

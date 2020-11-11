@@ -1,10 +1,6 @@
-int a = 1;
-a + c;
-void* b;
-4 * b;
-char joota(char m);
-char* a;
-int zeta(hola,mil);
-zeta(1,2);
-joota(a);
-zeta(1);
+int a = 1 + 2;
+char* b = "hola";
+char* c = "chau";
+a + b;
+b/c;
+
