@@ -114,7 +114,7 @@ float real;
 
 %% 
 
-input:    
+input: /* vacío */
   | input line
 ;
 
@@ -142,7 +142,7 @@ especificadoresDeclaracion: especificadorClaseAlmacenamiento especificadoresDecl
   | calificadorTipo especificadoresDeclaracionOP
 ;
 
-especificadoresDeclaracionOP: 
+especificadoresDeclaracionOP: /* vacío */
   | especificadoresDeclaracion
 ;
 
@@ -181,7 +181,7 @@ especificadorStructOUnion: structOUnion identificadorOP '{' listaDeclaracionesSt
   | structOUnion IDENTIFICADOR {strcpy(tipo, $<cadena>2);} 
 ;
 
-identificadorOP: 
+identificadorOP: /* vacío */
   | IDENTIFICADOR {strcpy(tipo, $<cadena>1);} 
 ;
 
@@ -200,7 +200,7 @@ listaCalificadores: especificadorTipo listaCalificadoresOP
   | calificadorTipo listaCalificadoresOP
 ;
 
-listaCalificadoresOP: 
+listaCalificadoresOP: /* vacío */
   | listaCalificadores
 ;
 
@@ -215,7 +215,7 @@ declaStruct: decla
 decla: punteroOP declaradorDirecto
 ;
 
-declaOP: 
+declaOP: /* vacío */
   | decla
 ;
 
@@ -223,7 +223,7 @@ puntero: '*' listaCalificadoresTiposOP {strcat(tipo, "*");}
   | '*' listaCalificadoresTiposOP puntero
 ;
 
-punteroOP: 
+punteroOP: /* vacío */
   | puntero
 ;
 
@@ -231,7 +231,7 @@ listaCalificadoresTipos: calificadorTipo
   | listaCalificadoresTipos calificadorTipo
 ;
 
-listaCalificadoresTiposOP: 
+listaCalificadoresTiposOP: /* vacío */
   | listaCalificadoresTipos
 ;
 
@@ -247,7 +247,7 @@ listaTiposParametros: listaParametros
   | listaParametros ',' '.' '.' '.'
 ;
 
-listaTiposParametrosOP: 
+listaTiposParametrosOP: /* vacío */
   | listaTiposParametros
 ;
 
@@ -264,11 +264,11 @@ especificadoresDeclaracionParametro: ESPECIFICADOR_TIPO especificadoresDeclaraci
   | VOLATILE especificadoresDeclaracionParametroOp {if(tipo_parametro[0] == '\0'){strcpy(tipo_parametro, $<cadena>1);};}
 ;
 
-especificadoresDeclaracionParametroOp:
+especificadoresDeclaracionParametroOp: /* vacío */
   |especificadoresDeclaracionParametro
 ;
 
-punteroParametroOp:
+punteroParametroOp: /* vacío */
   |'*' {strcat(tipo_parametro, "*");}
 ;
 
@@ -282,7 +282,7 @@ listaIdentificadores: IDENTIFICADOR {agregar_info(&listaParametros, "int");}
   | listaIdentificadores ',' IDENTIFICADOR {agregar_info(&listaParametros, "int");}
 ;
 
-listaIdentificadoresOP: 
+listaIdentificadoresOP: /* vacío */
   | listaIdentificadores
 ;
 
@@ -309,7 +309,7 @@ declaradorAbstractoDirecto: '(' punteroParametroOp declaradorAbstractoDirectoOP 
   | declaradorAbstractoDirectoOP '(' listaTiposParametrosOP ')'
 ;
 
-declaradorAbstractoDirectoOP: 
+declaradorAbstractoDirectoOP: /* vacío */
   | declaradorAbstractoDirecto
 ;
 
@@ -326,7 +326,7 @@ expresion: expAsignacion {memset(tipo, 0, 30);}
   | expresion ',' expAsignacion
 ;
 
-expresionOP: 
+expresionOP: /* vacío */
   | expresion
 ;
 
@@ -340,7 +340,7 @@ operAsignacion: OPER_ASIGNACION
 expConstante: expCondicional
 ;
 
-expConstanteOP: 
+expConstanteOP: /* vacío */
   | expConstante
 ;
 
@@ -394,7 +394,7 @@ expPostfijo: expPrimaria
   | IDENTIFICADOR '(' listaArgumentosOP ')' {sentencia_funcion(&listaVariables, listaParametros, $<cadena>1, archivoFinal);}
 ;
 
-listaArgumentosOP:
+listaArgumentosOP: /* vacío */
   | listaArgumentos
 ;
 
@@ -450,7 +450,7 @@ listaDeclaraciones: declaracion
   | listaDeclaraciones declaracion
 ;
 
-listaDeclaracionesOP:
+listaDeclaracionesOP: /* vacío */
   | listaDeclaraciones
 ;
 
@@ -459,7 +459,7 @@ listaSentencias: sentencia
   | listaSentencias sentencia
 ;
 
-listaSentenciasOP: 
+listaSentenciasOP: /* vacío */
   | listaSentencias
 ;
 
