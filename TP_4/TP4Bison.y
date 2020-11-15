@@ -466,9 +466,12 @@ listaSentenciasOP: /* vacío */
 sentExpresion: expresionOP ';'
 ;
 
-sentSeleccion: IF '(' expresion ')' sentencia  
-  | IF '(' expresion ')' sentencia ELSE sentencia  
+sentSeleccion: IF '(' expresion ')' sentencia  elseOP  
   | SWITCH '(' expresion ')' sentencia 
+;
+
+elseOP: /* vacío */
+  | ELSE sentencia
 ;
 
 sentIteracion: WHILE '(' expresion ')' sentencia
