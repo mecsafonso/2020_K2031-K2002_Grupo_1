@@ -1,5 +1,8 @@
 #include "TP4.h"
 
+
+
+
 int control_tipos(char palabra[], char tipo[]) {
   if(!strcmp(palabra, tipo)){
     return 1;
@@ -42,7 +45,7 @@ char* tipo_variable(nodo* lista, char nombre[], FILE* arcFinal){
   return variable->info.tipo;
 }
 
-void agregar_parametro(nodoInfo** listaParametros, char tipo[]){
+void agregar_info(nodoInfo** listaParametros, char tipo[]){
   nodoInfo* aux = (*listaParametros);
   while(aux != NULL && aux->sig != NULL){
       aux = aux->sig;
@@ -107,16 +110,6 @@ void agregar_funcion(nodo** lista, char nombre[], char tipo[], nodoInfo* listaPa
     aux->sig->sig = NULL;
 }
 
-void agregar_error(nodoInfo* lista, char error[]){
-    nodoInfo* aux = lista;
-    while(aux != NULL){
-        aux = aux->sig;
-    }
-    aux = malloc(sizeof(*aux));
-    strcpy(aux->info, error);
-    aux->sig = NULL;
-}
-
 void gestionar_identificador(nodo** listaVariables, char nombre[], char tipo[], FILE* archivoFinal){
     if(!agregar_variable(listaVariables, nombre, tipo)){
       fprintf(archivoFinal, "Doble declaración de la variable: %s \n", nombre);
@@ -178,7 +171,7 @@ void imprimir_lista_variables(nodo* lista, FILE* archivoFinal){
   nodo* aux = lista;
   while(aux != NULL){
     if(aux->info.es_funcion == 0){
-      fprintf(archivoFinal, "Identificador: %s\t Tipo: %s\n", aux->info.identificador, aux->info.tipo);
+      fprintf(archivoFinal, "IDENTIFICADOR: %s\t Tipo: %s\n", aux->info.identificador, aux->info.tipo);
     }
     aux = aux->sig;
   }
@@ -196,14 +189,31 @@ void imprimir_funciones(nodo* lista, FILE* archivoFinal){
   }
 }
 
+
+
+void agregar_error(nodoInfo* lista, char error[]){
+    nodoInfo* aux = lista;
+    while(aux != NULL){
+        aux = aux->sig;
+    }
+    aux = malloc(sizeof(*aux));
+    strcpy(aux->info, error);
+    aux->sig = NULL;
+}
+
 void imprimir_errores(nodoInfo** lista, FILE* archivoFinal){
   nodoInfo* aux;
+  int i = 1;
   fprintf(archivoFinal, "---------------------------------- ERRORES LEXICOS ----------------------------------\n");
   while(*lista){
     aux = (*lista);
-    fprintf(archivoFinal, "%s\n", aux->info);
+    fprintf(archivoFinal, "Error %d: %s\n", i, aux->info);
     (*lista) = aux->sig;
     free(aux->info);
     free(aux);
+    i++;
   }
 }
+
+
+
