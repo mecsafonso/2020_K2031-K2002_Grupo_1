@@ -17,6 +17,25 @@ int caracterHexadecimalADecimal(char);
 int convertirAdecimal(char*, int, int);
 
 /* FILE* archivoFinal;*/
+
+struct infoCola{
+    char nombre[101];    /* asumimos un tamaño para el literal cadena y de los comentarios de 100 caracteres + '\0'= 101 */
+    int cantidad;
+    char categoria[32];
+} ;
+
+typedef struct nodoCola{
+    struct infoCola info;
+    struct nodoCola* sgte;
+} NodoCola;
+
+struct cola {
+    NodoCola* primero;
+	NodoCola* ultimo;
+} typedef tipoCola;
+
+tipoCola* NoReconocidos;
+
 %}
 
 DIGITO_DECIMAL [0-9] 
@@ -137,4 +156,47 @@ int convertirAdecimal(char* numeroAconvertir, int Base, int longitud) {
         }
         return numeroDecimal;
     }
+}
+
+
+tipoCola* crearCola(void){
+	tipoCola* cola = malloc(sizeof(tipoCola)); 
+	if(cola == NULL) return NULL;
+	cola->primero  =NULL;
+	cola->ultimo = NULL;
+	return cola;
+}
+
+void encolar(tipoCola* cola, char* cadena, int valor, char* categoria){
+	NodoCola* nuevoNodo = (NodoCola*)malloc(sizeof(NodoCola));
+
+    strcpy(nuevoNodo->info.nombre, cadena);
+    nuevoNodo->info.cantidad = valor;
+    strcpy(nuevoNodo->info.categoria, categoria);
+	nuevoNodo->sgte = NULL;
+
+	if (cola->primero == NULL)
+		cola->primero = nuevoNodo;
+	else
+		cola->ultimo->sgte = nuevoNodo;
+	
+    cola->ultimo = nuevoNodo;	
+}
+
+struct infoCola desencolar(tipoCola *cola){
+	if(cola->primero == NULL){
+        fprintf(arcFinal,"\n La cola se encuentra vacia\n\n");
+        cola->ultimo = NULL;
+    }
+    else {
+        struct infoCola info;
+        strcpy(info.nombre, cola->primero->info.nombre);
+        info.cantidad = cola->primero->info.cantidad;
+        strcpy(info.categoria, cola->primero->info.categoria); 
+
+        NodoCola* aux = cola->primero;
+        cola->primero = aux->sgte; 
+        free(aux);
+        return info;
+    }	
 }
