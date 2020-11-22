@@ -1,8 +1,10 @@
-int a = 1 + 2;
-char* b = "hola";
-char* c = "chau";
-a + b;
-b/c;
-4ta
-%op
-}78_a
+int a = 3;
+if (0 == 0){}
+
+char* b = "asdas";
+
+int control_tipos(char palabra[], char tipo[]);
+
+int 4 ;
+
+if xd

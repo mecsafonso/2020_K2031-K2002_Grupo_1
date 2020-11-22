@@ -2,7 +2,7 @@
 
 %{
 #include "TP4Bison.tab.h"
-#include "TP4.h"
+//#include "TP4.h"
 // Definicion de las librerías que incluímos
 #include <stdio.h>
 #include <string.h> // strcpy, strcmp
@@ -13,10 +13,9 @@
 #define BASE8 8
 #define BASE16 16
 
+
 int caracterHexadecimalADecimal(char);
 int convertirAdecimal(char*, int, int);
-
-
 
 /* FILE* archivoFinal;*/
 
@@ -95,7 +94,7 @@ OPERADOR [\+\-\*\/\%]|\+\+|\-\-
 
 {IDENTIFICADOR}                 {strcpy(yylval.cadena,yytext); return IDENTIFICADOR;} 
 
-.+                              {agregar_error(&listaErroresLexicos, yytext);}
+
 
 %%
 
@@ -143,4 +142,3 @@ int convertirAdecimal(char* numeroAconvertir, int Base, int longitud) {
         return numeroDecimal;
     }
 }
-

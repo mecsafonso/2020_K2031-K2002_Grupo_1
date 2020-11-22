@@ -6,6 +6,8 @@ typedef struct nodoInfo{
     struct nodoInfo* sig;
 }nodoInfo;
 
+nodoInfo* listaErroresLexicos = NULL;
+/*
 typedef struct {
     char identificador[30];
     char tipo[30];
@@ -18,7 +20,6 @@ typedef struct nodo{
     struct nodo* sig;
 } nodo;
 
-nodoInfo
 
 int control_tipos(char palabra[], char tipo[]);
 nodo* existe_variable(nodo* lista, char nombre[]);
@@ -37,7 +38,7 @@ void imprimir_parametros(nodoInfo* lista, FILE* archivoFinal);
 void imprimir_lista_variables(nodo* lista, FILE* archivoFinal);
 void imprimir_funciones(nodo* lista, FILE* archivoFinal);
 void imprimir_errores(nodoInfo** lista, FILE* archivoFinal);
-
+*/
 
 
 
