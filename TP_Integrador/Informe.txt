@@ -25,21 +25,30 @@ se encontro una declaracion
 se encontro el tipo de dato int 
 
 ---------------------------------- VARIABLES ----------------------------------
+
 Identificador: a	 Tipo: int
 Identificador: b	 Tipo: char*
------------------------------------ SENTENCIA ------------------------------------
+
+----------------------------------- SENTENCIAS ------------------------------------
 
 Se encontraron las siguientes sentencias:
-Sentencia IF en la linea 2
+
+   - Sentencia IF en la linea 2
+
 ---------------------------------- FUNCIONES ----------------------------------
+
 IDENTIFICADOR: control_tipos
 	 Tipo Retorno: int
 	 Parametros:
 			Identificador N°: 0	 Tipo: char
 			Identificador N°: 1	 Tipo: char
+
 ---------------------------------- ERRORES LEXICOS ----------------------------------
+
+
 -------------------------------- ERRORES SINTÁCTICOS --------------------------------
 
 Se encontraron errores sintacticos en las lineas:
+
 - 8
 - 10
