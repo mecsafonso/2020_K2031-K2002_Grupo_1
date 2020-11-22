@@ -772,7 +772,7 @@ void imprimir_errores_sintacticos(nodoErroresSintacticos** lista, FILE* archivoF
   fprintf(archivoFinal, "\n-------------------------------- ERRORES SINTÁCTICOS --------------------------------\n\nSe encontraron errores sintacticos en las lineas:\n\n");
   while(*lista){
     aux = (*lista);
-    fprintf(archivoFinal, "- %d\n", aux->linea);
+    fprintf(archivoFinal, "   - %d\n", aux->linea);
     (*lista) = aux->sig;
     free(aux);
   }
@@ -826,3 +826,6 @@ void imprimir_validaciones_sintacticas(nodoValidacionesSintacticas** lista, FILE
     free(aux);
   }
 }
+
+
+
