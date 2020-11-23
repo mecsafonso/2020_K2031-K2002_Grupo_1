@@ -542,7 +542,7 @@ int main ()
   archivoFinal = fopen("Informe.txt", "w");
 
                          
-  fprintf(archivoFinal, "----------------------------------- ERRORES SEMÁNTICOS ----------------\n\nSe encontraron los siguientes errores semánticos:\n\n");
+  fprintf(archivoFinal, "------------------------- ERRORES SEMÁNTICOS --------------------------\n\n * Se encontraron los siguientes errores semánticos:\n\n");
 
 
 
@@ -747,7 +747,7 @@ void imprimir_parametros(nodoInfo* lista, FILE* archivoFinal){
 
 void imprimir_lista_variables(nodo* lista, FILE* archivoFinal){
                              
-  fprintf(archivoFinal, "\n\n----------------------------------- VARIABLES -------------------------\n\n");
+  fprintf(archivoFinal, "\n\n----------------------------- VARIABLES -------------------------------\n\n * Se encontraron las siguientes variables declaradas:\n\n");
   nodo* aux = lista;
   while(aux != NULL){
     if(aux->info.es_funcion == 0){
@@ -759,7 +759,7 @@ void imprimir_lista_variables(nodo* lista, FILE* archivoFinal){
 
 void imprimir_funciones(nodo* lista, FILE* archivoFinal){
   nodo* aux = lista;       
-  fprintf(archivoFinal, "\n---------------------------------- FUNCIONES --------------------------\n\nSe encontraron las siguientes funciones declaradas:\n\n");
+  fprintf(archivoFinal, "\n----------------------------- FUNCIONES -------------------------------\n\n * Se encontraron las siguientes funciones declaradas:\n\n");
   while(aux != NULL){
     if(aux->info.es_funcion == 1){
       fprintf(archivoFinal, "IDENTIFICADOR: %s\n\t Tipo Retorno: %s\n\t Parametros:\n", aux->info.identificador, aux->info.tipo);
@@ -771,7 +771,7 @@ void imprimir_funciones(nodo* lista, FILE* archivoFinal){
                            
 void imprimir_errores(nodoInfo** lista, FILE* archivoFinal){
   nodoInfo* aux;
-  fprintf(archivoFinal, "\n---------------------------------- ERRORES LÉXICOS --------------------\n\nSe encontraron los siguientes errores léxicos:\n\n");
+  fprintf(archivoFinal, "\n--------------------------- ERRORES LÉXICOS ---------------------------\n\n * Se encontraron los siguientes errores léxicos:\n\n");
   while(*lista){
     aux = (*lista);
     fprintf(archivoFinal, "%s\n", aux->info);
@@ -783,7 +783,7 @@ void imprimir_errores(nodoInfo** lista, FILE* archivoFinal){
 
 void imprimir_errores_sintacticos(nodoErroresSintacticos** lista, FILE* archivoFinal){
   nodoErroresSintacticos* aux;
-  fprintf(archivoFinal, "\n-------------------------------- ERRORES SINTÁCTICOS ------------------\n\nSe encontraron errores sintácticos en las siguientes lineas:");
+  fprintf(archivoFinal, "\n------------------------- ERRORES SINTÁCTICOS -------------------------\n\n * Se encontraron errores sintácticos en las siguientes lineas:");
   fprintf(archivoFinal, "\n\n_____________________________\n");
   fprintf(archivoFinal, "│    ERRORES SINTÁCTICOS    │\n");
   fprintf(archivoFinal, "│___________________________│\n");
@@ -849,8 +849,8 @@ void agregar_validaciones_sintacticas(nodoValidacionesSintacticas** listaParamet
 
 void imprimir_validaciones_sintacticas(nodoValidacionesSintacticas** lista, FILE* archivoFinal){
   nodoValidacionesSintacticas* aux;
-   fprintf(archivoFinal, "\n---------------------------------- SENTENCIAS -------------------------\n\n");
-  fprintf(archivoFinal, "Se encontraron las siguientes sentencias:");
+   fprintf(archivoFinal, "\n----------------------------- SENTENCIAS ------------------------------\n\n");
+  fprintf(archivoFinal, " * Se encontraron las siguientes sentencias:");
   fprintf(archivoFinal, "\n\n_______________________________________________________________________\n");
   fprintf(archivoFinal, "│                             SENTENCIAS                              │\n");
   fprintf(archivoFinal, "│_____________________________________________________________________│\n");

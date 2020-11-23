@@ -1,6 +1,6 @@
------------------------------------ ERRORES SEMÁNTICOS ----------------
+------------------------- ERRORES SEMÁNTICOS --------------------------
 
-Se encontraron los siguientes errores semánticos:
+ * Se encontraron los siguientes errores semánticos:
 
 La variable c no fue declarada
 La variable c no fue declarada
@@ -11,15 +11,17 @@ La variable palabra no fue declarada
 La variable tipo no fue declarada
 
 
------------------------------------ VARIABLES -------------------------
+----------------------------- VARIABLES -------------------------------
+
+ * Se encontraron las siguientes variables declaradas:
 
 Identificador: a	 Tipo: int
 Identificador: b	 Tipo: char*
 Identificador: d	 Tipo: int
 
----------------------------------- SENTENCIAS -------------------------
+----------------------------- SENTENCIAS ------------------------------
 
-Se encontraron las siguientes sentencias:
+ * Se encontraron las siguientes sentencias:
 
 _______________________________________________________________________
 │                             SENTENCIAS                              │
@@ -45,9 +47,9 @@ _______________________________________________________________________
 │_____________________________________│_______________________________│
 
 
----------------------------------- FUNCIONES --------------------------
+----------------------------- FUNCIONES -------------------------------
 
-Se encontraron las siguientes funciones declaradas:
+ * Se encontraron las siguientes funciones declaradas:
 
 IDENTIFICADOR: ejemploFuncion
 	 Tipo Retorno: int
@@ -55,14 +57,14 @@ IDENTIFICADOR: ejemploFuncion
 			Identificador N°: 0	 Tipo: char
 			Identificador N°: 1	 Tipo: char
 
----------------------------------- ERRORES LÉXICOS --------------------
+--------------------------- ERRORES LÉXICOS ---------------------------
 
-Se encontraron los siguientes errores léxicos:
+ * Se encontraron los siguientes errores léxicos:
 
 
--------------------------------- ERRORES SINTÁCTICOS ------------------
+------------------------- ERRORES SINTÁCTICOS -------------------------
 
-Se encontraron errores sintácticos en las siguientes lineas:
+ * Se encontraron errores sintácticos en las siguientes lineas:
 
 _____________________________
 │    ERRORES SINTÁCTICOS    │
