@@ -143,17 +143,18 @@ input: /* vacío */
 ;
 
 line: '\n'  {fprintf(archivoFinal,"");flag_error=0; numeroDeLinea++;}
-  | sentencia '\n'    {fprintf(archivoFinal,"\n-----------------SENTENCIA---------------- \n \n");flag_error==0; numeroDeLinea++;}
-  | declaracion '\n'  {fprintf(archivoFinal,"\n-----------------DECLARACION---------------- \n \n");flag_error==0; numeroDeLinea++;}
-;
+  | sentencia '\n'    {fprintf(archivoFinal,"");flag_error==0; numeroDeLinea++;}
+  | declaracion '\n'  {fprintf(archivoFinal,"");flag_error==0; numeroDeLinea++;}
+; /* \n-----------------SENTENCIA---------------- \n \n     \n-----------------DECLARACION---------------- \n \n  */
 
 caracterDeCorte: ';' 
   | '\n' {numeroDeLinea++;}
 ;
 
-declaracion: especificadoresDeclaracion listaDeclaradoresOP ';' {fprintf(archivoFinal,"se encontro una declaracion \n");memset(tipo, 0, 30);}
-  | especificadoresDeclaracion listaDeclaradoresOP sentCompuesta {fprintf(archivoFinal,"se encontró una desarrollo de función");memset(tipo, 0, 30);}
+declaracion: especificadoresDeclaracion listaDeclaradoresOP ';' {memset(tipo, 0, 30);}
+  | especificadoresDeclaracion listaDeclaradoresOP sentCompuesta {fprintf(archivoFinal,"Se encontró el desarrollo de la función %s", $<cadena>2);memset(tipo, 0, 30);}
 ;
+/* fprintf(archivoFinal,"se encontro una declaracion \n"); */
 
 /* En la segunda linea se va a el desarrollo de una funcion, sin embargo esta puede escribirse como int asd(a,b){} debido a listaIdentificadoresOP, */
 /* como el compilador no da error sino un warning, se decidió dejarlo así */
@@ -172,11 +173,11 @@ especificadoresDeclaracionOP: /* vacío */
 ;
 
 listaDeclaradores: declarador
-  | listaDeclaradores ',' declarador {fprintf(archivoFinal,"se encontro mas de una declaracion \n");}
-;
+  | listaDeclaradores ',' declarador 
+; /* {fprintf(archivoFinal,"se encontro mas de una declaracion \n");} */
 
 declarador: decla
-  | decla OPER_ASIGNACION inicializador {fprintf(archivoFinal,"se encontro una asignacion \n");}
+  | decla OPER_ASIGNACION inicializador {agregar_validaciones_sintacticas(&listaDeValidacionesSintacticas, numeroDeLinea , "de ASIGNACIÓN");}
 ;
 
 inicializador: expAsignacion 
@@ -191,10 +192,12 @@ listaInicializadores: inicializador
 especificadorClaseAlmacenamiento: ESPECIFICADOR_ALMACENAMIENTO {if(tipo[0] == '\0'){strcpy(tipo, $<cadena>1);};}
 ;
 
-especificadorTipo: ESPECIFICADOR_TIPO {strcpy(tipo, $<cadena>1) ;fprintf(archivoFinal, "se encontro el tipo de dato %s \n", tipo);}
+especificadorTipo: ESPECIFICADOR_TIPO {strcpy(tipo, $<cadena>1)}
   | especificadorStructOUnion 
   | especificadorEnum 
-;
+; /* */ 
+
+/* ;fprintf(archivoFinal, "se encontro el tipo de dato %s \n", tipo); */
 
 
 
@@ -263,10 +266,11 @@ listaCalificadoresTiposOP: /* vacío */
 declaradorDirecto: IDENTIFICADOR {gestionar_identificador(&listaVariables, $<cadena>1, tipo, archivoFinal);}
   | '(' decla ')'
   | IDENTIFICADOR '[' expConstanteOP ']' {gestionar_identificador(&listaVariables, $<cadena>1, tipo, archivoFinal);}
-  | IDENTIFICADOR '(' listaTiposParametros ')' {gestionar_funcion(&listaVariables, listaParametros,$<cadena>1, tipo, archivoFinal);listaParametros = NULL;fprintf(archivoFinal, "se encontro una funcion \n");}
-  | IDENTIFICADOR '(' listaIdentificadoresOP ')' {gestionar_funcion(&listaVariables, listaParametros,$<cadena>1, tipo, archivoFinal);listaParametros = NULL; fprintf(archivoFinal, "se encontro una funcion \n");}
+  | IDENTIFICADOR '(' listaTiposParametros ')' {gestionar_funcion(&listaVariables, listaParametros,$<cadena>1, tipo, archivoFinal);listaParametros = NULL;}
+  | IDENTIFICADOR '(' listaIdentificadoresOP ')' {gestionar_funcion(&listaVariables, listaParametros,$<cadena>1, tipo, archivoFinal);listaParametros = NULL;}
 ;
 
+/* fprintf(archivoFinal, "se encontro una funcion \n"); */
 /* 	| error {flag_error=1;fprintf(archivoFinal,"error con identificador %s \n", $<cadena>1);} */
 
 listaTiposParametros: listaParametros
@@ -303,7 +307,6 @@ declaParametro: IDENTIFICADOR
   | IDENTIFICADOR '[' expConstanteOP ']'
 ;
 
-/* 	| error {flag_error=1;fprintf(archivoFinal,"error xd \n");} */
 
 listaIdentificadores: IDENTIFICADOR {agregar_info(&listaParametros, "int");}
   | listaIdentificadores ',' IDENTIFICADOR {agregar_info(&listaParametros, "int");}
@@ -378,25 +381,25 @@ expCondicional: expOr
 
 
 expOr: expAnd
-  | expOr OPER_OR expAnd    {fprintf(archivoFinal,"se encontro una expresion OR \n");}
+  | expOr OPER_OR expAnd    {agregar_validaciones_sintacticas(&listaDeValidacionesSintacticas, numeroDeLinea , "expresion OR");}
 ;
 
 expAnd: expIgualdad
-  | expAnd OPER_AND expIgualdad   {fprintf(archivoFinal,"se encontro una expresion AND \n");}
+  | expAnd OPER_AND expIgualdad   {agregar_validaciones_sintacticas(&listaDeValidacionesSintacticas, numeroDeLinea , "expresion AND");}
 ;
 
 expIgualdad: expRelacional
-  | expIgualdad OPER_IGUALDAD expRelacional   {fprintf(archivoFinal,"se encontro una expresion de IGUALDAD \n");}
-  | expIgualdad OPER_DIFERENCIA expRelacional   {fprintf(archivoFinal,"se encontro una expresion de DIFERENCIA \n");}
+  | expIgualdad OPER_IGUALDAD expRelacional   {agregar_validaciones_sintacticas(&listaDeValidacionesSintacticas, numeroDeLinea , "expresion IGUALDAD");}
+  | expIgualdad OPER_DIFERENCIA expRelacional    {agregar_validaciones_sintacticas(&listaDeValidacionesSintacticas, numeroDeLinea , "expresion DIFERENCIA");}
 ;
 
 expRelacional: expAditiva
-  | expRelacional OPER_RELACIONAL expAditiva    {fprintf(archivoFinal,"se encontro una expresion RELACIONAL \n");}
+  | expRelacional OPER_RELACIONAL expAditiva    {agregar_validaciones_sintacticas(&listaDeValidacionesSintacticas, numeroDeLinea , "expresion RELACIONAL");}
 ;
 
 expAditiva: expMultiplicativa
-  | expAditiva '+' expMultiplicativa    {fprintf(archivoFinal,"se encontro una expresion de SUMA \n");}
-  | expAditiva '-' expMultiplicativa    {fprintf(archivoFinal,"se encontro una expresion de RESTA \n");}
+  | expAditiva '+' expMultiplicativa   {agregar_validaciones_sintacticas(&listaDeValidacionesSintacticas, numeroDeLinea , "expresion SUMA");}
+  | expAditiva '-' expMultiplicativa   {agregar_validaciones_sintacticas(&listaDeValidacionesSintacticas, numeroDeLinea , "expresion RESTA");}
 ;
 
 expMultiplicativa: expUnaria
@@ -445,7 +448,6 @@ expPrimaria: IDENTIFICADOR {char* comparar_tipo = tipo_variable(listaVariables, 
   | '(' expresion ')'
 ;
 
-/*  | error {flag_error=1;fprintf(archivoFinal,"Expresion unaria no valida \n");} */
 
 
 
@@ -464,17 +466,22 @@ expPrimaria: IDENTIFICADOR {char* comparar_tipo = tipo_variable(listaVariables, 
 
 
 
-sentencia: sentExpresion {fprintf(archivoFinal,"se encontro una expresion \n");}
+sentencia: sentExpresion
   | sentCompuesta
-  | sentSeleccion {fprintf(archivoFinal,"se encontro un sentencia de seleccion \n");}
-  | sentIteracion {fprintf(archivoFinal,"se encontro un sentencia de iteracion \n");}
-  | sentEtiquetada {fprintf(archivoFinal,"se encontro un sentencia etiquetada \n");}
-  | sentSalto {fprintf(archivoFinal,"se encontro un sentencia de salto \n");}
+  | sentSeleccion 
+  | sentIteracion 
+  | sentEtiquetada 
+  | sentSalto 
 ;
-/*   | error {fprintf(archivoFinal,"error en una SENTENCIA \n");} */
+    /*   {fprintf(archivoFinal,"se encontro una expresion \n");}   */
+     /* {fprintf(archivoFinal,"se encontro un sentencia de seleccion \n");} */
+     /* {fprintf(archivoFinal,"se encontro un sentencia de iteracion \n");} */
+     /* {fprintf(archivoFinal,"se encontro un sentencia etiquetada \n");} */
+     /* {fprintf(archivoFinal,"se encontro un sentencia de salto \n");} */
 
-sentCompuesta: '{' listaDeclaracionesOP listaSentenciasOP '}' {fprintf(archivoFinal,"se encontro una sentencia compuesta \n");}
-;
+
+sentCompuesta: '{' listaDeclaracionesOP listaSentenciasOP '}' 
+; /* {fprintf(archivoFinal,"se encontro una sentencia compuesta \n");} */ 
 
 listaDeclaraciones: declaracion 
   | listaDeclaraciones declaracion
@@ -534,9 +541,15 @@ int main ()
   yyout = fopen("salida.txt", "w");
   archivoFinal = fopen("Informe.txt", "w");
 
+
+  fprintf(archivoFinal, "\n----------------------------------- ERRORES SEMÁNTICOS ------------------------------------\n\nSe encontraron los siguientes errores semánticos:\n\n");
+
+
+
   yyparse();
   yylex();
 
+  
   imprimir_lista_variables(listaVariables, archivoFinal);
   imprimir_validaciones_sintacticas(&listaDeValidacionesSintacticas, archivoFinal);
   imprimir_funciones(listaVariables, archivoFinal);
@@ -733,7 +746,7 @@ void imprimir_parametros(nodoInfo* lista, FILE* archivoFinal){
 }
 
 void imprimir_lista_variables(nodo* lista, FILE* archivoFinal){
-  fprintf(archivoFinal, "\n---------------------------------- VARIABLES ----------------------------------\n\n");
+  fprintf(archivoFinal, "\n\n----------------------------------- VARIABLES ----------------------------------\n\n");
   nodo* aux = lista;
   while(aux != NULL){
     if(aux->info.es_funcion == 0){
@@ -745,7 +758,7 @@ void imprimir_lista_variables(nodo* lista, FILE* archivoFinal){
 
 void imprimir_funciones(nodo* lista, FILE* archivoFinal){
   nodo* aux = lista;
-  fprintf(archivoFinal, "\n---------------------------------- FUNCIONES ----------------------------------\n\n");
+  fprintf(archivoFinal, "\n---------------------------------- FUNCIONES ----------------------------------\n\nSe encontraron las siguientes funciones declaradas:\n\n");
   while(aux != NULL){
     if(aux->info.es_funcion == 1){
       fprintf(archivoFinal, "IDENTIFICADOR: %s\n\t Tipo Retorno: %s\n\t Parametros:\n", aux->info.identificador, aux->info.tipo);
@@ -757,7 +770,7 @@ void imprimir_funciones(nodo* lista, FILE* archivoFinal){
 
 void imprimir_errores(nodoInfo** lista, FILE* archivoFinal){
   nodoInfo* aux;
-  fprintf(archivoFinal, "\n---------------------------------- ERRORES LEXICOS ----------------------------------\n\n");
+  fprintf(archivoFinal, "\n---------------------------------- ERRORES LÉXICOS ----------------------------------\n\nSe encontraron errores léxicos:\n\n");
   while(*lista){
     aux = (*lista);
     fprintf(archivoFinal, "%s\n", aux->info);
@@ -769,7 +782,7 @@ void imprimir_errores(nodoInfo** lista, FILE* archivoFinal){
 
 void imprimir_errores_sintacticos(nodoErroresSintacticos** lista, FILE* archivoFinal){
   nodoErroresSintacticos* aux;
-  fprintf(archivoFinal, "\n-------------------------------- ERRORES SINTÁCTICOS --------------------------------\n\nSe encontraron errores sintacticos en las lineas:\n\n");
+  fprintf(archivoFinal, "\n---------------------------------- ERRORES SINTÁCTICOS --------------------------------\n\nSe encontraron errores sintácticos:\n\n");
   while(*lista){
     aux = (*lista);
     fprintf(archivoFinal, "   - %d\n", aux->linea);
@@ -821,7 +834,7 @@ void imprimir_validaciones_sintacticas(nodoValidacionesSintacticas** lista, FILE
   fprintf(archivoFinal, "\n----------------------------------- SENTENCIAS ------------------------------------\n\nSe encontraron las siguientes sentencias:\n\n");
   while(*lista){
     aux = (*lista);
-    fprintf(archivoFinal, "   - Sentencia %s en la linea %d\n", aux->info, aux->linea);
+    fprintf(archivoFinal, "   - Sentencia %s , en la linea %d\n .", aux->info, aux->linea);
     (*lista) = aux->sig;
     free(aux);
   }

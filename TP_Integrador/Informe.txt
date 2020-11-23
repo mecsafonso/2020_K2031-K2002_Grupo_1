@@ -1,54 +1,61 @@
-se encontro el tipo de dato int 
-se encontro una asignacion 
-se encontro una declaracion 
 
------------------DECLARACION---------------- 
- 
-se encontro una expresion de IGUALDAD 
-se encontro una sentencia compuesta 
-se encontro un sentencia de seleccion 
+----------------------------------- ERRORES SEMÁNTICOS ------------------------------------
 
------------------SENTENCIA---------------- 
- 
-se encontro el tipo de dato char 
-se encontro una asignacion 
-se encontro una declaracion 
+Se encontraron los siguientes errores semánticos:
 
------------------DECLARACION---------------- 
- 
-se encontro el tipo de dato int 
-se encontro una funcion 
-se encontro una declaracion 
+La variable c no fue declarada
+La variable c no fue declarada
+La variable c no fue declarada
+No se puede realizar la operacion requerida entre un char* y un int
+Doble declaración de la variable: a 
+La variable palabra no fue declarada
+La variable tipo no fue declarada
+Se encontró el desarrollo de la función tipo
 
------------------DECLARACION---------------- 
- 
-se encontro el tipo de dato int 
-
----------------------------------- VARIABLES ----------------------------------
+----------------------------------- VARIABLES ----------------------------------
 
 Identificador: a	 Tipo: int
 Identificador: b	 Tipo: char*
+Identificador: d	 Tipo: int
 
 ----------------------------------- SENTENCIAS ------------------------------------
 
 Se encontraron las siguientes sentencias:
 
-   - Sentencia IF en la linea 2
-
+   - Sentencia de ASIGNACIÓN , en la linea 1
+ .   - Sentencia expresion IGUALDAD , en la linea 3
+ .   - Sentencia IF , en la linea 3
+ .   - Sentencia expresion RELACIONAL , en la linea 4
+ .   - Sentencia expresion SUMA , en la linea 4
+ .   - Sentencia expresion IGUALDAD , en la linea 4
+ .   - Sentencia expresion AND , en la linea 4
+ .   - Sentencia expresion SUMA , en la linea 4
+ .   - Sentencia ELSE IF , en la linea 4
+ .   - Sentencia WHILE , en la linea 5
+ .   - Sentencia expresion RELACIONAL , en la linea 6
+ .   - Sentencia FOR , en la linea 6
+ .   - Sentencia de ASIGNACIÓN , en la linea 8
+ .   - Sentencia de ASIGNACIÓN , en la linea 10
+ .   - Sentencia de ASIGNACIÓN , en la linea 12
+ .
 ---------------------------------- FUNCIONES ----------------------------------
 
-IDENTIFICADOR: control_tipos
+Se encontraron las siguientes funciones declaradas:
+
+IDENTIFICADOR: ejemploFuncion
 	 Tipo Retorno: int
 	 Parametros:
 			Identificador N°: 0	 Tipo: char
 			Identificador N°: 1	 Tipo: char
 
----------------------------------- ERRORES LEXICOS ----------------------------------
+---------------------------------- ERRORES LÉXICOS ----------------------------------
+
+Se encontraron errores léxicos:
 
 
--------------------------------- ERRORES SINTÁCTICOS --------------------------------
+---------------------------------- ERRORES SINTÁCTICOS --------------------------------
 
-Se encontraron errores sintacticos en las lineas:
+Se encontraron errores sintácticos:
 
-- 8
-- 10
+   - 20
+   - 22

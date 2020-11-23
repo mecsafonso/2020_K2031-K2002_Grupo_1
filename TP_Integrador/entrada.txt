@@ -1,9 +1,21 @@
 int a = 3;
+
 if (0 == 0){}
+if (6 > 5 && ( 1 + 2 ) == 3) {a = 2;} else {a = a + 1;}
+while (0) {a=5;}
+for(c; c < 15; ++c) {}
 
 char* b = "asdas";
 
-int control_tipos(char palabra[], char tipo[]);
+int d = a * b;
+
+int a = 5;
+
+
+
+int ejemploFuncion(char palabra[], char tipo[]);
+
+int ejemploFuncion(char palabra[], char tipo[]){palabra = tipo;}
 
 int 4 ;
 
