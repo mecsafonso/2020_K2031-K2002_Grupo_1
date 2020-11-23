@@ -13,11 +13,3 @@ Este repositorio corresponde al Grupo 1 (Mixto entre los cursos K2031 y K2002) a
 
 **Profesor:** 
 Santiago Ferreiros Cabrera 
-
-TP1: Implementación de un AFD para GRURL
-
-TP2: Implementación de un AFP para GIC
-
-TP3: Implementación de Analizador Léxico en FLEX
-
-TP4: Implementación de Analizador Sintáctico en BISON
