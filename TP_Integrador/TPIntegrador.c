@@ -113,7 +113,7 @@ void agregar_funcion(nodo** lista, char nombre[], char tipo[], nodoInfo* listaPa
     aux->sig->sig = NULL;
 }
 
-//Funciones para realizar multiples cosas
+//Funciones para realizar las rutinas semanticas
 
 int control_tipos(char palabra[], char tipo[]) {
   if(!strcmp(palabra, tipo)){
