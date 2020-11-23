@@ -288,7 +288,7 @@ void imprimir_errores_sintacticos(nodoErroresSintacticos** lista, FILE* archivoF
 }
 
 void imprimir_errores(nodoError** lista, FILE* archivoFinal){
-  fprintf(archivoFinal, "\n\n--------------------------- ERRORES LÉXICOS ---------------------------\n\n ");
+  fprintf(archivoFinal, "\n\n--------------------------- ERRORES LÉXICOS ---------------------------\n\n");
   fprintf(archivoFinal, " * Los siguientes caracteres no pudieron ser reconocidos:");
   fprintf(archivoFinal, "\n\n _____________________________________________________________________\n");
   fprintf(archivoFinal, "│                       CARACTERES NO RECONOCIDOS                     │\n");
