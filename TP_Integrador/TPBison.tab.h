@@ -83,7 +83,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 46 "TP4Bison.y"
+#line 46 "TPBison.y"
 
 char cadena[30];
 int entero;
@@ -92,7 +92,7 @@ float real;
 
 
 /* Line 1676 of yacc.c  */
-#line 96 "TP4Bison.tab.h"
+#line 96 "TPBison.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

@@ -2,28 +2,10 @@
 %option yylineno
 
 %{
-#include "TP4Bison.tab.h"
-#include "TP4.h"
+#include "TPBison.tab.h"
+#include "TPIntegrador.h"
 
-// Definicion de las librerías que incluímos
-#include <stdio.h>
-#include <string.h> // strcpy, strcmp
-#include <ctype.h>  // toupper y isdigi
-#include <math.h>   // pow
-#include <stdlib.h> // atoi, atof
-
-#define BASE8 8
-#define BASE16 16
-
-
-int caracterHexadecimalADecimal(char);
-int convertirAdecimal(char*, int, int);
-
-nodoDeErroresLexicos* listaErroresLexicos = NULL;
-
-/* FILE* archivoFinal;*/
-
-
+nodoError* listaErroresLexicos = NULL;
 
 %}
 
@@ -101,50 +83,3 @@ OPERADOR [\+\-\*\/\%]|\+\+|\-\-
 
 
 %%
-
-/* int main() {
- *
- *    yyin = fopen("entrada.txt", "r");
- *    yyout = fopen("salida.txt", "w");
- *    archivoFinal = fopen("Informe.txt", "w");
- *
- *    yylex();
- *    
- *    fclose(archivoFinal);
- *    return 0;
- * } 
- */
-int caracterHexadecimalADecimal(char caracter) {
-  if (isdigit(caracter))
-    return caracter - '0';
-  return 10 + (toupper(caracter) - 'A');
-}
-
-int convertirAdecimal(char* numeroAconvertir, int Base, int longitud) {
-    int numeroDecimal = 0, potencia = 0;
-    int valorActual;
-
-    if(numeroAconvertir == "0")
-        return numeroDecimal = 0;
-    else {
-        switch(Base){
-            case BASE8:
-                for(int i = longitud - 1; i >= 1; i-- ){
-                    valorActual = numeroAconvertir[i] - '0';
-                    numeroDecimal += valorActual * pow(Base,potencia);
-                    potencia++;
-                }   
-                break;
-            case BASE16:
-                for(int i = longitud - 1; i >= 2; i-- ){
-                    valorActual = caracterHexadecimalADecimal(numeroAconvertir[i]);
-                    numeroDecimal += valorActual * pow(Base,potencia);
-                    potencia++;
-                }
-                break;
-        }
-        return numeroDecimal;
-    }
-}
-
-

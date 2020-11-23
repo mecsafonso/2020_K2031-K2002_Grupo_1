@@ -68,7 +68,7 @@
 /* Copy the first part of user declarations.  */
 
 /* Line 189 of yacc.c  */
-#line 1 "TP4Bison.y"
+#line 1 "TPBison.y"
 
 #include <stdio.h>
 #include <ctype.h>
@@ -115,7 +115,7 @@ void yyerror (char const *s) {
 
 
 /* Line 189 of yacc.c  */
-#line 119 "TP4Bison.tab.c"
+#line 119 "TPBison.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -186,7 +186,7 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 46 "TP4Bison.y"
+#line 46 "TPBison.y"
 
 char cadena[30];
 int entero;
@@ -195,7 +195,7 @@ float real;
 
 
 /* Line 214 of yacc.c  */
-#line 199 "TP4Bison.tab.c"
+#line 199 "TPBison.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -207,7 +207,7 @@ float real;
 
 
 /* Line 264 of yacc.c  */
-#line 211 "TP4Bison.tab.c"
+#line 211 "TPBison.tab.c"
 
 #ifdef short
 # undef short
@@ -1752,392 +1752,392 @@ yyreduce:
         case 4:
 
 /* Line 1455 of yacc.c  */
-#line 94 "TP4Bison.y"
+#line 94 "TPBison.y"
     {flag_error==0;;}
     break;
 
   case 5:
 
 /* Line 1455 of yacc.c  */
-#line 97 "TP4Bison.y"
+#line 97 "TPBison.y"
     {fprintf(archivoFinal,"");flag_error=0; numeroDeLinea++;;}
     break;
 
   case 6:
 
 /* Line 1455 of yacc.c  */
-#line 98 "TP4Bison.y"
+#line 98 "TPBison.y"
     {fprintf(archivoFinal,"");flag_error==0; numeroDeLinea++;;}
     break;
 
   case 7:
 
 /* Line 1455 of yacc.c  */
-#line 99 "TP4Bison.y"
+#line 99 "TPBison.y"
     {fprintf(archivoFinal,"");flag_error==0; numeroDeLinea++;;}
     break;
 
   case 9:
 
 /* Line 1455 of yacc.c  */
-#line 103 "TP4Bison.y"
+#line 103 "TPBison.y"
     {numeroDeLinea++;;}
     break;
 
   case 10:
 
 /* Line 1455 of yacc.c  */
-#line 106 "TP4Bison.y"
+#line 106 "TPBison.y"
     {memset(tipo, 0, 30);;}
     break;
 
   case 11:
 
 /* Line 1455 of yacc.c  */
-#line 107 "TP4Bison.y"
+#line 107 "TPBison.y"
     {memset(tipo, 0, 30);;}
     break;
 
   case 12:
 
 /* Line 1455 of yacc.c  */
-#line 114 "TP4Bison.y"
+#line 114 "TPBison.y"
     {memset(tipo, 0, 30);;}
     break;
 
   case 22:
 
 /* Line 1455 of yacc.c  */
-#line 132 "TP4Bison.y"
+#line 132 "TPBison.y"
     {agregar_validaciones_sintacticas(&listaDeValidacionesSintacticas, yylineno , "ASIGNACION");;}
     break;
 
   case 28:
 
 /* Line 1455 of yacc.c  */
-#line 144 "TP4Bison.y"
+#line 144 "TPBison.y"
     {if(tipo[0] == '\0'){strcpy(tipo, (yyvsp[(1) - (1)].cadena));};;}
     break;
 
   case 29:
 
 /* Line 1455 of yacc.c  */
-#line 147 "TP4Bison.y"
+#line 147 "TPBison.y"
     {strcpy(tipo, (yyvsp[(1) - (1)].cadena));}
     break;
 
   case 32:
 
 /* Line 1455 of yacc.c  */
-#line 156 "TP4Bison.y"
+#line 156 "TPBison.y"
     {if(tipo[0] == '\0'){strcpy(tipo, (yyvsp[(1) - (1)].cadena));};;}
     break;
 
   case 33:
 
 /* Line 1455 of yacc.c  */
-#line 157 "TP4Bison.y"
+#line 157 "TPBison.y"
     {if(tipo[0] == '\0'){strcpy(tipo, (yyvsp[(1) - (1)].cadena));};;}
     break;
 
   case 35:
 
 /* Line 1455 of yacc.c  */
-#line 161 "TP4Bison.y"
+#line 161 "TPBison.y"
     {strcpy(tipo, (yyvsp[(2) - (2)].cadena));;}
     break;
 
   case 37:
 
 /* Line 1455 of yacc.c  */
-#line 165 "TP4Bison.y"
+#line 165 "TPBison.y"
     {strcpy(tipo, (yyvsp[(1) - (1)].cadena));;}
     break;
 
   case 54:
 
 /* Line 1455 of yacc.c  */
-#line 202 "TP4Bison.y"
+#line 202 "TPBison.y"
     {strcat(tipo, "*");;}
     break;
 
   case 62:
 
 /* Line 1455 of yacc.c  */
-#line 218 "TP4Bison.y"
+#line 218 "TPBison.y"
     {gestionar_identificador(&listaVariables, (yyvsp[(1) - (1)].cadena), tipo, archivoFinal);;}
     break;
 
   case 64:
 
 /* Line 1455 of yacc.c  */
-#line 220 "TP4Bison.y"
+#line 220 "TPBison.y"
     {gestionar_identificador(&listaVariables, (yyvsp[(1) - (4)].cadena), tipo, archivoFinal);;}
     break;
 
   case 65:
 
 /* Line 1455 of yacc.c  */
-#line 221 "TP4Bison.y"
+#line 221 "TPBison.y"
     {gestionar_funcion(&listaVariables, listaParametros,(yyvsp[(1) - (4)].cadena), tipo, archivoFinal);listaParametros = NULL;;}
     break;
 
   case 66:
 
 /* Line 1455 of yacc.c  */
-#line 222 "TP4Bison.y"
+#line 222 "TPBison.y"
     {gestionar_funcion(&listaVariables, listaParametros,(yyvsp[(1) - (4)].cadena), tipo, archivoFinal);listaParametros = NULL;;}
     break;
 
   case 73:
 
 /* Line 1455 of yacc.c  */
-#line 240 "TP4Bison.y"
+#line 240 "TPBison.y"
     {agregar_info(&listaParametros, tipo_parametro); memset(tipo_parametro, 0, 30);;}
     break;
 
   case 74:
 
 /* Line 1455 of yacc.c  */
-#line 241 "TP4Bison.y"
+#line 241 "TPBison.y"
     {agregar_info(&listaParametros, tipo_parametro); memset(tipo_parametro, 0, 30);;}
     break;
 
   case 75:
 
 /* Line 1455 of yacc.c  */
-#line 244 "TP4Bison.y"
+#line 244 "TPBison.y"
     {strcpy(tipo_parametro, (yyvsp[(1) - (2)].cadena));;}
     break;
 
   case 76:
 
 /* Line 1455 of yacc.c  */
-#line 245 "TP4Bison.y"
+#line 245 "TPBison.y"
     {if(tipo_parametro[0] == '\0'){strcpy(tipo_parametro, (yyvsp[(1) - (2)].cadena));};;}
     break;
 
   case 77:
 
 /* Line 1455 of yacc.c  */
-#line 246 "TP4Bison.y"
+#line 246 "TPBison.y"
     {if(tipo_parametro[0] == '\0'){strcpy(tipo_parametro, (yyvsp[(1) - (2)].cadena));};;}
     break;
 
   case 81:
 
 /* Line 1455 of yacc.c  */
-#line 254 "TP4Bison.y"
+#line 254 "TPBison.y"
     {strcat(tipo_parametro, "*");;}
     break;
 
   case 85:
 
 /* Line 1455 of yacc.c  */
-#line 263 "TP4Bison.y"
+#line 263 "TPBison.y"
     {agregar_info(&listaParametros, "int");;}
     break;
 
   case 86:
 
 /* Line 1455 of yacc.c  */
-#line 264 "TP4Bison.y"
+#line 264 "TPBison.y"
     {agregar_info(&listaParametros, "int");;}
     break;
 
   case 90:
 
 /* Line 1455 of yacc.c  */
-#line 272 "TP4Bison.y"
+#line 272 "TPBison.y"
     {strcpy(tipo, (yyvsp[(2) - (2)].cadena));;}
     break;
 
   case 102:
 
 /* Line 1455 of yacc.c  */
-#line 309 "TP4Bison.y"
+#line 309 "TPBison.y"
     {memset(tipo, 0, 30);;}
     break;
 
   case 114:
 
 /* Line 1455 of yacc.c  */
-#line 336 "TP4Bison.y"
+#line 336 "TPBison.y"
     {agregar_validaciones_sintacticas(&listaDeValidacionesSintacticas, numeroDeLinea , "expresion OR");;}
     break;
 
   case 116:
 
 /* Line 1455 of yacc.c  */
-#line 340 "TP4Bison.y"
+#line 340 "TPBison.y"
     {agregar_validaciones_sintacticas(&listaDeValidacionesSintacticas, numeroDeLinea , "expresion AND");;}
     break;
 
   case 118:
 
 /* Line 1455 of yacc.c  */
-#line 344 "TP4Bison.y"
+#line 344 "TPBison.y"
     {agregar_validaciones_sintacticas(&listaDeValidacionesSintacticas, numeroDeLinea , "expresion IGUALDAD");;}
     break;
 
   case 119:
 
 /* Line 1455 of yacc.c  */
-#line 345 "TP4Bison.y"
+#line 345 "TPBison.y"
     {agregar_validaciones_sintacticas(&listaDeValidacionesSintacticas, numeroDeLinea , "expresion DIFERENCIA");;}
     break;
 
   case 121:
 
 /* Line 1455 of yacc.c  */
-#line 349 "TP4Bison.y"
+#line 349 "TPBison.y"
     {agregar_validaciones_sintacticas(&listaDeValidacionesSintacticas, numeroDeLinea , "expresion RELACIONAL");;}
     break;
 
   case 123:
 
 /* Line 1455 of yacc.c  */
-#line 353 "TP4Bison.y"
+#line 353 "TPBison.y"
     {agregar_validaciones_sintacticas(&listaDeValidacionesSintacticas, numeroDeLinea , "expresion SUMA");;}
     break;
 
   case 124:
 
 /* Line 1455 of yacc.c  */
-#line 354 "TP4Bison.y"
+#line 354 "TPBison.y"
     {agregar_validaciones_sintacticas(&listaDeValidacionesSintacticas, numeroDeLinea , "expresion RESTA");;}
     break;
 
   case 126:
 
 /* Line 1455 of yacc.c  */
-#line 358 "TP4Bison.y"
+#line 358 "TPBison.y"
     {if(!control_tipos(tipo, "int") && !control_tipos(tipo, "int*")){fprintf(archivoFinal,"   ♦ No se puede realizar la operación MULTIPLICACION con el tipo de dato %s \n", tipo);};}
     break;
 
   case 127:
 
 /* Line 1455 of yacc.c  */
-#line 359 "TP4Bison.y"
+#line 359 "TPBison.y"
     {if(!control_tipos(tipo, "int") && !control_tipos(tipo, "int*")){fprintf(archivoFinal,"   ♦ No se puede realizar la operación DIVISION con el tipo de dato %s \n", tipo);};}
     break;
 
   case 128:
 
 /* Line 1455 of yacc.c  */
-#line 360 "TP4Bison.y"
+#line 360 "TPBison.y"
     {if(!control_tipos(tipo, "int") && !control_tipos(tipo, "int*")){fprintf(archivoFinal,"   ♦ No se puede realizar la operación RESTO con el tipo de dato %s \n", tipo);};}
     break;
 
   case 140:
 
 /* Line 1455 of yacc.c  */
-#line 378 "TP4Bison.y"
+#line 378 "TPBison.y"
     {sentencia_funcion(&listaVariables, listaParametros, (yyvsp[(1) - (4)].cadena), archivoFinal);;}
     break;
 
   case 145:
 
 /* Line 1455 of yacc.c  */
-#line 390 "TP4Bison.y"
+#line 390 "TPBison.y"
     {agregar_info(&listaParametros, tipo_variable(listaVariables, (yyvsp[(1) - (1)].cadena), archivoFinal));;}
     break;
 
   case 146:
 
 /* Line 1455 of yacc.c  */
-#line 391 "TP4Bison.y"
+#line 391 "TPBison.y"
     {agregar_info(&listaParametros, "int");;}
     break;
 
   case 147:
 
 /* Line 1455 of yacc.c  */
-#line 392 "TP4Bison.y"
+#line 392 "TPBison.y"
     {agregar_info(&listaParametros, "float");;}
     break;
 
   case 148:
 
 /* Line 1455 of yacc.c  */
-#line 393 "TP4Bison.y"
+#line 393 "TPBison.y"
     {agregar_info(&listaParametros, "char*");;}
     break;
 
   case 149:
 
 /* Line 1455 of yacc.c  */
-#line 396 "TP4Bison.y"
+#line 396 "TPBison.y"
     {char* comparar_tipo = tipo_variable(listaVariables, (yyvsp[(1) - (1)].cadena), archivoFinal);if(strcmp(comparar_tipo, "error")){if(tipo[0] == '\0'){strcpy(tipo, comparar_tipo);}else if(!control_tipos(tipo, comparar_tipo)){fprintf(archivoFinal, "   ♦ No se puede realizar la operacion requerida entre un %s y un %s\n", comparar_tipo, tipo);}};}
     break;
 
   case 150:
 
 /* Line 1455 of yacc.c  */
-#line 397 "TP4Bison.y"
+#line 397 "TPBison.y"
     {if(tipo[0] == '\0'){strcpy(tipo, "int");}else if(!control_tipos(tipo, "int")){fprintf(archivoFinal, "   ♦ No se puede realizar la operacion requerida entre un int y un %s\n", tipo);};;}
     break;
 
   case 151:
 
 /* Line 1455 of yacc.c  */
-#line 398 "TP4Bison.y"
+#line 398 "TPBison.y"
     {if(tipo[0] == '\0'){strcpy(tipo, "float");}else if(!control_tipos(tipo, "float")){fprintf(archivoFinal, "   ♦ No se puede realizar la operacion requerida entre un float y un %s\n", tipo);};}
     break;
 
   case 152:
 
 /* Line 1455 of yacc.c  */
-#line 399 "TP4Bison.y"
+#line 399 "TPBison.y"
     {if(tipo[0] == '\0'){strcpy(tipo, "char*");}else if(!control_tipos(tipo, "char*")){fprintf(archivoFinal, "   ♦ No se puede realizar la operacion requerida entre un char* y un %s\n", tipo);};}
     break;
 
   case 171:
 
 /* Line 1455 of yacc.c  */
-#line 459 "TP4Bison.y"
+#line 459 "TPBison.y"
     {agregar_validaciones_sintacticas(&listaDeValidacionesSintacticas, numeroDeLinea , "SWITCH");;}
     break;
 
   case 172:
 
 /* Line 1455 of yacc.c  */
-#line 463 "TP4Bison.y"
+#line 463 "TPBison.y"
     {agregar_validaciones_sintacticas(&listaDeValidacionesSintacticas, numeroDeLinea , "IF");;}
     break;
 
   case 173:
 
 /* Line 1455 of yacc.c  */
-#line 464 "TP4Bison.y"
+#line 464 "TPBison.y"
     {agregar_validaciones_sintacticas(&listaDeValidacionesSintacticas, numeroDeLinea , "ELSE IF");;}
     break;
 
   case 174:
 
 /* Line 1455 of yacc.c  */
-#line 467 "TP4Bison.y"
+#line 467 "TPBison.y"
     {agregar_validaciones_sintacticas(&listaDeValidacionesSintacticas, numeroDeLinea , "WHILE");;}
     break;
 
   case 175:
 
 /* Line 1455 of yacc.c  */
-#line 468 "TP4Bison.y"
+#line 468 "TPBison.y"
     {agregar_validaciones_sintacticas(&listaDeValidacionesSintacticas, numeroDeLinea , "DO");;}
     break;
 
   case 176:
 
 /* Line 1455 of yacc.c  */
-#line 469 "TP4Bison.y"
+#line 469 "TPBison.y"
     {agregar_validaciones_sintacticas(&listaDeValidacionesSintacticas, numeroDeLinea , "FOR");;}
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 2141 "TP4Bison.tab.c"
+#line 2141 "TPBison.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2349,7 +2349,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 488 "TP4Bison.y"
+#line 488 "TPBison.y"
 
 
 int main ()
