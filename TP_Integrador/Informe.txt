@@ -14,7 +14,7 @@
 
 --------------------------- ERRORES LÉXICOS ---------------------------
 
-  * Los siguientes caracteres no pudieron ser reconocidos:
+ * Los siguientes caracteres no pudieron ser reconocidos:
 
  _____________________________________________________________________
 │                       CARACTERES NO RECONOCIDOS                     │

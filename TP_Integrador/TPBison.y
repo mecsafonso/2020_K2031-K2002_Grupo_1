@@ -493,13 +493,14 @@ int main ()
   yyout = fopen("salida.txt", "w");
   archivoFinal = fopen("Informe.txt", "w");
 
-                         
+
+  fprintf(archivoFinal, "------------------------- ERRORES SEMÁNTICOS --------------------------\n\n * Se encontraron los siguientes errores semánticos:\n\n");
+                           
   yyparse();
   yylex();
 
 
 
-  fprintf(archivoFinal, "------------------------- ERRORES SEMÁNTICOS --------------------------\n\n * Se encontraron los siguientes errores semánticos:\n\n");
   imprimir_errores(&listaErroresLexicos, archivoFinal);
   imprimir_errores_sintacticos(&listaErroresSintacticos, archivoFinal);
   imprimir_validaciones_sintacticas(&listaDeValidacionesSintacticas, archivoFinal);
