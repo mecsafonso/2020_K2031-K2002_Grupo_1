@@ -1843,7 +1843,7 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 155 "TP4Bison.y"
-    {fprintf(archivoFinal,"Se encontró el desarrollo de la función %s", (yyvsp[(2) - (3)].cadena));memset(tipo, 0, 30);;}
+    {memset(tipo, 0, 30);;}
     break;
 
   case 12:
@@ -1857,7 +1857,7 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 180 "TP4Bison.y"
-    {agregar_validaciones_sintacticas(&listaDeValidacionesSintacticas, numeroDeLinea , "de ASIGNACIÓN");;}
+    {agregar_validaciones_sintacticas(&listaDeValidacionesSintacticas, numeroDeLinea , "ASIGNACION");;}
     break;
 
   case 28:
@@ -2406,8 +2406,8 @@ int main ()
   yyout = fopen("salida.txt", "w");
   archivoFinal = fopen("Informe.txt", "w");
 
-
-  fprintf(archivoFinal, "\n----------------------------------- ERRORES SEMÁNTICOS ------------------------------------\n\nSe encontraron los siguientes errores semánticos:\n\n");
+                         
+  fprintf(archivoFinal, "----------------------------------- ERRORES SEMÁNTICOS ----------------\n\nSe encontraron los siguientes errores semánticos:\n\n");
 
 
 
@@ -2611,7 +2611,8 @@ void imprimir_parametros(nodoInfo* lista, FILE* archivoFinal){
 }
 
 void imprimir_lista_variables(nodo* lista, FILE* archivoFinal){
-  fprintf(archivoFinal, "\n\n----------------------------------- VARIABLES ----------------------------------\n\n");
+                             
+  fprintf(archivoFinal, "\n\n----------------------------------- VARIABLES -------------------------\n\n");
   nodo* aux = lista;
   while(aux != NULL){
     if(aux->info.es_funcion == 0){
@@ -2622,8 +2623,8 @@ void imprimir_lista_variables(nodo* lista, FILE* archivoFinal){
 }
 
 void imprimir_funciones(nodo* lista, FILE* archivoFinal){
-  nodo* aux = lista;
-  fprintf(archivoFinal, "\n---------------------------------- FUNCIONES ----------------------------------\n\nSe encontraron las siguientes funciones declaradas:\n\n");
+  nodo* aux = lista;       
+  fprintf(archivoFinal, "\n---------------------------------- FUNCIONES --------------------------\n\nSe encontraron las siguientes funciones declaradas:\n\n");
   while(aux != NULL){
     if(aux->info.es_funcion == 1){
       fprintf(archivoFinal, "IDENTIFICADOR: %s\n\t Tipo Retorno: %s\n\t Parametros:\n", aux->info.identificador, aux->info.tipo);
@@ -2632,10 +2633,10 @@ void imprimir_funciones(nodo* lista, FILE* archivoFinal){
     aux = aux->sig;
   }
 }
-
+                           
 void imprimir_errores(nodoInfo** lista, FILE* archivoFinal){
   nodoInfo* aux;
-  fprintf(archivoFinal, "\n---------------------------------- ERRORES LÉXICOS ----------------------------------\n\nSe encontraron errores léxicos:\n\n");
+  fprintf(archivoFinal, "\n---------------------------------- ERRORES LÉXICOS --------------------\n\nSe encontraron los siguientes errores léxicos:\n\n");
   while(*lista){
     aux = (*lista);
     fprintf(archivoFinal, "%s\n", aux->info);
@@ -2647,13 +2648,20 @@ void imprimir_errores(nodoInfo** lista, FILE* archivoFinal){
 
 void imprimir_errores_sintacticos(nodoErroresSintacticos** lista, FILE* archivoFinal){
   nodoErroresSintacticos* aux;
-  fprintf(archivoFinal, "\n---------------------------------- ERRORES SINTÁCTICOS --------------------------------\n\nSe encontraron errores sintácticos:\n\n");
+  fprintf(archivoFinal, "\n-------------------------------- ERRORES SINTÁCTICOS ------------------\n\nSe encontraron errores sintácticos en las siguientes lineas:");
+  fprintf(archivoFinal, "\n\n_____________________________\n");
+  fprintf(archivoFinal, "│    ERRORES SINTÁCTICOS    │\n");
+  fprintf(archivoFinal, "│___________________________│\n");
+  fprintf(archivoFinal, "│      Número de Línea      │\n");
+  fprintf(archivoFinal, "│___________________________│\n");
+  fprintf(archivoFinal, "│                           │\n");
   while(*lista){
     aux = (*lista);
-    fprintf(archivoFinal, "   - %d\n", aux->linea);
+    fprintf(archivoFinal, "│            %-14d │\n", aux->linea);
     (*lista) = aux->sig;
     free(aux);
   }
+  fprintf(archivoFinal, "│___________________________│\n\n");
 }
 
 void agregar_error_sintactico(nodoErroresSintacticos** listaParametros, int nroLinea){
@@ -2694,15 +2702,33 @@ void agregar_validaciones_sintacticas(nodoValidacionesSintacticas** listaParamet
 }
 
 
+/*
+    fprintf(archivoFinal, "\n\n_______________________________________________________________________\n");
+    fprintf(archivoFinal, "|                    Lista de Palabras Reservadas                     |\n");
+    fprintf(archivoFinal, "|_____________________________________________________________________|\n");
+    fprintf(archivoFinal, "|             Lexema     |                 Categoria                  |\n");
+    fprintf(archivoFinal, "|________________________|____________________________________________|\n");
+
+    imprimirCola(PalabrasReservadas, archivoFinal, P_RESERVADA);
+    fprintf(archivoFinal, "|________________________|____________________________________________|\n\n");*/
+
 void imprimir_validaciones_sintacticas(nodoValidacionesSintacticas** lista, FILE* archivoFinal){
   nodoValidacionesSintacticas* aux;
-  fprintf(archivoFinal, "\n----------------------------------- SENTENCIAS ------------------------------------\n\nSe encontraron las siguientes sentencias:\n\n");
+   fprintf(archivoFinal, "\n---------------------------------- SENTENCIAS -------------------------\n\n");
+  fprintf(archivoFinal, "Se encontraron las siguientes sentencias:");
+  fprintf(archivoFinal, "\n\n_______________________________________________________________________\n");
+  fprintf(archivoFinal, "│                             SENTENCIAS                              │\n");
+  fprintf(archivoFinal, "│_____________________________________________________________________│\n");
+  fprintf(archivoFinal, "│               Tipo                  │       Número de Línea         │\n");
+  fprintf(archivoFinal, "│_____________________________________│_______________________________│\n");
+  fprintf(archivoFinal, "│                                     │                               │\n");
   while(*lista){
     aux = (*lista);
-    fprintf(archivoFinal, "   - Sentencia %s , en la linea %d\n .", aux->info, aux->linea);
+    fprintf(archivoFinal, "│ %-34s  │              %-16d │\n", aux->info, aux->linea);
     (*lista) = aux->sig;
     free(aux);
   }
+  fprintf(archivoFinal, "│_____________________________________│_______________________________│\n\n");
 }
 
 

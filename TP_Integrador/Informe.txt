@@ -1,5 +1,4 @@
-
------------------------------------ ERRORES SEMÁNTICOS ------------------------------------
+----------------------------------- ERRORES SEMÁNTICOS ----------------
 
 Se encontraron los siguientes errores semánticos:
 
@@ -10,35 +9,43 @@ No se puede realizar la operacion requerida entre un char* y un int
 Doble declaración de la variable: a 
 La variable palabra no fue declarada
 La variable tipo no fue declarada
-Se encontró el desarrollo de la función tipo
 
------------------------------------ VARIABLES ----------------------------------
+
+----------------------------------- VARIABLES -------------------------
 
 Identificador: a	 Tipo: int
 Identificador: b	 Tipo: char*
 Identificador: d	 Tipo: int
 
------------------------------------ SENTENCIAS ------------------------------------
+---------------------------------- SENTENCIAS -------------------------
 
 Se encontraron las siguientes sentencias:
 
-   - Sentencia de ASIGNACIÓN , en la linea 1
- .   - Sentencia expresion IGUALDAD , en la linea 3
- .   - Sentencia IF , en la linea 3
- .   - Sentencia expresion RELACIONAL , en la linea 4
- .   - Sentencia expresion SUMA , en la linea 4
- .   - Sentencia expresion IGUALDAD , en la linea 4
- .   - Sentencia expresion AND , en la linea 4
- .   - Sentencia expresion SUMA , en la linea 4
- .   - Sentencia ELSE IF , en la linea 4
- .   - Sentencia WHILE , en la linea 5
- .   - Sentencia expresion RELACIONAL , en la linea 6
- .   - Sentencia FOR , en la linea 6
- .   - Sentencia de ASIGNACIÓN , en la linea 8
- .   - Sentencia de ASIGNACIÓN , en la linea 10
- .   - Sentencia de ASIGNACIÓN , en la linea 12
- .
----------------------------------- FUNCIONES ----------------------------------
+_______________________________________________________________________
+│                             SENTENCIAS                              │
+│_____________________________________________________________________│
+│               Tipo                  │       Número de Línea         │
+│_____________________________________│_______________________________│
+│                                     │                               │
+│ ASIGNACION                          │              1                │
+│ expresion IGUALDAD                  │              3                │
+│ IF                                  │              3                │
+│ expresion RELACIONAL                │              4                │
+│ expresion SUMA                      │              4                │
+│ expresion IGUALDAD                  │              4                │
+│ expresion AND                       │              4                │
+│ expresion SUMA                      │              4                │
+│ ELSE IF                             │              4                │
+│ WHILE                               │              5                │
+│ expresion RELACIONAL                │              6                │
+│ FOR                                 │              6                │
+│ ASIGNACION                          │              8                │
+│ ASIGNACION                          │              10               │
+│ ASIGNACION                          │              12               │
+│_____________________________________│_______________________________│
+
+
+---------------------------------- FUNCIONES --------------------------
 
 Se encontraron las siguientes funciones declaradas:
 
@@ -48,14 +55,22 @@ IDENTIFICADOR: ejemploFuncion
 			Identificador N°: 0	 Tipo: char
 			Identificador N°: 1	 Tipo: char
 
----------------------------------- ERRORES LÉXICOS ----------------------------------
+---------------------------------- ERRORES LÉXICOS --------------------
 
-Se encontraron errores léxicos:
+Se encontraron los siguientes errores léxicos:
 
 
----------------------------------- ERRORES SINTÁCTICOS --------------------------------
+-------------------------------- ERRORES SINTÁCTICOS ------------------
 
-Se encontraron errores sintácticos:
+Se encontraron errores sintácticos en las siguientes lineas:
 
-   - 20
-   - 22
+_____________________________
+│    ERRORES SINTÁCTICOS    │
+│___________________________│
+│      Número de Línea      │
+│___________________________│
+│                           │
+│            20             │
+│            22             │
+│___________________________│
+
