@@ -1,4 +1,5 @@
 %option noyywrap
+%option yylineno
 
 %{
 #include "TP4Bison.tab.h"
@@ -18,8 +19,7 @@
 int caracterHexadecimalADecimal(char);
 int convertirAdecimal(char*, int, int);
 
-
-nodoInfoxd* listaErroresLexicosxd = NULL;
+nodoDeErroresLexicos* listaErroresLexicos = NULL;
 
 /* FILE* archivoFinal;*/
 
@@ -32,7 +32,6 @@ DIGITO_OCTAL [0-7]
 DIGITO_HEXADECIMAL [a-fA-F0-9] 
 LETRA [a-zA-Z]
 IDENTIFICADOR ({LETRA}|_)({LETRA}|{DIGITO_DECIMAL}|_)*
-CONDICION (<|\")
 TIPO_DATO char|double|float|int|long|short|signed|unsigned|void
 ESPECIFICADOR_ALMACENAMIENTO typedef|static|auto|register|extern
 OPERADOR [\+\-\*\/\%]|\+\+|\-\-
@@ -98,7 +97,8 @@ OPERADOR [\+\-\*\/\%]|\+\+|\-\-
 
 {IDENTIFICADOR}                 {strcpy(yylval.cadena,yytext); return IDENTIFICADOR;} 
 
-.+ {agregar_error_lexico(&listaErroresLexicosxd, yytext);}
+[^ ]  {agregar_error_lexico(&listaErroresLexicos, yytext, yylineno);}  
+
 
 %%
 
@@ -146,3 +146,5 @@ int convertirAdecimal(char* numeroAconvertir, int Base, int longitud) {
         return numeroDecimal;
     }
 }
+
+

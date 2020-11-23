@@ -2,12 +2,19 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct nodoInfoxd{
+typedef struct nodoDeErroresLexicos{
     char info[30];
-    struct nodoInfoxd* sig;
-}nodoInfoxd;
+    int linea;
+    struct nodoDeErroresLexicos* sig;
+}nodoDeErroresLexicos;
 
-void agregar_error_lexico(nodoInfoxd** lista, char* error);
+
+
+extern nodoDeErroresLexicos* listaErroresLexicos;
+
+void agregar_error_lexico(nodoDeErroresLexicos** lista, char* error, int nroLinea);
+
+void imprimir_errores(nodoDeErroresLexicos** lista, FILE* archivoFinal);
 /*
 
 typedef struct {

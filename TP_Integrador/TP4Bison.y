@@ -53,9 +53,10 @@ void imprimir_parametros(nodoInfo* lista, FILE* archivoFinal);
 void imprimir_lista_variables(nodo* lista, FILE* archivoFinal);
 void imprimir_funciones(nodo* lista, FILE* archivoFinal);
 void imprimir_validaciones_sintacticas(nodoValidacionesSintacticas** lista, FILE* archivoFinal);
-void imprimir_errores(nodoInfo** lista, FILE* archivoFinal);
+//void imprimir_errores(nodoInfo** lista, FILE* archivoFinal);
 void imprimir_errores_sintacticos(nodoErroresSintacticos** lista, FILE* archivoFinal);
 
+extern int yylineno;
 
 #define YYDEBUG 1
 extern FILE *yyin;
@@ -69,7 +70,6 @@ char tipo_parametro[30];
 int modo_funcion = 0;
 int contador_parametros = 0;
 nodo* listaVariables = NULL;
-nodoInfo* listaErroresLexicos = NULL;
 nodoInfo* listaParametros = NULL;
 nodoErroresSintacticos* listaErroresSintacticos = NULL;
 nodoValidacionesSintacticas* listaDeValidacionesSintacticas = NULL;
@@ -177,7 +177,7 @@ listaDeclaradores: declarador
 ; /* {fprintf(archivoFinal,"se encontro mas de una declaracion \n");} */
 
 declarador: decla
-  | decla OPER_ASIGNACION inicializador  {agregar_validaciones_sintacticas(&listaDeValidacionesSintacticas, numeroDeLinea , "ASIGNACION");}
+  | decla OPER_ASIGNACION inicializador  {agregar_validaciones_sintacticas(&listaDeValidacionesSintacticas, yylineno , "ASIGNACION");}
 ;
 
 inicializador: expAsignacion 
@@ -748,7 +748,7 @@ void imprimir_parametros(nodoInfo* lista, FILE* archivoFinal){
 
 void imprimir_lista_variables(nodo* lista, FILE* archivoFinal){
                              
-  fprintf(archivoFinal, "\n\n----------------------------- VARIABLES -------------------------------\n\n * Se encontraron las siguientes variables declaradas:\n\n");
+  fprintf(archivoFinal, "\n\n\n----------------------------- VARIABLES -------------------------------\n\n * Se encontraron las siguientes variables declaradas:\n\n");
   nodo* aux = lista;
     fprintf(archivoFinal, " _____________________________________________________________________ \n");
   fprintf(archivoFinal, "│                             VARIABLES                               │\n");
@@ -769,7 +769,7 @@ void imprimir_lista_variables(nodo* lista, FILE* archivoFinal){
 
 void imprimir_funciones(nodo* lista, FILE* archivoFinal){
   nodo* aux = lista;       
-  fprintf(archivoFinal, "\n----------------------------- FUNCIONES -------------------------------\n\n * Se encontraron las siguientes funciones declaradas:\n\n");
+  fprintf(archivoFinal, "\n\n----------------------------- FUNCIONES -------------------------------\n\n * Se encontraron las siguientes funciones declaradas:\n\n");
   fprintf(archivoFinal, " _____________________________________________________________________ \n");
   fprintf(archivoFinal, "│                              FUNCIONES                              │\n");
   fprintf(archivoFinal, "│_____________________________________________________________________│\n");
@@ -786,7 +786,7 @@ void imprimir_funciones(nodo* lista, FILE* archivoFinal){
   }
 }
                            
-void imprimir_errores(nodoInfo** lista, FILE* archivoFinal){
+/*void imprimir_errores(nodoInfo** lista, FILE* archivoFinal){
   nodoInfo* aux;
   fprintf(archivoFinal, "\n--------------------------- ERRORES LÉXICOS ---------------------------\n\n * Se encontraron los siguientes errores léxicos:\n\n");
   while(*lista){
@@ -796,11 +796,11 @@ void imprimir_errores(nodoInfo** lista, FILE* archivoFinal){
     free(aux->info);
     free(aux);
   }
-}
+}*/
 
 void imprimir_errores_sintacticos(nodoErroresSintacticos** lista, FILE* archivoFinal){
   nodoErroresSintacticos* aux;
-  fprintf(archivoFinal, "\n------------------------- ERRORES SINTÁCTICOS -------------------------\n\n * Se encontraron errores sintácticos en las siguientes lineas:");
+  fprintf(archivoFinal, "\n\n------------------------- ERRORES SINTÁCTICOS -------------------------\n\n * Se encontraron errores sintácticos en las siguientes lineas:");
   fprintf(archivoFinal, "\n\n _____________________________________________________________________\n");
   fprintf(archivoFinal, "│                          ERRORES SINTÁCTICOS                        │\n");
   fprintf(archivoFinal, "│_____________________________________________________________________│\n");
@@ -856,7 +856,7 @@ void agregar_validaciones_sintacticas(nodoValidacionesSintacticas** listaParamet
  
 void imprimir_validaciones_sintacticas(nodoValidacionesSintacticas** lista, FILE* archivoFinal){
   nodoValidacionesSintacticas* aux;
-   fprintf(archivoFinal, "\n----------------------------- SENTENCIAS ------------------------------\n\n");
+   fprintf(archivoFinal, "\n\n----------------------------- SENTENCIAS ------------------------------\n\n");
   fprintf(archivoFinal, " * Se encontraron las siguientes sentencias:");
   fprintf(archivoFinal, "\n\n _____________________________________________________________________\n");
   fprintf(archivoFinal, "│                             SENTENCIAS                              │\n");

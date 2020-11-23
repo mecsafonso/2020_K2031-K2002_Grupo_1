@@ -9,10 +9,29 @@
    ♦ Doble declaración de la variable: a 
    ♦ La variable palabra no fue declarada
    ♦ La variable tipo no fue declarada
+   ♦ La variable n no fue declarada
+
 
 --------------------------- ERRORES LÉXICOS ---------------------------
 
- * Se encontraron los siguientes errores léxicos:
+  * Los siguientes caracteres no pudieron ser reconocidos:
+
+ _____________________________________________________________________
+│                       CARACTERES NO RECONOCIDOS                     │
+│_____________________________________________________________________│
+│              CARACTER               │       Número de Línea         │
+│_____________________________________│_______________________________│
+│                                     │                               │
+│ $                                   │              25               │
+│ \                                   │              26               │
+│ '                                   │              27               │
+│ "                                   │              28               │
+│ �                                   │              29               │
+│ �                                   │              29               │
+│ �                                   │              30               │
+│ �                                   │              30               │
+│_____________________________________│_______________________________│
+
 
 
 ------------------------- ERRORES SINTÁCTICOS -------------------------
@@ -25,9 +44,12 @@
 │                            Número de Línea                          │
 │_____________________________________________________________________│
 │                                                                     │
-│                                  20                                 │
-│                                  22                                 │
+│                                  21                                 │
+│                                  23                                 │
+│                                  26                                 │
+│                                  31                                 │
 │_____________________________________________________________________│
+
 
 
 ----------------------------- SENTENCIAS ------------------------------
@@ -43,19 +65,20 @@
 │ ASIGNACION                          │              1                │
 │ expresion IGUALDAD                  │              3                │
 │ IF                                  │              3                │
-│ expresion RELACIONAL                │              4                │
-│ expresion SUMA                      │              4                │
-│ expresion IGUALDAD                  │              4                │
-│ expresion AND                       │              4                │
-│ expresion SUMA                      │              4                │
-│ ELSE IF                             │              4                │
-│ WHILE                               │              5                │
-│ expresion RELACIONAL                │              6                │
-│ FOR                                 │              6                │
-│ ASIGNACION                          │              8                │
-│ ASIGNACION                          │              10               │
-│ ASIGNACION                          │              12               │
+│ expresion RELACIONAL                │              5                │
+│ expresion SUMA                      │              5                │
+│ expresion IGUALDAD                  │              5                │
+│ expresion AND                       │              5                │
+│ expresion SUMA                      │              5                │
+│ ELSE IF                             │              5                │
+│ WHILE                               │              6                │
+│ expresion RELACIONAL                │              7                │
+│ FOR                                 │              7                │
+│ ASIGNACION                          │              9                │
+│ ASIGNACION                          │              11               │
+│ ASIGNACION                          │              13               │
 │_____________________________________│_______________________________│
+
 
 
 
@@ -73,6 +96,7 @@
 │                 b                   │           char*               │
 │                 d                   │             int               │
 │_____________________________________│_______________________________│
+
 
 
 ----------------------------- FUNCIONES -------------------------------

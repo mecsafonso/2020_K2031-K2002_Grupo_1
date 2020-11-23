@@ -1,7 +1,47 @@
 #include "TP4.h"
 
-void agregar_error_lexico(nodoInfoxd** lista, char* error){
+
+
+void agregar_error_lexico(nodoDeErroresLexicos** lista, char* error, int nroLinea){
+  nodoDeErroresLexicos* aux = (*lista);
+  while(aux != NULL && aux->sig != NULL){
+      aux = aux->sig;
+  }
+  if(aux == NULL){
+    (*lista) = malloc(sizeof(nodoDeErroresLexicos));
+    strcpy((*lista)->info, error);
+    (*lista)->linea = nroLinea;
+    (*lista)->sig = NULL;
+    return;
+  }
+  aux->sig = malloc(sizeof(nodoDeErroresLexicos));
+  strcpy(aux->sig->info, error);
+  aux->sig->linea = nroLinea;
+  aux->sig->sig = NULL;
   return;
+}
+
+
+
+
+void imprimir_errores(nodoDeErroresLexicos** lista, FILE* archivoFinal){
+  nodoDeErroresLexicos* aux;
+  fprintf(archivoFinal, "\n\n--------------------------- ERRORES LÉXICOS ---------------------------\n\n ");
+  fprintf(archivoFinal, " * Los siguientes caracteres no pudieron ser reconocidos:");
+  fprintf(archivoFinal, "\n\n _____________________________________________________________________\n");
+  fprintf(archivoFinal, "│                       CARACTERES NO RECONOCIDOS                     │\n");
+  fprintf(archivoFinal, "│_____________________________________________________________________│\n");
+  fprintf(archivoFinal, "│              CARACTER               │       Número de Línea         │\n");
+  fprintf(archivoFinal, "│_____________________________________│_______________________________│\n");
+  fprintf(archivoFinal, "│                                     │                               │\n");
+  while(*lista){
+    aux = (*lista);
+    fprintf(archivoFinal, "│ %-34s  │              %-16d │\n", aux->info, aux->linea);
+    (*lista) = aux->sig;
+    free(aux->info);
+    free(aux);
+  }
+  fprintf(archivoFinal, "│_____________________________________│_______________________________│\n\n");
 }
 
 /*
