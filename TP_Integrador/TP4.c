@@ -1,6 +1,10 @@
 #include "TP4.h"
 
+void agregar_error_lexico(nodoInfoxd** lista, char* error){
+  return;
+}
 
+/*
 int control_tipos(char palabra[], char tipo[]) {
   if(!strcmp(palabra, tipo)){
     return 1;
@@ -209,6 +213,6 @@ void imprimir_errores(nodoInfo** lista, FILE* archivoFinal){
   }
 }
 
-
+*/
 
 

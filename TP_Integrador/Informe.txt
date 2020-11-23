@@ -2,28 +2,39 @@
 
  * Se encontraron los siguientes errores semánticos:
 
-La variable c no fue declarada
-La variable c no fue declarada
-La variable c no fue declarada
-No se puede realizar la operacion requerida entre un char* y un int
-Doble declaración de la variable: a 
-La variable palabra no fue declarada
-La variable tipo no fue declarada
+   ♦ La variable c no fue declarada
+   ♦ La variable c no fue declarada
+   ♦ La variable c no fue declarada
+   ♦ No se puede realizar la operacion requerida entre un char* y un int
+   ♦ Doble declaración de la variable: a 
+   ♦ La variable palabra no fue declarada
+   ♦ La variable tipo no fue declarada
+
+--------------------------- ERRORES LÉXICOS ---------------------------
+
+ * Se encontraron los siguientes errores léxicos:
 
 
------------------------------ VARIABLES -------------------------------
+------------------------- ERRORES SINTÁCTICOS -------------------------
 
- * Se encontraron las siguientes variables declaradas:
+ * Se encontraron errores sintácticos en las siguientes lineas:
 
-Identificador: a	 Tipo: int
-Identificador: b	 Tipo: char*
-Identificador: d	 Tipo: int
+ _____________________________________________________________________
+│                          ERRORES SINTÁCTICOS                        │
+│_____________________________________________________________________│
+│                            Número de Línea                          │
+│_____________________________________________________________________│
+│                                                                     │
+│                                  20                                 │
+│                                  22                                 │
+│_____________________________________________________________________│
+
 
 ----------------------------- SENTENCIAS ------------------------------
 
  * Se encontraron las siguientes sentencias:
 
-_______________________________________________________________________
+ _____________________________________________________________________
 │                             SENTENCIAS                              │
 │_____________________________________________________________________│
 │               Tipo                  │       Número de Línea         │
@@ -47,32 +58,34 @@ _______________________________________________________________________
 │_____________________________________│_______________________________│
 
 
+
+----------------------------- VARIABLES -------------------------------
+
+ * Se encontraron las siguientes variables declaradas:
+
+ _____________________________________________________________________ 
+│                             VARIABLES                               │
+│_____________________________________________________________________│
+│           Identificador             │              Tipo             │
+│_____________________________________│_______________________________│
+│                                     │                               │
+│                 a                   │             int               │
+│                 b                   │           char*               │
+│                 d                   │             int               │
+│_____________________________________│_______________________________│
+
+
 ----------------------------- FUNCIONES -------------------------------
 
  * Se encontraron las siguientes funciones declaradas:
 
-IDENTIFICADOR: ejemploFuncion
-	 Tipo Retorno: int
-	 Parametros:
-			Identificador N°: 0	 Tipo: char
-			Identificador N°: 1	 Tipo: char
-
---------------------------- ERRORES LÉXICOS ---------------------------
-
- * Se encontraron los siguientes errores léxicos:
-
-
-------------------------- ERRORES SINTÁCTICOS -------------------------
-
- * Se encontraron errores sintácticos en las siguientes lineas:
-
-_____________________________
-│    ERRORES SINTÁCTICOS    │
-│___________________________│
-│      Número de Línea      │
-│___________________________│
-│                           │
-│            20             │
-│            22             │
-│___________________________│
-
+ _____________________________________________________________________ 
+│                              FUNCIONES                              │
+│_____________________________________________________________________│
+│     Identificador    │  Tipo   │             Parámetros             │
+│______________________│_________│____________________________________│
+│                      │         │                                    │
+│ ejemploFuncion       │ int     │                                    │
+│                      │         │ Identificador N°: 0	 Tipo: char   │
+│                      │         │ Identificador N°: 1	 Tipo: char   │
+│______________________│_________│____________________________________│

@@ -74,7 +74,7 @@
 #include <ctype.h>
 #include <string.h>
 
-//#include "TP4.h"
+#include "TP4.h"
 
 #include <stdlib.h>
 
@@ -2060,21 +2060,21 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 406 "TP4Bison.y"
-    {if(!control_tipos(tipo, "int") && !control_tipos(tipo, "int*")){fprintf(archivoFinal,"No se puede realizar la operación MULTIPLICACION con el tipo de dato %s \n", tipo);};}
+    {if(!control_tipos(tipo, "int") && !control_tipos(tipo, "int*")){fprintf(archivoFinal,"   ♦ No se puede realizar la operación MULTIPLICACION con el tipo de dato %s \n", tipo);};}
     break;
 
   case 127:
 
 /* Line 1455 of yacc.c  */
 #line 407 "TP4Bison.y"
-    {if(!control_tipos(tipo, "int") && !control_tipos(tipo, "int*")){fprintf(archivoFinal,"No se puede realizar la operación DIVISION con el tipo de dato %s \n", tipo);};}
+    {if(!control_tipos(tipo, "int") && !control_tipos(tipo, "int*")){fprintf(archivoFinal,"   ♦ No se puede realizar la operación DIVISION con el tipo de dato %s \n", tipo);};}
     break;
 
   case 128:
 
 /* Line 1455 of yacc.c  */
 #line 408 "TP4Bison.y"
-    {if(!control_tipos(tipo, "int") && !control_tipos(tipo, "int*")){fprintf(archivoFinal,"No se puede realizar la operación RESTO con el tipo de dato %s \n", tipo);};}
+    {if(!control_tipos(tipo, "int") && !control_tipos(tipo, "int*")){fprintf(archivoFinal,"   ♦ No se puede realizar la operación RESTO con el tipo de dato %s \n", tipo);};}
     break;
 
   case 140:
@@ -2116,28 +2116,28 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 444 "TP4Bison.y"
-    {char* comparar_tipo = tipo_variable(listaVariables, (yyvsp[(1) - (1)].cadena), archivoFinal);if(strcmp(comparar_tipo, "error")){if(tipo[0] == '\0'){strcpy(tipo, comparar_tipo);}else if(!control_tipos(tipo, comparar_tipo)){fprintf(archivoFinal, "No se puede realizar la operacion requerida entre un %s y un %s\n", comparar_tipo, tipo);}};}
+    {char* comparar_tipo = tipo_variable(listaVariables, (yyvsp[(1) - (1)].cadena), archivoFinal);if(strcmp(comparar_tipo, "error")){if(tipo[0] == '\0'){strcpy(tipo, comparar_tipo);}else if(!control_tipos(tipo, comparar_tipo)){fprintf(archivoFinal, "   ♦ No se puede realizar la operacion requerida entre un %s y un %s\n", comparar_tipo, tipo);}};}
     break;
 
   case 150:
 
 /* Line 1455 of yacc.c  */
 #line 445 "TP4Bison.y"
-    {if(tipo[0] == '\0'){strcpy(tipo, "int");}else if(!control_tipos(tipo, "int")){fprintf(archivoFinal, "No se puede realizar la operacion requerida entre un int y un %s\n", tipo);};;}
+    {if(tipo[0] == '\0'){strcpy(tipo, "int");}else if(!control_tipos(tipo, "int")){fprintf(archivoFinal, "   ♦ No se puede realizar la operacion requerida entre un int y un %s\n", tipo);};;}
     break;
 
   case 151:
 
 /* Line 1455 of yacc.c  */
 #line 446 "TP4Bison.y"
-    {if(tipo[0] == '\0'){strcpy(tipo, "float");}else if(!control_tipos(tipo, "float")){fprintf(archivoFinal, "No se puede realizar la operacion requerida entre un float y un %s\n", tipo);};}
+    {if(tipo[0] == '\0'){strcpy(tipo, "float");}else if(!control_tipos(tipo, "float")){fprintf(archivoFinal, "   ♦ No se puede realizar la operacion requerida entre un float y un %s\n", tipo);};}
     break;
 
   case 152:
 
 /* Line 1455 of yacc.c  */
 #line 447 "TP4Bison.y"
-    {if(tipo[0] == '\0'){strcpy(tipo, "char*");}else if(!control_tipos(tipo, "char*")){fprintf(archivoFinal, "No se puede realizar la operacion requerida entre un char* y un %s\n", tipo);};}
+    {if(tipo[0] == '\0'){strcpy(tipo, "char*");}else if(!control_tipos(tipo, "char*")){fprintf(archivoFinal, "   ♦ No se puede realizar la operacion requerida entre un char* y un %s\n", tipo);};}
     break;
 
   case 171:
@@ -2414,12 +2414,12 @@ int main ()
   yyparse();
   yylex();
 
-  
-  imprimir_lista_variables(listaVariables, archivoFinal);
-  imprimir_validaciones_sintacticas(&listaDeValidacionesSintacticas, archivoFinal);
-  imprimir_funciones(listaVariables, archivoFinal);
   imprimir_errores(&listaErroresLexicos, archivoFinal);
   imprimir_errores_sintacticos(&listaErroresSintacticos, archivoFinal);
+  imprimir_validaciones_sintacticas(&listaDeValidacionesSintacticas, archivoFinal);
+  imprimir_lista_variables(listaVariables, archivoFinal);
+  imprimir_funciones(listaVariables, archivoFinal);
+
 
 
 
@@ -2466,7 +2466,7 @@ nodo* existe_variable(nodo* lista, char nombre[]){
 char* tipo_variable(nodo* lista, char nombre[], FILE* arcFinal){
   nodo* variable = existe_variable(lista, nombre);
   if(variable == NULL){
-    fprintf(arcFinal, "La variable %s no fue declarada\n", nombre);
+    fprintf(arcFinal, "   ♦ La variable %s no fue declarada\n", nombre);
     return "error";
   } 
   return variable->info.tipo;
@@ -2556,7 +2556,7 @@ void agregar_funcion(nodo** lista, char nombre[], char tipo[], nodoInfo* listaPa
 
 void gestionar_identificador(nodo** listaVariables, char nombre[], char tipo[], FILE* archivoFinal){
     if(!agregar_variable(listaVariables, nombre, tipo)){
-      fprintf(archivoFinal, "Doble declaración de la variable: %s \n", nombre);
+      fprintf(archivoFinal, "   ♦ Doble declaración de la variable: %s \n", nombre);
     }    
 }
 
@@ -2572,7 +2572,7 @@ void gestionar_funcion(nodo** lista, nodoInfo* listaParametros, char identificad
 void sentencia_funcion(nodo** lista, nodoInfo* listaParametros, char identificador[], FILE* archivoFinal){
   nodo* aux = existe_variable(*lista, identificador);
     if(aux == NULL){
-        fprintf(archivoFinal, "La funcion %s no fue declarada\n", identificador);
+        fprintf(archivoFinal, "   ♦ La funcion %s no fue declarada\n", identificador);
     } else {
         parametros_contra_funcion(aux, listaParametros, archivoFinal);           
     }
@@ -2584,18 +2584,18 @@ int parametros_contra_funcion(nodo* funcion, nodoInfo* listaParametros, FILE* ar
   int contador_parametros = 0;
   while(auxParam != NULL && auxLista != NULL){
     if(!control_tipos(auxParam->info, auxLista->info)){
-      fprintf(archivoFinal, "La funcion %s esperaba una variable de tipo %s como parametro %d, pero recibio %s\n", funcion->info.identificador, auxLista->info, contador_parametros, auxParam->info);
+      fprintf(archivoFinal, "   ♦ La funcion %s esperaba una variable de tipo %s como parametro %d, pero recibio %s\n", funcion->info.identificador, auxLista->info, contador_parametros, auxParam->info);
       return 0;
     }
     auxLista = auxLista->sig;
     auxParam = auxParam->sig;
   }
   if(auxLista != NULL){
-    fprintf(archivoFinal, "La funcion %s esperaba mas parametros de los recibidos\n", funcion->info.identificador); 
+    fprintf(archivoFinal, "   ♦ La funcion %s esperaba mas parametros de los recibidos\n", funcion->info.identificador); 
     return 0;
   } 
   if (auxParam != NULL){
-    fprintf(archivoFinal, "La funcion %s recibio menos parametros de los esperados\n", funcion->info.identificador);     
+    fprintf(archivoFinal, "   ♦ La funcion %s recibio menos parametros de los esperados\n", funcion->info.identificador);     
   }
   return 1;
 }
@@ -2604,7 +2604,8 @@ void imprimir_parametros(nodoInfo* lista, FILE* archivoFinal){
   nodoInfo* aux = lista;
   int i = 0;
   while(aux != NULL){
-    fprintf(archivoFinal, "\t\t\tIdentificador N°: %d\t Tipo: %s\n", i, aux->info);
+    //fprintf(archivoFinal, "│                      │         │                                    │\n");
+    fprintf(archivoFinal, "│                      │         │ Identificador N°: %d\t Tipo: %-7s│\n", i, aux->info);
     aux = aux->sig;
     i++;
   }
@@ -2614,21 +2615,37 @@ void imprimir_lista_variables(nodo* lista, FILE* archivoFinal){
                              
   fprintf(archivoFinal, "\n\n----------------------------- VARIABLES -------------------------------\n\n * Se encontraron las siguientes variables declaradas:\n\n");
   nodo* aux = lista;
+    fprintf(archivoFinal, " _____________________________________________________________________ \n");
+  fprintf(archivoFinal, "│                             VARIABLES                               │\n");
+  fprintf(archivoFinal, "│_____________________________________________________________________│\n");
+  fprintf(archivoFinal, "│           Identificador             │              Tipo             │\n");
+  fprintf(archivoFinal, "│_____________________________________│_______________________________│\n");
+  fprintf(archivoFinal, "│                                     │                               │\n");
   while(aux != NULL){
     if(aux->info.es_funcion == 0){
-      fprintf(archivoFinal, "Identificador: %s\t Tipo: %s\n", aux->info.identificador, aux->info.tipo);
+      
+      fprintf(archivoFinal, "│ %17s                   │%16s               │\n", aux->info.identificador, aux->info.tipo);
+      // fprintf(archivoFinal, "Identificador: %s\t Tipo: %s\n", aux->info.identificador, aux->info.tipo);
     }
     aux = aux->sig;
   }
+  fprintf(archivoFinal, "│_____________________________________│_______________________________│\n\n");
 }
 
 void imprimir_funciones(nodo* lista, FILE* archivoFinal){
   nodo* aux = lista;       
   fprintf(archivoFinal, "\n----------------------------- FUNCIONES -------------------------------\n\n * Se encontraron las siguientes funciones declaradas:\n\n");
+  fprintf(archivoFinal, " _____________________________________________________________________ \n");
+  fprintf(archivoFinal, "│                              FUNCIONES                              │\n");
+  fprintf(archivoFinal, "│_____________________________________________________________________│\n");
+  fprintf(archivoFinal, "│     Identificador    │  Tipo   │             Parámetros             │\n");
+  fprintf(archivoFinal, "│______________________│_________│____________________________________│\n");
   while(aux != NULL){
     if(aux->info.es_funcion == 1){
-      fprintf(archivoFinal, "IDENTIFICADOR: %s\n\t Tipo Retorno: %s\n\t Parametros:\n", aux->info.identificador, aux->info.tipo);
+      fprintf(archivoFinal, "│                      │         │                                    │\n");
+      fprintf(archivoFinal, "│ %-21s│ %-8s│                                    │\n", aux->info.identificador, aux->info.tipo);
       imprimir_parametros(aux->info.listaParametros, archivoFinal);
+      fprintf(archivoFinal, "│______________________│_________│____________________________________│\n");
     }    
     aux = aux->sig;
   }
@@ -2649,19 +2666,19 @@ void imprimir_errores(nodoInfo** lista, FILE* archivoFinal){
 void imprimir_errores_sintacticos(nodoErroresSintacticos** lista, FILE* archivoFinal){
   nodoErroresSintacticos* aux;
   fprintf(archivoFinal, "\n------------------------- ERRORES SINTÁCTICOS -------------------------\n\n * Se encontraron errores sintácticos en las siguientes lineas:");
-  fprintf(archivoFinal, "\n\n_____________________________\n");
-  fprintf(archivoFinal, "│    ERRORES SINTÁCTICOS    │\n");
-  fprintf(archivoFinal, "│___________________________│\n");
-  fprintf(archivoFinal, "│      Número de Línea      │\n");
-  fprintf(archivoFinal, "│___________________________│\n");
-  fprintf(archivoFinal, "│                           │\n");
+  fprintf(archivoFinal, "\n\n _____________________________________________________________________\n");
+  fprintf(archivoFinal, "│                          ERRORES SINTÁCTICOS                        │\n");
+  fprintf(archivoFinal, "│_____________________________________________________________________│\n");
+  fprintf(archivoFinal, "│                            Número de Línea                          │\n");
+  fprintf(archivoFinal, "│_____________________________________________________________________│\n");
+  fprintf(archivoFinal, "│                                                                     │\n");
   while(*lista){
     aux = (*lista);
-    fprintf(archivoFinal, "│            %-14d │\n", aux->linea);
+    fprintf(archivoFinal, "│ %35d                                 │\n", aux->linea);
     (*lista) = aux->sig;
     free(aux);
   }
-  fprintf(archivoFinal, "│___________________________│\n\n");
+  fprintf(archivoFinal, "│_____________________________________________________________________│\n\n");
 }
 
 void agregar_error_sintactico(nodoErroresSintacticos** listaParametros, int nroLinea){
@@ -2700,23 +2717,13 @@ void agregar_validaciones_sintacticas(nodoValidacionesSintacticas** listaParamet
   aux->sig->sig = NULL;
   return;
 }
-
-
-/*
-    fprintf(archivoFinal, "\n\n_______________________________________________________________________\n");
-    fprintf(archivoFinal, "|                    Lista de Palabras Reservadas                     |\n");
-    fprintf(archivoFinal, "|_____________________________________________________________________|\n");
-    fprintf(archivoFinal, "|             Lexema     |                 Categoria                  |\n");
-    fprintf(archivoFinal, "|________________________|____________________________________________|\n");
-
-    imprimirCola(PalabrasReservadas, archivoFinal, P_RESERVADA);
-    fprintf(archivoFinal, "|________________________|____________________________________________|\n\n");*/
-
+ 
+ 
 void imprimir_validaciones_sintacticas(nodoValidacionesSintacticas** lista, FILE* archivoFinal){
   nodoValidacionesSintacticas* aux;
    fprintf(archivoFinal, "\n----------------------------- SENTENCIAS ------------------------------\n\n");
   fprintf(archivoFinal, " * Se encontraron las siguientes sentencias:");
-  fprintf(archivoFinal, "\n\n_______________________________________________________________________\n");
+  fprintf(archivoFinal, "\n\n _____________________________________________________________________\n");
   fprintf(archivoFinal, "│                             SENTENCIAS                              │\n");
   fprintf(archivoFinal, "│_____________________________________________________________________│\n");
   fprintf(archivoFinal, "│               Tipo                  │       Número de Línea         │\n");

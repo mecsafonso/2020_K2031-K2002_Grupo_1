@@ -2,7 +2,8 @@
 
 %{
 #include "TP4Bison.tab.h"
-//#include "TP4.h"
+#include "TP4.h"
+
 // Definicion de las librerías que incluímos
 #include <stdio.h>
 #include <string.h> // strcpy, strcmp
@@ -16,6 +17,9 @@
 
 int caracterHexadecimalADecimal(char);
 int convertirAdecimal(char*, int, int);
+
+
+nodoInfoxd* listaErroresLexicosxd = NULL;
 
 /* FILE* archivoFinal;*/
 
@@ -94,7 +98,7 @@ OPERADOR [\+\-\*\/\%]|\+\+|\-\-
 
 {IDENTIFICADOR}                 {strcpy(yylval.cadena,yytext); return IDENTIFICADOR;} 
 
-
+.+ {agregar_error_lexico(&listaErroresLexicosxd, yytext);}
 
 %%
 

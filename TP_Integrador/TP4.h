@@ -1,13 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-typedef struct nodoInfo{
-    char info[30];
-    struct nodoInfo* sig;
-}nodoInfo;
 
-nodoInfo* listaErroresLexicos = NULL;
+typedef struct nodoInfoxd{
+    char info[30];
+    struct nodoInfoxd* sig;
+}nodoInfoxd;
+
+void agregar_error_lexico(nodoInfoxd** lista, char* error);
 /*
+
 typedef struct {
     char identificador[30];
     char tipo[30];
@@ -39,8 +41,6 @@ void imprimir_lista_variables(nodo* lista, FILE* archivoFinal);
 void imprimir_funciones(nodo* lista, FILE* archivoFinal);
 void imprimir_errores(nodoInfo** lista, FILE* archivoFinal);
 */
-
-
 
 
 
