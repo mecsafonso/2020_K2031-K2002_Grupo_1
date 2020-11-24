@@ -8,15 +8,23 @@ for(c; c < 15; ++c) {}
 
 char *b = "asdas";
 
+char e = 'a'
+
 int d = a * b;
+
+int f = e + a;
 
 int a = 5;
 
+int g = a + e + b;
 
+int e = 32;
 
 int ejemploFuncion(char palabra[], char tipo[]);
 
 int ejemploFuncion(char palabra[], char tipo[]){palabra = tipo;}
+
+void funcionRePiola(int numero, char unCaracter);
 
 int 4 ;
 ejemploFuncion(a);

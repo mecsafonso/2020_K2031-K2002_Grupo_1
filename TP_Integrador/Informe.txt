@@ -7,9 +7,11 @@
    ♦ La variable c no fue declarada
    ♦ No se puede realizar la operacion requerida entre un char* y un int
    ♦ Doble declaración de la variable: a 
+   ♦ No se puede realizar la operacion requerida entre un char* y un int
+   ♦ Doble declaración de la variable: e 
    ♦ La variable palabra no fue declarada
    ♦ La variable tipo no fue declarada
-   ♦ La funcion ejemploFuncion esperaba una variable de tipo char como parametro 0, pero recibio int
+   ♦ La funcion ejemploFuncion esperaba mas parametros de los recibidos
    ♦ La variable n no fue declarada
 
 
@@ -23,9 +25,9 @@
 │              CARACTER               │       Número de Línea         │
 │_____________________________________│_______________________________│
 │                                     │                               │
-│ $                                   │              26               │
-│ \                                   │              27               │
-│ "                                   │              29               │
+│ $                                   │              34               │
+│ \                                   │              35               │
+│ "                                   │              37               │
 │_____________________________________│_______________________________│
 
 
@@ -40,10 +42,11 @@
 │                            Número de Línea                          │
 │_____________________________________________________________________│
 │                                                                     │
-│                                  21                                 │
-│                                  24                                 │
-│                                  27                                 │
-│                                  31                                 │
+│                                  11                                 │
+│                                  29                                 │
+│                                  32                                 │
+│                                  35                                 │
+│                                  39                                 │
 │_____________________________________________________________________│
 
 
@@ -71,8 +74,14 @@
 │ expresion RELACIONAL                │              7                │
 │ FOR                                 │              7                │
 │ ASIGNACION                          │              9                │
-│ ASIGNACION                          │              11               │
 │ ASIGNACION                          │              13               │
+│ expresion SUMA                      │              15               │
+│ ASIGNACION                          │              15               │
+│ ASIGNACION                          │              17               │
+│ expresion SUMA                      │              19               │
+│ expresion SUMA                      │              19               │
+│ ASIGNACION                          │              19               │
+│ ASIGNACION                          │              21               │
 │_____________________________________│_______________________________│
 
 
@@ -90,7 +99,10 @@
 │                                     │                               │
 │                 a                   │             int               │
 │                 b                   │           char*               │
+│                 e                   │            char               │
 │                 d                   │             int               │
+│                 f                   │             int               │
+│                 g                   │             int               │
 │_____________________________________│_______________________________│
 
 
@@ -107,5 +119,10 @@
 │                      │         │                                    │
 │ ejemploFuncion       │ int     │                                    │
 │                      │         │ Identificador N°: 0	 Tipo: char   │
+│                      │         │ Identificador N°: 1	 Tipo: char   │
+│______________________│_________│____________________________________│
+│                      │         │                                    │
+│ funcionRePiola       │ void    │                                    │
+│                      │         │ Identificador N°: 0	 Tipo: int    │
 │                      │         │ Identificador N°: 1	 Tipo: char   │
 │______________________│_________│____________________________________│

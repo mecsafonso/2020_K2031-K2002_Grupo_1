@@ -119,7 +119,7 @@ int control_tipos(char palabra[], char tipo[]) {
   if(!strcmp(palabra, tipo)){
     return 1;
   }
-  if((!strcmp(tipo, "int") || !strcmp(tipo, "float") || !strcmp(palabra, "char")) && (!strcmp(palabra, "int") || !strcmp(palabra, "float") || !strcmp(palabra, "char"))){
+  if((!strcmp(tipo, "int") || !strcmp(tipo, "float") || !strcmp(tipo, "char")) && (!strcmp(palabra, "int") || !strcmp(palabra, "float") || !strcmp(palabra, "char"))){
     return 1;
   }
   if((!strcmp(tipo, "int*") || !strcmp(tipo, "float*")) && (!strcmp(palabra, "int*") || !strcmp(palabra, "float*"))){
