@@ -19,6 +19,7 @@ int ejemploFuncion(char palabra[], char tipo[]);
 int ejemploFuncion(char palabra[], char tipo[]){palabra = tipo;}
 
 int 4 ;
+ejemploFuncion(a);
 
 if xd
 

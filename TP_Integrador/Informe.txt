@@ -9,6 +9,7 @@
    ♦ Doble declaración de la variable: a 
    ♦ La variable palabra no fue declarada
    ♦ La variable tipo no fue declarada
+   ♦ La funcion ejemploFuncion esperaba una variable de tipo char como parametro 0, pero recibio int
    ♦ La variable n no fue declarada
 
 
@@ -22,9 +23,9 @@
 │              CARACTER               │       Número de Línea         │
 │_____________________________________│_______________________________│
 │                                     │                               │
-│ $                                   │              25               │
-│ \                                   │              26               │
-│ "                                   │              28               │
+│ $                                   │              26               │
+│ \                                   │              27               │
+│ "                                   │              29               │
 │_____________________________________│_______________________________│
 
 
@@ -40,9 +41,9 @@
 │_____________________________________________________________________│
 │                                                                     │
 │                                  21                                 │
-│                                  23                                 │
-│                                  26                                 │
-│                                  30                                 │
+│                                  24                                 │
+│                                  27                                 │
+│                                  31                                 │
 │_____________________________________________________________________│
 
 
